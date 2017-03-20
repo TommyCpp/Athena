@@ -1,7 +1,6 @@
 package com.athena.repository;
 
 import com.athena.model.User;
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.athena;
+package com.athena.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
