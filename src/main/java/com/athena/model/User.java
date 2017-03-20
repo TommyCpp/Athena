@@ -3,15 +3,15 @@ package com.athena.model;
 import javax.persistence.*;
 
 /**
- * Created by tommy on 2017/3/18.
+ * Created by tommy on 2017/3/20.
  */
 @Entity
 public class User {
     private Integer id;
-    private String name;
+    private String username;
     private String password;
-    private String email;
     private String wechatId;
+    private String email;
     private String identity;
 
     @Id
@@ -26,13 +26,13 @@ public class User {
     }
 
     @Basic
-    @Column(name = "name", nullable = false, length = 64)
-    public String getName() {
-        return name;
+    @Column(name = "username", nullable = false, length = 64)
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     @Basic
@@ -46,23 +46,23 @@ public class User {
     }
 
     @Basic
-    @Column(name = "email", nullable = false, length = 128)
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Basic
-    @Column(name = "wechat_id", nullable = false, length = 16)
+    @Column(name = "wechat_id", nullable = false, length = 64)
     public String getWechatId() {
         return wechatId;
     }
 
     public void setWechatId(String wechatId) {
         this.wechatId = wechatId;
+    }
+
+    @Basic
+    @Column(name = "email", nullable = false, length = 64)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Basic
@@ -83,10 +83,10 @@ public class User {
         User user = (User) o;
 
         if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (wechatId != null ? !wechatId.equals(user.wechatId) : user.wechatId != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (identity != null ? !identity.equals(user.identity) : user.identity != null) return false;
 
         return true;
@@ -95,10 +95,10 @@ public class User {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (wechatId != null ? wechatId.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (identity != null ? identity.hashCode() : 0);
         return result;
     }

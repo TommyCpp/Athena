@@ -26,7 +26,7 @@ public class DatabaseConnectionTest {
     public void createUser() {
         User user = new User();
         user.setPassword("12");
-        user.setName("TEst");
+        user.setUsername("TEst");
         user.setIdentity("READER");
         user.setWechatId("123312");
         user.setEmail("test@test.com");
