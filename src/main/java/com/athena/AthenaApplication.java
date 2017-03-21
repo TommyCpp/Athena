@@ -33,7 +33,7 @@ public class AthenaApplication {
         LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
         emfb.setDataSource(dataSource);
         emfb.setJpaVendorAdapter(jpaVendorAdapter);
-        emfb.setPackagesToScan("com.athena.model");
+        emfb.setPackagesToScan("com.athena.model", "com.athena.security.model");
         return emfb;
     }
 
@@ -51,9 +51,9 @@ public class AthenaApplication {
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost/athena");
-        ds.setUsername("root");
-        ds.setPassword("");
+        ds.setUrl("jdbc:mysql://120.24.220.159:3306/Athena");
+        ds.setUsername("admin");
+        ds.setPassword("2021414XX");
         return ds;
     }
 }

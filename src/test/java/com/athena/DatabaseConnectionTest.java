@@ -32,4 +32,9 @@ public class DatabaseConnectionTest {
         user.setEmail("test@test.com");
         service.save(user);
     }
+
+    @Test
+    public void getUser(){
+        service.getUser(1);
+    }
 }
