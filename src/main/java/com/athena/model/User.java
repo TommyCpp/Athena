@@ -6,8 +6,9 @@ import javax.persistence.*;
  * Created by tommy on 2017/3/20.
  */
 @Entity
-public class User {
-    private Integer id;
+@Table(name="user")
+public class User  {
+    private Long id;
     private String username;
     private String password;
     private String wechatId;
@@ -17,11 +18,11 @@ public class User {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -31,8 +32,8 @@ public class User {
         return username;
     }
 
-    public void setUsername(String name) {
-        this.username = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Basic
