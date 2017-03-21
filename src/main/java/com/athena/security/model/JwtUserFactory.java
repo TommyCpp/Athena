@@ -26,7 +26,11 @@ public class JwtUserFactory {
         );
     }
 
+    /**
+     * Covert the authority to SimpleGrantedAuthority object
+     */
     private static List<GrantedAuthority> mapToGrantedAuthorities(String authority) {
+
         List<GrantedAuthority> list = new ArrayList<>();
         list.add(new SimpleGrantedAuthority(authority));
         return list;

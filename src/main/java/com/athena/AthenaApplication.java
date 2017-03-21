@@ -1,18 +1,20 @@
 package com.athena;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -22,11 +24,16 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(basePackages = "com.athena.repository")
 @EnableAutoConfiguration
 @SpringBootApplication
+@PropertySource("classpath:/config.properties")
 public class AthenaApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AthenaApplication.class, args);
     }
+
+
+    @Autowired
+    Environment env;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
@@ -55,5 +62,16 @@ public class AthenaApplication {
         ds.setUsername("admin");
         ds.setPassword("2021414XX");
         return ds;
+    }
+
+
+    @Bean
+    static PropertySourcesPlaceholderConfigurer placeholderConfigurer(){
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    static PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(11);
     }
 }
