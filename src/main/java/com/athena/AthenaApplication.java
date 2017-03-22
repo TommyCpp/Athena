@@ -70,8 +70,4 @@ public class AthenaApplication {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Bean
-    static PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(11);
-    }
 }
