@@ -1,6 +1,5 @@
 package com.athena.security.service;
 
-import com.athena.security.model.JwtUser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,15 +18,5 @@ import javax.transaction.Transactional;
 @Transactional
 public class UserDetailsServiceTest {
 
-    @Autowired
-    UserDetailsServiceImpl service;
-
-
-    @Test
-    public void ifUserDetailsServiceCanGetUser() {
-
-        UserDetails user = service.loadUserByUsername("1");
-        Assert.assertEquals(user.getUsername(), "test");
-    }
 
 }
