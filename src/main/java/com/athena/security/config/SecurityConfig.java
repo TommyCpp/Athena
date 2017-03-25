@@ -2,6 +2,7 @@ package com.athena.security.config;
 
 import com.athena.security.filter.JwtAuthenticationFilter;
 import com.athena.security.filter.JwtLoginFilter;
+import com.athena.security.service.AccountService;
 import com.athena.security.service.AuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static String HEADER_PREFIX = "Athena "; //Jwt Header prefix
 
     @Autowired
+    private AccountService accountService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     public SecurityConfig() {
         super(true);
@@ -54,11 +59,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.inMemoryAuthentication().withUser("admin").password("password").roles("ADMIN");
+//        auth.inMemoryAuthentication().withUser("admin").password("password").roles("ADMIN");
+        auth.userDetailsService(accountService).passwordEncoder(passwordEncoder);
+
     }
 
+    @Bean
+    static AccountService accountService(){
+        return new AccountService();
+    }
 
     @Bean
     static PasswordEncoder passwordEncoder(){
