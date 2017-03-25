@@ -11,20 +11,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 /**
  * Created by tommy on 2017/3/24.
  */
-public class AccountService implements UserDetailsService {
+public class AccountService {
 
     @Autowired
     private
     UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Long id = Long.valueOf(s);
-        return loadUserById(id);
-    }
-
-    private UserDetails loadUserById(Long id) {
-        User user = userRepository.findOne(id);
-        return new Account(user);
+    public Account loadAccountById(Long id) {
+        return new Account(userRepository.findOne(id));
     }
 }
