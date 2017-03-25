@@ -13,16 +13,20 @@ import java.util.List;
 /**
  * Created by tommy on 2017/3/22.
  */
-public class Account implements UserDetails{
+public class Account implements UserDetails {
 
     private User user;
 
-    public Account(){
+    public Account() {
         this.user = new User();
     }
 
-    public Account(User user){
+    public Account(User user) {
         this.user = user;
+    }
+
+    public Long getId() {
+        return user.getId();
     }
 
     public String getUsername() {
