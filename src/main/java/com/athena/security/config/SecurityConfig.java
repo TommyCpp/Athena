@@ -5,10 +5,14 @@ import com.athena.security.filter.JwtLoginFilter;
 import com.athena.security.model.JwtAuthentication;
 import com.athena.security.service.AccountService;
 import com.athena.security.service.JwtAuthenticationProvider;
+import com.athena.security.service.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,25 +20,30 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Service;
+
+import java.security.SecureRandom;
 
 /**
  * Created by tommy on 2017/3/20.
  */
 @Configuration
+@ComponentScan
 @EnableWebSecurity
 //todo:用户鉴权和管理
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${security.key}")
-    private String secret;
-
 
     public static String JWT_TOKEN_HEADER_PARAM;
-    public static String HEADER_PREFIX = "Athena "; //Jwt Header prefix
+    public static String HEADER_PREFIX ;//Jwt Header prefix
+
 
     @Autowired
+    private
     JwtAuthenticationProvider jwtAuthenticationProvider;
 
+    @Autowired
+    private TokenAuthenticationService tokenAuthenticationService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,28 +57,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
 
                 .and()
-                .addFilterBefore(new JwtLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-//        auth.inMemoryAuthentication().withUser("admin").password("password").roles("ADMIN");
-        auth.authenticationProvider(jwtAuthenticationProvider);
+        auth.inMemoryAuthentication().withUser("admin").password("$2a$16$2wMKGpYmmEIa8K3Rox1E.ODdkT7vXdTLmj7h1pnxkVdx7Bxs/f3o.").roles("ADMIN");
+//        auth.authenticationProvider(jwtAuthenticationProvider);
 
     }
 
-    @Bean
-    static JwtAuthenticationProvider jwtAuthenticationProvider(AccountService accountService,PasswordEncoder passwordEncoder){
-        return new JwtAuthenticationProvider(accountService, passwordEncoder);
+    private JwtLoginFilter jwtLoginFilter() throws Exception {
+        return new JwtLoginFilter("/login", authenticationManager(), tokenAuthenticationService);
     }
 
-    @Bean
-    static AccountService accountService(){
-        return new AccountService();
+    private JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(tokenAuthenticationService);
     }
+
 
     @Bean
     static PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(11);
+        return new BCryptPasswordEncoder(16);
     }
+
 }

@@ -1,6 +1,7 @@
 package com.athena.security.filter;
 
 import com.athena.security.service.TokenAuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -17,9 +18,15 @@ import java.io.IOException;
  */
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
+    private final TokenAuthenticationService tokenAuthenticationService;
+
+    public JwtAuthenticationFilter(TokenAuthenticationService tokenAuthenticationService){
+        this.tokenAuthenticationService = tokenAuthenticationService;
+    }
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) servletRequest);
+        Authentication authentication = tokenAuthenticationService.getAuthentication((HttpServletRequest) servletRequest);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(servletRequest,servletResponse);
 
