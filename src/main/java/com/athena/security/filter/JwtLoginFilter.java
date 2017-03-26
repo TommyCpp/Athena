@@ -2,6 +2,7 @@ package com.athena.security.filter;
 
 import com.athena.security.model.Account;
 import com.athena.security.service.TokenAuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,9 +21,13 @@ import java.util.Collections;
  * Created by tommy on 2017/3/22.
  */
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
-    public JwtLoginFilter(String url, AuthenticationManager authenticationManager) {
+
+    private final TokenAuthenticationService tokenAuthenticationService;
+
+    public JwtLoginFilter(String url, AuthenticationManager authenticationManager, TokenAuthenticationService tokenAuthenticationService) {
         super(new AntPathRequestMatcher(url));
         setAuthenticationManager(authenticationManager);
+        this.tokenAuthenticationService = tokenAuthenticationService;
     }
 
     @Override
@@ -37,6 +42,6 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        TokenAuthenticationService.addAuthentication(response, authResult.getName());
+        tokenAuthenticationService.addAuthentication(response, authResult.getName());
     }
 }

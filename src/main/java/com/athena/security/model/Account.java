@@ -29,6 +29,9 @@ public class Account implements UserDetails {
         return user.getId();
     }
 
+    public void setId(Long id){
+        user.setId(id);}
+
     public String getUsername() {
         return user.getUsername();
     }
