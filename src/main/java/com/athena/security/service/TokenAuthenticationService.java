@@ -1,10 +1,17 @@
 package com.athena.security.service;
 
 
+import com.athena.model.User;
+import com.athena.repository.UserRepository;
+import com.athena.security.model.Account;
+import com.athena.security.model.JwtAuthenticationToken;
+import com.athena.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -33,10 +40,13 @@ public class TokenAuthenticationService {
     @Value("${security.token.header}")
     private String HEADER;
 
+    @Autowired
+    private UserRepository userRepository;
 
-    public  void addAuthentication(HttpServletResponse response, String username) {
+    public void addAuthentication(HttpServletResponse response,Account account) {
+        Long id = account.getId();
         String token = Jwts.builder().
-                setSubject(username).
+                setSubject(id.toString()).
                 setExpiration(new Date(System.currentTimeMillis() + Long.valueOf(EXPRIATIONTIME))).
                 signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
@@ -44,14 +54,13 @@ public class TokenAuthenticationService {
 
     }
 
-    public  Authentication getAuthentication(HttpServletRequest servletRequest) {
+    public Authentication getAuthentication(HttpServletRequest servletRequest) {
         String token = servletRequest.getHeader(HEADER);
         if (token != null) {
-
-            String username = Objects.equals(token, "11111") ? "admin" : Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody().getSubject();
-            return
-                    username == null ? null :
-                            new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
+            Long id = Long.valueOf(Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody().getSubject());
+            User user = userRepository.findOne(id);
+            Account account = new Account(user);
+            return new JwtAuthenticationToken(account,true);
         }
         return null;
 

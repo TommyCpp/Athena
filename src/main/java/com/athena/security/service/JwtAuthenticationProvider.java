@@ -1,7 +1,8 @@
 package com.athena.security.service;
 
 import com.athena.security.model.Account;
-import com.athena.security.model.JwtAuthentication;
+import com.athena.security.model.JwtAuthenticationToken;
+import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,7 +33,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         if (passwordEncoder.matches(intendAccount.getPassword(),actualAccount.getPassword())) {
             //If the account matches
             authentication.setAuthenticated(true);
-            return new JwtAuthentication((Account) authentication.getPrincipal());
+            return new JwtAuthenticationToken((Account) authentication.getPrincipal());
         }
         else{
             throw new BadCredentialsException("Password doesn't match");
@@ -40,7 +41,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public boolean supports(Class<?> aClass) {
-        return false;
+    public boolean supports(Class<?> authentication) {
+        return JwtAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

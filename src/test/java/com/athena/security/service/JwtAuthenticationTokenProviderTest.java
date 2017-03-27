@@ -17,13 +17,13 @@ import javax.transaction.Transactional;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class JwtAuthenticationProviderTest {
+public class JwtAuthenticationTokenProviderTest {
 
 
 
     @Test
     public void testPasswordEncoder(){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
-        Assert.assertEquals(true, passwordEncoder.matches("123456","$2a$16$2wMKGpYmmEIa8K3Rox1E.ODdkT7vXdTLmj7h1pnxkVdx7Bxs/f3o."));
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        Assert.assertEquals("123456", passwordEncoder.encode("123456"));
     }
 }
