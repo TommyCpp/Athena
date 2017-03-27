@@ -74,4 +74,19 @@ public class Account implements UserDetails {
     public void setPassword(String password) {
         user.setPassword(password);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Account account = (Account) o;
+
+        return user != null ? user.equals(account.user) : account.user == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return user != null ? user.hashCode() : 0;
+    }
 }

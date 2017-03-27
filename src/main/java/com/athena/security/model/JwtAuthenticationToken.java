@@ -1,5 +1,6 @@
 package com.athena.security.model;
 
+import com.athena.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -21,6 +22,11 @@ public class JwtAuthenticationToken implements Authentication {
     public JwtAuthenticationToken(Account account) {
         this();
         this.account = account;
+    }
+
+    public JwtAuthenticationToken(User user){
+        this();
+        this.account = new Account(user);
     }
 
     public JwtAuthenticationToken(Account account,boolean isAuthentication){

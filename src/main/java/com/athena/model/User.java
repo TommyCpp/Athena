@@ -6,8 +6,11 @@ import javax.persistence.*;
  * Created by tommy on 2017/3/20.
  */
 @Entity
+@EntityListeners({
+        UserListener.class
+})
 @Table(name="user")
-public class User  {
+public class User{
     private Long id;
     private String username;
     private String password;
