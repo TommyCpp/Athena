@@ -1,6 +1,8 @@
 package com.athena.security.filter;
 
+import com.athena.model.User;
 import com.athena.security.model.Account;
+import com.athena.security.model.JwtAuthenticationToken;
 import com.athena.security.service.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,15 +35,16 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
         Account account = new Account();
-        account.setUsername(httpServletRequest.getParameter("username"));
+        account.setId(Long.valueOf(httpServletRequest.getParameter("id")));
         account.setPassword(httpServletRequest.getParameter("password"));
         return getAuthenticationManager().authenticate(
-                new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword(), Collections.emptyList())
+                new JwtAuthenticationToken(account)
         );
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        tokenAuthenticationService.addAuthentication(response, authResult.getName());
+        assert (authResult instanceof JwtAuthenticationToken);
+        tokenAuthenticationService.addAuthentication(response, (Account) authResult.getPrincipal());
     }
 }

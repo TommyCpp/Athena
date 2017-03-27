@@ -8,19 +8,24 @@ import java.util.Collection;
 /**
  * Created by Tommy on 2017/3/26.
  */
-public class JwtAuthentication implements Authentication {
+public class JwtAuthenticationToken implements Authentication {
 
     private Account account;
     private boolean isAuthentication;
 
 
-    public JwtAuthentication(){
+    public JwtAuthenticationToken(){
         this.isAuthentication = false;
     }
 
-    public JwtAuthentication(Account account) {
+    public JwtAuthenticationToken(Account account) {
         this();
         this.account = account;
+    }
+
+    public JwtAuthenticationToken(Account account,boolean isAuthentication){
+        this.account = account;
+        this.isAuthentication = isAuthentication;
     }
 
 
@@ -41,7 +46,7 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return getDetails();
     }
 
     @Override

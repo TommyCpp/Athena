@@ -2,17 +2,12 @@ package com.athena.security.config;
 
 import com.athena.security.filter.JwtAuthenticationFilter;
 import com.athena.security.filter.JwtLoginFilter;
-import com.athena.security.model.JwtAuthentication;
-import com.athena.security.service.AccountService;
 import com.athena.security.service.JwtAuthenticationProvider;
 import com.athena.security.service.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,9 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Service;
-
-import java.security.SecureRandom;
 
 /**
  * Created by tommy on 2017/3/20.
@@ -62,8 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.inMemoryAuthentication().withUser("admin").password("$2a$16$2wMKGpYmmEIa8K3Rox1E.ODdkT7vXdTLmj7h1pnxkVdx7Bxs/f3o.").roles("ADMIN");
-//        auth.authenticationProvider(jwtAuthenticationProvider);
+//        auth.inMemoryAuthentication().withUser("admin").password("$2a$16$2wMKGpYmmEIa8K3Rox1E.ODdkT7vXdTLmj7h1pnxkVdx7Bxs/f3o.").roles("ADMIN");
+        auth.authenticationProvider(jwtAuthenticationProvider);
 
     }
 
@@ -78,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     static PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(16);
+        return new BCryptPasswordEncoder();
     }
 
 }
