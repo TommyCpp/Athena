@@ -32,8 +32,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         Account actualAccount = accountService.loadAccountById(intendAccount.getId());
         if (passwordEncoder.matches(intendAccount.getPassword(),actualAccount.getPassword())) {
             //If the account matches
-            authentication.setAuthenticated(true);
-            return new JwtAuthenticationToken((Account) authentication.getPrincipal());
+            return new JwtAuthenticationToken(actualAccount, true);
         }
         else{
             throw new BadCredentialsException("Password doesn't match");
