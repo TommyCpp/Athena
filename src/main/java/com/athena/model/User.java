@@ -1,9 +1,12 @@
 package com.athena.model;
 
+import com.athena.model.listener.UserListener;
+
 import javax.persistence.*;
 
 /**
  * Created by tommy on 2017/3/20.
+ *
  */
 @Entity
 @EntityListeners({
@@ -106,4 +109,5 @@ public class User{
         result = 31 * result + (identity != null ? identity.hashCode() : 0);
         return result;
     }
+
 }
