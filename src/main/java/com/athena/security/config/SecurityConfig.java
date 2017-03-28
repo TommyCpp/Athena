@@ -22,7 +22,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @ComponentScan
 @EnableWebSecurity
-//todo:用户鉴权和管理
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
