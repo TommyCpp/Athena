@@ -11,7 +11,7 @@ import java.util.List;
  * Created by tommy on 2017/3/28.
  */
 @Repository
-public interface BookRepository extends JpaRepository<Book,String> {
+public interface BookRepository extends JpaRepository<Book,Long> {
 
     List<Book> getBooksByPublisher(Publisher publisher);
 }

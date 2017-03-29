@@ -12,8 +12,9 @@ import java.util.List;
  */
 //TODO:测试连接关系
 @Entity
+@Table(name = "book")
 public class Book {
-    private String isbn;
+    private Long isbn;
     @Convert(converter = WriterConverter.class)
     private List<String> author;
     @Convert(converter = WriterConverter.class)
@@ -33,11 +34,11 @@ public class Book {
 
     @Id
     @Column(name = "isbn", nullable = false, length = 32)
-    public String getIsbn() {
+    public Long getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public void setIsbn(Long isbn) {
         this.isbn = isbn;
     }
 
@@ -223,4 +224,6 @@ public class Book {
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
     }
+
+    
 }
