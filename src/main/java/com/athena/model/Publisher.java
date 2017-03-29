@@ -8,28 +8,31 @@ import java.util.List;
  */
 //TODO：测试连接关系
 @Entity
+@Table(name="publisher")
 public class Publisher {
-    private Integer id;
-    private Integer name;
+    private String id;
+    private String name;
+    private String location;
+
     private List<Book> books;
 
     @Id
     @Column(name = "id", nullable = false)
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "name", nullable = false)
-    public Integer getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Integer name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -60,5 +63,15 @@ public class Publisher {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    @Basic
+    @Column(name="location")
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

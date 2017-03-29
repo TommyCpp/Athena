@@ -28,7 +28,7 @@ import java.util.Objects;
 @Service
 public class TokenAuthenticationService {
 
-    @Value("${security.token.expriationtime}")
+    @Value("${security.token.expirationtime}")
     private String EXPRIATIONTIME;
 
     @Value("${security.token.key}")
