@@ -1,13 +1,17 @@
 package com.athena.model;
 
 import com.athena.repository.BookRepository;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import javax.transaction.Transactional;
 
@@ -18,6 +22,11 @@ import javax.transaction.Transactional;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
+@TestExecutionListeners({
+        DependencyInjectionTestExecutionListener.class,
+        DbUnitTestExecutionListener.class
+})
+@DatabaseSetup({"classpath:books.xml","classpath:publishers.xml"})
 public class BookTest {
     @Autowired
     private BookRepository repository;
@@ -28,7 +37,7 @@ public class BookTest {
 
     @Test
     public void testGetPublisher(){
-        Book book = repository.findOne(7111128060L);
-        Assert.assertEquals(book.getPublisher().getName(), "机械工业出版社");
+        Book book = repository.findOne(9787111124444L);
+        Assert.assertEquals(book.getPublisher().getName(), "测试出版社");
     }
 }

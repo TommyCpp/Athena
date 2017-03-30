@@ -5,22 +5,16 @@ import com.athena.model.User;
 import com.athena.repository.UserRepository;
 import com.athena.security.model.Account;
 import com.athena.security.model.JwtAuthenticationToken;
-import com.athena.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Created by tommy on 2017/3/22.

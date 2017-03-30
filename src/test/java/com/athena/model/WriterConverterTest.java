@@ -1,7 +1,6 @@
 package com.athena.model;
 
 import com.athena.model.conveter.WriterConverter;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

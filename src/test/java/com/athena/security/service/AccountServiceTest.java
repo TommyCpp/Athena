@@ -3,7 +3,6 @@ package com.athena.security.service;
 import com.athena.model.User;
 import com.athena.repository.UserRepository;
 import com.athena.security.model.Account;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.mockito.BDDMockito.*;
-import static org.assertj.core.api.Assertions.*;
 
 import javax.transaction.Transactional;
+
+import static org.mockito.BDDMockito.given;
 
 /**
  * Created by tommy on 2017/3/27.
