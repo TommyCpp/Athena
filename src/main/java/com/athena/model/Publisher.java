@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * Created by tommy on 2017/3/28.
  */
-//TODO：测试连接关系
 @Entity
 @Table(name="publisher")
 public class Publisher {
