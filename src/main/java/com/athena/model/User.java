@@ -20,6 +20,7 @@ public class User{
     private String wechatId;
     private String email;
     private String identity;
+    private String phoneNumber;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -110,4 +111,13 @@ public class User{
         return result;
     }
 
+    @Basic
+    @Column(name="phone_number",nullable = true)
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
