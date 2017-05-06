@@ -1,0 +1,189 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Athena",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "host": "athena.io/api",
+  "basePath": "/v1",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/user/{id}": {
+      "get": {
+        "summary": "获得用户信息",
+        "operationId": "getUserInfo",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "required": false,
+            "type": "string",
+            "description": "指明传入的是WechatId还是用户ID"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "指明用户ID（如果指定了type参数，则根据type参数进行查询）"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "用户信息",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "用户未找到",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "修改用户信息",
+        "operationId": "modifyUser",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user_info",
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/User"
+            },
+            "required": true,
+            "description": "修改的用户信息（增量修改）"
+          },
+          {
+            "in": "header",
+            "name": "X-AUTHENTICATION",
+            "type": "string",
+            "required": true,
+            "description": "JWT鉴权码"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "修改成功",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "403": {
+            "description": "未授权",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "登陆",
+        "operationId": "login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userInfo",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginInfo"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "登陆成功",
+            "headers": {
+              "X-AUTHENTICATION": {
+                "type": "string",
+                "description": "JWT鉴权码"
+              }
+            }
+          },
+          "404": {
+            "description": "鉴权失败"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "msg"
+      ]
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "the user id"
+        },
+        "username": {
+          "type": "string",
+          "description": "the username"
+        },
+        "password": {
+          "type": "string",
+          "description": "the password"
+        },
+        "wechat_id": {
+          "type": "string"
+        },
+        "identity": {
+          "type": "string",
+          "enum": [
+            "SUPERADMIN",
+            "ADMIN",
+            "READER"
+          ]
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      }
+    },
+    "LoginInfo": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "微信客户端发送的鉴权用code"
+        }
+      }
+    }
+  }
+}
