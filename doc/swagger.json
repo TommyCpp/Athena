@@ -13,7 +13,71 @@
     "https"
   ],
   "paths": {
-    "/user/{id}": {
+    "/books": {
+      "get": {
+        "summary": "搜索书籍",
+        "operationId": "searchBooks",
+        "parameters": [
+          {
+            "in": "query",
+            "type": "string",
+            "name": "publisher",
+            "required": false,
+            "description": "出版社名称"
+          },
+          {
+            "in": "query",
+            "type": "string",
+            "name": "title",
+            "required": false,
+            "description": "书名"
+          },
+          {
+            "in": "query",
+            "name": "author",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "required": false,
+            "description": "作者名称，如果由提供多个，则寻找包含所有作者的书籍"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "integer",
+            "minimum": 1,
+            "description": "每页结果数量最大值",
+            "required": false,
+            "default": 20
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "查找到的所有书籍",
+            "headers": {
+              "X-Total-Count": {
+                "type": "integer",
+                "description": "结果总数"
+              },
+              "Link": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "<(http|https)://(.*)>;ref=\"(first|last|previous|next)\""
+                },
+                "description": "分页相关链接"
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
       "get": {
         "summary": "获得用户信息",
         "operationId": "getUserInfo",
@@ -23,7 +87,7 @@
             "name": "type",
             "required": false,
             "type": "string",
-            "description": "指明传入的是WechatId还是用户ID"
+            "description": "指明传入的是WechatId还是用户ID，默认用户ID"
           },
           {
             "in": "path",
@@ -83,11 +147,8 @@
               "$ref": "#/definitions/User"
             }
           },
-          "403": {
-            "description": "未授权",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -183,6 +244,71 @@
           "type": "string",
           "description": "微信客户端发送的鉴权用code"
         }
+      }
+    },
+    "Book": {
+      "type": "object",
+      "description": "图书对象",
+      "properties": {
+        "isbn":{
+          "type":"string",
+          "description":"ISBN号"
+        }
+      }
+    },
+    "Publisher":{
+      "type":"object",
+      "description": "出版社",
+      "properties": {
+        "id":{
+          "type":"string",
+          "description":"出版社编号"
+        },
+        "name":{
+          "type":"string",
+          "description":"出版社名称"
+        },
+        "location":{
+          "type":"string",
+          "description":"出版社所在城市"
+        }
+      }
+    },
+    "BookSearchResult": {
+      "type": "object",
+      "description": "图书搜索结果",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "查询结果总数"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 20,
+          "description": "每页查询结果限制"
+        },
+        "offset": {
+          "type": "integer",
+          "default": 0,
+          "description": "已经返回了多少结果，即本次返回的第一个结果数-1"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Book"
+          },
+          "description":"结果"
+        }
+      }
+    }
+  },
+  "responses": {
+    "Unauthorized": {
+      "description": "未授权",
+      "schema": {
+        "$ref": "#/definitions/Error"
       }
     }
   }
