@@ -15,9 +15,15 @@
   "paths": {
     "/books": {
       "get": {
+        "tags": [
+          "Book"
+        ],
         "summary": "搜索书籍",
         "operationId": "searchBooks",
         "parameters": [
+          {
+            "$ref": "#/parameters/Authorization"
+          },
           {
             "in": "query",
             "type": "string",
@@ -71,7 +77,7 @@
               }
             }
           },
-          "401": {
+          "403": {
             "$ref": "#/responses/Unauthorized"
           }
         }
@@ -79,14 +85,24 @@
     },
     "/users/{id}": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "summary": "获得用户信息",
         "operationId": "getUserInfo",
         "parameters": [
+          {
+            "$ref": "#/parameters/Authorization"
+          },
           {
             "in": "query",
             "name": "type",
             "required": false,
             "type": "string",
+            "enum": [
+              "WeChatId",
+              "Id"
+            ],
             "description": "指明传入的是WechatId还是用户ID，默认用户ID"
           },
           {
@@ -111,17 +127,76 @@
             }
           },
           "404": {
-            "description": "用户未找到",
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "summary": "创建新用户",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Authorization"
+          },
+          {
+            "in": "body",
+            "description": "用户信息",
             "schema": {
-              "$ref": "#/definitions/Error"
+              "type": "object",
+              "description": "用户注册参数体",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "format": "password",
+                  "description": "密码"
+                },
+                "check_password": {
+                  "type": "string",
+                  "format": "password",
+                  "description": "确认密码"
+                },
+                "identity": {
+                  "type": "string",
+                  "enum": {
+                    "type": "string",
+                    "enum": [
+                      "SUPERADMIN",
+                      "ADMIN",
+                      "READER"
+                    ]
+                  },
+                  "description": "用户身份，只有管理员可以指定，用户自主注册的时候同一使用默认值，即READER"
+                },
+                "phone_number": {
+                  "type": "string",
+                  "description": "The phone number"
+                }
+              }
             }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "创建成功",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/InputInvalid"
           }
         }
       },
       "patch": {
+        "tags": [
+          "User"
+        ],
         "summary": "修改用户信息",
         "operationId": "modifyUser",
         "parameters": [
+          {
+            "$ref": "#/parameters/Authorization"
+          },
           {
             "in": "body",
             "name": "user_info",
@@ -133,11 +208,7 @@
             "description": "修改的用户信息（增量修改）"
           },
           {
-            "in": "header",
-            "name": "X-AUTHENTICATION",
-            "type": "string",
-            "required": true,
-            "description": "JWT鉴权码"
+            "$ref": "!#/parameters/Authorization"
           }
         ],
         "responses": {
@@ -151,10 +222,33 @@
             "$ref": "#/responses/Unauthorized"
           }
         }
+      },
+      "delete": {
+        "summary": "删除用户",
+        "operationId": "DeleteUser",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "删除成功"
+          },
+          "403": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
       }
     },
     "/login": {
       "post": {
+        "tags": [
+          "Login"
+        ],
         "summary": "登陆",
         "operationId": "login",
         "consumes": [
@@ -184,7 +278,14 @@
             }
           },
           "404": {
-            "description": "鉴权失败"
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "get": {
+        "responses": {
+          "405": {
+            "$ref": "#/responses/MethodNotAllowed"
           }
         }
       }
@@ -208,6 +309,13 @@
     },
     "User": {
       "type": "object",
+      "required": [
+        "id",
+        "username",
+        "password",
+        "wechat_id",
+        "identity"
+      ],
       "properties": {
         "id": {
           "type": "integer",
@@ -219,10 +327,12 @@
         },
         "password": {
           "type": "string",
-          "description": "the password"
+          "description": "the password",
+          "format": "password"
         },
         "wechat_id": {
-          "type": "string"
+          "type": "string",
+          "description": "The We Chat ID"
         },
         "identity": {
           "type": "string",
@@ -230,10 +340,12 @@
             "SUPERADMIN",
             "ADMIN",
             "READER"
-          ]
+          ],
+          "default": "READER"
         },
         "phone_number": {
-          "type": "string"
+          "type": "string",
+          "description": "The phone number"
         }
       }
     },
@@ -250,39 +362,43 @@
       "type": "object",
       "description": "图书对象",
       "properties": {
-        "isbn":{
-          "type":"integer",
+        "isbn": {
+          "type": "integer",
           "format": "int64",
-          "description":"ISBN号"
+          "description": "ISBN号"
         },
-        "title":{
-          "type":"string",
-          "description":"书籍标题"
+        "title": {
+          "type": "string",
+          "description": "书籍标题"
         },
-        "subtitle":{
-          "type":"string",
-          "description":"副标题"
+        "subtitle": {
+          "type": "string",
+          "description": "副标题"
         },
-        "language":{
-
+        "language": {
         }
       }
     },
-    "Publisher":{
-      "type":"object",
+    "Publisher": {
+      "type": "object",
       "description": "出版社",
+      "required": [
+        "id",
+        "name",
+        "location"
+      ],
       "properties": {
-        "id":{
-          "type":"string",
-          "description":"出版社编号"
+        "id": {
+          "type": "string",
+          "description": "出版社编号"
         },
-        "name":{
-          "type":"string",
-          "description":"出版社名称"
+        "name": {
+          "type": "string",
+          "description": "出版社名称"
         },
-        "location":{
-          "type":"string",
-          "description":"出版社所在城市"
+        "location": {
+          "type": "string",
+          "description": "出版社所在城市"
         }
       }
     },
@@ -311,17 +427,44 @@
           "items": {
             "$ref": "#/definitions/Book"
           },
-          "description":"结果"
+          "description": "结果"
         }
       }
     }
   },
   "responses": {
+    "InputInvalid": {
+      "description": "用户输入有误",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
     "Unauthorized": {
       "description": "未授权",
       "schema": {
         "$ref": "#/definitions/Error"
       }
+    },
+    "NotFound": {
+      "description": "未找到目标资源",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "MethodNotAllowed": {
+      "description": "此资源不支持该方法",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    }
+  },
+  "parameters": {
+    "Authorization": {
+      "in": "header",
+      "name": "X-AUTHENTICATION",
+      "type": "string",
+      "required": true,
+      "description": "JWT鉴权码"
     }
   }
 }
