@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/**")
 @RestController
 public class TestController {
+
     @RequestMapping(path = "/{data}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public String index(@PathVariable(name = "data") int i) {
         return Integer.toString(i);
