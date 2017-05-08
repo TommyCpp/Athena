@@ -251,8 +251,20 @@
       "description": "图书对象",
       "properties": {
         "isbn":{
-          "type":"string",
+          "type":"integer",
+          "format": "int64",
           "description":"ISBN号"
+        },
+        "title":{
+          "type":"string",
+          "description":"书籍标题"
+        },
+        "subtitle":{
+          "type":"string",
+          "description":"副标题"
+        },
+        "language":{
+
         }
       }
     },
