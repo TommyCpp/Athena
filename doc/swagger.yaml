@@ -1,0 +1,405 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Athena
+  license:
+    name: MIT
+host: athena.io/api
+basePath: /v1
+schemes:
+  - https
+paths:
+  /books:
+    get:
+      tags:
+        - Book
+      summary: 搜索书籍
+      operationId: searchBooks
+      parameters:
+        - $ref: '#/parameters/Authorization'
+        - in: query
+          type: string
+          name: publisher
+          required: false
+          description: 出版社名称
+        - in: query
+          type: string
+          name: title
+          required: false
+          description: 书名
+        - in: query
+          name: author
+          type: array
+          items:
+            type: string
+            uniqueItems: true
+          required: false
+          description: 作者名称，如果由提供多个，则寻找包含所有作者的书籍
+        - in: query
+          name: limit
+          type: integer
+          minimum: 1
+          description: 每页结果数量最大值
+          required: false
+          default: 20
+      responses:
+        '200':
+          description: 查找到的所有书籍
+          headers:
+            X-Total-Count:
+              type: integer
+              description: 结果总数
+            Link:
+              type: array
+              items:
+                type: string
+                pattern: '<(http|https)://(.*)>;ref="(first|last|previous|next)"'
+              description: 分页相关链接
+          schema:
+            $ref: '#/definitions/BookSearchResult'
+        '403':
+          $ref: '#/responses/Forbidden'
+  /users:
+    get:
+      tags:
+        - User
+      summary: 搜索用户
+      operationId: searchUser
+      parameters:
+        - $ref: '#/parameters/Authorization'
+        - name: wechatId
+          in: query
+          type: string
+          description: 目标用户的微信Id
+        - name: username
+          in: query
+          type: string
+          description: 目标用户的微信名
+      responses:
+        '200':
+          description: 搜索结果
+          schema:
+            $ref: '#/definitions/UserSearchResult'
+        '403':
+          $ref: '#/responses/Forbidden'
+    post:
+      tags:
+        - User
+      summary: 创建新用户
+      operationId: createUser
+      parameters:
+        - $ref: '#/parameters/Authorization'
+        - in: body
+          description: 用户信息
+          name: user_info
+          required: true
+          schema:
+            type: object
+            description: 用户注册参数体
+            properties:
+              password:
+                type: string
+                format: password
+                description: 密码
+              check_password:
+                type: string
+                format: password
+                description: 确认密码
+              identity:
+                type: string
+                enum:
+                  - SUPERADMIN
+                  - ADMIN
+                  - READER
+                description: 用户身份，只有管理员可以指定，用户自主注册的时候同一使用默认值，即READER
+              phone_number:
+                type: string
+                description: The phone number
+      responses:
+        '201':
+          description: 创建成功
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          $ref: '#/responses/InputInvalid'
+  '/users/{id}':
+    get:
+      tags:
+        - User
+      summary: 获得用户信息
+      operationId: getUserInfo
+      parameters:
+        - $ref: '#/parameters/Authorization'
+        - in: query
+          name: type
+          required: false
+          type: string
+          enum:
+            - WeChatId
+            - Id
+          description: 指明传入的是WechatId还是用户ID，默认用户ID
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: 指明用户ID（如果指定了type参数，则根据type参数进行查询）
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: 用户信息
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          $ref: '#/responses/NotFound'
+    patch:
+      tags:
+        - User
+      summary: 修改用户信息
+      operationId: modifyUser
+      parameters:
+        - $ref: '#/parameters/Authorization'
+        - in: body
+          name: user_info
+          schema:
+            $ref: '#/definitions/User'
+          description: 修改的用户信息（增量修改）
+      responses:
+        '200':
+          description: 修改成功
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          $ref: '#/responses/Forbidden'
+    delete:
+      tags:
+        - User
+      summary: 删除用户
+      operationId: DeleteUser
+      parameters:
+        - $ref: '#/parameters/Authorization'
+      responses:
+        '204':
+          description: 删除成功
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+  /login:
+    post:
+      tags:
+        - Login
+      summary: 登陆
+      operationId: login
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: user_info
+          schema:
+            $ref: '#/definitions/LoginInfo'
+      responses:
+        '204':
+          description: 登陆成功
+          headers:
+            X-AUTHENTICATION:
+              type: string
+              description: JWT鉴权码
+        '404':
+          $ref: '#/responses/NotFound'
+    get:
+      tags:
+        - Login
+      summary: 登陆
+      responses:
+        '405':
+          $ref: '#/responses/MethodNotAllowed'
+definitions:
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      msg:
+        type: string
+    required:
+      - code
+      - msg
+  User:
+    type: object
+    required:
+      - id
+      - username
+      - password
+      - wechat_id
+      - identity
+    properties:
+      id:
+        type: integer
+        description: the user id
+      username:
+        type: string
+        description: the username
+      password:
+        type: string
+        description: the password
+        format: password
+      wechat_id:
+        type: string
+        description: The We Chat ID
+      identity:
+        type: string
+        enum:
+          - SUPERADMIN
+          - ADMIN
+          - READER
+        default: READER
+      phone_number:
+        type: string
+        description: The phone number
+  LoginInfo:
+    type: object
+    properties:
+      code:
+        type: string
+        description: 微信客户端发送的鉴权用code
+  Book:
+    type: object
+    description: 图书对象
+    required:
+      - isbn
+      - title
+      - language
+      - publisher
+      - publish_date
+      - category_id
+    properties:
+      isbn:
+        type: integer
+        format: int64
+        description: ISBN号
+      title:
+        type: string
+        description: 书籍标题
+      subtitle:
+        type: string
+        description: 副标题
+      language:
+        type: string
+        description: 书籍语言
+      publisher:
+        $ref: '#/definitions/Publisher'
+      publish_date:
+        type: string
+        description: 出版日期
+      category_id:
+        type: string
+        description: 中图分类号
+      version:
+        type: integer
+        description: 版本号
+      cover_url:
+        type: string
+        description: 封面url
+      preface:
+        type: string
+        description: 前言
+      directory:
+        type: object
+        description: 目录(JSON格式)
+      introduction:
+        type: string
+        description: 简介
+      price:
+        type: number
+        format: float32
+        description: 定价
+  Publisher:
+    type: object
+    description: 出版社
+    required:
+      - id
+      - name
+      - location
+    properties:
+      id:
+        type: string
+        description: 出版社编号
+      name:
+        type: string
+        description: 出版社名称
+      location:
+        type: string
+        description: 出版社所在城市
+  BookSearchResult:
+    type: object
+    description: 图书搜索结果
+    properties:
+      count:
+        type: integer
+        minimum: 1
+        description: 查询结果总数
+      limit:
+        type: integer
+        minimum: 1
+        default: 20
+        description: 每页查询结果限制
+      offset:
+        type: integer
+        default: 0
+        description: 已经返回了多少结果，即本次返回的第一个结果数-1
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/Book'
+        description: 结果
+  UserSearchResult:
+    type: object
+    description: 用户搜索结果
+    properties:
+      count:
+        type: integer
+        minimum: 1
+        description: 查询结果总数
+      limit:
+        type: integer
+        minimum: 1
+        default: 20
+        description: 每页查询结果限制
+      offset:
+        type: integer
+        default: 0
+        description: 已经返回了多少结果，即本次返回的第一个结果数-1
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/User'
+        description: 结果
+responses:
+  InputInvalid:
+    description: 用户输入有误
+    schema:
+      $ref: '#/definitions/Error'
+  Forbidden:
+    description: 未授权
+    schema:
+      $ref: '#/definitions/Error'
+  NotFound:
+    description: 未找到目标资源
+    schema:
+      $ref: '#/definitions/Error'
+  MethodNotAllowed:
+    description: 此资源不支持该方法
+    schema:
+      $ref: '#/definitions/Error'
+parameters:
+  Authorization:
+    in: header
+    name: X-AUTHENTICATION
+    type: string
+    required: true
+    description: JWT鉴权码
