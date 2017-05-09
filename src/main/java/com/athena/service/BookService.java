@@ -27,7 +27,7 @@ public class BookService {
         List<Book> result = new ArrayList<>();
         for (String name :
                 names) {
-            result.addAll(this.repository.getBooksByTitleExists(name));
+            result.addAll(this.repository.getBooksByTitleContains(name));
         }
         return result;
     }
