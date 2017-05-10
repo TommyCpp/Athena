@@ -4,22 +4,26 @@
     <book isbn="9787111125643" title="C++程序设计指南" language="Chinese" author="测试作者" publisher_id="999"
           publish_date="2017-01-06" version="1" price="55.25" category_id="TP312C"/>
     <book isbn="9784099507505"
-          title="adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus id sapien in sapien iaculis congue vivamus metus"
+          title="adipiscing elit"
           language="English" author="Steffen Catcherside" publisher_id="922" publish_date="2016-09-18" version="4"
           price="520.5" category_id="TC331A"/>
-    <book isbn="9785226422377" title="ut erat id mauris vulputate elementum nullam varius nulla facilisi cras"
+    <book isbn="9785226422377" title="ut erat id"
           language="English" author="Georgie Northway" publisher_id="806" publish_date="2017-04-16" version="1"
           price="1204.65" category_id="TC331C"/>
     <book isbn="9786395132407"
-          title="tristique in tempus sit amet sem fusce consequat nulla nisl nunc nisl duis bibendum felis sed interdum"
+          title="tristique in"
           language="English" author="Shea Coughtrey" publisher_id="122" publish_date="2016-10-05" version="1"
           price="594.31" category_id="TC332C"/>
     <book isbn="9785867649253"
-          title="consequat in consequat ut nulla sed accumsan felis ut at dolor quis odio consequat varius integer"
+          title="consequat in consequat"
           language="English" author="Lian Hubback" publisher_id="817" publish_date="2016-07-17" version="5"
           price="85.25" category_id="TC331C"/>
     <book isbn="9783158101890"
-          title="odio cras mi pede malesuada in imperdiet et commodo vulputate justo in blandit ultrices enim lorem ipsum dolor sit amet"
+          title="odio cras mi pede malesuada`"
           language="English" author="Nickola Dolling" publisher_id="127" publish_date="2016-11-14" version="2"
           price="1229.44" category_id="TC331C"/>
+    <book isbn="9783158101891"
+          title="埃里克森定界符"
+          language="Chinese" author="阿里斯顿" publisher_id="127" publish_date="2016-11-10" version="2"
+          price="12.44" category_id="TC331C"/>
 </dataset>
