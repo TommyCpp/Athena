@@ -2,6 +2,7 @@
 
 Book Management System based on Spring Framework and Restful API
 
+This is project is inspired by the question from [here](http://www.cnsoftbei.com/bencandy.php?fid=148&aid=1532)
 ## Install & Preparation
 ### Add Config file
 To install the application, first need to create some config file in resources
@@ -82,4 +83,3 @@ service | Test the service class
 
 #### model.PublisherTest
 * Assert whether the publisher can access the book it published
-
