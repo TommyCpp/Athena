@@ -40,4 +40,12 @@ public class BookTest {
         Book book = repository.findOne(9787111124444L);
         Assert.assertEquals(book.getPublisher().getName(), "测试出版社");
     }
+
+    @Test
+    public void testSaveBook(){
+        Book book = repository.findOne(9787111124444L);
+        book.setTitle("测试书就");
+        repository.save(book);
+        Assert.assertEquals("ce,shi,shu,jiu", repository.findOne(9787111124444L).getTitlePinYin());
+    }
 }

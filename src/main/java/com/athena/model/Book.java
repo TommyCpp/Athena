@@ -1,6 +1,7 @@
 package com.athena.model;
 
 import com.athena.model.conveter.WriterConverter;
+import com.athena.service.PinyinConvertService;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -8,9 +9,7 @@ import java.util.List;
 
 /**
  * Created by tommy on 2017/3/28.
- *
  */
-//TODO:测试连接关系
 @Entity
 @Table(name = "book")
 public class Book {
@@ -27,10 +26,18 @@ public class Book {
     private String introduction;
     private String directory;
     private String title;
+    private String titlePinYin;
     private String subtitle;
     private String language;
     private Integer price;
     private Publisher publisher;
+
+    @Transient
+    private PinyinConvertService pinyinConvertService;
+
+    public Book() {
+        this.pinyinConvertService = new PinyinConvertService();
+    }
 
     @Id
     @Column(name = "isbn", nullable = false, length = 32)
@@ -130,6 +137,7 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
+        this.setTitlePinYin(this.pinyinConvertService.getPinYin(title));
     }
 
     @Basic
@@ -225,5 +233,13 @@ public class Book {
         this.publisher = publisher;
     }
 
-    
+    @Basic
+    @Column(name = "title_pinyin", length = 256)
+    public String getTitlePinYin() {
+        return titlePinYin;
+    }
+
+    public void setTitlePinYin(String titlePinYin) {
+        this.titlePinYin = titlePinYin;
+    }
 }
