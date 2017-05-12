@@ -1,5 +1,3 @@
 <dataset>
-    <user username="Test"
-          email="test@test.com" password="$2a$10$uuBkYRbGJjIjuRYZrXFFjen5vqrKXl47LhK1fnIGDYBTYybK.jERu"
-          wechat_id="136265264" identity="READER"/>
+    <user id="11" username="test" password="sssss" wechat_id="cha" email="sldjf@sldfj.com" identity="READER" phone_number="1526421812"/>
 </dataset>
