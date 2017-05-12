@@ -46,6 +46,6 @@ public class BookTest {
         Book book = repository.findOne(9787111124444L);
         book.setTitle("测试书就");
         repository.save(book);
-        Assert.assertEquals("ce,shi,shu,jiu", repository.findOne(9787111124444L).getTitlePinYin());
+        Assert.assertEquals("ce,shi,shu,jiu", repository.findOne(9787111124444L).getTitlePinyin());
     }
 }

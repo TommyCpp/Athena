@@ -16,7 +16,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 
 /**
  * Created by tommy on 2017/3/29.

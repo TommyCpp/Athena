@@ -26,10 +26,12 @@ public class Book {
     private String introduction;
     private String directory;
     private String title;
-    private String titlePinYin;
+    private String titlePinyin;
+    private String titleShortPinyin;
     private String subtitle;
     private String language;
     private Integer price;
+
     private Publisher publisher;
 
     @Transient
@@ -137,7 +139,8 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
-        this.setTitlePinYin(this.pinyinConvertService.getPinYin(title));
+        this.setTitlePinyin(this.pinyinConvertService.getPinYin(title));
+        this.setTitleShortPinyin(this.pinyinConvertService.getShortPinYin(title));
     }
 
     @Basic
@@ -146,8 +149,8 @@ public class Book {
         return subtitle;
     }
 
-    public void setSubtitle(String subtitile) {
-        this.subtitle = subtitile;
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
     @Basic
@@ -235,11 +238,21 @@ public class Book {
 
     @Basic
     @Column(name = "title_pinyin", length = 256)
-    public String getTitlePinYin() {
-        return titlePinYin;
+    public String getTitlePinyin() {
+        return titlePinyin;
     }
 
-    public void setTitlePinYin(String titlePinYin) {
-        this.titlePinYin = titlePinYin;
+    public void setTitlePinyin(String titlePinYin) {
+        this.titlePinyin = titlePinYin;
+    }
+
+    @Basic
+    @Column(name="title_short_pinyin",length = 32)
+    public String getTitleShortPinyin() {
+        return titleShortPinyin;
+    }
+
+    public void setTitleShortPinyin(String titleShortPinyin) {
+        this.titleShortPinyin = titleShortPinyin;
     }
 }

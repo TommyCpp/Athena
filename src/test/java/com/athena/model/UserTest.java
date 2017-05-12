@@ -36,5 +36,11 @@ public class UserTest {
         userRepository.save(user);
 
         Assert.assertTrue(passwordEncoder.matches("123456", user.getPassword()));
+
+        user.setEmail("test@test.com");
+        userRepository.save(user);
+        Assert.assertTrue(passwordEncoder.matches("123456", user.getPassword()));
+
+
     }
 }
