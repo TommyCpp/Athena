@@ -37,6 +37,12 @@ public class TokenAuthenticationService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Add authentication.
+     *
+     * @param response the response
+     * @param account  the account
+     */
     public void addAuthentication(HttpServletResponse response,Account account) {
         Long id = account.getId();
         String token = Jwts.builder().
@@ -48,6 +54,12 @@ public class TokenAuthenticationService {
 
     }
 
+    /**
+     * Gets authentication.
+     *
+     * @param servletRequest the servlet request
+     * @return the authentication
+     */
     public Authentication getAuthentication(HttpServletRequest servletRequest) {
         String token = servletRequest.getHeader(HEADER);
         if (token != null) {

@@ -36,6 +36,7 @@ The following dependencies are required by Athena, you can also find them in the
 * Mysql Connector
 * Spring Security
 * Apache Common
+* Jpinyin
 * Jjwt
 
 The dependencies below are required for test
@@ -73,13 +74,42 @@ The test files is located in `src\test\java\com\athena` it contains following fo
 
 name | content
 -----|--------
-model|| Test the model class and the converter
+model| Test the model class and the converter
 security | Test the authentication function
 service | Test the service class
 
+### Configure
+Because the user table has one field name `password`, which is the reserve word of MySQL. So before test something regarding the User table, we need to override some of the default config.
+Specifically, We need to config the test as follows:
+```java
+    @Bean
+    public DatabaseConfigBean databaseConfigBean() {
+        DatabaseConfigBean databaseConfigBean = new DatabaseConfigBean();
+        databaseConfigBean.setEscapePattern("`?`"); //we change the default config here.
+        return databaseConfigBean;
+    }
+
+    @Bean
+    @Autowired
+    public DatabaseDataSourceConnectionFactoryBean dbUnitDatabaseConnection(DataSource dataSource, DatabaseConfigBean databaseConfigBean) {
+        DatabaseDataSourceConnectionFactoryBean factoryBean = new DatabaseDataSourceConnectionFactoryBean();
+        factoryBean.setDataSource(dataSource);
+        factoryBean.setDatabaseConfig(databaseConfigBean);
+        return factoryBean;
+    }
+```
+
 ### Test Case Explanation
 #### model.BooKTest
-* find one book which ISBN is 9787111124444, assert whether the book is the intend one.
+* Find one book which ISBN is 9787111124444, assert whether the book is the intend one.
 
 #### model.PublisherTest
 * Assert whether the publisher can access the book it published
+
+#### model.UserTest
+* Create an user, then save it to the database.
+* Change some attribute of the User, Assert the password does not be encrypt again.
+
+#### model.WriterConverter
+* Assert the WriterConverter can change the String[] into String concatenated by `,`
+

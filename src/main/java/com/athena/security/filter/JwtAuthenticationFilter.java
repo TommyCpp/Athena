@@ -19,6 +19,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final TokenAuthenticationService tokenAuthenticationService;
 
+    /**
+     * Instantiates a new Jwt authentication filter.
+     *
+     * @param tokenAuthenticationService the token authentication service
+     */
     public JwtAuthenticationFilter(TokenAuthenticationService tokenAuthenticationService){
         this.tokenAuthenticationService = tokenAuthenticationService;
     }

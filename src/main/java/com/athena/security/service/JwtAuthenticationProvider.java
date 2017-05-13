@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by Tommy on 2017/3/26.
- *
  */
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
@@ -20,6 +19,12 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final AccountService accountService;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Instantiates a new Jwt authentication provider.
+     *
+     * @param accountService the account service
+     * @param passEncoder    the pass encoder
+     */
     @Autowired
     public JwtAuthenticationProvider(AccountService accountService, PasswordEncoder passEncoder){
         this.accountService = accountService;

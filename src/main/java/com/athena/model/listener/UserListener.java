@@ -14,16 +14,29 @@ public class UserListener {
 
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Instantiates a new User listener.
+     */
     public UserListener() {
         passwordEncoder = new BCryptPasswordEncoder();
     }
 
+    /**
+     * Encrypt the  password.
+     *
+     * @param user the user
+     */
     @PrePersist
     public void setPassword(User user) {
         //Encrypt the password before store in database
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
+    /**
+     * Encrypt the  password if the password has been changed.
+     *
+     * @param user the user
+     */
     @PreUpdate
     public void resetPassword(User user) {
         if (user.getPassword().length() < 50) {
