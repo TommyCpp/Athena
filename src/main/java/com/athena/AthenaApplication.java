@@ -60,9 +60,9 @@ public class AthenaApplication {
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://120.24.220.159:3306/Athena");
-        ds.setUsername("admin");
-        ds.setPassword("2021414XX");
+        ds.setUrl(env.getProperty("spring.datasource.url"));
+        ds.setUsername(env.getProperty("spring.datasource.username"));
+        ds.setPassword(env.getProperty("spring.datasource.password"));
         return ds;
     }
 

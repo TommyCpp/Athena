@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 csrf().disable()
-//                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint()).and()
 
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
@@ -53,9 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-//        auth.inMemoryAuthentication().withUser("admin").password("$2a$16$2wMKGpYmmEIa8K3Rox1E.ODdkT7vXdTLmj7h1pnxkVdx7Bxs/f3o.").roles("ADMIN");
         auth.authenticationProvider(jwtAuthenticationProvider);
-
     }
 
 

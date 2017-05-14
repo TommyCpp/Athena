@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by tommy on 2017/3/16.
  */
-@RequestMapping("/api/**")
+@RequestMapping("/api/v1/**")
 @RestController
-public class TestController {
+public class UtilController {
 
-    @RequestMapping(path = "/{data}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(path = "/{data}", method = RequestMethod.GET)
     public String index(@PathVariable(name = "data") int i) {
         return Integer.toString(i);
     }

@@ -4,8 +4,8 @@ info:
   title: Athena
   license:
     name: MIT
-host: athena.io/api
-basePath: /v1
+host: athena.io
+basePath: /api/v1
 schemes:
   - https
 paths:
@@ -23,10 +23,13 @@ paths:
           required: false
           description: 出版社名称
         - in: query
-          type: string
           name: title
+          type: array
+          items:
+            type: string
+            uniqueItems: true
           required: false
-          description: 书名
+          description: 书名,如果由提供多个，则寻找包含任一题目的书籍,多个作者应该使用title=A&title=B&title=C的形式传入
         - in: query
           name: author
           type: array
@@ -34,7 +37,7 @@ paths:
             type: string
             uniqueItems: true
           required: false
-          description: 作者名称，如果由提供多个，则寻找包含所有作者的书籍
+          description: 作者名称，如果由提供多个，则寻找包含所有作者的书籍,多个作者应该使用author=A&author=B&author=C的形式传入
         - in: query
           name: limit
           type: integer
@@ -42,6 +45,13 @@ paths:
           description: 每页结果数量最大值
           required: false
           default: 20
+        - in: query
+          type: integer
+          name: startPage
+          minimum: 0
+          description: 起始页号（从1开始）
+          required: false
+          default: 1
       responses:
         '200':
           description: 查找到的所有书籍

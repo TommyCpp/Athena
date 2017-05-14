@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "book")
+//TODO: Jackson setting
 public class Book {
     private Long isbn;
     @Convert(converter = WriterConverter.class)
