@@ -16,6 +16,7 @@ To install the application, first need to create some config file in resources
     spring.datasource.username | Username
     spring.datasource.password | Password
     spring.datasource.driverClassName | Drive class
+
 * config.properties
 
     > Setting the JWT info
@@ -26,6 +27,13 @@ To install the application, first need to create some config file in resources
     security.token.header | The key of JWT in HTTP header
     security.token.prefix | The prefix of JWT
     security.token.expirationtime | The expiration time of JWT
+
+    > Setting some value regarding the search
+
+    key | value
+    ----| -----
+    search.default.limit| The default value on how much result to return per page
+    search.default.startPage|The start page of the pagination
 
 ### Install required library
 Run following command in command line to install library by maven `mvn`
@@ -42,6 +50,8 @@ The following dependencies are required by Athena, you can also find them in the
 The dependencies below are required for test
 
 * DBUnit
+* Spring Security Test
+  > Note that the spring security does not contain some of useful component such as @WithMockUser
 
 ## Feature
 ### Overall

@@ -15,9 +15,8 @@ import java.util.List;
 //TODO: Jackson setting
 public class Book {
     private Long isbn;
-    @Convert(converter = WriterConverter.class)
     private List<String> author;
-    @Convert(converter = WriterConverter.class)
+
     private List<String> translator;
     private Date publishDate;
     private String categoryId;
@@ -31,7 +30,7 @@ public class Book {
     private String titleShortPinyin;
     private String subtitle;
     private String language;
-    private Integer price;
+    private Double price;
 
     private Publisher publisher;
 
@@ -52,7 +51,11 @@ public class Book {
         this.isbn = isbn;
     }
 
+
+    @SuppressWarnings("JpaAttributeTypeInspection")
+    @Basic
     @Column(name = "author", nullable = false, length = 128)
+    @Convert(converter = WriterConverter.class)
     public List<String> getAuthor() {
         return author;
     }
@@ -163,6 +166,9 @@ public class Book {
         this.language = language;
     }
 
+    @SuppressWarnings("JpaAttributeTypeInspection")
+    @Basic
+    @Convert(converter = WriterConverter.class)
     @Column(name = "translator", nullable = true, length = 128)
     public List<String> getTranslator() {
         return translator;
@@ -174,11 +180,11 @@ public class Book {
 
     @Basic
     @Column(name = "price", nullable = false)
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -246,7 +252,7 @@ public class Book {
     }
 
     @Basic
-    @Column(name="title_short_pinyin",length = 32)
+    @Column(name = "title_short_pinyin", length = 32)
     public String getTitleShortPinyin() {
         return titleShortPinyin;
     }
