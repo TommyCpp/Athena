@@ -29,6 +29,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -74,7 +75,6 @@ public class BookControllerTest {
         Authentication authentication = new JwtAuthenticationToken(principal, true);
 
         securityContext.setAuthentication(authentication);
-        mvc.perform(get("/api/v1/books?title=elit").with(securityContext(securityContext))).andDo(print());
-//        TODO:solve problem
+        mvc.perform(get("/api/v1/books?title=elit").with(securityContext(securityContext))).andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"author\":[\"Steffen Catcherside\"],\"translator\":[],\"publishDate\":\"2016-09-18\",\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":1}\n"));
     }
 }

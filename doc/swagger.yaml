@@ -39,7 +39,7 @@ paths:
           required: false
           description: 作者名称，如果由提供多个，则寻找包含所有作者的书籍,多个作者应该使用author=A&author=B&author=C的形式传入
         - in: query
-          name: limit
+          name: count
           type: integer
           minimum: 1
           description: 每页结果数量最大值
@@ -47,11 +47,16 @@ paths:
           default: 20
         - in: query
           type: integer
-          name: startPage
+          name: page
           minimum: 0
           description: 起始页号（从1开始）
           required: false
           default: 1
+        - in: query
+          type: integer
+          name: last_cursor
+          minimum: 1
+          description: 上一页最后一个资源的标识符
       responses:
         '200':
           description: 查找到的所有书籍
@@ -349,20 +354,40 @@ definitions:
     type: object
     description: 图书搜索结果
     properties:
-      count:
+      totalElements:
         type: integer
-        minimum: 1
+        minimum: 0
         description: 查询结果总数
-      limit:
+      size:
         type: integer
         minimum: 1
         default: 20
         description: 每页查询结果限制
-      offset:
+      number:
         type: integer
         default: 0
-        description: 已经返回了多少结果，即本次返回的第一个结果数-1
-      results:
+        description: 此次返回第几页
+      totalPages:
+        type: integer
+        default: 0
+        description: 总页数
+      last:
+        type: boolean
+        default: false
+        description: 是否是最后一页
+      first:
+        type: boolean
+        default: false
+        description: 是否是第一页
+      sort:
+        type: object
+        default: null
+        description: 排序信息
+      numberOfElements:
+        type: integer
+        default: 1
+        description: 本页包含多少资源
+      contents:
         type: array
         items:
           $ref: '#/definitions/Book'

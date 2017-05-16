@@ -2,6 +2,7 @@ package com.athena.model;
 
 import com.athena.model.conveter.WriterConverter;
 import com.athena.service.PinyinConvertService;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -12,11 +13,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "book")
-//TODO: Jackson setting
 public class Book {
     private Long isbn;
     private List<String> author;
-
     private List<String> translator;
     private Date publishDate;
     private String categoryId;
@@ -233,6 +232,7 @@ public class Book {
     }
 
     @ManyToOne
+    @JsonBackReference
     public Publisher getPublisher() {
         return publisher;
     }

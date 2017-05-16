@@ -32,8 +32,7 @@ To install the application, first need to create some config file in resources
 
     key | value
     ----| -----
-    search.default.limit| The default value on how much result to return per page
-    search.default.startPage|The start page of the pagination
+    search.default.count| The default value on how much result to return per page
 
 ### Install required library
 Run following command in command line to install library by maven `mvn`
