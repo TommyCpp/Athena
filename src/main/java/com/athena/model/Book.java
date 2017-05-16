@@ -52,7 +52,6 @@ public class Book {
         this.isbn = isbn;
     }
 
-    @ElementCollection
     @Column(name = "author", nullable = false, length = 128)
     public List<String> getAuthor() {
         return author;
@@ -164,7 +163,6 @@ public class Book {
         this.language = language;
     }
 
-    @ElementCollection
     @Column(name = "translator", nullable = true, length = 128)
     public List<String> getTranslator() {
         return translator;
