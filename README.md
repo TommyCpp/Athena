@@ -2,6 +2,13 @@
 
 Book Management System based on Spring Framework and Restful API
 
+Currently, the Athena Project contains following components:
+
+* A Restful API  `/src/main/java`
+* A WeChat Application `/src/main/javascript`
+
+More components like *the front-end based on Angular or React* and *the Android application* will be included in future
+
 This is project is inspired by the question from [here](http://www.cnsoftbei.com/bencandy.php?fid=148&aid=1532)
 ## Install & Preparation
 ### Add Config file
