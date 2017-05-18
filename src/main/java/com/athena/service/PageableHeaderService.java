@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by tommy on 2017/5/16.
@@ -25,45 +26,41 @@ public class PageableHeaderService {
      */
     public void setHeader(Page page, HttpServletRequest request, HttpServletResponse response) throws MissingServletRequestPartException {
         response.setHeader("X-Total-Count", Long.toString(page.getTotalElements()));
-        String url = "";
+        String url = String.valueOf(request.getRequestURL());
+        String links = "";
         if (request.getQueryString() == null) {
             throw new MissingServletRequestPartException("search term");
         }
         if (request.getQueryString().contains("page") || request.getQueryString().contains("last_cursor")) {
+//            If the page contains both page and last_cursor, we will use the page
+            String query = this.cleanQuery(request.getQueryString());
+            Integer pageNumber = page.getNumber();
+            if (!page.isLast()) {
+                // If not the last page
+                links += "<" + url + "?page=" + (pageNumber + 1) + "&" + query + ">; rel=\"next\",";
+            }
+            if (!page.isFirst()) {
+                // If not the first page
+                links += "<" + url + "?page=" + (pageNumber - 1) + "&" + query + ">; rel=\"previous\",";
+            }
+            links += "<" + url + "?page=" + String.valueOf(page.getTotalPages() - 1) + "&" + query + ">; rel=\"last\",";
+            links += "<" + url + "?page=" + String.valueOf(0) + "&" + query + ">; rel=\"first\"";
 
         }
-
-        response.setHeader("Links", "");
+        response.setHeader("Links", links);
     }
 
-    private Map<String, String> getQueryMap(String queryString) {
-        Map<String, String> result = new HashMap<>();
-        String[] keyValues = queryString.split("&");
+    private String cleanQuery(String rawQuery) {
+        String[] keyValues = rawQuery.split("&");
+        String result = "";
         for (String keyValue : keyValues) {
             int divider = keyValue.indexOf("=");
             String key = keyValue.substring(0, divider);
-            String value = keyValue.substring(divider + 1);
-            if (result.containsKey(key)) {
-                result.put(key, result.get(key) + "," + value);
-            } else {
-                result.put(key, value);
+            if (!Objects.equals(key, "page") && !Objects.equals(key, "last_cursor")) {
+                result += result.equals("") ? keyValue : "&" + keyValue;
             }
         }
         return result;
     }
 
-    private String getQuery(Map<String, String> map) {
-        String result = "";
-        boolean isFirst = true;
-        for (String key :
-                map.keySet()) {
-            if (isFirst) {
-                result += key + "=" + map.get(key);
-                isFirst = false;
-            } else {
-                result += "&" + key + "=" + map.get(key);
-            }
-        }
-        return result;
-    }
 }
