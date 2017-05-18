@@ -26,7 +26,7 @@ To install the application, first need to create some config file in resources
 
 * config.properties
 
-    > Setting the JWT info
+    > Setting the [JWT](http://jwt.io) info
 
     key | value
     ----|------
