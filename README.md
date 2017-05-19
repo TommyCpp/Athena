@@ -59,6 +59,12 @@ The dependencies below are required for test
 * Spring Security Test
   > Note that the spring security does not contain some of useful component such as @WithMockUser
 
+## Start
+To run the application, use
+```java
+mvn spring-boot:run
+```
+
 ## Feature
 ### Overall
 The Athena application is a RESTful application, which shall be used with several endpoint such as Android application, Angular/React based website frontend or Wechat App (WeChat Mini Applications)
@@ -128,4 +134,7 @@ Specifically, We need to config the test as follows:
 
 #### model.WriterConverter
 * Assert the WriterConverter can change the String[] into String concatenated by `,`
+
+#### service.PageableHeaderServiceTest
+* Query books with `http://www.example.com/books?author=test,test&last_cursor=555&page=4`. Assert the response has the right header param.
 
