@@ -39,11 +39,10 @@ public class PageableHeaderServiceTest {
 
     @Test
     public void testSetHeader() {
-        String rawQuery = "author=test,test&last_cursor=555&page=4";
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setServerName("www.example.com");
         request.setRequestURI("/books");
-        request.setQueryString("author=test,test&page=4");
+        request.setQueryString("author=test,test&last_cursor=555&page=4");
         MockHttpServletResponse response = new MockHttpServletResponse();
         Pageable pageable = new PageRequest(0, 20);
         List<Integer> pageResult = new ArrayList<>();
@@ -59,6 +58,26 @@ public class PageableHeaderServiceTest {
 
         Assert.assertEquals(Long.toString(page.getTotalElements()), response.getHeader("X-Total-Count"));
         Assert.assertEquals("<http://www.example.com/books?page=1&author=test,test>; rel=\"next\",<http://www.example.com/books?page=4&author=test,test>; rel=\"last\",<http://www.example.com/books?page=0&author=test,test>; rel=\"first\"", response.getHeader("Links"));
+
+        request = new MockHttpServletRequest();
+        request.setServerName("www.example.com");
+        request.setRequestURI("/books");
+        request.setQueryString("author=test,test&page=3");
+        response = new MockHttpServletResponse();
+        pageable = new PageRequest(3, 20);
+        pageResult = new ArrayList<>();
+        for(int i=0;i<100;i++){
+            pageResult.add(i);
+        }
+        page = new PageImpl(pageResult, pageable, 100);
+        try {
+            service.setHeader(page, request, response);
+        } catch (MissingServletRequestPartException e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertEquals(Long.toString(page.getTotalElements()), response.getHeader("X-Total-Count"));
+        Assert.assertEquals("<http://www.example.com/books?page=4&author=test,test>; rel=\"next\",<http://www.example.com/books?page=2&author=test,test>; rel=\"previous\",<http://www.example.com/books?page=4&author=test,test>; rel=\"last\",<http://www.example.com/books?page=0&author=test,test>; rel=\"first\"", response.getHeader("Links"));
 
     }
 
