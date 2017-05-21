@@ -13,23 +13,19 @@ import org.springframework.test.context.junit4.SpringRunner
 @SpringBootTest
 @RunWith(SpringRunner::class)
 open class PinyinConvertServiceTest {
-    @Autowired
-    lateinit var service: PinyinConvertService
+    @Autowired lateinit var service: PinyinConvertService
 
-    @Test
-    fun testGetPinyin() {
+    @Test fun testGetPinyin() {
         val s = "侧和"
         Assert.assertEquals("ce,he", service.getPinYin(s))
     }
 
-    @Test
-    fun testGetShortPinyin() {
+    @Test fun testGetShortPinyin() {
         val s = "第三轮"
         Assert.assertEquals("dsl", service.getShortPinYin(s))
     }
 
-    @Test
-    fun testExceptionHandler() {
+    @Test fun testExceptionHandler() {
         val s = ""
         Assert.assertEquals("", service.getShortPinYin(s))
         Assert.assertEquals("", service.getPinYin(s))

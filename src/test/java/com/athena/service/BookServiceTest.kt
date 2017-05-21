@@ -29,19 +29,15 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml")
 open class BookServiceTest {
-    @Autowired
-    private val service: BookService? = null
+    @Autowired private val service: BookService? = null
 
-    @Autowired
-    private val repository: BookRepository? = null
+    @Autowired private val repository: BookRepository? = null
 
-    @Before
-    fun setup() {
+    @Before fun setup() {
 
     }
 
-    @Test
-    fun testSearchByName() {
+    @Test fun testSearchByName() {
         val keywords = arrayOf("埃里克森", "程序设计")
         val pageable = PageRequest(0, 20)
         val result = service!!.searchBookByName(pageable, keywords)

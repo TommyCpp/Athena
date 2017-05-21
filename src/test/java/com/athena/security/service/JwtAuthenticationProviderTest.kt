@@ -26,16 +26,12 @@ open class JwtAuthenticationProviderTest {
 
     private var jwtAuthenticationProvider: JwtAuthenticationProvider? = null
 
-    @Autowired
-    private val userRepository: UserRepository? = null
-    @Autowired
-    private val service: AccountService? = null
-    @Autowired
-    private val passwordEncoder: PasswordEncoder? = null
+    @Autowired private val userRepository: UserRepository? = null
+    @Autowired private val service: AccountService? = null
+    @Autowired private val passwordEncoder: PasswordEncoder? = null
     private var tester: User? = null
 
-    @Before
-    fun setup() {
+    @Before fun setup() {
         this.tester = User()
         tester!!.wechatId = "test"
         tester!!.username = "test"
@@ -47,8 +43,7 @@ open class JwtAuthenticationProviderTest {
         jwtAuthenticationProvider = JwtAuthenticationProvider(service, passwordEncoder)
     }
 
-    @Test
-    fun testAuthenticate() {
+    @Test fun testAuthenticate() {
         val user = User()
         user.id = tester!!.id
         user.password = "123456"

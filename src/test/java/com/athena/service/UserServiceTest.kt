@@ -24,11 +24,9 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:users.xml")
 open class UserServiceTest {
-    @Autowired
-    lateinit var service: UserService
+    @Autowired lateinit var service: UserService
 
-    @Test
-    fun testGetUser() {
+    @Test fun testGetUser() {
         val user = User()
         user.username = "test"
         user.id = 11L

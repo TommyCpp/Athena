@@ -24,14 +24,13 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml")
 open class PublisherTest {
-    @Autowired
-    private val publisherRepository: PublisherRepository? = null
+    @Autowired private val publisherRepository: PublisherRepository? = null
 
-    @Autowired
-    private val bookRepository: BookRepository? = null
 
-    @Test
-    fun testGetBooks() {
+    @Autowired private val bookRepository: BookRepository? = null
+
+
+    @Test fun testGetBooks() {
         val publisher = publisherRepository!!.findOne("999")
         val books = bookRepository!!.getBooksByPublisher(publisher).toTypedArray()
         Assert.assertArrayEquals(books, publisher.books.toTypedArray())

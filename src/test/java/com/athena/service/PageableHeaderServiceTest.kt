@@ -21,16 +21,13 @@ import java.util.*
 @RunWith(SpringRunner::class)
 @SpringBootTest
 open class PageableHeaderServiceTest {
-    @Autowired
-    private val service: PageableHeaderService? = null
+    @Autowired private val service: PageableHeaderService? = null
 
-    @Before
-    fun setup() {
+    @Before fun setup() {
 
     }
 
-    @Test
-    fun testSetHeader() {
+    @Test fun testSetHeader() {
         var request = MockHttpServletRequest()
         request.serverName = "www.example.com"
         request.requestURI = "/books"

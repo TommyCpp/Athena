@@ -23,16 +23,13 @@ import org.mockito.BDDMockito.given
 @Transactional
 open class AccountServiceTest {
 
-    @MockBean
-    private val accountService: AccountService? = null
+    @MockBean private val accountService: AccountService? = null
 
     private var user: User? = null
 
-    @Autowired
-    private val userRepository: UserRepository? = null
+    @Autowired private val userRepository: UserRepository? = null
 
-    @Before
-    fun setup() {
+    @Before fun setup() {
         val user = User()
         user.username = "TestUser"
         user.email = "test@test.com"
@@ -43,8 +40,7 @@ open class AccountServiceTest {
         userRepository!!.save(user)
     }
 
-    @Test
-    fun testLoadUser() {
+    @Test fun testLoadUser() {
         given(this.accountService!!.loadAccountById(this.user!!.id)).willReturn(Account(this.user))
     }
 }
