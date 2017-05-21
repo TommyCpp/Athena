@@ -26,10 +26,6 @@ open class BookTest {
     @Autowired
     private var repository: BookRepository? = null
 
-    @Before
-    fun setup() {
-    }
-
     @Test
     fun testGetPublisher() {
         val book = repository!!.findOne(9787111124444L)
