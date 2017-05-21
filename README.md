@@ -138,3 +138,5 @@ Specifically, We need to config the test as follows:
 #### service.PageableHeaderServiceTest
 * Query books with `http://www.example.com/books?author=test,test&last_cursor=555&page=4`. Assert the response has the right header param.
 
+#### service.BookServiceTest
+* Test the search by title `"埃里克森", "程序设计"`, assert that the corresponding book is in the result.
