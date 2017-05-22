@@ -47,6 +47,16 @@ public class BookService {
         return this.ListToPage(pageable, result);
     }
 
+
+    /**
+     * @param pageable the pageable
+     * @param name search terms
+     * @return page instance contains all book fit the search term
+     */
+    public Page<Book> searchBookByFullName(Pageable pageable, String name) {
+        return this.ListToPage(pageable, this.repository.getBooksByTitle(name));
+    }
+
     private Page<Book> ListToPage(Pageable pageable, List<Book> list) {
         int start = pageable.getOffset();//Get the start index
         int pageSize = pageable.getPageSize();

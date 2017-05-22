@@ -1,33 +1,31 @@
 package com.athena.controller;
 
-import com.athena.model.User;
-import com.athena.security.model.Account;
-import com.athena.security.model.JwtAuthenticationToken;
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import com.athena.model.User
+import com.athena.security.model.Account
+import com.athena.security.model.JwtAuthenticationToken
+import com.github.springtestdbunit.DbUnitTestExecutionListener
+import com.github.springtestdbunit.annotation.DatabaseSetup
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.securityContext
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
+import org.springframework.test.context.TestExecutionListeners
+import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener
+import org.springframework.test.context.web.WebAppConfiguration
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.web.context.WebApplicationContext
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -59,10 +57,16 @@ open class BookControllerTest {
         user.phoneNumber = "11111111111"
         val principal = Account(user)
 
-        val authentication = JwtAuthenticationToken(principal, true)
+        var authentication = JwtAuthenticationToken(principal, true)
 
         securityContext.authentication = authentication
         mvc!!.perform(get("/api/v1/books?title=elit").with(securityContext(securityContext))).andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"author\":[\"Steffen Catcherside\"],\"translator\":[],\"publishDate\":\"2016-09-18\",\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":1}\n"))
+
+        authentication = JwtAuthenticationToken(principal, true)
+        securityContext.authentication = authentication
+        mvc!!.perform(get("/api/v1/books?title=consequat in consequat").with(securityContext(securityContext))).andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"author\":[\"Lian Hubback\"],\"translator\":[],\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25}],\"totalPages\":1,\"totalElements\":1,\"last\":true,\"number\":0,\"size\":20,\"sort\":null,\"numberOfElements\":1,\"first\":true}")).andExpect(header().string("X-Total-Count", "1")).andExpect(header().string("Links","<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"last\",<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"first\""))
+
+
     }
 }
 

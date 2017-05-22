@@ -6,6 +6,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -31,9 +32,9 @@ public class PageableHeaderService {
         if (request.getQueryString() == null) {
             throw new MissingServletRequestPartException("search term");
         }
-        if (request.getQueryString().contains("page") || request.getQueryString().contains("last_cursor")) {
-//            If the page contains both page and last_cursor, we will use the page
-            String query = this.cleanQuery(request.getQueryString());
+        String query = null;
+        try {
+            query = java.net.URLDecoder.decode(this.cleanQuery(request.getQueryString()), "utf-8");
             Integer pageNumber = page.getNumber();
             if (!page.isLast()) {
                 // If not the last page
@@ -45,9 +46,11 @@ public class PageableHeaderService {
             }
             links += "<" + url + "?page=" + String.valueOf(page.getTotalPages() - 1) + "&" + query + ">; rel=\"last\",";
             links += "<" + url + "?page=" + String.valueOf(0) + "&" + query + ">; rel=\"first\"";
-
+            response.setHeader("Links", links);
+        } catch (UnsupportedEncodingException e) {
+            throw new MissingServletRequestPartException("search term");
         }
-        response.setHeader("Links", links);
+
     }
 
     private String cleanQuery(String rawQuery) {

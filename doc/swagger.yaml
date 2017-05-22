@@ -29,7 +29,7 @@ paths:
             type: string
             uniqueItems: true
           required: false
-          description: 书名,如果由提供多个，则寻找包含任一题目的书籍,多个作者应该使用title=A&title=B&title=C的形式传入
+          description: 书名,如果由提供多个，则寻找包含任一题目的书籍,多个作者应该使用title=A,B,C的形式传入
         - in: query
           name: author
           type: array
@@ -37,7 +37,7 @@ paths:
             type: string
             uniqueItems: true
           required: false
-          description: 作者名称，如果由提供多个，则寻找包含所有作者的书籍,多个作者应该使用author=A&author=B&author=C的形式传入
+          description: 作者名称，如果由提供多个，则寻找包含所有作者的书籍,多个作者应该使用author=A,B,C的形式传入
         - in: query
           name: count
           type: integer
@@ -55,8 +55,14 @@ paths:
         - in: query
           type: integer
           name: last_cursor
+          required: false
           minimum: 1
           description: 上一页最后一个资源的标识符
+        - in: query
+          type: boolean
+          name: match_all
+          required: false
+          description: 是否需要完全匹配搜索条件
       responses:
         '200':
           description: 查找到的所有书籍
