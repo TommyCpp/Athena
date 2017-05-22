@@ -219,10 +219,19 @@ paths:
       produces:
         - application/json
       parameters:
+        - in: query
+          name: type
+          type: string
+          enum:
+            - "code"
+            - "phonenumber"
+          description: 指明登陆方式，默认使用微信code
         - in: body
-          name: user_info
+          name: login_info
           schema:
             $ref: '#/definitions/LoginInfo'
+          required: false
+          description: 登陆信息
       responses:
         '204':
           description: 登陆成功
@@ -288,6 +297,20 @@ definitions:
       code:
         type: string
         description: 微信客户端发送的鉴权用code
+      username:
+        type: string
+        description: 用户名
+      password:
+        type: string
+        format: password
+        description: 密码
+      phone_number:
+        type: string
+        description: 手机号码
+    example:
+      code: "12345"
+
+
   Book:
     type: object
     description: 图书对象
