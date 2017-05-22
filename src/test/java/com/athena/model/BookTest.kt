@@ -29,10 +29,10 @@ open class BookTest {
     @Test
     fun testGetPublisher() {
         val book = repository!!.findOne(9787111124444L)
-        Assert.assertEquals(book.getPublisher().getName(), "测试出版社")
+        Assert.assertEquals(book.publisher.name, "测试出版社")
         val authors = ArrayList<String>()
         authors.add("谭浩强")
-        Assert.assertArrayEquals(authors.toTypedArray(), book.getAuthor().toTypedArray())
+        Assert.assertArrayEquals(authors.toTypedArray(), book.author.toTypedArray())
     }
 
     @Test
