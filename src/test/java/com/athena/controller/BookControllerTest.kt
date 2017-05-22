@@ -42,11 +42,8 @@ open class BookControllerTest {
 
     }
 
-    @Test
-    fun testBookSearch() {
-        val securityContext = SecurityContextHolder.createEmptyContext()
+    private fun createAuthentication(): JwtAuthenticationToken {
         val encoder = BCryptPasswordEncoder()
-
         val user = User()
         user.identity = "READER"
         user.username = "reader"
@@ -57,16 +54,34 @@ open class BookControllerTest {
         user.phoneNumber = "11111111111"
         val principal = Account(user)
 
-        var authentication = JwtAuthenticationToken(principal, true)
+        return JwtAuthenticationToken(principal, true)
+    }
 
-        securityContext.authentication = authentication
-        mvc!!.perform(get("/api/v1/books?title=elit").with(securityContext(securityContext))).andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"author\":[\"Steffen Catcherside\"],\"translator\":[],\"publishDate\":\"2016-09-18\",\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":1}\n"))
+    @Test
+    fun testBookSearchByPartialTitle() {
 
-        authentication = JwtAuthenticationToken(principal, true)
-        securityContext.authentication = authentication
-        mvc!!.perform(get("/api/v1/books?title=consequat in consequat").with(securityContext(securityContext))).andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"author\":[\"Lian Hubback\"],\"translator\":[],\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25}],\"totalPages\":1,\"totalElements\":1,\"last\":true,\"number\":0,\"size\":20,\"sort\":null,\"numberOfElements\":1,\"first\":true}")).andExpect(header().string("X-Total-Count", "1")).andExpect(header().string("Links","<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"last\",<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"first\""))
+        val securityContext = SecurityContextHolder.createEmptyContext()
 
 
+
+        securityContext.authentication = this.createAuthentication()
+        mvc!!.perform(get("/api/v1/books?title=elit").with(securityContext(securityContext)))
+                .andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"author\":[\"Steffen Catcherside\"],\"translator\":[],\"publishDate\":\"2016-09-18\",\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":1}\n"))
+
+    }
+
+    @Test
+    fun testBookSearchByFullTitle() {
+        val securityContext = SecurityContextHolder.createEmptyContext()
+
+        securityContext.authentication = this.createAuthentication()
+        mvc!!.perform(get("/api/v1/books?title=consequat in consequat").with(securityContext(securityContext)))
+                .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"author\":[\"Lian Hubback\"],\"translator\":[],\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25}],\"totalPages\":1,\"totalElements\":1,\"last\":true,\"number\":0,\"size\":20,\"sort\":null,\"numberOfElements\":1,\"first\":true}"))
+                .andExpect(header().string("X-Total-Count", "1")).andExpect(header().string("Links", "<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"last\",<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"first\""))
+
+        securityContext.authentication = this.createAuthentication()
+        mvc!!.perform(get("/api/v1/books?title=consequat&match_all=true").with(securityContext(securityContext)))
+                .andExpect(header().string("X-Total-Count", "0"))
     }
 }
 

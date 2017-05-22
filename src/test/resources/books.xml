@@ -1,8 +1,8 @@
 <dataset>
     <book isbn="9787111124444" title="C程序设计" language="Chinese" author="谭浩强" publisher_id="999"
-          publish_date="2017-01-04" version="1" price="65.25" category_id="TP312C"/>
+          publish_date="2017-01-04" version="1" price="65.25" category_id="TP312C" title_pinyin="C,chen,xv,she,ji" title_short_pinyin="ccxsj"/>
     <book isbn="9787111125643" title="C++程序设计指南" language="Chinese" author="测试作者" publisher_id="999"
-          publish_date="2017-01-06" version="1" price="55.25" category_id="TP312C"/>
+          publish_date="2017-01-06" version="1" price="55.25" category_id="TP312C" title_pinyin="C++,chen,xv,she,ji,zhi,nan" title_short_pinyin="ccxsjzn"/>
     <book isbn="9784099507505"
           title="adipiscing elit"
           language="English" author="Steffen Catcherside" publisher_id="922" publish_date="2016-09-18" version="4"
@@ -25,5 +25,5 @@
     <book isbn="9783158101891"
           title="埃里克森定界符"
           language="Chinese" author="阿里斯顿" publisher_id="127" publish_date="2016-11-10" version="2"
-          price="12.44" category_id="TC331C"/>
+          price="12.44" category_id="TC331C" title_pinyin="ai,li,ke,sen,ding,jie,fu" title_short_pinyin="alksdjf"/>
 </dataset>

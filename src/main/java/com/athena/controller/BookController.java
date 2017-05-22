@@ -37,6 +37,7 @@ public class BookController {
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "last_cursor", required = false) Integer lastCursor,
             @RequestParam(value = "match_all", required = false, defaultValue = "false") Boolean matchAll,
+            @RequestParam(value = "language", required = false) String language,
             HttpServletResponse response,
             HttpServletRequest request
     ) throws MissingServletRequestPartException {
@@ -50,19 +51,26 @@ public class BookController {
         Pageable pageable = new PageRequest(startPage - 1, count); // startPage starts from 1, while the Pageable actually accept the page index start from 0, so need to -1
 
 
-        if (titles != null && !matchAll) {
-            //Search by titles, partial match
-            Page<Book> result = bookService.searchBookByName(pageable, titles);
-            pageableHeaderService.setHeader(result, request, response);
-            return result;
+        if (language == null) {
+            //If not specify the language
+            if (titles != null && !matchAll) {
+                //Search by titles, partial match
+                Page<Book> result = bookService.searchBookByName(pageable, titles);
+                if (result.getTotalElements() == 0) {
+                    //If the search gets no results
+                    //Consider the input as pinyin and try again
+                    result = bookService.searchBookByPinyin(pageable, titles);
+                }
+                pageableHeaderService.setHeader(result, request, response);
+                return result;
+            }
+            if (titles != null && titles.length == 1 && matchAll) {
+                //Search by title, all match
+                Page<Book> result = bookService.searchBookByFullName(pageable, titles[0]);
+                pageableHeaderService.setHeader(result, request, response);
+                return result;
+            }
         }
-        if (titles != null && titles.length == 1 && matchAll) {
-            //Search by title, all match
-            Page<Book> result = bookService.searchBookByFullName(pageable, titles[0]);
-            pageableHeaderService.setHeader(result, request, response);
-            return result;
-        }
-
 
         throw new MissingServletRequestPartException("search term");
     }

@@ -50,11 +50,25 @@ public class BookService {
 
     /**
      * @param pageable the pageable
-     * @param name search terms
+     * @param name     search terms
      * @return page instance contains all book fit the search term
      */
     public Page<Book> searchBookByFullName(Pageable pageable, String name) {
         return this.ListToPage(pageable, this.repository.getBooksByTitle(name));
+    }
+
+    /**
+     * @param pageable the pageable
+     * @param pinyins pinyin array
+     * @return page instance contains all books fit the search terms
+     */
+    public Page<Book> searchBookByPinyin(Pageable pageable, String[] pinyins) {
+        List<Book> result = new ArrayList<>();
+        for (String pinyin : pinyins) {
+            result.addAll(this.repository.getBooksByTitlePinyin(pinyin));
+        }
+        return this.ListToPage(pageable, result);
+
     }
 
     private Page<Book> ListToPage(Pageable pageable, List<Book> list) {

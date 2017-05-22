@@ -43,5 +43,11 @@ open class BookTest {
         Assert.assertEquals("ce,shi,shu,jiu", repository!!.findOne(9787111124444L).titlePinyin)
     }
 
+    @Test
+    fun testGetPinyin() {
+        val books= repository!!.getBooksByTitlePinyin("cchenxvsheji")
+        Assert.assertEquals(9787111124444L, books[0].isbn)
+    }
+
 
 }
