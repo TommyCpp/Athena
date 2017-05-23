@@ -1,11 +1,14 @@
 package com.athena.model;
 
-import com.athena.model.conveter.WriterConverter;
 import com.athena.service.PinyinConvertService;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,8 +18,8 @@ import java.util.List;
 @Table(name = "book")
 public class Book {
     private Long isbn;
-    private List<String> author;
-    private List<String> translator;
+    private String _author;
+    private String _translator;
     private Date publishDate;
     private String categoryId;
     private Integer version;
@@ -50,17 +53,27 @@ public class Book {
         this.isbn = isbn;
     }
 
-
-    @SuppressWarnings("JpaAttributeTypeInspection")
     @Basic
     @Column(name = "author", nullable = false, length = 128)
-    @Convert(converter = WriterConverter.class)
-    public List<String> getAuthor() {
-        return author;
+    @JsonIgnore
+    public String get_author() {
+        return this._author;
     }
 
+    public void set_author(String _author) {
+        this._author = _author;
+    }
+
+    @Transient
+    public List<String> getAuthor() {
+        return Arrays.asList(StringUtils.split(this._author));
+    }
+
+    @Transient
     public void setAuthor(List<String> author) {
-        this.author = author;
+        String[] authors = (String[]) author.toArray();
+        Arrays.sort(authors);
+        this._author = StringUtils.join(authors);
     }
 
     @Basic
@@ -165,16 +178,27 @@ public class Book {
         this.language = language;
     }
 
-    @SuppressWarnings("JpaAttributeTypeInspection")
     @Basic
-    @Convert(converter = WriterConverter.class)
-    @Column(name = "translator", nullable = true, length = 128)
-    public List<String> getTranslator() {
-        return translator;
+    @Column(name = "translator", length = 128)
+    @JsonIgnore
+    public String get_translator() {
+        return this._translator;
     }
 
+    public void set_translator(String _translator) {
+        this._translator = _translator;
+    }
+
+    @Transient
+    public List<String> getTranslator() {
+        return this._translator == null ? new ArrayList<>() : Arrays.asList(StringUtils.split(this._translator));
+    }
+
+    @Transient
     public void setTranslator(List<String> translator) {
-        this.translator = translator;
+        String[] translators = (String[]) translator.toArray();
+        Arrays.sort(translators);
+        this._translator = StringUtils.join(translators);
     }
 
     @Basic
@@ -195,7 +219,7 @@ public class Book {
         Book book = (Book) o;
 
         if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
-        if (author != null ? !author.equals(book.author) : book.author != null) return false;
+        if (_author != null ? !_author.equals(book._author) : book._author != null) return false;
         if (publishDate != null ? !publishDate.equals(book.publishDate) : book.publishDate != null) return false;
         if (categoryId != null ? !categoryId.equals(book.categoryId) : book.categoryId != null) return false;
         if (version != null ? !version.equals(book.version) : book.version != null) return false;
@@ -206,7 +230,7 @@ public class Book {
         if (title != null ? !title.equals(book.title) : book.title != null) return false;
         if (subtitle != null ? !subtitle.equals(book.subtitle) : book.subtitle != null) return false;
         if (language != null ? !language.equals(book.language) : book.language != null) return false;
-        if (translator != null ? !translator.equals(book.translator) : book.translator != null) return false;
+        if (_translator != null ? !_translator.equals(book._translator) : book._translator != null) return false;
         if (price != null ? !price.equals(book.price) : book.price != null) return false;
 
         return true;
@@ -215,7 +239,7 @@ public class Book {
     @Override
     public int hashCode() {
         int result = isbn != null ? isbn.hashCode() : 0;
-        result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (_author != null ? _author.hashCode() : 0);
         result = 31 * result + (publishDate != null ? publishDate.hashCode() : 0);
         result = 31 * result + (categoryId != null ? categoryId.hashCode() : 0);
         result = 31 * result + (version != null ? version.hashCode() : 0);
@@ -226,7 +250,7 @@ public class Book {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
         result = 31 * result + (language != null ? language.hashCode() : 0);
-        result = 31 * result + (translator != null ? translator.hashCode() : 0);
+        result = 31 * result + (_translator != null ? _translator.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         return result;
     }

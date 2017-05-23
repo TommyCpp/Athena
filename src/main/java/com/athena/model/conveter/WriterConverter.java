@@ -12,6 +12,7 @@ import java.util.List;
  * Created by tommy on 2017/3/28.
  */
 @Converter
+@Deprecated
 public class WriterConverter implements AttributeConverter<List<String>, String> {
     @Override
     public String convertToDatabaseColumn(List<String> strings) {

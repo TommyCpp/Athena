@@ -53,7 +53,7 @@ open class BookTest {
         var author = ArrayList<String>()
         author.add("Nickola Dolling")
 
-        var books = repository!!.getBooksByAuthorContains("Nickola Dolling")
+        var books = repository!!.getBookBy_authorContains("Nickola Dolling")
         Assert.assertEquals(9783158101890L, books[0].isbn)
 
 //        books = repository!!.getBooksByAuthorHas("3")
