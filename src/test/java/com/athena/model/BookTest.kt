@@ -4,7 +4,6 @@ import com.athena.repository.BookRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,7 +12,7 @@ import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
-import java.util.ArrayList
+import java.util.*
 import javax.transaction.Transactional
 
 
@@ -44,9 +43,22 @@ open class BookTest {
     }
 
     @Test
-    fun testGetPinyin() {
-        val books= repository!!.getBooksByTitlePinyin("cchenxvsheji")
+    fun testGetByPinyin() {
+        val books = repository!!.getBooksByTitlePinyin("cchenxvsheji")
         Assert.assertEquals(9787111124444L, books[0].isbn)
+    }
+
+    @Test
+    fun testGetByAuthor() {
+        var author = ArrayList<String>()
+        author.add("Nickola Dolling")
+
+        var books = repository!!.getBooksByAuthorContains("Nickola Dolling")
+        Assert.assertEquals(9783158101890L, books[0].isbn)
+
+//        books = repository!!.getBooksByAuthorHas("3")
+//        Assert.assertEquals(0, books.count())
+
     }
 
 
