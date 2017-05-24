@@ -1,5 +1,0 @@
-### Bug
-
-### Solution
-
-### Reference
