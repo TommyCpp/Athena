@@ -58,6 +58,10 @@ The dependencies below are required for test
 * DBUnit
 * Spring Security Test
   > Note that the spring security does not contain some of useful component such as @WithMockUser
+* Kotlin Stdlib Jre8
+* Kotlin Test
+  > Athena will use *Kotlin* for test
+
 
 ## Start
 To run the application, use
@@ -74,6 +78,17 @@ Currently, Athena has two kind of users, ADMIN and USER.
 
 We define the ADMIN as the admin of library, which has the privilege to lend the books to users.
 And the USER shall pay the pledge before they can borrow the book.
+
+The authentication will drive by JWT (JSON Web Token), which is a powerful tool for stateless authentication. Configuration about JWT can found above. The basic authentication process can be described as following:
+
+
+1. Send authentication information to certain URL
+1. Spring Security will take care the process to authentication.
+1. After the user info has been verified, an JWT will be generated and send back to client.
+1. When client request some confidential data, JWT should be included in *request head* in order to state the user principle.
+
+
+Notice that since the only authentication token is JWT, It is crucial for the client to protect JWT from leaking.
 
 ### Search
 Athena support the following search strategy
@@ -140,3 +155,10 @@ Specifically, We need to config the test as follows:
 
 #### service.BookServiceTest
 * Test the search by title `"埃里克森", "程序设计"`, assert that the corresponding book is in the result.
+
+#### service.PinyinConverterTest
+* Test the convert from word to pinyin
+* Test the convert from word to short version pinyin (composed by the first letter of every char)
+
+#### service.UserServiceTest
+* Test get user with id 11
