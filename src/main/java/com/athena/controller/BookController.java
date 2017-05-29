@@ -53,22 +53,28 @@ public class BookController {
 
         if (language == null) {
             //If not specify the language
-            if (titles != null && !matchAll) {
-                //Search by titles, partial match
-                Page<Book> result = bookService.searchBookByName(pageable, titles);
-                if (result.getTotalElements() == 0) {
-                    //If the search gets no results
-                    //Consider the input as pinyin and try again
-                    result = bookService.searchBookByPinyin(pageable, titles);
+            if (titles != null) {
+                if (!matchAll) {
+                    //Search by titles, partial match
+                    Page<Book> result = bookService.searchBookByName(pageable, titles);
+                    if (result.getTotalElements() == 0) {
+                        //If the search gets no results
+                        //Consider the input as pinyin and try again
+                        result = bookService.searchBookByPinyin(pageable, titles);
+                    }
+                    pageableHeaderService.setHeader(result, request, response);
+                    return result;
                 }
-                pageableHeaderService.setHeader(result, request, response);
-                return result;
+                if (titles.length == 1 && matchAll) {
+                    //Search by title, all match
+                    Page<Book> result = bookService.searchBookByFullName(pageable, titles[0]);
+                    pageableHeaderService.setHeader(result, request, response);
+                    return result;
+                }
             }
-            if (titles != null && titles.length == 1 && matchAll) {
-                //Search by title, all match
-                Page<Book> result = bookService.searchBookByFullName(pageable, titles[0]);
-                pageableHeaderService.setHeader(result, request, response);
-                return result;
+
+            if(authors != null){
+                //search by author
             }
         }
 

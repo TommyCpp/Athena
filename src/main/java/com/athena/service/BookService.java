@@ -54,12 +54,12 @@ public class BookService {
      * @return page instance contains all book fit the search term
      */
     public Page<Book> searchBookByFullName(Pageable pageable, String name) {
-        return this.ListToPage(pageable, this.repository.getBooksByTitle(name));
+        return this.repository.getBooksByTitle(pageable, name);
     }
 
     /**
      * @param pageable the pageable
-     * @param pinyins pinyin array
+     * @param pinyins  pinyin array
      * @return page instance contains all books fit the search terms
      */
     public Page<Book> searchBookByPinyin(Pageable pageable, String[] pinyins) {

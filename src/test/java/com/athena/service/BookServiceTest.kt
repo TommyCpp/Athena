@@ -1,6 +1,5 @@
 package com.athena.service
 
-import com.athena.model.Book
 import com.athena.repository.BookRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -10,14 +9,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
-
 import javax.transaction.Transactional
 
 /**
@@ -46,6 +42,15 @@ open class BookServiceTest {
         for (except in excepts) {
             Assert.assertTrue(result.content.contains(except))
         }
+    }
+
+    @Test fun testSearchByFullName() {
+        val keyword = "C程序设计"
+        val pageable = PageRequest(0, 20)
+        val result = service!!.searchBookByFullName(pageable, keyword)
+        val excepts = repository!!.findOne(9787111124444L)
+        Assert.assertEquals(1, result.totalElements)
+        Assert.assertEquals(excepts, result.content[0])
     }
 
 }
