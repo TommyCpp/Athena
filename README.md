@@ -11,7 +11,7 @@ More components like *the front-end based on Angular or React* and *the Android 
 
 This is project is inspired by the question from [here](http://www.cnsoftbei.com/bencandy.php?fid=148&aid=1532)
 ## Install & Preparation
-### Add Config file
+### Add config file
 To install the application, first need to create some config file in resources
 * application.properties
 
