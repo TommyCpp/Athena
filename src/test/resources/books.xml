@@ -26,4 +26,6 @@
           title="埃里克森定界符"
           language="Chinese" author="阿里斯顿" publisher_id="127" publish_date="2016-11-10" version="2"
           price="12.44" category_id="TC331C" title_pinyin="ai,li,ke,sen,ding,jie,fu" title_short_pinyin="alksdjf"/>
+    <book isbn="9783158101895" title="测试书记" author="书记" publisher_id="127" publish_date="2016-11-13" version="1"
+          category_id="TC331C" price="56.22" title_pinyin="ce,shi,shu,ji" title_short_pinyin="cssj" language="Chinese"/>
 </dataset>
