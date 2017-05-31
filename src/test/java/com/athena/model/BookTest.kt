@@ -8,6 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
@@ -52,8 +53,10 @@ open class BookTest {
     fun testGetByAuthor() {
         var author = ArrayList<String>()
         author.add("Nickola Dolling")
+        val pageable = PageRequest(0, 20)
 
-        var books = repository!!.getBookBy_authorContains("Nickola Dolling")
+
+        var books = repository!!.getBookBy_authorContains(pageable, "Nickola Dolling").content
         Assert.assertEquals(9783158101890L, books[0].isbn)
 
 //        books = repository!!.getBooksByAuthorHas("3")

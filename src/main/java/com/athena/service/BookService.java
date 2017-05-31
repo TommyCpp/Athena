@@ -71,6 +71,10 @@ public class BookService {
 
     }
 
+    public Page<Book> searchBookByAuthor(Pageable pageable, String author) {
+        return repository.getBookBy_authorContains(pageable,author);
+    }
+
     private Page<Book> ListToPage(Pageable pageable, List<Book> list) {
         int start = pageable.getOffset();//Get the start index
         int pageSize = pageable.getPageSize();

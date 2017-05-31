@@ -21,8 +21,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
@@ -82,6 +81,15 @@ open class BookControllerTest {
         securityContext.authentication = this.createAuthentication()
         mvc!!.perform(get("/api/v1/books?title=consequat&match_all=true").with(securityContext(securityContext)))
                 .andExpect(header().string("X-Total-Count", "0"))
+    }
+
+
+    @Test
+    fun testBookSearchByAuthor() {
+        val securityContext = SecurityContextHolder.createEmptyContext()
+
+        securityContext.authentication = this.createAuthentication()
+        mvc!!.perform(get("/api/v1/books?author=Lian Hubback").with(securityContext(securityContext))).andExpect(status().isOk).andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"author\":[\"Lian\",\"Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"number\":0,\"size\":20,\"sort\":null,\"numberOfElements\":1,\"first\":true}"))
     }
 }
 
