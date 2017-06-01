@@ -5,11 +5,11 @@ import com.athena.model.User;
 import com.athena.repository.UserRepository;
 import com.athena.security.model.Account;
 import com.athena.security.model.JwtAuthenticationToken;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +43,7 @@ public class TokenAuthenticationService {
      * @param response the response
      * @param account  the account
      */
-    public void addAuthentication(HttpServletResponse response,Account account) {
+    public void addAuthentication(HttpServletResponse response, Account account) {
         Long id = account.getId();
         String token = Jwts.builder().
                 setSubject(id.toString()).
@@ -60,13 +60,17 @@ public class TokenAuthenticationService {
      * @param servletRequest the servlet request
      * @return the authentication
      */
-    public Authentication getAuthentication(HttpServletRequest servletRequest) {
+    public Authentication getAuthentication(HttpServletRequest servletRequest) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException {
         String token = servletRequest.getHeader(HEADER);
         if (token != null) {
-            Long id = Long.valueOf(Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody().getSubject());
+            Long id = null;
+            try {
+                id = Long.valueOf(Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody().getSubject());
+            } catch (IllegalArgumentException e) {
+            }
             User user = userRepository.findOne(id);
             Account account = new Account(user);
-            return new JwtAuthenticationToken(account,true);
+            return new JwtAuthenticationToken(account, true);
         }
         return null;
 
