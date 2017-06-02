@@ -1,6 +1,11 @@
 package com.athena.security.filter;
 
+import com.athena.security.exception.JwtAuthException;
 import com.athena.security.service.TokenAuthenticationService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -32,10 +38,18 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            Authentication authentication = tokenAuthenticationService.getAuthentication((HttpServletRequest) servletRequest);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(servletRequest, servletResponse);
-            SecurityContextHolder.getContext().setAuthentication(null);//Clear after request
+            Authentication authentication = null;
+            try {
+                authentication = tokenAuthenticationService.getAuthentication((HttpServletRequest) servletRequest);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                filterChain.doFilter(servletRequest, servletResponse);
+                SecurityContextHolder.getContext().setAuthentication(null);//Clear after request
+            } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
+                JwtAuthException exception = new JwtAuthException(e);
+                SecurityContextHolder.getContext().setAuthentication(null);
+                HttpServletResponse response = (HttpServletResponse) servletResponse;
+                response.sendError(exception.getStatusCode(), exception.toString());
+            }
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
             SecurityContextHolder.getContext().setAuthentication(null);
