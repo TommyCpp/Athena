@@ -11,7 +11,7 @@ public class JwtAuthException extends BaseException {
         this.statusCode = 401;
         this.code = 4010;
         this.message = "JWT authentication error";
-        switch (e.getClass().getName()) {
+        switch (e.getClass().getSimpleName()) {
             case "ExpiredJwtException":{
                 this.code = 4011;
                 this.message = "JWT token is expired";
