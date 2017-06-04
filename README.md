@@ -102,8 +102,16 @@ Athena support the following search strategy
     * march one author in author list
     * march all the author
 
+## Exception Check List
+Among the Athena, we may encounter different kind of exceptions. The Http standard status code(like 401,400) may not enough. Thus, we introduce some custom status code which will be include in the response body when exception.
 
-<!--  TODO: Exception Check List -->
+code | meaning
+-----|--------
+4010 | Unauthorized
+4011 | JWT token is expired
+4012 | JWT token uses an unsupported algorithm
+4013 | Malformed JWT token
+4014 | JWT token's signature is not supported
 
 ## Test
 This section will introduce the basic test component in Athena

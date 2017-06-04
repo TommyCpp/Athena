@@ -21,6 +21,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.RequestPostProcessor
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -56,40 +57,34 @@ open class BookControllerTest {
         return JwtAuthenticationToken(principal, true)
     }
 
+    private fun authentication(): RequestPostProcessor {
+        val securityContext = SecurityContextHolder.createEmptyContext()
+        securityContext.authentication = this.createAuthentication()
+
+        return securityContext(securityContext)
+    }
+
     @Test
     fun testBookSearchByPartialTitle() {
 
-        val securityContext = SecurityContextHolder.createEmptyContext()
-
-
-
-        securityContext.authentication = this.createAuthentication()
-        mvc!!.perform(get("/api/v1/books?title=elit").with(securityContext(securityContext)))
+        mvc!!.perform(get("/api/v1/books?title=elit").with(this.authentication()))
                 .andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"publishDate\":\"2016-09-18\",\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5,\"translator\":[],\"author\":[\"Steffen\",\"Catcherside\"]}],\"totalElements\":1,\"totalPages\":1,\"last\":true,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
 
     }
 
     @Test
     fun testBookSearchByFullTitle() {
-        val securityContext = SecurityContextHolder.createEmptyContext()
-
-        securityContext.authentication = this.createAuthentication()
-        mvc!!.perform(get("/api/v1/books?title=consequat in consequat").with(securityContext(securityContext)))
+        mvc!!.perform(get("/api/v1/books?title=consequat in consequat").with(this.authentication()))
                 .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"translator\":[],\"author\":[\"Lian\",\"Hubback\"]}],\"totalElements\":1,\"totalPages\":1,\"last\":true,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
                 .andExpect(header().string("X-Total-Count", "1")).andExpect(header().string("Links", "<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"last\",<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"first\""))
-
-        securityContext.authentication = this.createAuthentication()
-        mvc!!.perform(get("/api/v1/books?title=consequat&match_all=true").with(securityContext(securityContext)))
+        mvc!!.perform(get("/api/v1/books?title=consequat&match_all=true").with(this.authentication()))
                 .andExpect(header().string("X-Total-Count", "0"))
     }
 
 
     @Test
     fun testBookSearchByAuthor() {
-        val securityContext = SecurityContextHolder.createEmptyContext()
-
-        securityContext.authentication = this.createAuthentication()
-        mvc!!.perform(get("/api/v1/books?author=Lian Hubback").with(securityContext(securityContext))).andExpect(status().isOk).andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"author\":[\"Lian\",\"Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"number\":0,\"size\":20,\"sort\":null,\"numberOfElements\":1,\"first\":true}"))
+        mvc!!.perform(get("/api/v1/books?author=Lian Hubback").with(this.authentication())).andExpect(status().isOk).andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"author\":[\"Lian\",\"Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"number\":0,\"size\":20,\"sort\":null,\"numberOfElements\":1,\"first\":true}"))
     }
 }
 
