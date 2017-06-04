@@ -103,7 +103,7 @@ Athena support the following search strategy
     * march all the author
 
 ## Exception Check List
-Among the Athena, we may encounter different kind of exceptions. The Http standard status code(like 401,400) may not enough. Thus, we introduce some custom status code which will be include in the response body when exception.
+Among the Athena, we may encounter different kind of exceptions. The Http standard status code(like 401,400) may not be enough. Thus, we introduce some custom status code which will be include in the response body when exception happens.
 
 code | meaning
 -----|--------
