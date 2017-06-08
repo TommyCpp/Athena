@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by tommy on 2017/3/28.
@@ -72,7 +74,7 @@ public class BookService {
     }
 
     public Page<Book> searchBookByAuthor(Pageable pageable, String author) {
-        return repository.getBookBy_authorContains(pageable,author);
+        return repository.getBookBy_authorContains(pageable, author);
     }
 
     private Page<Book> ListToPage(Pageable pageable, List<Book> list) {
@@ -80,5 +82,32 @@ public class BookService {
         int pageSize = pageable.getPageSize();
         int end = (start + pageSize) > list.size() ? list.size() : (start + pageSize);
         return new PageImpl<>(list.subList(start, end), pageable, list.size());
+    }
+
+    /**
+     * @param pageable pageable
+     * @param authors author array
+     * @return page
+     */
+    public Page<Book> searchBookByAuthors(Pageable pageable, String[] authors) {
+        Set<Book> result = new HashSet<>();
+        for (int i = 0; i < authors.length; i++) {
+            List<Book> books = repository.getBookBy_authorContains(authors[i]);
+            for (Book book : books) {
+                boolean flag = true;
+                for (int j = 0; j < authors.length; j++) {
+                    if (j != i) {
+                        List<String> bookAuthors = book.getAuthor();
+                        if (!bookAuthors.contains(authors[j])) {
+                            flag = false;
+                        }
+                    }
+                }
+                if (flag) {
+                    result.add(book);
+                }
+            }
+        }
+        return ListToPage(pageable, new ArrayList<>(result));
     }
 }

@@ -1,5 +1,6 @@
 package com.athena.service
 
+import com.athena.model.Book
 import com.athena.repository.BookRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -51,6 +52,18 @@ open class BookServiceTest {
         val excepts = repository!!.findOne(9787111124444L)
         Assert.assertEquals(1, result.totalElements)
         Assert.assertEquals(excepts, result.content[0])
+    }
+
+    @Test fun testSearchByAuthors() {
+        val authors = arrayOf("Dneig dlsa", "Rdlf dls")
+        val pageable = PageRequest(0, 20)
+        val result = service!!.searchBookByAuthors(pageable, authors)
+        val excepts = HashSet<Book>()
+        excepts.add(repository!!.findOne(9783158101896L))
+        excepts.add(repository.findOne(9783158101897L))
+        Assert.assertEquals(excepts, HashSet<Book>(result.content))
+//        TODO: Assert the correction when reverse the sequence of author
+
     }
 
 }

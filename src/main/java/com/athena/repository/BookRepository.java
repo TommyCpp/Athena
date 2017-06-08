@@ -25,4 +25,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> getBooksByTitlePinyin(String pinyin);
 
     Page<Book> getBookBy_authorContains(Pageable pageable,String author);
+
+    List<Book> getBookBy_authorContains(String author);
 }

@@ -78,6 +78,10 @@ public class BookController {
                 if(authors.length == 1){
                     return bookService.searchBookByAuthor(pageable,authors[0]);
                 }
+                else if(!matchAll){
+                    //search books which contains all the author
+                    return bookService.searchBookByAuthors(pageable, authors);
+                }
             }
         }
 
