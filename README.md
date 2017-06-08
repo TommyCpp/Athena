@@ -94,13 +94,14 @@ Notice that since the only authentication token is JWT, It is crucial for the cl
 Athena support the following search strategy
 
 * search by name
-    * march the partial name (Default)
-    * march the exact name
-    * march the pronunciation
+    * match the partial name (Default)
+    * match the exact name
+    * match the pronunciation
 
 * search by author
-    * march one author in author list
-    * march all the author
+    * match one author in author list
+    * match many authors in author list
+    * match all the author
 
 ## Exception Check List
 Among the Athena, we may encounter different kind of exceptions. The Http standard status code(like 401,400) may not be enough. Thus, we introduce some custom status code which will be include in the response body when exception happens.
