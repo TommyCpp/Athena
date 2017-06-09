@@ -67,7 +67,7 @@ public class Book {
 
     @Transient
     public List<String> getAuthor() {
-        return Arrays.asList(StringUtils.split(this._author,","));
+        return Arrays.asList(StringUtils.split(this._author, ","));
     }
 
     @Transient
@@ -192,7 +192,7 @@ public class Book {
 
     @Transient
     public List<String> getTranslator() {
-        return this._translator == null ? new ArrayList<>() : Arrays.asList(StringUtils.split(this._translator,","));
+        return this._translator == null ? new ArrayList<>() : Arrays.asList(StringUtils.split(this._translator, ","));
     }
 
     @Transient
@@ -286,7 +286,7 @@ public class Book {
         this.titleShortPinyin = titleShortPinyin;
     }
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "id.book")
     public List<Copy> getCopies() {
         return copies;
     }

@@ -1,8 +1,6 @@
 package com.athena.model;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -10,29 +8,28 @@ import java.io.Serializable;
  */
 @Embeddable
 public class CopyPK implements Serializable {
-    private long book;
+    private Book book;
     private int copyId;
 
     public CopyPK() {
     }
 
-    public CopyPK(long book, int copyId) {
+    public CopyPK(Book book, int copyId) {
         this.book = book;
         this.copyId = copyId;
     }
 
-    @Column(name = "isbn", nullable = false)
-    @Id
-    public long getBook() {
+    @ManyToOne
+    @JoinColumn(name = "isbn", referencedColumnName = "isbn", nullable = false)
+    public Book getBook() {
         return book;
     }
 
-    public void setBook(long book) {
+    public void setBook(Book book) {
         this.book = book;
     }
 
     @Column(name = "copy_id", nullable = false)
-    @Id
     public int getCopyId() {
         return copyId;
     }
@@ -56,7 +53,7 @@ public class CopyPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = (int) (book ^ (book >>> 32));
+        int result = book != null ? book.hashCode() : 0;
         result = 31 * result + copyId;
         return result;
     }

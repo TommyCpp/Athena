@@ -1,8 +1,10 @@
 package com.athena.model
 
+import com.athena.repository.BookRepository
 import com.athena.repository.CopyRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,9 +24,19 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml")
 open class CopyTest {
-    @Autowired var repository: CopyRepository? = null
+    @Autowired var copyRepository: CopyRepository? = null
+    @Autowired var bookRepository: BookRepository? = null
 
     @Test fun testCopy() {
-        repository!!.findOne(CopyPK(9787111124444L, 1))
+        val result = copyRepository!!.findOne(CopyPK(bookRepository!!.findOne(9787111124444L), 1))
+        val except = "C程序设计"
+        Assert.assertEquals(except, result.book.title)
+    }
+
+    @Test fun testBookCopy() {
+        val book = bookRepository!!.findOne(9787111124444L)
+        val result = book.copies[0]
+        val except = copyRepository!!.findOne(CopyPK(bookRepository!!.findOne(9787111124444L), 1))
+        Assert.assertEquals(except, result)
     }
 }

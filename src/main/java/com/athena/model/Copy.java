@@ -7,12 +7,12 @@ import java.sql.Timestamp;
  * Created by Tommy on 2017/6/9.
  */
 @Entity
+@Table(name = "copy")
 public class Copy {
     private CopyPK id;
     private Integer status;
     private Timestamp createdDate;
     private Timestamp updatedDate;
-    private Book book;
 
     @EmbeddedId
     public CopyPK getId() {
@@ -60,7 +60,7 @@ public class Copy {
 
         Copy copy = (Copy) o;
 
-        if (id.equals(id)) return false;
+        if (id.equals(copy.id)) return false;
         if (status != null ? !status.equals(copy.status) : copy.status != null) return false;
         if (createdDate != null ? !createdDate.equals(copy.createdDate) : copy.createdDate != null) return false;
         if (updatedDate != null ? !updatedDate.equals(copy.updatedDate) : copy.updatedDate != null) return false;
@@ -77,14 +77,14 @@ public class Copy {
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "isbn", referencedColumnName = "isbn", nullable = false)
+    @Transient
     public Book getBook() {
-        return book;
+        return this.id.getBook();
     }
 
+    @Transient
     public void setBook(Book book) {
-        this.book = book;
+        this.id.setBook(book);
     }
 
 
