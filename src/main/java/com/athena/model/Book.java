@@ -35,6 +35,7 @@ public class Book {
     private Double price;
 
     private Publisher publisher;
+    private List<Copy> copies;
 
     @Transient
     private PinyinConvertService pinyinConvertService;
@@ -283,5 +284,14 @@ public class Book {
 
     public void setTitleShortPinyin(String titleShortPinyin) {
         this.titleShortPinyin = titleShortPinyin;
+    }
+
+    @OneToMany(mappedBy = "book")
+    public List<Copy> getCopies() {
+        return copies;
+    }
+
+    public void setCopies(List<Copy> copies) {
+        this.copies = copies;
     }
 }

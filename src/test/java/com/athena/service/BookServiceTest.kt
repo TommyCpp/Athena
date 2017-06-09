@@ -55,14 +55,20 @@ open class BookServiceTest {
     }
 
     @Test fun testSearchByAuthors() {
-        val authors = arrayOf("Dneig dlsa", "Rdlf dls")
+        var authors = arrayOf("Dneig dlsa", "Rdlf dls")
         val pageable = PageRequest(0, 20)
-        val result = service!!.searchBookByAuthors(pageable, authors)
-        val excepts = HashSet<Book>()
+        var result = service!!.searchBookByAuthors(pageable, authors)
+        var excepts = HashSet<Book>()
         excepts.add(repository!!.findOne(9783158101896L))
         excepts.add(repository.findOne(9783158101897L))
         Assert.assertEquals(excepts, HashSet<Book>(result.content))
-//        TODO: Assert the correction when reverse the sequence of author
+
+        authors = arrayOf("Rdlf dls", "Dneig dlsa", "Dlicn Tlidb")
+        result = service.searchBookByAuthors(pageable, authors)
+        excepts = HashSet<Book>()
+        excepts.add(repository.findOne(9783158101897L))
+        Assert.assertEquals(excepts, HashSet<Book>(result.content))
+
 
     }
 
