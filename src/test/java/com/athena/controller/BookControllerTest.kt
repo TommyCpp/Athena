@@ -88,5 +88,10 @@ open class BookControllerTest {
     fun testBookSearchByAuthor() {
         mvc!!.perform(get("/api/v1/books?author=Lian Hubback").with(this.authentication())).andExpect(status().isOk).andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"number\":0,\"size\":20,\"sort\":null,\"numberOfElements\":1,\"first\":true}"))
     }
+
+    @Test
+    fun testBookSearchByAuthors(){
+        mvc!!.perform(get("/api/v1/books?author=Dneig dlsa,Rdlf dls").with(this.authentication())).andExpect(status().isOk).andExpect(content().json("{\"content\":[{\"isbn\":9783158101897,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试多个作者书籍\",\"titlePinyin\":\"ce,shi,duo,ge,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"csdgzzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"author\":[\"Dneig dlsa\",\"Rdlf dls\",\"Dlicn Tlidb\"],\"translator\":[]},{\"isbn\":9783158101896,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试作者书籍\",\"titlePinyin\":\"ce,shi,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"cszzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"author\":[\"Dneig dlsa\",\"Tianfd sld\",\"Rdlf dls\"],\"translator\":[]}],\"last\":true,\"totalPages\":1,\"totalElements\":2,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":2}"))
+    }
 }
 

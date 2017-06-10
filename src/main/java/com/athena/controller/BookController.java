@@ -73,14 +73,17 @@ public class BookController {
                 }
             }
 
-            if(authors != null){
+            if (authors != null) {
                 //search by author
-                if(authors.length == 1){
-                    return bookService.searchBookByAuthor(pageable,authors[0]);
-                }
-                else if(!matchAll){
-                    //search books which contains all the author
-                    return bookService.searchBookByAuthors(pageable, authors);
+                if (matchAll) {
+
+                } else {
+                    if (authors.length == 1) {
+                        return bookService.searchBookByAuthor(pageable, authors[0]);
+                    } else {
+                        //search books which contains all the author
+                        return bookService.searchBookByAuthors(pageable, authors);
+                    }
                 }
             }
         }
