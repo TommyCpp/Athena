@@ -4,8 +4,12 @@ import com.athena.service.PinyinConvertService;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -286,7 +290,8 @@ public class Book {
         this.titleShortPinyin = titleShortPinyin;
     }
 
-    @OneToMany(mappedBy = "id.book")
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
     public List<Copy> getCopies() {
         return copies;
     }

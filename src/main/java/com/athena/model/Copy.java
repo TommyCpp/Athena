@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 public class Copy {
     private CopyPK id;
     private Integer status;
+    private Book book;
     private Timestamp createdDate;
     private Timestamp updatedDate;
 
@@ -77,14 +78,16 @@ public class Copy {
         return result;
     }
 
-    @Transient
+    @MapsId("isbn")
+    @ManyToOne
+    @JoinColumn(name="isbn",referencedColumnName = "isbn", nullable = false)
     public Book getBook() {
-        return this.id.getBook();
+        return this.book;
     }
 
     @Transient
     public void setBook(Book book) {
-        this.id.setBook(book);
+        this.book = book;
     }
 
 

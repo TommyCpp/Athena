@@ -28,15 +28,21 @@ open class CopyTest {
     @Autowired var bookRepository: BookRepository? = null
 
     @Test fun testCopy() {
-        val result = copyRepository!!.findOne(CopyPK(bookRepository!!.findOne(9787111124444L), 1))
+        val result = copyRepository!!.findOne(CopyPK(9787111124444L, 0))
         val except = "C程序设计"
         Assert.assertEquals(except, result.book.title)
     }
 
     @Test fun testBookCopy() {
         val book = bookRepository!!.findOne(9787111124444L)
-        val result = book.copies[0]
-        val except = copyRepository!!.findOne(CopyPK(bookRepository!!.findOne(9787111124444L), 1))
+        var result = book.copies[0]
+        var except = copyRepository!!.findOne(CopyPK(9787111124444L, 0))
         Assert.assertEquals(except, result)
+        book.copies[0].status = 2
+        copyRepository!!.save(book.copies)
+        bookRepository!!.save(book)
+        except = copyRepository!!.findOne(CopyPK(9787111124444L,0))
+        Assert.assertEquals(1, book.copies.count())
+        Assert.assertEquals(2,except.status)
     }
 }

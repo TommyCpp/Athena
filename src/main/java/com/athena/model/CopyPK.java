@@ -8,25 +8,24 @@ import java.io.Serializable;
  */
 @Embeddable
 public class CopyPK implements Serializable {
-    private Book book;
+    private long isbn;
     private int copyId;
 
     public CopyPK() {
     }
 
-    public CopyPK(Book book, int copyId) {
-        this.book = book;
+    public CopyPK(long isbn, int copyId) {
+        this.isbn = isbn;
         this.copyId = copyId;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "isbn", referencedColumnName = "isbn", nullable = false)
-    public Book getBook() {
-        return book;
+    @Column(name="isbn",nullable = false)
+    public long getIsbn() {
+        return isbn;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setIsbn(long isbn) {
+        this.isbn = isbn;
     }
 
     @Column(name = "copy_id", nullable = false)
@@ -45,7 +44,7 @@ public class CopyPK implements Serializable {
 
         CopyPK copyPK = (CopyPK) o;
 
-        if (book != copyPK.book) return false;
+        if (isbn != copyPK.isbn) return false;
         if (copyId != copyPK.copyId) return false;
 
         return true;
@@ -53,7 +52,7 @@ public class CopyPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = book != null ? book.hashCode() : 0;
+        int result = (int) isbn;
         result = 31 * result + copyId;
         return result;
     }
