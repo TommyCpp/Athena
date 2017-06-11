@@ -19,12 +19,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> getBooksByTitleContains(String title);
 
-    Page<Book> getBooksByTitle(Pageable pageable,String name);
+    Page<Book> getBooksByTitle(Pageable pageable, String name);
 
     @Query(nativeQuery = true, value = "SELECT * FROM book WHERE REPLACE(title_pinyin,',','') = ?1")
     List<Book> getBooksByTitlePinyin(String pinyin);
 
-    Page<Book> getBookBy_authorContains(Pageable pageable,String author);
+    Page<Book> getBookBy_authorContains(Pageable pageable, String author);
 
     List<Book> getBookBy_authorContains(String author);
+
+    Page<Book> getBookBy_author(Pageable pageable, String _author);
 }

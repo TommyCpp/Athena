@@ -2,16 +2,14 @@ package com.athena.service;
 
 import com.athena.model.Book;
 import com.athena.repository.BookRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by tommy on 2017/3/28.
@@ -85,8 +83,10 @@ public class BookService {
     }
 
     /**
+     * Search for all books contains the requested author
+     *
      * @param pageable pageable
-     * @param authors author array
+     * @param authors  author array
      * @return page
      */
     public Page<Book> searchBookByAuthors(Pageable pageable, String[] authors) {
@@ -109,5 +109,10 @@ public class BookService {
             }
         }
         return ListToPage(pageable, new ArrayList<>(result));
+    }
+
+    public Page<Book> searchBookByFullAuthors(Pageable pageable, String[] authors) {
+        Arrays.sort(authors);
+        return repository.getBookBy_author(pageable, StringUtils.join(authors, ","));
     }
 }

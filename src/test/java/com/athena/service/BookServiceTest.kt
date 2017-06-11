@@ -11,6 +11,7 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.web.PageableArgumentResolver
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
@@ -38,10 +39,10 @@ open class BookServiceTest {
         val keywords = arrayOf("埃里克森", "程序设计")
         val pageable = PageRequest(0, 20)
         val result = service!!.searchBookByName(pageable, keywords)
-        val excepts = arrayOf(repository!!.findOne(9783158101891L), repository.findOne(9787111124444L), repository.findOne(9787111125643L))
+        val expects = arrayOf(repository!!.findOne(9783158101891L), repository.findOne(9787111124444L), repository.findOne(9787111125643L))
         Assert.assertEquals(3, result.totalElements) // The total result should be 3
-        for (except in excepts) {
-            Assert.assertTrue(result.content.contains(except))
+        for (expect in expects) {
+            Assert.assertTrue(result.content.contains(expect))
         }
     }
 
@@ -49,27 +50,35 @@ open class BookServiceTest {
         val keyword = "C程序设计"
         val pageable = PageRequest(0, 20)
         val result = service!!.searchBookByFullName(pageable, keyword)
-        val excepts = repository!!.findOne(9787111124444L)
+        val expects = repository!!.findOne(9787111124444L)
         Assert.assertEquals(1, result.totalElements)
-        Assert.assertEquals(excepts, result.content[0])
+        Assert.assertEquals(expects, result.content[0])
     }
 
     @Test fun testSearchByAuthors() {
         var authors = arrayOf("Dneig dlsa", "Rdlf dls")
         val pageable = PageRequest(0, 20)
         var result = service!!.searchBookByAuthors(pageable, authors)
-        var excepts = HashSet<Book>()
-        excepts.add(repository!!.findOne(9783158101896L))
-        excepts.add(repository.findOne(9783158101897L))
-        Assert.assertEquals(excepts, HashSet<Book>(result.content))
+        var expects = HashSet<Book>()
+        expects.add(repository!!.findOne(9783158101896L))
+        expects.add(repository.findOne(9783158101897L))
+        Assert.assertEquals(expects, HashSet<Book>(result.content))
 
         authors = arrayOf("Rdlf dls", "Dneig dlsa", "Dlicn Tlidb")
         result = service.searchBookByAuthors(pageable, authors)
-        excepts = HashSet<Book>()
-        excepts.add(repository.findOne(9783158101897L))
-        Assert.assertEquals(excepts, HashSet<Book>(result.content))
+        expects = HashSet<Book>()
+        expects.add(repository.findOne(9783158101897L))
+        Assert.assertEquals(expects, HashSet<Book>(result.content))
 
+    }
 
+    @Test fun testSearchByFullAuthors() {
+        var authors = arrayOf("Atester","Btester")
+        var pageable = PageRequest(0, 20)
+        val result = service!!.searchBookByFullAuthors(pageable, authors)
+        val expects = ArrayList<Book>()
+        expects.add(repository!!.findOne(9783158101899L))
+        Assert.assertEquals(expects, result.content)
     }
 
 }

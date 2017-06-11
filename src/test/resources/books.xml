@@ -28,10 +28,17 @@
           price="12.44" category_id="TC331C" title_pinyin="ai,li,ke,sen,ding,jie,fu" title_short_pinyin="alksdjf"/>
     <book isbn="9783158101895" title="测试书记" author="书记" publisher_id="127" publish_date="2016-11-13" version="1"
           category_id="TC331C" price="56.22" title_pinyin="ce,shi,shu,ji" title_short_pinyin="cssj" language="Chinese"/>
-    <book isbn="9783158101896" title="测试作者书籍" author="Dneig dlsa,Tianfd sld,Rdlf dls" publisher_id="127"
+    <book isbn="9783158101896" title="测试作者书籍" author="Aneig dlsa,Bianfd sld,Rdlf dls" publisher_id="127"
           publish_date="2016-11-13" version="1"
           category_id="TC331C" price="57.22" title_pinyin="ce,shi,zuo,zhe,shu,ji" title_short_pinyin="cszzsj" language="Chinese"/>
-    <book isbn="9783158101897" title="测试多个作者书籍" author="Dneig dlsa,Rdlf dls,Dlicn Tlidb" publisher_id="127"
+    <book isbn="9783158101897" title="测试多个作者书籍" author="Aneig dlsa,Rdlf dls,Zlicn Tlidb" publisher_id="127"
           publish_date="2016-11-13" version="1"
           category_id="TC331C" price="57.22" title_pinyin="ce,shi,duo,ge,zuo,zhe,shu,ji" title_short_pinyin="csdgzzsj" language="Chinese"/>
+    <book isbn="9783158101898" title="测试书" author="Atester,Btester,Ctester" title_pinyin="ce,shi,shu"
+          title_short_pinyin="css" language="Chinese" publisher_id="127" publish_date="2016-11-13" version="1"
+          category_id="TC331C" price="56.22"/>
+    <book isbn="9783158101899" title="第二部测试书" author="Atester,Btester" title_short_pinyin="debcss"
+          title_pinyin="di,er,be,ce,shi,shu" language="Chinese" publisher_id="127" publish_date="2016-11-13" version="1"
+          category_id="TC331C" price="56.22"/>
+
 </dataset>
