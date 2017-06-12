@@ -12,4 +12,6 @@ import java.util.List;
  */
 @Repository
 public interface PublisherRepository extends JpaRepository<Publisher, String> {
+    Publisher findOne(String id);
+    Publisher findPublisherByName(String name);
 }

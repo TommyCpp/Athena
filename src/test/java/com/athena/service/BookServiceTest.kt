@@ -73,12 +73,23 @@ open class BookServiceTest {
     }
 
     @Test fun testSearchByFullAuthors() {
-        var authors = arrayOf("Atester","Btester")
+        var authors = arrayOf("Atester", "Btester")
         var pageable = PageRequest(0, 20)
         val result = service!!.searchBookByFullAuthors(pageable, authors)
         val expects = ArrayList<Book>()
         expects.add(repository!!.findOne(9783158101899L))
         Assert.assertEquals(expects, result.content)
+    }
+
+    @Test fun testSearchByPublisher() {
+        var publisher = "不存在的出版社"
+        var pageable = PageRequest(0, 20)
+        var result = service!!.searchBookByPublisher(pageable, publisher)
+        Assert.assertEquals(0, result.content.count())
+        publisher = "Test Publisher"
+        result = service!!.searchBookByPublisher(pageable, publisher)
+        Assert.assertEquals("NewYork", result.content[0].publisher.location)
+
     }
 
 }

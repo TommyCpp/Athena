@@ -29,4 +29,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> getBookBy_authorContains(String author);
 
     Page<Book> getBookBy_author(Pageable pageable, String _author);
+
+    Page<Book> getBookByPublisher(Pageable pageable, Publisher publisher);
 }

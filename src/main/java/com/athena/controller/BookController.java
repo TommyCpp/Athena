@@ -76,7 +76,7 @@ public class BookController {
             if (authors != null) {
                 //search by author
                 if (matchAll) {
-
+                    return bookService.searchBookByFullAuthors(pageable, authors);
                 } else {
                     if (authors.length == 1) {
                         return bookService.searchBookByAuthor(pageable, authors[0]);
@@ -85,6 +85,10 @@ public class BookController {
                         return bookService.searchBookByAuthors(pageable, authors);
                     }
                 }
+            }
+
+            if(publisher != null){
+                return bookService.searchBookByPublisher(pageable, publisher);
             }
         }
 

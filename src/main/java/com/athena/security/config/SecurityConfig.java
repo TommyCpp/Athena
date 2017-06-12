@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     public static String JWT_TOKEN_HEADER_PARAM;
-    public static String HEADER_PREFIX ;//Jwt Header prefix
+    public static String HEADER_PREFIX;//Jwt Header prefix
 
 
     @Autowired
@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/api/v1/books").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
@@ -51,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(jwtAuthenticationProvider);
     }
 
@@ -66,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Bean
-    static PasswordEncoder passwordEncoder(){
+    static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
