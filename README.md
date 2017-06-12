@@ -24,6 +24,18 @@ To install the application, first need to create some config file in resources
     spring.datasource.password | Password
     spring.datasource.driverClassName | Drive class
 
+    > Setting the Redis info
+    
+    > Spring Boot has configure most of the configuration for us. Table below lists the configuration that I changed. See [this document](https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html) to find all the auto-configuration that Spring Boot defined
+
+    key | value
+    ----|------
+    spring.redis.database| Index of the redis, default 0
+    spring.redis.host| Host of the redis, default localhost
+    spring.redis.port| Port of the redis, default 6379
+    spring.redis.password| Password of the redis
+    
+
 * config.properties
 
     > Setting the [JWT](http://jwt.io) info
@@ -46,9 +58,12 @@ Run following command in command line to install library by maven `mvn`
 
 The following dependencies are required by Athena, you can also find them in the `pom.xml`
 
-* Spring Boot
+* Spring Boot Starter
+    * spring-boot-starter-data-redis
+    * spring-boot-starter-data-jpa
+    * spring-boot-starter-web
+    * spring-boot-starter-security
 * Mysql Connector
-* Spring Security
 * Apache Common
 * Jpinyin
 * Jjwt

@@ -2,10 +2,12 @@ package com.athena;
 
 import com.athena.model.User;
 import com.athena.service.UserService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,9 @@ public class DatabaseConnectionTest {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private StringRedisTemplate template;
+
     @Test
     public void createUser() {
         User user = new User();
@@ -36,5 +41,11 @@ public class DatabaseConnectionTest {
     @Test
     public void getUser(){
         service.getUser(1);
+    }
+
+    @Test
+    public void testRedisConnection(){
+        template.opsForValue().set("test","111");
+        Assert.assertEquals("111", template.opsForValue().get("test"));
     }
 }
