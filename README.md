@@ -52,6 +52,8 @@ To install the application, first need to create some config file in resources
     key | value
     ----| -----
     search.default.count| The default value on how much result to return per page
+    search.limit.expiredtime | How long before reset the time that unauthenticated user
+    search.limit.get.times | How much get request can perform for unauthenticated user within expired time
 
 ### Install required library
 Run following command in command line to install library by maven `mvn`
@@ -128,6 +130,8 @@ code | meaning
 4012 | JWT token uses an unsupported algorithm
 4013 | Malformed JWT token
 4014 | JWT token's signature is not supported
+4290 | Too many requests
+4291 | Too many requests for search
 
 ## Test
 This section will introduce the basic test component in Athena
