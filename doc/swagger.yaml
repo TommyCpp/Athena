@@ -78,8 +78,10 @@ paths:
               description: 分页相关链接
           schema:
             $ref: '#/definitions/BookSearchResult'
-        '403':
-          $ref: '#/responses/Forbidden'
+        '429':
+          description: 查询次数过多（针对未登录用户)
+          schema:
+            $ref: '#/definitions/Error'
   /users:
     get:
       tags:
@@ -254,11 +256,11 @@ definitions:
     properties:
       code:
         type: string
-      msg:
+      message:
         type: string
     required:
       - code
-      - msg
+      - message
   User:
     type: object
     required:

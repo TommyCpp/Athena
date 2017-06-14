@@ -29,6 +29,7 @@ open class RateLimitServiceTest {
             rateLimitService!!.increaseLimit("test")
         }
         Assert.assertEquals(4, rateLimitService!!.increaseLimit("test"))
+        Assert.assertTrue(template!!.hasKey("test"))
 
         //Wait for 1 minute
         Thread.sleep(1000 * 60)
