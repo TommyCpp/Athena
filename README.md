@@ -53,6 +53,7 @@ To install the application, first need to create some config file in resources
     ----| -----
     search.default.count| The default value on how much result to return per page
     search.limit.expiredtime | How long before reset the time that unauthenticated user
+    search.limit.prefix | The prefix added to the remote address of the request when stored and queried in Redis
     search.limit.get.times | How much get request can perform for unauthenticated user within expired time
 
 ### Install required library

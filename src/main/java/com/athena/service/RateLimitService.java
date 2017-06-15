@@ -14,16 +14,18 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class RateLimitService {
+    private final String prefix;
     private int expiredTime;
     private int timeRemain;
     private Calendar calendar;
     private RedisTemplate<String, String> redisTemplate;
 
-    public RateLimitService(@Value("${search.limit.expiredtime}") int expiredTime, @Autowired RedisTemplate<String, String> redisTemplate) {
+    public RateLimitService(@Value("${search.limit.expiredtime}") int expiredTime, @Autowired RedisTemplate<String, String> redisTemplate, @Value("${search.limit.prefix}") String prefix) {
         this.expiredTime = expiredTime;
         this.timeRemain = expiredTime;
         this.calendar = Calendar.getInstance();
         this.redisTemplate = redisTemplate;
+        this.prefix = prefix;
     }
 
     @Scheduled(cron = "0/2 * * * *")
@@ -34,9 +36,9 @@ public class RateLimitService {
     }
 
     public int increaseLimit(String userInfo) {
-        redisTemplate.opsForValue().increment(userInfo,1);
-        redisTemplate.expire(userInfo, this.timeRemain, TimeUnit.SECONDS);
-        return Integer.parseInt(redisTemplate.opsForValue().get(userInfo));
+        redisTemplate.opsForValue().increment(this.prefix + userInfo, 1);
+        redisTemplate.expire(this.prefix + userInfo, this.timeRemain, TimeUnit.SECONDS);
+        return Integer.parseInt(redisTemplate.opsForValue().get(this.prefix + userInfo));
     }
 
 }

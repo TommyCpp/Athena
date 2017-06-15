@@ -22,8 +22,8 @@ import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.RequestPostProcessor
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
@@ -90,8 +90,24 @@ open class BookControllerTest {
     }
 
     @Test
-    fun testBookSearchByAuthors(){
+    fun testBookSearchByAuthors() {
         mvc!!.perform(get("/api/v1/books?author=Dneig dlsa,Rdlf dls").with(this.authentication())).andExpect(status().isOk).andExpect(content().json("{\"content\":[{\"isbn\":9783158101897,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试多个作者书籍\",\"titlePinyin\":\"ce,shi,duo,ge,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"csdgzzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"author\":[\"Aneig dlsa\",\"Rdlf dls\",\"Zlicn Tlidb\"],\"translator\":[]},{\"isbn\":9783158101896,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试作者书籍\",\"titlePinyin\":\"ce,shi,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"cszzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"author\":[\"Aneig dlsa\",\"Bianfd sld\",\"Rdlf dls\"],\"translator\":[]}],\"last\":true,\"totalPages\":1,\"totalElements\":2,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":2}"))
+    }
+
+    @Test
+    fun testRateLimit() {
+        val processor: RequestPostProcessor = RequestPostProcessor { request ->
+            request.remoteAddr = "192.168.1.1"
+            request
+        }
+        for (i in 1..5) {
+            if (i < 4) {
+                mvc!!.perform(get("/api/v1/books?author=Dneig dlsa,Rdlf dls").with(processor)).andExpect(status().isOk)
+            } else {
+                mvc!!.perform(get("/api/v1/books?author=Dneig dlsa,Rdlf dls").with(processor)).andExpect(status().`is`(429))
+            }
+        }
+
     }
 }
 

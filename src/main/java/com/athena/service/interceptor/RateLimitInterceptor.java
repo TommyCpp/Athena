@@ -3,6 +3,7 @@ package com.athena.service.interceptor;
 import com.athena.service.RateLimitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -29,15 +30,13 @@ public class RateLimitInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-            // If has login in
-            return true;
-        } else {
+        if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
             String ipAddress = request.getRemoteAddr();
             if (rateLimitService.increaseLimit(ipAddress) > limit) {
                 response.sendError(429, this.errorResponse);
+                return false;
             }
-            return false;
         }
+        return true;
     }
 }
