@@ -107,7 +107,6 @@ open class BookControllerTest {
                 mvc!!.perform(get("/api/v1/books?author=Dneig dlsa,Rdlf dls").with(processor)).andExpect(status().`is`(429))
             }
         }
-
     }
 }
 

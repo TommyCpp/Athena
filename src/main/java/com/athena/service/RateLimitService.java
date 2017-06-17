@@ -20,6 +20,13 @@ public class RateLimitService {
     private Calendar calendar;
     private RedisTemplate<String, String> redisTemplate;
 
+    /**
+     * Instantiates a new Rate limit service.
+     *
+     * @param expiredTime   the expired time
+     * @param redisTemplate the redis template
+     * @param prefix        the prefix
+     */
     public RateLimitService(@Value("${search.limit.expiredtime}") int expiredTime, @Autowired RedisTemplate<String, String> redisTemplate, @Value("${search.limit.prefix}") String prefix) {
         this.expiredTime = expiredTime;
         this.timeRemain = expiredTime;
@@ -28,6 +35,9 @@ public class RateLimitService {
         this.prefix = prefix;
     }
 
+    /**
+     * Update expired time for cache.
+     */
     @Scheduled(cron = "0/2 * * * *")
     public void updateExpiredTimeForCache() {
         long currentSecond = calendar.getTimeInMillis() / 1000;
@@ -35,6 +45,12 @@ public class RateLimitService {
         this.timeRemain = (int) (expiredTime - mod);
     }
 
+    /**
+     * Increase limit, if it is the first time that remote address request, then add a key-value in Redis
+     *
+     * @param userInfo the user info
+     * @return the int
+     */
     public int increaseLimit(String userInfo) {
         redisTemplate.opsForValue().increment(this.prefix + userInfo, 1);
         redisTemplate.expire(this.prefix + userInfo, this.timeRemain, TimeUnit.SECONDS);

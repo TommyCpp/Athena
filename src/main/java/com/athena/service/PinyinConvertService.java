@@ -11,9 +11,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class PinyinConvertService {
 
+    /**
+     * Instantiates a new Pinyin convert service.
+     */
     public PinyinConvertService() {
     }
 
+    /**
+     * Gets pin yin.
+     *
+     * @param s the s
+     * @return the pin yin
+     */
     public String getPinYin(String s) {
         try {
             return PinyinHelper.convertToPinyinString(s, ",", PinyinFormat.WITHOUT_TONE);
@@ -22,6 +31,12 @@ public class PinyinConvertService {
         }
     }
 
+    /**
+     * Gets short pin yin.
+     *
+     * @param s the s
+     * @return the short pin yin
+     */
     public String getShortPinYin(String s) {
         try {
             return PinyinHelper.getShortPinyin(s);

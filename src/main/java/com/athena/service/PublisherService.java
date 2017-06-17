@@ -12,6 +12,11 @@ public class PublisherService {
 
     private PublisherRepository repository;
 
+    /**
+     * Instantiates a new Publisher service.
+     *
+     * @param repository the repository
+     */
     @Autowired
     public PublisherService(PublisherRepository repository) {
 

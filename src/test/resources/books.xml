@@ -40,5 +40,8 @@
     <book isbn="9783158101899" title="第二部测试书" author="Atester,Btester" title_short_pinyin="debcss"
           title_pinyin="di,er,be,ce,shi,shu" language="Chinese" publisher_id="127" publish_date="2016-11-13" version="1"
           category_id="TC331C" price="56.22"/>
+    <book isbn="9783158101900" title="第二部测试书" author="Tdinv,Zdnif" title_pinyin="di,er,bu,ce,shi,shu"
+          title_short_pinyin="debcss" language="Chinese" publisher_id="127" publish_date="2016-11-13" version="2"
+          category_id="TC331B" price="66.67"/>
 
 </dataset>
