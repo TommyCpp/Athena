@@ -1,13 +1,16 @@
 package com.athena.security.filter;
 
+import com.athena.security.exception.AuthMethodNotSupportedException;
 import com.athena.security.model.Account;
 import com.athena.security.model.JwtAuthenticationToken;
 import com.athena.security.service.TokenAuthenticationService;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,6 +20,7 @@ import java.io.IOException;
 
 /**
  * Created by tommy on 2017/3/22.
+ *
  */
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -30,9 +34,16 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
+        if(!httpServletRequest.getMethod().equals("POST")){
+            throw new AuthMethodNotSupportedException("Login credentials must be shipped by POST");
+        }
         Account account = new Account();
-        account.setId(Long.valueOf(httpServletRequest.getParameter("id")));
-        account.setPassword(httpServletRequest.getParameter("password"));
+        try {
+            account.setId(Long.valueOf(httpServletRequest.getParameter("id")));
+            account.setPassword(httpServletRequest.getParameter("password"));
+        } catch (NumberFormatException e) {
+            throw new BadCredentialsException("The id should be numbers");
+        }
         return getAuthenticationManager().authenticate(
                 new JwtAuthenticationToken(account)
         );

@@ -52,4 +52,8 @@ open class JwtAuthenticationProviderTest {
         Assert.assertEquals(result.principal, Account(this.tester))
     }
 
+    @Test fun testAccountInvalid(){
+
+    }
+
 }
