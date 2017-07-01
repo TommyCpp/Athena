@@ -16,12 +16,12 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.context.WebApplicationContext
+import org.springframework.util.MultiValueMap
 
 /**
  * Created by Tommy on 2017/6/30.
@@ -46,8 +46,20 @@ open class LoginControllerTest{
     * Using chars as id to try to login
     * */
     @Test fun testLoginWithInvalidId(){
-        var result = mvc!!.perform(post("/login").content("{id=test,password=test}")).andExpect(status().is4xxClientError).andReturn()
+        val requestParam = LinkedMultiValueMap<String,String>()
+        requestParam["id"] = "whatever"
+        requestParam["password"] = "whatever"
+        var result = mvc!!.perform(post("/login").params(requestParam)).andExpect(status().is4xxClientError).andReturn()
         var stringResult = result.response.errorMessage
-        Assert.assertTrue(stringResult.contains("The id should be numbers"))
+        Assert.assertTrue(stringResult.contains("Bad Credential"))
+    }
+
+    @Test fun testLoginWithAccountNotExist(){
+        val requestParam = LinkedMultiValueMap<String,String>()
+        requestParam["id"] = "0"
+        requestParam["password"] = "whatever"
+        val result = mvc!!.perform(post("/login").params(requestParam)).andExpect(status().is4xxClientError).andReturn()
+        val stringResult = result.response.errorMessage
+        Assert.assertTrue(stringResult.contains("Account Not Found"))
     }
 }

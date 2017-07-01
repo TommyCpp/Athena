@@ -42,7 +42,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
             account.setId(Long.valueOf(httpServletRequest.getParameter("id")));
             account.setPassword(httpServletRequest.getParameter("password"));
         } catch (NumberFormatException e) {
-            throw new BadCredentialsException("The id should be numbers");
+            throw new BadCredentialsException("Bad Credential");
         }
         return getAuthenticationManager().authenticate(
                 new JwtAuthenticationToken(account)

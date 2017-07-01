@@ -1,8 +1,11 @@
 package com.athena.security.service;
 
+import com.athena.model.User;
 import com.athena.repository.UserRepository;
+import com.athena.security.exception.AccountNotFoundException;
 import com.athena.security.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,7 +22,15 @@ public class AccountService {
         this.userRepository = userRepository;
     }
 
-    public Account loadAccountById(Long id) {
-        return new Account(userRepository.findOne(id));
+    public Account loadAccountById(Long id) throws AuthenticationException{
+        User user = userRepository.findOne(id);
+        if(user == null){
+            //Not found the user
+            throw new AccountNotFoundException();
+        }
+        else{
+            return new Account(user);
+
+        }
     }
 }

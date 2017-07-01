@@ -2,6 +2,7 @@ package com.athena.security.service
 
 import com.athena.model.User
 import com.athena.repository.UserRepository
+import com.athena.security.exception.AccountNotFoundException
 import com.athena.security.model.Account
 import com.athena.security.model.JwtAuthenticationToken
 import org.junit.Assert
@@ -52,7 +53,12 @@ open class JwtAuthenticationProviderTest {
         Assert.assertEquals(result.principal, Account(this.tester))
     }
 
-    @Test fun testAccountInvalid(){
+    @Test(expected = AccountNotFoundException::class)
+    fun testAccountNotFound(){
+        val user = User()
+        user.id = 0
+        user.password="whatever"
+        val result = jwtAuthenticationProvider!!.authenticate(JwtAuthenticationToken(user))
 
     }
 
