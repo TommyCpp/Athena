@@ -91,7 +91,7 @@ open class BookControllerTest {
 
     @Test
     fun testBookSearchByAuthors() {
-        mvc!!.perform(get("/api/v1/books?author=Dneig dlsa,Rdlf dls").with(this.authentication())).andExpect(status().isOk).andExpect(content().json("{\"content\":[{\"isbn\":9783158101897,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试多个作者书籍\",\"titlePinyin\":\"ce,shi,duo,ge,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"csdgzzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"author\":[\"Aneig dlsa\",\"Rdlf dls\",\"Zlicn Tlidb\"],\"translator\":[]},{\"isbn\":9783158101896,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试作者书籍\",\"titlePinyin\":\"ce,shi,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"cszzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"author\":[\"Aneig dlsa\",\"Bianfd sld\",\"Rdlf dls\"],\"translator\":[]}],\"last\":true,\"totalPages\":1,\"totalElements\":2,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":2}"))
+        mvc!!.perform(get("/api/v1/books?author=Aneig dlsa,Rdlf dls").with(this.authentication())).andExpect(status().isOk).andExpect(content().json("{\"content\":[{\"isbn\":9783158101896,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试作者书籍\",\"titlePinyin\":\"ce,shi,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"cszzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"author\":[\"Aneig dlsa\",\"Bianfd sld\",\"Rdlf dls\"],\"translator\":[]},{\"isbn\":9783158101897,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试多个作者书籍\",\"titlePinyin\":\"ce,shi,duo,ge,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"csdgzzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"author\":[\"Aneig dlsa\",\"Rdlf dls\",\"Zlicn Tlidb\"],\"translator\":[]}],\"totalElements\":2,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":2}"))
     }
 
     @Test
@@ -101,10 +101,11 @@ open class BookControllerTest {
             request
         }
         for (i in 1..5) {
+            // Note that the search.limit.get.times in config.properties must be 3
             if (i < 4) {
-                mvc!!.perform(get("/api/v1/books?author=Dneig dlsa,Rdlf dls").with(processor)).andExpect(status().isOk)
+                mvc!!.perform(get("/api/v1/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().isOk)
             } else {
-                mvc!!.perform(get("/api/v1/books?author=Dneig dlsa,Rdlf dls").with(processor)).andExpect(status().`is`(429))
+                mvc!!.perform(get("/api/v1/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().`is`(429))
             }
         }
     }
