@@ -42,7 +42,7 @@ open class CopyTest {
         copyRepository!!.save(book.copies)
         bookRepository!!.save(book)
         except = copyRepository!!.findOne(CopyPK(9787111124444L,0))
-        Assert.assertEquals(1, book.copies.count())
+        Assert.assertEquals(6, book.copies.count())
         Assert.assertEquals(2,except.status)
     }
 }

@@ -85,7 +85,6 @@ public class Copy {
         return this.book;
     }
 
-    @Transient
     public void setBook(Book book) {
         this.book = book;
     }
