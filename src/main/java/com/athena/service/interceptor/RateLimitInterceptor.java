@@ -20,6 +20,10 @@ public class RateLimitInterceptor extends HandlerInterceptorAdapter {
     private final String errorResponse;
     private int limit;
 
+    /**
+     * @param limit limit how many search can anonymous user perform within certain time
+     * @param rateLimitService service that handle limit
+     */
     @Autowired
     public RateLimitInterceptor(@Value("${search.limit.get.times}") int limit, RateLimitService rateLimitService) {
         this.rateLimitService = rateLimitService;

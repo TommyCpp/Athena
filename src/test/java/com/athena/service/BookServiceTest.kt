@@ -11,7 +11,6 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.web.PageableArgumentResolver
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
@@ -90,6 +89,10 @@ open class BookServiceTest {
         result = service!!.searchBookByPublisher(pageable, publisher)
         Assert.assertEquals("NewYork", result.content[0].publisher.location)
 
+    }
+
+    @Test fun testSaveBooks(){
+        // todo: Add Book generator and perform test
     }
 
 }
