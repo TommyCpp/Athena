@@ -4,13 +4,9 @@ import com.athena.service.PinyinConvertService;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,9 +72,13 @@ public class Book {
 
     @Transient
     public void setAuthor(List<String> author) {
-        String[] authors = (String[]) author.toArray();
+        if (author == null) {
+            return;
+        }
+        String[] authors = new String[author.size()];
+        author.toArray(authors);
         Arrays.sort(authors);
-        this._author = StringUtils.join(authors);
+        this._author = StringUtils.join(authors, ",");
     }
 
     @Basic
@@ -201,9 +201,13 @@ public class Book {
 
     @Transient
     public void setTranslator(List<String> translator) {
-        String[] translators = (String[]) translator.toArray();
+        if (translator == null) {
+            return;
+        }
+        String[] translators = new String[translator.size()];
+        translator.toArray(translators);
         Arrays.sort(translators);
-        this._translator = StringUtils.join(translators);
+        this._translator = StringUtils.join(translators, ",");
     }
 
     @Basic

@@ -1,5 +1,10 @@
 package com.athena;
 
+import com.athena.model.Book;
+import com.athena.util.BookGenerator;
+import com.athena.util.RandomChineseService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,4 +20,18 @@ public class AthenaApplicationTests {
         Assert.assertEquals(true, true);
     }
 
+    @Test
+    public void testChinese() {
+        RandomChineseService service = new RandomChineseService();
+        String result = service.generateChinese(16);
+        System.out.println(result);
+    }
+
+    @Test
+    public void testBookGenerator() throws JsonProcessingException {
+        BookGenerator generator = new BookGenerator();
+        Book book = generator.generateBook();
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(book));
+    }
 }
