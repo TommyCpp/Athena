@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.context.WebApplicationContext
-import org.springframework.util.MultiValueMap
 
 /**
  * Created by Tommy on 2017/6/30.

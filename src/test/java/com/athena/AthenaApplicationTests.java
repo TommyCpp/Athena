@@ -25,6 +25,7 @@ public class AthenaApplicationTests {
         RandomChineseService service = new RandomChineseService();
         String result = service.generateChinese(16);
         System.out.println(result);
+        Assert.assertNotNull(result);
     }
 
     @Test
@@ -33,5 +34,6 @@ public class AthenaApplicationTests {
         Book book = generator.generateBook();
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(book));
+        Assert.assertNotNull(book);
     }
 }

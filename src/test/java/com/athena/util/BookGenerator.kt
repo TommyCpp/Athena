@@ -1,9 +1,7 @@
 package com.athena.util
 
 import com.athena.model.Book
-import com.athena.model.Publisher
 import org.apache.commons.lang3.RandomStringUtils
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -35,7 +33,8 @@ class BookGenerator {
         book.publishDate = generateRandomTime()
         book.categoryId = selectCategoryId()
         book.version = 1
-        book.price = this.random.nextDouble() * 100
+        book.price = (this.random.nextFloat() * 100).toDouble()
+        book.introduction = RandomStringUtils.randomAlphabetic(1000)
         return book
     }
 

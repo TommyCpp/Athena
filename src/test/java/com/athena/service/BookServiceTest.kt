@@ -2,6 +2,8 @@ package com.athena.service
 
 import com.athena.model.Book
 import com.athena.repository.BookRepository
+import com.athena.repository.PublisherRepository
+import com.athena.util.BookGenerator
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -28,7 +30,9 @@ import javax.transaction.Transactional
 open class BookServiceTest {
     @Autowired private val service: BookService? = null
 
-    @Autowired private val repository: BookRepository? = null
+    @Autowired private val bookRepository: BookRepository? = null
+
+    @Autowired private val publisherRepository: PublisherRepository? = null
 
     @Before fun setup() {
 
@@ -38,7 +42,7 @@ open class BookServiceTest {
         val keywords = arrayOf("埃里克森", "程序设计")
         val pageable = PageRequest(0, 20)
         val result = service!!.searchBookByName(pageable, keywords)
-        val expects = arrayOf(repository!!.findOne(9783158101891L), repository.findOne(9787111124444L), repository.findOne(9787111125643L))
+        val expects = arrayOf(bookRepository!!.findOne(9783158101891L), bookRepository.findOne(9787111124444L), bookRepository.findOne(9787111125643L))
         Assert.assertEquals(3, result.totalElements) // The total result should be 3
         for (expect in expects) {
             Assert.assertTrue(result.content.contains(expect))
@@ -49,7 +53,7 @@ open class BookServiceTest {
         val keyword = "C程序设计"
         val pageable = PageRequest(0, 20)
         val result = service!!.searchBookByFullName(pageable, keyword)
-        val expects = repository!!.findOne(9787111124444L)
+        val expects = bookRepository!!.findOne(9787111124444L)
         Assert.assertEquals(1, result.totalElements)
         Assert.assertEquals(expects, result.content[0])
     }
@@ -59,14 +63,14 @@ open class BookServiceTest {
         val pageable = PageRequest(0, 20)
         var result = service!!.searchBookByAuthors(pageable, authors)
         var expects = HashSet<Book>()
-        expects.add(repository!!.findOne(9783158101896L))
-        expects.add(repository.findOne(9783158101897L))
+        expects.add(bookRepository!!.findOne(9783158101896L))
+        expects.add(bookRepository.findOne(9783158101897L))
         Assert.assertEquals(expects, HashSet<Book>(result.content))
 
         authors = arrayOf("Rdlf dls", "Dneig dlsa", "Dlicn Tlidb")
         result = service.searchBookByAuthors(pageable, authors)
         expects = HashSet<Book>()
-        expects.add(repository.findOne(9783158101897L))
+        expects.add(bookRepository.findOne(9783158101897L))
         Assert.assertEquals(expects, HashSet<Book>(result.content))
 
     }
@@ -76,7 +80,7 @@ open class BookServiceTest {
         var pageable = PageRequest(0, 20)
         val result = service!!.searchBookByFullAuthors(pageable, authors)
         val expects = ArrayList<Book>()
-        expects.add(repository!!.findOne(9783158101899L))
+        expects.add(bookRepository!!.findOne(9783158101899L))
         Assert.assertEquals(expects, result.content)
     }
 
@@ -91,8 +95,12 @@ open class BookServiceTest {
 
     }
 
-    @Test fun testSaveBooks(){
-        // todo: Add Book generator and perform test
+    @Test fun testSaveBooks() {
+        val bookGenerator: BookGenerator = BookGenerator()
+        val book = bookGenerator.generateBook()
+        book.publisher = publisherRepository!!.findOne("999")
+        this.service!!.saveBook(book)
+        Assert.assertNotNull(bookRepository!!.findOne(book.isbn))
     }
 
 }

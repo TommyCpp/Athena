@@ -6,14 +6,12 @@ import com.athena.security.model.Account
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit4.SpringRunner
-
 import javax.transaction.Transactional
-
-import org.mockito.BDDMockito.given
 
 /**
  * Created by tommy on 2017/3/27.
