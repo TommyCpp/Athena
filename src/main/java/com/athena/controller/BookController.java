@@ -18,16 +18,19 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Tommy on 2017/5/14.
- *
  */
 @RestController
 @RequestMapping("api/v1/**")
 public class BookController {
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
+
+    private final PageableHeaderService pageableHeaderService;
 
     @Autowired
-    private PageableHeaderService pageableHeaderService;
+    public BookController(BookService bookService, PageableHeaderService pageableHeaderService) {
+        this.bookService = bookService;
+        this.pageableHeaderService = pageableHeaderService;
+    }
 
     @RequestMapping(path = "/books", method = RequestMethod.GET)
     public Page<Book> searchBooks(
@@ -88,7 +91,7 @@ public class BookController {
                 }
             }
 
-            if(publisher != null){
+            if (publisher != null) {
                 return bookService.searchBookByPublisher(pageable, publisher);
             }
         }
@@ -96,5 +99,10 @@ public class BookController {
         throw new MissingServletRequestPartException("search term");
     }
 
+    @RequestMapping(path = "/books", method = RequestMethod.POST)
+    public Object createBooks(HttpServletRequest request, HttpServletResponse response) {
+//        todo: create books in db
+        return null;
+    }
 
 }

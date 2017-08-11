@@ -82,6 +82,23 @@ paths:
           description: 查询次数过多（针对未登录用户)
           schema:
             $ref: '#/definitions/Error'
+    post:
+      tags:
+        - Book
+      summary: 创建书籍
+      operationId: createBooks
+      parameters:
+        - $ref: '#/parameters/Authorization'
+        - in: body
+          name: 书籍信息
+          required: true
+          schema:
+            $ref: '#/definitions/Book'
+      responses:
+        '201':
+          description: 创建成功
+        '403':
+          $ref: '#/responses/Forbidden'
   /users:
     get:
       tags:
