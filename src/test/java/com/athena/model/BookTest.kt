@@ -1,6 +1,7 @@
 package com.athena.model
 
 import com.athena.repository.BookRepository
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -59,9 +60,13 @@ open class BookTest {
         var books = repository!!.getBookBy_authorContains(pageable, "Nickola Dolling").content
         Assert.assertEquals(9783158101890L, books[0].isbn)
 
-//        books = repository!!.getBooksByAuthorHas("3")
-//        Assert.assertEquals(0, books.count())
+    }
 
+
+    @Test
+    fun testChineseTitle() {
+        val book = repository!!.findOne(9783158101891L)
+        System.out.println(ObjectMapper().writeValueAsString(book))
     }
 
 

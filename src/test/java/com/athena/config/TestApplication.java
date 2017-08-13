@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * Created by Tommy on 2017/5/12.
@@ -39,7 +40,7 @@ public class TestApplication {
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl(env.getProperty("spring.datasource.url") + "?sessionVariables=FOREIGN_KEY_CHECKS=0");
+        ds.setUrl(env.getProperty("spring.datasource.url") + "?useUnicode=yes&characterEncoding=UTF-8&sessionVariables=FOREIGN_KEY_CHECKS=0");
         ds.setUsername(env.getProperty("spring.datasource.username"));
         ds.setPassword(env.getProperty("spring.datasource.password"));
         return ds;

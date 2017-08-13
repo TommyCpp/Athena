@@ -93,7 +93,9 @@ paths:
           name: 书籍信息
           required: true
           schema:
-            $ref: '#/definitions/Book'
+            type: array
+            items:
+              $ref: '#/definitions/Book'
       responses:
         '201':
           description: 创建成功

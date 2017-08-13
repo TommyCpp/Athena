@@ -3,18 +3,22 @@ package com.athena.controller;
 import com.athena.model.Book;
 import com.athena.service.BookService;
 import com.athena.service.PageableHeaderService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Tommy on 2017/5/14.
@@ -54,39 +58,37 @@ public class BookController {
 
         Pageable pageable = new PageRequest(startPage - 1, count); // startPage starts from 1, while the Pageable actually accept the page index start from 0, so need to -1
 
+        Page<Book> result = null;
 
         if (language == null) {
             //If not specify the language
             if (titles != null) {
                 if (!matchAll) {
                     //Search by titles, partial match
-                    Page<Book> result = bookService.searchBookByName(pageable, titles);
+                    result = bookService.searchBookByName(pageable, titles);
                     if (result.getTotalElements() == 0) {
                         //If the search gets no results
                         //Consider the input as pinyin and try again
                         result = bookService.searchBookByPinyin(pageable, titles);
                     }
-                    pageableHeaderService.setHeader(result, request, response);
-                    return result;
                 }
                 if (titles.length == 1 && matchAll) {
                     //Search by title, all match
-                    Page<Book> result = bookService.searchBookByFullName(pageable, titles[0]);
-                    pageableHeaderService.setHeader(result, request, response);
-                    return result;
+                    result = bookService.searchBookByFullName(pageable, titles[0]);
                 }
             }
 
             if (authors != null) {
                 //search by author
                 if (matchAll) {
-                    return bookService.searchBookByFullAuthors(pageable, authors);
+
+                    result = bookService.searchBookByFullAuthors(pageable, authors);
                 } else {
                     if (authors.length == 1) {
-                        return bookService.searchBookByAuthor(pageable, authors[0]);
+                        result = bookService.searchBookByAuthor(pageable, authors[0]);
                     } else {
                         //search books which contains all the author
-                        return bookService.searchBookByAuthors(pageable, authors);
+                        result = bookService.searchBookByAuthors(pageable, authors);
                     }
                 }
             }
@@ -96,13 +98,19 @@ public class BookController {
             }
         }
 
+        if (result != null) {
+            pageableHeaderService.setHeader(result, request, response);
+            return result;
+        }
+
         throw new MissingServletRequestPartException("search term");
+
     }
 
     @RequestMapping(path = "/books", method = RequestMethod.POST)
-    public Object createBooks(HttpServletRequest request, HttpServletResponse response) {
-//        todo: create books in db
-        return null;
+    public ResponseEntity<?> createBooks(@RequestBody List<Book> books) {
+        bookService.saveBooks(books);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }

@@ -1,8 +1,8 @@
 package com.athena.model;
 
 import com.athena.service.PinyinConvertService;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -265,7 +265,7 @@ public class Book {
     }
 
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     public Publisher getPublisher() {
         return publisher;
     }
