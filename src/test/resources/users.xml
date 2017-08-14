@@ -1,4 +1,4 @@
 <dataset>
-    <user id="11" username="test" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="cha" email="sldjf@sldfj.com" identity="READER" phone_number="1526421812"/>
+    <user id="11" username="test" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="cha" email="sldjf@sldfj.com" identity="ROLE_READER" phone_number="1526421812"/>
 
 </dataset>

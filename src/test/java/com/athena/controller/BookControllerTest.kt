@@ -50,10 +50,10 @@ open class BookControllerTest {
 
     }
 
-    private fun createAuthentication(): JwtAuthenticationToken {
+    private fun createAuthentication(role: String): JwtAuthenticationToken {
         val encoder = BCryptPasswordEncoder()
         val user = User()
-        user.identity = "READER"
+        user.identity = role
         user.username = "reader"
         user.password = encoder.encode("123456")
         user.id = 1L
@@ -65,9 +65,9 @@ open class BookControllerTest {
         return JwtAuthenticationToken(principal, true)
     }
 
-    private fun authentication(): RequestPostProcessor {
+    private fun authentication(role: String = "ROLE_READER"): RequestPostProcessor {
         val securityContext = SecurityContextHolder.createEmptyContext()
-        securityContext.authentication = this.createAuthentication()
+        securityContext.authentication = this.createAuthentication(role)
 
         return securityContext(securityContext)
     }
@@ -140,7 +140,7 @@ open class BookControllerTest {
         mvc!!.perform(post("/api/v1/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
-                .with(this.authentication())
+                .with(this.authentication("ROLE_ADMIN"))
         )
                 .andExpect(status().isCreated)
     }

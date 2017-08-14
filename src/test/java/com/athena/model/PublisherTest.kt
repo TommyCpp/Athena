@@ -36,4 +36,11 @@ open class PublisherTest {
         val books = bookRepository!!.getBooksByPublisher(publisher).toTypedArray()
         Assert.assertArrayEquals(books, publisher.books.toTypedArray())
     }
+
+    @Test
+    fun testJsonSerialization() {
+        val publisher = publisherRepository!!.findOne("999")
+        System.out.println(ObjectMapper().writeValueAsString(publisher))
+        Assert.assertTrue(true)
+    }
 }

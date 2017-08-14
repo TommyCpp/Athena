@@ -265,7 +265,6 @@ public class Book {
     }
 
     @ManyToOne
-    @JsonManagedReference
     public Publisher getPublisher() {
         return publisher;
     }

@@ -1,6 +1,8 @@
 package com.athena.controller;
 
 import com.athena.model.Book;
+import com.athena.security.model.Account;
+import com.athena.security.model.JwtAuthenticationToken;
 import com.athena.service.BookService;
 import com.athena.service.PageableHeaderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,12 +13,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -108,7 +113,8 @@ public class BookController {
     }
 
     @RequestMapping(path = "/books", method = RequestMethod.POST)
-    public ResponseEntity<?> createBooks(@RequestBody List<Book> books) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> createBooks(@RequestBody List<Book> books, Principal principal) {
         bookService.saveBooks(books);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
