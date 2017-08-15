@@ -3,12 +3,14 @@ package com.athena.controller;
 import com.athena.model.Book
 import com.athena.model.Publisher
 import com.athena.model.User
+import com.athena.repository.BookRepository
 import com.athena.security.model.Account
 import com.athena.security.model.JwtAuthenticationToken
 import com.athena.util.BookGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,9 +43,11 @@ import org.springframework.web.context.WebApplicationContext
 @WebAppConfiguration
 open class BookControllerTest {
     @Autowired private val context: WebApplicationContext? = null
+    @Autowired private val bookRepository: BookRepository? = null
 
     private var mvc: MockMvc? = null
     private val mockBookGenerator: BookGenerator = BookGenerator()
+    private val url_prefix = "/api/v1"
 
     @Before fun setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context!!).apply<DefaultMockMvcBuilder>(springSecurity()).build()
@@ -75,7 +79,7 @@ open class BookControllerTest {
     @Test
     fun testBookSearchByPartialTitle() {
 
-        mvc!!.perform(get("/api/v1/books?title=elit").with(this.authentication()))
+        mvc!!.perform(get(this.url_prefix + "/books?title=elit").with(this.authentication()))
                 .andDo(print())
                 .andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"publishDate\":1474128000000,\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5,\"publisher\":{\"id\":\"922\",\"name\":\"Test Publisher\",\"location\":\"NewYork\"},\"translator\":[],\"author\":[\"Steffen Catcherside\"]}],\"totalElements\":1,\"totalPages\":1,\"last\":true,\"size\":20,\"number\":0,\"sort\":null,\"numberOfElements\":1,\"first\":true}"))
 
@@ -83,18 +87,18 @@ open class BookControllerTest {
 
     @Test
     fun testBookSearchByFullTitle() {
-        mvc!!.perform(get("/api/v1/books?title=consequat in consequat").with(this.authentication()))
+        mvc!!.perform(get(this.url_prefix + "/books?title=consequat in consequat").with(this.authentication()))
                 .andDo(print())
                 .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":1468684800000,\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"publisher\":{\"id\":\"817\",\"name\":\"TestDn Publisher\",\"location\":\"NewYork\"},\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
                 .andExpect(header().string("X-Total-Count", "1")).andExpect(header().string("Links", "<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"last\",<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"first\""))
-        mvc!!.perform(get("/api/v1/books?title=consequat&match_all=true").with(this.authentication()))
+        mvc!!.perform(get(this.url_prefix + "/books?title=consequat&match_all=true").with(this.authentication()))
                 .andExpect(header().string("X-Total-Count", "0"))
     }
 
 
     @Test
     fun testBookSearchByAuthor() {
-        mvc!!.perform(get("/api/v1/books?author=Lian Hubback")
+        mvc!!.perform(get(this.url_prefix + "/books?author=Lian Hubback")
                 .with(this.authentication()))
                 .andDo(print())
                 .andExpect(status().isOk)
@@ -103,7 +107,7 @@ open class BookControllerTest {
 
     @Test
     fun testBookSearchByAuthors() {
-        mvc!!.perform(get("/api/v1/books?author=Aneig dlsa,Rdlf dls")
+        mvc!!.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls")
                 .with(this.authentication()))
                 .andDo(print())
                 .andExpect(status().isOk)
@@ -119,9 +123,9 @@ open class BookControllerTest {
         for (i in 1..5) {
             // Note that the search.limit.get.times in config.properties must be 3
             if (i < 4) {
-                mvc!!.perform(get("/api/v1/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().isOk)
+                mvc!!.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().isOk)
             } else {
-                mvc!!.perform(get("/api/v1/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().`is`(429))
+                mvc!!.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().`is`(429))
             }
         }
     }
@@ -130,19 +134,67 @@ open class BookControllerTest {
     fun testCreateBook() {
         /**
          * Test create one book
+         *
+         *
          */
-        val book = this.mockBookGenerator.generateBook()
-        val publisher = Publisher()
+        /**
+         * Setup
+         *
+         * */
+        var books: ArrayList<Book> = arrayListOf()
+        var publisher = Publisher()
         publisher.id = "999"
-        book.publisher = publisher
+        for (i in 1..4) {
+            val book = this.mockBookGenerator.generateBook()
+            book.publisher = publisher
+            books.add(book)
+        }
 
-        val books: Array<Book> = arrayOf(book)
-        mvc!!.perform(post("/api/v1/books")
+        /**
+         * Test privilege
+         *
+         * only admin should be allowed to create book
+         */
+        mvc!!.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
                 .with(this.authentication("ROLE_ADMIN"))
         )
                 .andExpect(status().isCreated)
+        mvc!!.perform(post(this.url_prefix + "/books")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(ObjectMapper().writeValueAsString(books))
+                .with(this.authentication("ROLE_READER"))
+        )
+                .andExpect(status().isForbidden)
+
+
+        /**
+         * Test whether the books has been saved
+         *
+         */
+        for (book in books) {
+            Assert.assertNotNull(this.bookRepository!!.findOne(book.isbn))
+        }
+
+
+        /**
+         * Test Exception
+         *
+         * publisher doesn't exist in db
+         * */
+        books = arrayListOf()
+        val book = this.mockBookGenerator.generateBook()
+        publisher = Publisher()
+        publisher.id = "test" //publisher that doesn't exist
+        book.publisher = publisher
+        books.add(book)
+        mvc!!.perform(post(this.url_prefix + "/books")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(ObjectMapper().writeValueAsString(books))
+                .with(this.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(status().isBadRequest)
     }
 }
 

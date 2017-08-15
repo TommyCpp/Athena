@@ -1,29 +1,24 @@
 package com.athena.controller;
 
 import com.athena.model.Book;
-import com.athena.security.model.Account;
-import com.athena.security.model.JwtAuthenticationToken;
 import com.athena.service.BookService;
 import com.athena.service.PageableHeaderService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
-import java.util.Arrays;
-import java.util.Collection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Tommy on 2017/5/14.
@@ -114,9 +109,13 @@ public class BookController {
 
     @RequestMapping(path = "/books", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> createBooks(@RequestBody List<Book> books, Principal principal) {
-        bookService.saveBooks(books);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException {
+        try {
+            bookService.saveBooks(books);
+            return ResponseEntity.created(new URI("")).build();
+        } catch (DataAccessException dataAccessException) {
+            return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(dataAccessException.getMessage());
+        }
     }
 
 }

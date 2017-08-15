@@ -99,6 +99,10 @@ paths:
       responses:
         '201':
           description: 创建成功
+          headers:
+            Location:
+              type: string
+              description: 一个URL，指向刚刚创建的对象
         '403':
           $ref: '#/responses/Forbidden'
   /users:
