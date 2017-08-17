@@ -1,9 +1,12 @@
 package com.athena.controller;
 
+import com.athena.model.Batch;
 import com.athena.model.Book;
+import com.athena.service.BatchService;
 import com.athena.service.BookService;
 import com.athena.service.PageableHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,25 +21,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Tommy on 2017/5/14.
  */
 @RestController
-@RequestMapping("api/v1/**")
+@RequestMapping("${web.url.prefix}/books/**")
 public class BookController {
     private final BookService bookService;
 
     private final PageableHeaderService pageableHeaderService;
+    private final String baseUrl;
+    private final String bookUrl;
+    private final BatchService batchService;
 
     @Autowired
-    public BookController(BookService bookService, PageableHeaderService pageableHeaderService) {
+    public BookController(BookService bookService, PageableHeaderService pageableHeaderService, BatchService batchService, @Value("${web.url}") String baseUrl) {
         this.bookService = bookService;
         this.pageableHeaderService = pageableHeaderService;
+        this.batchService = batchService;
+        this.baseUrl = baseUrl;
+        this.bookUrl = baseUrl + "/books";
     }
 
-    @RequestMapping(path = "/books", method = RequestMethod.GET)
+    @RequestMapping(path = "/", method = RequestMethod.GET)
     public Page<Book> searchBooks(
             @RequestParam(value = "title", required = false) String[] titles,
             @RequestParam(value = "publisher", required = false) String publisher,
@@ -107,13 +119,20 @@ public class BookController {
 
     }
 
-    @RequestMapping(path = "/books", method = RequestMethod.POST)
+    @RequestMapping(path = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException {
         try {
             bookService.saveBooks(books);
-            return ResponseEntity.created(new URI("")).build();
+            List<String> urls = new ArrayList<>();
+            for (Book book : books) {
+                urls.add(this.bookUrl + "/" + book.getIsbn());
+            }
+            Batch batch = new Batch(UUID.randomUUID().toString(), "Book", Calendar.getInstance().getTime(), urls);
+            this.batchService.CreatedBooks(batch);
+            return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
         } catch (DataAccessException dataAccessException) {
+            //todo: distinguish the exception from Spring Data JPA and the one from Spring Data Mongo
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(dataAccessException.getMessage());
         }
     }

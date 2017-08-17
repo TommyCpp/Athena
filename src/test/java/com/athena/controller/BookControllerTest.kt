@@ -15,6 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.security.core.context.SecurityContextHolder
@@ -47,11 +48,10 @@ open class BookControllerTest {
 
     private var mvc: MockMvc? = null
     private val mockBookGenerator: BookGenerator = BookGenerator()
-    private val url_prefix = "/api/v1"
+    @Value("\${web.url.prefix}") private var url_prefix: String = ""
 
     @Before fun setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context!!).apply<DefaultMockMvcBuilder>(springSecurity()).build()
-
     }
 
     private fun createAuthentication(role: String): JwtAuthenticationToken {
