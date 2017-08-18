@@ -1,4 +1,4 @@
-package com.athena.controller;
+package com.athena.controller
 
 import com.athena.model.Book
 import com.athena.model.Publisher
@@ -17,6 +17,7 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.ApplicationContext
 import org.springframework.http.MediaType
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -44,11 +45,13 @@ import org.springframework.web.context.WebApplicationContext
 @WebAppConfiguration
 open class BookControllerTest {
     @Autowired private val context: WebApplicationContext? = null
+    @Autowired private val applicationContext: ApplicationContext? = null
     @Autowired private val bookRepository: BookRepository? = null
 
     private var mvc: MockMvc? = null
     private val mockBookGenerator: BookGenerator = BookGenerator()
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
+
 
     @Before fun setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context!!).apply<DefaultMockMvcBuilder>(springSecurity()).build()
@@ -133,11 +136,6 @@ open class BookControllerTest {
     @Test
     fun testCreateBook() {
         /**
-         * Test create one book
-         *
-         *
-         */
-        /**
          * Setup
          *
          * */
@@ -184,17 +182,46 @@ open class BookControllerTest {
          * publisher doesn't exist in db
          * */
         books = arrayListOf()
-        val book = this.mockBookGenerator.generateBook()
+        var errorBook = this.mockBookGenerator.generateBook()
         publisher = Publisher()
         publisher.id = "test" //publisher that doesn't exist
-        book.publisher = publisher
-        books.add(book)
+        errorBook.publisher = publisher
+        books.add(errorBook)
         mvc!!.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
                 .with(this.authentication("ROLE_ADMIN"))
         )
                 .andExpect(status().isBadRequest)
+
+
+        /**
+         * Test Transaction
+         *
+         * 1. When exception happens in insert books (Exception in MySQL)
+         * 2. When exception happens in insert batch (Exception in MongoDB)
+         */
+        books = arrayListOf()
+        books.add(errorBook)
+        var book = this.mockBookGenerator.generateBook()
+        publisher = Publisher()
+        publisher.id = "922"
+        book.publisher = publisher
+        books.add(book)
+
+        var result = mvc!!.perform(post(this.url_prefix + "/books")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(ObjectMapper().writeValueAsString(books))
+                .with(this.authentication("ROLE_ADMIN"))
+        )
+                .andReturn()
+
+        if (result.response.status != 201) {
+            //Exception happens
+            Assert.assertNull(this.bookRepository!!.findOne(book.isbn))
+        }
+
+
     }
 }
 

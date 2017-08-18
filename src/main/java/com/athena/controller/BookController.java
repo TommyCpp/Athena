@@ -129,7 +129,7 @@ public class BookController {
                 urls.add(this.bookUrl + "/" + book.getIsbn());
             }
             Batch batch = new Batch(UUID.randomUUID().toString(), "Book", Calendar.getInstance().getTime(), urls);
-            this.batchService.CreatedBooks(batch);
+            this.batchService.createdBooks(batch);
             return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
         } catch (DataAccessException dataAccessException) {
             //todo: distinguish the exception from Spring Data JPA and the one from Spring Data Mongo

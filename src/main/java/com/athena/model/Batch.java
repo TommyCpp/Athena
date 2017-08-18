@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,7 @@ public class Batch {
     }
 
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     public Date getCreateAt() {
         return createAt;
     }

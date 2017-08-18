@@ -17,7 +17,7 @@ public class BatchService {
         this.repository = repository;
     }
 
-    public void CreatedBooks(Batch batch) {
+    public void createdBooks(Batch batch) {
         repository.save(batch);
     }
 }
