@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface BatchRepository extends MongoRepository<Batch, String> {
     List<Batch> findByCreateAtBefore(Date date);
+
+    Batch findByIdAndTypeIsIn(String id, String[] type);
 }
