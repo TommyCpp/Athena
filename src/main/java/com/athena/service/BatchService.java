@@ -1,5 +1,6 @@
 package com.athena.service;
 
+import com.athena.exception.ResourceNotFoundException;
 import com.athena.model.Batch;
 import com.athena.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,12 @@ public class BatchService {
 
     public void createdBooks(Batch batch) {
         repository.save(batch);
+    }
+
+    public Batch findOne(String uuid) throws ResourceNotFoundException {
+        Batch batch = this.repository.findOne(uuid);
+        if (batch == null)
+            throw new ResourceNotFoundException();
+        return batch;
     }
 }

@@ -1,5 +1,6 @@
 package com.athena.controller;
 
+import com.athena.exception.ResourceNotFoundException;
 import com.athena.model.Batch;
 import com.athena.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,7 @@ public class BatchController {
     }
 
     @RequestMapping(path = "/{uuid}", method = RequestMethod.GET)
-    public ResponseEntity<Batch> batch(@PathVariable String uuid) {
-        //todo
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<Batch> batch(@PathVariable String uuid) throws ResourceNotFoundException {
+        return ResponseEntity.ok(this.batchService.findOne(uuid));
     }
 }

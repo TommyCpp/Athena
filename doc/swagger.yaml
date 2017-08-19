@@ -105,6 +105,28 @@ paths:
               description: 一个URL，指向刚刚创建的对象
         '403':
           $ref: '#/responses/Forbidden'
+  /batch/{id}:
+    get:
+      tags:
+        - Batch
+      summary: get batch
+      operationId: getBatch
+      parameters:
+        - $ref: '#/parameters/Authorization'
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: id of the batch
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: queried batch
+          schema:
+            $ref: '#/definitions/Batch'
   /users:
     get:
       tags:
@@ -274,6 +296,19 @@ paths:
         '405':
           $ref: '#/responses/MethodNotAllowed'
 definitions:
+  Batch:
+    type: object
+    properties:
+      _id:
+        type: string
+      type:
+        type: string
+      createAt:
+        type: number
+      content:
+        type: array
+        items:
+          type: string
   Error:
     type: object
     properties:
