@@ -2,9 +2,9 @@ package com.athena.service;
 
 import com.athena.model.Book;
 import com.athena.model.Copy;
-import com.athena.repository.BookRepository;
-import com.athena.repository.CopyRepository;
-import com.athena.repository.PublisherRepository;
+import com.athena.repository.jpa.BookRepository;
+import com.athena.repository.jpa.CopyRepository;
+import com.athena.repository.jpa.PublisherRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

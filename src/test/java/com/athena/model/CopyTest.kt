@@ -1,7 +1,7 @@
 package com.athena.model
 
-import com.athena.repository.BookRepository
-import com.athena.repository.CopyRepository
+import com.athena.repository.jpa.BookRepository
+import com.athena.repository.jpa.CopyRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert

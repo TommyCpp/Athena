@@ -1,4 +1,4 @@
-package com.athena.repository;
+package com.athena.repository.jpa;
 
 import com.athena.model.Book;
 import com.athena.model.Copy;

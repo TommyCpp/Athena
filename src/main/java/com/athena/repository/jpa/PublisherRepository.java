@@ -1,4 +1,4 @@
-package com.athena.repository;
+package com.athena.repository.jpa;
 
 import com.athena.model.Publisher;
 import org.springframework.data.jpa.repository.JpaRepository;

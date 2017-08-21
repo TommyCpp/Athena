@@ -10,7 +10,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 /**
  * Created by Tommy on 2017/5/12.

@@ -120,7 +120,7 @@ public class BookController {
     }
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException {
         try {
             bookService.saveBooks(books);
@@ -129,7 +129,7 @@ public class BookController {
                 urls.add(this.bookUrl + "/" + book.getIsbn());
             }
             Batch batch = new Batch(UUID.randomUUID().toString(), "Book", Calendar.getInstance().getTime(), urls);
-            this.batchService.createdBooks(batch);
+            this.batchService.save(batch);
             return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
         } catch (DataAccessException dataAccessException) {
             //todo: distinguish the exception from Spring Data JPA and the one from Spring Data Mongo

@@ -2,7 +2,7 @@ package com.athena.service;
 
 import com.athena.exception.ResourceNotFoundException;
 import com.athena.model.Batch;
-import com.athena.repository.BatchRepository;
+import com.athena.repository.mongo.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class BatchService {
         this.repository = repository;
     }
 
-    public void createdBooks(Batch batch) {
+    public void save(Batch batch) {
         repository.save(batch);
     }
 

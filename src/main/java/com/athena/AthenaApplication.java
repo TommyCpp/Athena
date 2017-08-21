@@ -24,23 +24,26 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan
-@EnableJpaRepositories(basePackages = "com.athena.repository")
+@EnableJpaRepositories(basePackages = "com.athena.repository.jpa")
 @EnableAutoConfiguration
 @SpringBootApplication
 @PropertySource("classpath:/config.properties")
-@EnableMongoRepositories(basePackages = "com.athena.repository")
+@EnableMongoRepositories(basePackages = "com.athena.repository.mongo")
 public class AthenaApplication extends WebMvcConfigurerAdapter {
+
+    private final Environment env;
+
+    private final RateLimitInterceptor rateLimitInterceptor;
+
+    @Autowired
+    public AthenaApplication(Environment env, RateLimitInterceptor rateLimitInterceptor) {
+        this.env = env;
+        this.rateLimitInterceptor = rateLimitInterceptor;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(AthenaApplication.class, args);
     }
-
-
-    @Autowired
-    Environment env;
-
-    @Autowired
-    private RateLimitInterceptor rateLimitInterceptor;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Qualifier("dataSource") DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
@@ -80,7 +83,7 @@ public class AthenaApplication extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(this.rateLimitInterceptor).addPathPatterns("/api/v1/books");
+        registry.addInterceptor(this.rateLimitInterceptor).addPathPatterns(this.env.getProperty("web.url.prefix ") + "/books");
     }
 
 

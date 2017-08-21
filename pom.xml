@@ -112,6 +112,12 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.fakemongo</groupId>
+            <artifactId>fongo</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

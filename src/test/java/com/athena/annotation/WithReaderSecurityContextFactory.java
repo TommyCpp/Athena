@@ -21,7 +21,7 @@ public class WithReaderSecurityContextFactory implements WithSecurityContextFact
         PasswordEncoder encoder = new BCryptPasswordEncoder();
 
         User user = new User();
-        user.setIdentity("READER");
+        user.setIdentity("ROLE_READER");
         user.setUsername(withReader.username());
         user.setPassword(encoder.encode(withReader.password()));
         user.setId(1L);

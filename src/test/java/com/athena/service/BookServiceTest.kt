@@ -1,8 +1,8 @@
 package com.athena.service
 
 import com.athena.model.Book
-import com.athena.repository.BookRepository
-import com.athena.repository.PublisherRepository
+import com.athena.repository.jpa.BookRepository
+import com.athena.repository.jpa.PublisherRepository
 import com.athena.util.BookGenerator
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup

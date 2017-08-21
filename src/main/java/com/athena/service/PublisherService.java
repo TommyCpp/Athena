@@ -1,6 +1,6 @@
 package com.athena.service;
 
-import com.athena.repository.PublisherRepository;
+import com.athena.repository.jpa.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

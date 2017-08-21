@@ -15,7 +15,7 @@ This is project is inspired by the question from [here](http://www.cnsoftbei.com
 To install the application, first need to create some config file in resources
 * application.properties
 
-    > Setting the Database info
+    > Config MySQL
 
     key | value
     ----|------
@@ -24,7 +24,7 @@ To install the application, first need to create some config file in resources
     spring.datasource.password | Password
     spring.datasource.driverClassName | Drive class
 
-    > Setting the Redis info
+    > Config Redis
     
     > Spring Boot has configure most of the configuration for us. Table below lists the configuration that I changed. See [this document](https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html) to find all the auto-configuration that Spring Boot defined
 
@@ -34,11 +34,20 @@ To install the application, first need to create some config file in resources
     spring.redis.host| Host of the redis, default localhost
     spring.redis.port| Port of the redis, default 6379
     spring.redis.password| Password of the redis
-    
+
+    > Config MongoDB
+
+    key | value
+    ----|------
+    spring.data.mongodb.host | Mongo server host
+    spring.data.mongodb.authentication-database | Authentication database name
+    spring.data.mongodb.username |Login user of the mongo server
+    spring.data.mongodb.password |Login password of the mongo server
+    spring.data.mongodb.database |Database name
 
 * config.properties
 
-    > Setting the [JWT](http://jwt.io) info
+    > Config [JWT](http://jwt.io)
 
     key | value
     ----|------
@@ -47,7 +56,7 @@ To install the application, first need to create some config file in resources
     security.token.prefix | The prefix of JWT
     security.token.expirationtime | The expiration time of JWT
 
-    > Setting some value regarding the search
+    > Config search param
 
     key | value
     ----| -----
@@ -55,6 +64,17 @@ To install the application, first need to create some config file in resources
     search.limit.expiredtime | How long before reset the time that unauthenticated user
     search.limit.prefix | The prefix added to the remote address of the request when stored and queried in Redis
     search.limit.get.times | How much get request can perform for unauthenticated user within expired time
+
+
+    > Config url
+
+    key | value
+    ----| ----
+    web.url| the whole url prefix of project. e.g `http://localhost:8080/api/v1`
+    web.url.prefix| the url without protocol host and port e.g `/api/v1`
+
+
+
 
 ### Install required library
 Run following command in command line to install library by maven `mvn`
@@ -66,6 +86,7 @@ The following dependencies are required by Athena, you can also find them in the
     * spring-boot-starter-data-jpa
     * spring-boot-starter-web
     * spring-boot-starter-security
+    * spring-boot-starter-data-mongodb
 * Mysql Connector
 * Apache Common
 * Jpinyin
@@ -79,6 +100,8 @@ The dependencies below are required for test
 * Kotlin Stdlib Jre8
 * Kotlin Test
   > Athena will use *Kotlin* for test
+* Fongo
+* NoSqlUnit
 
 
 ## Start
@@ -133,6 +156,7 @@ code | meaning
 4014 | JWT token's signature is not supported
 4290 | Too many requests
 4291 | Too many requests for search
+4040 | Resource not found
 
 ## Test
 This section will introduce the basic test component in Athena

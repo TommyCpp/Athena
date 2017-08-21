@@ -1,6 +1,6 @@
 package com.athena.model
 
-import com.athena.repository.UserRepository
+import com.athena.repository.jpa.UserRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -25,7 +25,7 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:users.xml")
 open class UserTest {
-    @Autowired private var repository:UserRepository? = null
+    @Autowired private var repository: UserRepository? = null
 
     @Autowired private var passwordEncoder:PasswordEncoder? = null
 

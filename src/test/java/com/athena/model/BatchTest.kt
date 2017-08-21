@@ -1,6 +1,6 @@
 package com.athena.model
 
-import com.athena.repository.BatchRepository
+import com.athena.repository.mongo.BatchRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet
 import com.lordofthejars.nosqlunit.core.LoadStrategyEnum

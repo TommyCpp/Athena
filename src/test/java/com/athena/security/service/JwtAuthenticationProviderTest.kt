@@ -1,7 +1,7 @@
 package com.athena.security.service
 
 import com.athena.model.User
-import com.athena.repository.UserRepository
+import com.athena.repository.jpa.UserRepository
 import com.athena.security.exception.AccountNotFoundException
 import com.athena.security.model.Account
 import com.athena.security.model.JwtAuthenticationToken

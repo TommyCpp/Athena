@@ -1,4 +1,4 @@
-package com.athena.repository;
+package com.athena.repository.mongo;
 
 import com.athena.model.Batch;
 import org.springframework.data.mongodb.repository.MongoRepository;

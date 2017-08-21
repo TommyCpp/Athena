@@ -3,13 +3,15 @@ package com.athena.controller
 import com.athena.model.Book
 import com.athena.model.Publisher
 import com.athena.model.User
-import com.athena.repository.BookRepository
+import com.athena.repository.jpa.BookRepository
 import com.athena.security.model.Account
 import com.athena.security.model.JwtAuthenticationToken
 import com.athena.util.BookGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
+import com.lordofthejars.nosqlunit.annotation.UsingDataSet
+import com.lordofthejars.nosqlunit.core.LoadStrategyEnum
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -51,7 +53,6 @@ open class BookControllerTest {
     private var mvc: MockMvc? = null
     private val mockBookGenerator: BookGenerator = BookGenerator()
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
-
 
     @Before fun setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context!!).apply<DefaultMockMvcBuilder>(springSecurity()).build()
@@ -134,6 +135,7 @@ open class BookControllerTest {
     }
 
     @Test
+    @UsingDataSet(locations = arrayOf("/batch.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     fun testCreateBook() {
         /**
          * Setup
@@ -159,6 +161,7 @@ open class BookControllerTest {
                 .with(this.authentication("ROLE_ADMIN"))
         )
                 .andExpect(status().isCreated)
+
         mvc!!.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))

@@ -1,7 +1,7 @@
 package com.athena.service;
 
 import com.athena.model.User;
-import com.athena.repository.UserRepository;
+import com.athena.repository.jpa.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

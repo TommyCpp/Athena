@@ -1,7 +1,7 @@
 package com.athena.model
 
-import com.athena.repository.BookRepository
-import com.athena.repository.PublisherRepository
+import com.athena.repository.jpa.BookRepository
+import com.athena.repository.jpa.PublisherRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
