@@ -144,6 +144,12 @@ Athena support the following search strategy
     * match many authors in author list
     * match all the author
 
+### Create Books
+User with Admin or SuperAdmin clearance can create books in database
+
+* create single book
+* create multiple books
+
 ## Exception Check List
 Among the Athena, we may encounter different kind of exceptions. The Http standard status code(like 401,400) may not be enough. Thus, we introduce some custom status code which will be include in the response body when exception happens.
 
