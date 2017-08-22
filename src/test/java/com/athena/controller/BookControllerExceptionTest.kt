@@ -2,6 +2,7 @@ package com.athena.controller
 
 import com.athena.model.Book
 import com.athena.model.Publisher
+import com.athena.repository.jpa.BookRepository
 import com.athena.util.BookGenerator
 import com.athena.util.IdentityGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -24,10 +25,10 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
-
 
 /**
  * Created by Tommy on 2017/8/21.
@@ -42,18 +43,20 @@ import org.springframework.web.context.WebApplicationContext
 open class BookControllerExceptionTest {
     @Autowired private val context: WebApplicationContext? = null
     private val mockBookGenerator: BookGenerator = BookGenerator()
+    @Autowired private val bookResository: BookRepository? = null
 
     private var mvc: MockMvc? = null
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
     private val identity: IdentityGenerator = IdentityGenerator()
 
-    private var books: ArrayList<Book> = arrayListOf()
-
-
 
     @Before fun setup() {
         this.mvc = MockMvcBuilders.webAppContextSetup(context!!).apply<DefaultMockMvcBuilder>(SecurityMockMvcConfigurers.springSecurity()).build()
-        this.books = arrayListOf()
+
+    }
+
+    @Test fun testMongoConnectionException() {
+        var books: MutableList<Book> = arrayListOf()
         var publisher = Publisher()
         publisher.id = "999"
         for (i in 1..4) {
@@ -61,17 +64,14 @@ open class BookControllerExceptionTest {
             book.publisher = publisher
             books.add(book)
         }
-    }
-
-    @Test fun testMongoConnectionException() {
-        var result = mvc!!.perform(post(this.url_prefix + "/books")
+        mvc!!.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
                 .with(this.identity.authentication("ROLE_ADMIN"))
         )
-                .andReturn()
+                .andExpect(status().`is`(500))
 
-        Assert.assertNotEquals(result.response.status, 201)
+        Assert.assertNull(this.bookResository!!.findOne(books[0].isbn))
 
     }
 

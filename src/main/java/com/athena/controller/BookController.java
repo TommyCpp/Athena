@@ -129,11 +129,17 @@ public class BookController {
                 urls.add(this.bookUrl + "/" + book.getIsbn());
             }
             Batch batch = new Batch(UUID.randomUUID().toString(), "Book", Calendar.getInstance().getTime(), urls);
-            this.batchService.save(batch);
+            try {
+                this.batchService.save(batch);
+            } catch (DataAccessException mongoDataAccessException) {
+                //rollback the book insert
+                this.bookService.removeBooks(books);
+                return ResponseEntity.status(500).build();
+            }
             return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
-        } catch (DataAccessException dataAccessException) {
+        } catch (DataAccessException jpaDataAccessException) {
             //todo: distinguish the exception from Spring Data JPA and the one from Spring Data Mongo
-            return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(dataAccessException.getMessage());
+            return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(jpaDataAccessException.getMessage());
         }
     }
 

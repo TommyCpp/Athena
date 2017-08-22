@@ -142,4 +142,9 @@ public class BookService {
     public void saveCopy(Copy copy) {
         this.copyRepository.save(copy);
     }
+
+
+    public void removeBooks(List<Book> books) {
+        this.bookRepository.delete(books);
+    }
 }
