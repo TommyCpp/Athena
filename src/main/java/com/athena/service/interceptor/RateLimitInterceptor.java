@@ -34,12 +34,15 @@ public class RateLimitInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
-            String ipAddress = request.getRemoteAddr();
-            if (rateLimitService.increaseLimit(ipAddress) > limit) {
-                response.sendError(429, this.errorResponse);
-                return false;
+        if(request.getMethod().equals("GET")){
+            if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
+                String ipAddress = request.getRemoteAddr();
+                if (rateLimitService.increaseLimit(ipAddress) > limit) {
+                    response.sendError(429, this.errorResponse);
+                    return false;
+                }
             }
+            return true;
         }
         return true;
     }

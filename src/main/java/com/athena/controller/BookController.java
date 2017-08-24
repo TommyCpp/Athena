@@ -138,7 +138,6 @@ public class BookController {
             }
             return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
         } catch (DataAccessException jpaDataAccessException) {
-            //todo: distinguish the exception from Spring Data JPA and the one from Spring Data Mongo
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(jpaDataAccessException.getMessage());
         }
     }

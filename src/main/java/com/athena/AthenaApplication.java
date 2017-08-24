@@ -83,7 +83,7 @@ public class AthenaApplication extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(this.rateLimitInterceptor).addPathPatterns(this.env.getProperty("web.url.prefix ") + "/books");
+        registry.addInterceptor(this.rateLimitInterceptor).addPathPatterns(this.env.getProperty("web.url.prefix") + "/books");
     }
 
 

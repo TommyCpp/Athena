@@ -1,5 +1,6 @@
 package com.athena.service;
 
+import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.exception.ResourceNotFoundException;
 import com.athena.model.Batch;
 import com.athena.repository.mongo.BatchRepository;
@@ -32,7 +33,7 @@ public class BatchService {
         return batch;
     }
 
-    public Batch findOne(String uuid, String identity) throws ResourceNotFoundException {
+    public Batch findOne(String uuid, String identity) throws IdOfResourceNotFoundException {
         List<String> types = new ArrayList<>();
         if (identity.equals("ROLE_ADMIN")) {
             types.add("Book");
@@ -41,7 +42,7 @@ public class BatchService {
         // e.g: the reader may access a batch of *Borrow* resource
         Batch batch = this.repository.findByIdAndTypeIsIn(uuid, types.size() > 0 ? (String[]) types.toArray() : new String[0]);
         if (batch == null) {
-            throw new ResourceNotFoundException();
+            throw new IdOfResourceNotFoundException();
         }
         return batch;
     }
