@@ -2,6 +2,7 @@ package com.athena.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * Created by Tommy on 2017/6/9.
@@ -10,10 +11,17 @@ import java.sql.Timestamp;
 @Table(name = "copy")
 public class Copy {
     private CopyPK id;
-    private Integer status;
+    private Integer status; //0:new included;1:available;2:booked;3:checked out;4:reserved;5:damaged
     private Book book;
     private Timestamp createdDate;
     private Timestamp updatedDate;
+
+    public Copy() {
+        this.status = CopyStatus.CREATED;
+        Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        this.createdDate = timestamp;
+        this.updatedDate = timestamp;
+    }
 
     @EmbeddedId
     public CopyPK getId() {
@@ -80,7 +88,7 @@ public class Copy {
 
     @MapsId("isbn")
     @ManyToOne
-    @JoinColumn(name="isbn",referencedColumnName = "isbn", nullable = false)
+    @JoinColumn(name = "isbn", referencedColumnName = "isbn", nullable = false)
     public Book getBook() {
         return this.book;
     }
