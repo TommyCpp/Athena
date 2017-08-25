@@ -1,5 +1,6 @@
 package com.athena.controller;
 
+import com.athena.exception.BookNotFoundException;
 import com.athena.model.Batch;
 import com.athena.model.CopyPK;
 import com.athena.service.CopyService;
@@ -29,7 +30,7 @@ public class CopyController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<Batch> createCopies(@RequestBody List<CopyPK> copyList) {
+    public ResponseEntity<Batch> createCopies(@RequestBody List<CopyPK> copyList) throws BookNotFoundException {
         this.copyService.saveCopies(copyList);
         return ResponseEntity.ok().build();
     }

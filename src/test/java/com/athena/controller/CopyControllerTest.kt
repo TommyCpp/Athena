@@ -52,6 +52,9 @@ open class CopyControllerTest {
 
     @Test
     fun testCreateCopy() {
+        /**
+         * Test create copies
+         * */
         var isbn = "9783158101900"
         var copyList: ArrayList<CopyPK> = arrayListOf()
         for (i in 1..4) {
@@ -66,6 +69,26 @@ open class CopyControllerTest {
                 .andExpect(status().isOk)
 
         Assert.assertNotNull(this.copyRepository!!.findOne(CopyPK(isbn.toLong(), 1)))
+
+
+        /**
+         * Test exception
+         * 1. Book do not exist
+         * */
+        var nonExistIsbn = "9769438101900"
+        copyList = arrayListOf()
+        for (i in 1..2) {
+            copyList.add(CopyPK(nonExistIsbn.toLong(), i))
+        }
+
+        this.mvc!!.perform(post(this.url_prefix + "/copy")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(ObjectMapper().writeValueAsString(copyList))
+                .with(this.identity.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(status().isNotFound)
+
+
 
     }
 }

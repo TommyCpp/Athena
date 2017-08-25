@@ -1,5 +1,6 @@
 package com.athena.service;
 
+import com.athena.exception.BookNotFoundException;
 import com.athena.model.Book;
 import com.athena.model.Copy;
 import com.athena.model.CopyPK;
@@ -40,11 +41,14 @@ public class CopyService {
         this.copyRepository.save(copyList);
     }
 
-    public void saveCopies(List<CopyPK> copyPKList) {
+    public void saveCopies(List<CopyPK> copyPKList) throws BookNotFoundException {
         List<Copy> copyList = new ArrayList<>();
         Map<Long, Set<CopyPK>> isbnCopyPK = this.divideCopyPKByIsbn(copyPKList);
         for (Long isbn: isbnCopyPK.keySet()) {
             Book book = this.bookRepository.findOne(isbn);
+            if(book == null){
+                throw new BookNotFoundException(isbn);
+            }
             for (CopyPK copyPK : isbnCopyPK.get(isbn)) {
                 Copy copy = new Copy();
                 copy.setId(copyPK);
