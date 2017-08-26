@@ -57,4 +57,9 @@ public class CopyPK implements Serializable {
         result = 31 * result + copyId;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return this.isbn + "-" + this.copyId;
+    }
 }

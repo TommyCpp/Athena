@@ -41,7 +41,7 @@ public class CopyService {
         this.copyRepository.save(copyList);
     }
 
-    public void saveCopies(List<CopyPK> copyPKList) throws BookNotFoundException {
+    public List<Copy> saveCopies(List<CopyPK> copyPKList) throws BookNotFoundException {
         List<Copy> copyList = new ArrayList<>();
         Map<Long, Set<CopyPK>> isbnCopyPK = this.divideCopyPKByIsbn(copyPKList);
         for (Long isbn: isbnCopyPK.keySet()) {
@@ -57,6 +57,7 @@ public class CopyService {
             }
         }
         this.copyRepository.save(copyList);
+        return copyList;
     }
 
 

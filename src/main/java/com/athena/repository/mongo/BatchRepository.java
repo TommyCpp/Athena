@@ -15,4 +15,6 @@ public interface BatchRepository extends MongoRepository<Batch, String> {
     List<Batch> findByCreateAtBefore(Date date);
 
     Batch findByIdAndTypeIsIn(String id, String[] type);
+
+    List<Batch> findByType(String type);
 }

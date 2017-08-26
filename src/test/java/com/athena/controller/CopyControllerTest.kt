@@ -2,10 +2,13 @@ package com.athena.controller
 
 import com.athena.model.CopyPK
 import com.athena.repository.jpa.CopyRepository
+import com.athena.repository.mongo.BatchRepository
 import com.athena.util.IdentityGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
+import com.lordofthejars.nosqlunit.annotation.UsingDataSet
+import com.lordofthejars.nosqlunit.core.LoadStrategyEnum
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -40,6 +43,7 @@ import java.util.*
 open class CopyControllerTest {
     @Autowired private val context: WebApplicationContext? = null
     @Autowired private val copyRepository: CopyRepository? = null
+    @Autowired private val batchRepository: BatchRepository? = null
     private var mvc: MockMvc? = null
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
     private val identity: IdentityGenerator = IdentityGenerator()
@@ -51,6 +55,7 @@ open class CopyControllerTest {
     }
 
     @Test
+    @UsingDataSet(locations = arrayOf("/batch.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     fun testCreateCopy() {
         /**
          * Test create copies
@@ -66,9 +71,12 @@ open class CopyControllerTest {
                 .content(ObjectMapper().writeValueAsString(copyList))
                 .with(this.identity.authentication("ROLE_ADMIN"))
         )
-                .andExpect(status().isOk)
+                .andExpect(status().isCreated)
 
         Assert.assertNotNull(this.copyRepository!!.findOne(CopyPK(isbn.toLong(), 1)))
+
+        var batchList = this.batchRepository!!.findByType("Copy")
+        Assert.assertNotEquals(0, batchList.size)
 
 
         /**
@@ -88,7 +96,9 @@ open class CopyControllerTest {
         )
                 .andExpect(status().isNotFound)
 
-
+        /**
+         * Test Batch
+         * */
 
     }
 }
