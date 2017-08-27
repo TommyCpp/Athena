@@ -155,14 +155,21 @@ Among the Athena, we may encounter different kind of exceptions. The Http standa
 
 code | meaning
 -----|--------
+***401*** | **Unauthorized**
 4010 | Unauthorized
 4011 | JWT token is expired
 4012 | JWT token uses an unsupported algorithm
 4013 | Malformed JWT token
 4014 | JWT token's signature is not supported
+***404*** | **Not Found**
+4040 | Resource not found
+4041 | Resource not found because the provided id is not exist
+40411| Copy cannot be stored because correspond book does not exist
+***429***| **Too Many Requests**
 4290 | Too many requests
 4291 | Too many requests for search
-4040 | Resource not found
+***500***| **Server Error**
+5001| Error regarding database connection or repository
 
 ## Test
 This section will introduce the basic test component in Athena

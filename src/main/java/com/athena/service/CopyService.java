@@ -80,4 +80,8 @@ public class CopyService {
         }
         return result;
     }
+
+    public void removeCopies(List<Copy> copies) {
+        this.copyRepository.delete(copies);
+    }
 }

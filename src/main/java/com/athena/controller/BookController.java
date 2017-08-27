@@ -1,5 +1,6 @@
 package com.athena.controller;
 
+import com.athena.exception.BatchStoreException;
 import com.athena.model.Batch;
 import com.athena.model.Book;
 import com.athena.service.BatchService;
@@ -121,7 +122,7 @@ public class BookController {
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException {
+    public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException, BatchStoreException {
         try {
             bookService.saveBooks(books);
             List<String> urls = new ArrayList<>();
@@ -132,9 +133,7 @@ public class BookController {
             try {
                 this.batchService.save(batch);
             } catch (DataAccessException mongoDataAccessException) {
-                //rollback the book insert
-                this.bookService.removeBooks(books);
-                return ResponseEntity.status(500).build();
+                throw new BatchStoreException(books, "Book");
             }
             return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
         } catch (DataAccessException jpaDataAccessException) {

@@ -1,5 +1,6 @@
 package com.athena.controller;
 
+import com.athena.exception.BatchStoreException;
 import com.athena.exception.BookNotFoundException;
 import com.athena.model.Batch;
 import com.athena.model.Copy;
@@ -8,6 +9,7 @@ import com.athena.service.BatchService;
 import com.athena.service.CopyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,7 +46,7 @@ public class CopyController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<Batch> createCopies(@RequestBody List<CopyPK> copyPKList) throws BookNotFoundException, URISyntaxException {
+    public ResponseEntity<Batch> createCopies(@RequestBody List<CopyPK> copyPKList) throws BookNotFoundException, URISyntaxException, BatchStoreException {
         List<Copy> copyList = this.copyService.saveCopies(copyPKList);
         List<String> copyUrlList = new ArrayList<>();
         for (Copy copy : copyList) {
@@ -52,7 +54,11 @@ public class CopyController {
         }
         //Create Batch
         Batch batch = new Batch(UUID.randomUUID().toString(), "Copy", Calendar.getInstance().getTime(), copyUrlList);
-        this.batchService.save(batch);
+        try {
+            this.batchService.save(batch);
+        } catch (DataAccessException e) {
+            throw new BatchStoreException(copyList, "Copy");
+        }
         return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
     }
 }

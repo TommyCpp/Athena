@@ -1,4 +1,4 @@
-package com.athena.controller
+package com.athena.exceptionhandler
 
 import com.athena.model.Book
 import com.athena.model.Publisher
@@ -24,14 +24,14 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 
 /**
- * Created by Tommy on 2017/8/21.
+ * Created by Tommy on 2017/8/27.
  *
  */
 @RunWith(SpringRunner::class)
@@ -40,10 +40,10 @@ import org.springframework.web.context.WebApplicationContext
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml")
 @WebAppConfiguration
 @ActiveProfiles("fakeMongo")
-open class BookControllerExceptionTest {
+class DataExceptionHandlerTest {
     @Autowired private val context: WebApplicationContext? = null
     private val mockBookGenerator: BookGenerator = BookGenerator()
-    @Autowired private val bookResository: BookRepository? = null
+    @Autowired private val bookRepository: BookRepository? = null
 
     private var mvc: MockMvc? = null
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
@@ -64,16 +64,14 @@ open class BookControllerExceptionTest {
             book.publisher = publisher
             books.add(book)
         }
-        mvc!!.perform(post(this.url_prefix + "/books")
+        mvc!!.perform(MockMvcRequestBuilders.post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
                 .with(this.identity.authentication("ROLE_ADMIN"))
         )
-                .andExpect(status().`is`(500))
+                .andExpect(MockMvcResultMatchers.status().`is`(500))
 
-        Assert.assertNull(this.bookResository!!.findOne(books[0].isbn))
+        Assert.assertNull(this.bookRepository!!.findOne(books[0].isbn))
 
     }
-
-
 }
