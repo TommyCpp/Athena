@@ -16,5 +16,4 @@ public interface CopyRepository extends JpaRepository<Copy, CopyPK> {
     Copy findOne(CopyPK id);
 
     List<Copy> getCopiesByBook(Book book);
-
 }

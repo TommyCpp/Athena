@@ -2,6 +2,7 @@ package com.athena.controller;
 
 import com.athena.exception.BatchStoreException;
 import com.athena.exception.BookNotFoundException;
+import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.model.Batch;
 import com.athena.model.Copy;
 import com.athena.model.CopyPK;
@@ -12,10 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -60,5 +58,17 @@ public class CopyController {
             throw new BatchStoreException(copyList, "Copy");
         }
         return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
+    }
+
+    @RequestMapping(value = "/{isbn:[0-9]*}", method = RequestMethod.GET)
+    public ResponseEntity<List<Copy>> getCopies(@PathVariable Long isbn) throws BookNotFoundException {
+        List<Copy> copyList = this.copyService.getCopies(isbn);
+        return ResponseEntity.ok(copyList);
+    }
+
+    @RequestMapping(value = "/{isbn:[0-9]*}/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Copy> getCopy(@PathVariable("isbn") Long isbn, @PathVariable("id") Integer id) throws IdOfResourceNotFoundException {
+        Copy copy = this.copyService.getCopy(isbn, id);
+        return ResponseEntity.ok(copy);
     }
 }

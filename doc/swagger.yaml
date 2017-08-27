@@ -105,6 +105,56 @@ paths:
               description: 一个URL，指向刚刚创建的对象
         '403':
           $ref: '#/responses/Forbidden'
+  /copy/{isbn}/{id}:
+    get:
+      tags:
+        - Copy
+      summary: get copy
+      operationId: getCopy
+      parameters:
+        - $ref: '#/parameters/Authorization'
+        - in: path
+          name: isbn
+          type: string
+          required: true
+          description: isbn of the copy's correspond book
+        - in: path
+          name: id
+          type: string
+          required: true
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: queried copy
+          schema:
+            $ref: '#/definitions/Copy'
+  /copy/{isbn}:
+    get:
+      tags:
+        - Copy
+      summary: get copies
+      operationId: getCopies
+      parameters:
+        - $ref: '#/parameters/Authorization'
+        - in: path
+          name: isbn
+          type: string
+          required: true
+          description: isbn of the copy's correspond book
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: queried copy
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Copy'
   /batch/{id}:
     get:
       tags:
@@ -190,7 +240,7 @@ paths:
             $ref: '#/definitions/User'
         '400':
           $ref: '#/responses/InputInvalid'
-  '/users/{id}':
+  /users/{id}:
     get:
       tags:
         - User
@@ -309,6 +359,17 @@ definitions:
         type: array
         items:
           type: string
+  Copy:
+    type: object
+    properties:
+      copyPK:
+        type: object
+      createAt:
+        type: object
+      updatedAt:
+        type: object
+      status:
+        type: integer
   Error:
     type: object
     properties:

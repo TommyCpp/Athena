@@ -1,6 +1,7 @@
 package com.athena.service;
 
 import com.athena.exception.BookNotFoundException;
+import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.model.Book;
 import com.athena.model.Copy;
 import com.athena.model.CopyPK;
@@ -83,5 +84,22 @@ public class CopyService {
 
     public void removeCopies(List<Copy> copies) {
         this.copyRepository.delete(copies);
+    }
+
+    public Copy getCopy(Long isbn, Integer id) throws IdOfResourceNotFoundException {
+        Copy copy = this.copyRepository.findOne(new CopyPK(isbn, id));
+        if(copy == null){
+            throw new IdOfResourceNotFoundException();
+        }
+        return copy;
+    }
+
+    public List<Copy> getCopies(Long isbn) throws BookNotFoundException {
+        Book book = this.bookRepository.findOne(isbn);
+        if(book == null){
+            throw new BookNotFoundException(isbn);
+        }
+
+        return this.copyRepository.getCopiesByBook(book);
     }
 }

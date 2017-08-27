@@ -24,7 +24,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -38,7 +40,7 @@ import java.util.*
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(TransactionalTestExecutionListener::class, DbUnitTestExecutionListener::class, DependencyInjectionTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml","classpath:copies.xml")
 @WebAppConfiguration
 open class CopyControllerTest {
     @Autowired private val context: WebApplicationContext? = null
@@ -100,5 +102,25 @@ open class CopyControllerTest {
          * Test Batch
          * */
 
+    }
+
+
+    @Test
+    fun testGetCopy() {
+        this.mvc!!.perform(MockMvcRequestBuilders.get(this.url_prefix + "/copy/9787111124444/2")
+                .with(this.identity.authentication("ROLE_READER"))
+        )
+                .andExpect(status().isOk)
+                .andDo(MockMvcResultHandlers.print())
+    }
+
+
+    @Test
+    fun testGetCopies(){
+        this.mvc!!.perform(MockMvcRequestBuilders.get(this.url_prefix + "/copy/9787111124444")
+                .with(this.identity.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(status().isOk)
+                .andDo(MockMvcResultHandlers.print())
     }
 }
