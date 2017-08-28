@@ -35,11 +35,13 @@ public class DataExceptionHandler {
                     bookService.removeBooks((List<Book>) exception.elements);
                 }
             }
-            case "Copy":{
-                if(exception.elements.size() != 0 && exception.elements.get(0) instanceof Copy){
+            break;
+            case "Copy": {
+                if (exception.elements.size() != 0 && exception.elements.get(0) instanceof Copy) {
                     copyService.removeCopies((List<Copy>) exception.elements);
                 }
             }
+            default:
         }
         return ResponseEntity.status(500).body(exception);
     }

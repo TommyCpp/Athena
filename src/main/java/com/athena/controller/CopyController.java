@@ -60,15 +60,15 @@ public class CopyController {
         return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
     }
 
-    @RequestMapping(value = "/{isbn:[0-9]*}", method = RequestMethod.GET)
-    public ResponseEntity<List<Copy>> getCopies(@PathVariable Long isbn) throws BookNotFoundException {
-        List<Copy> copyList = this.copyService.getCopies(isbn);
-        return ResponseEntity.ok(copyList);
-    }
-
-    @RequestMapping(value = "/{isbn:[0-9]*}/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{isbn}/{id}", method = RequestMethod.GET)
     public ResponseEntity<Copy> getCopy(@PathVariable("isbn") Long isbn, @PathVariable("id") Integer id) throws IdOfResourceNotFoundException {
         Copy copy = this.copyService.getCopy(isbn, id);
         return ResponseEntity.ok(copy);
+    }
+
+    @RequestMapping(value = "/{isbn}/**", method = RequestMethod.GET)
+    public ResponseEntity<List<Copy>> getCopies(@PathVariable Long isbn) throws BookNotFoundException {
+        List<Copy> copyList = this.copyService.getCopies(isbn);
+        return ResponseEntity.ok(copyList);
     }
 }
