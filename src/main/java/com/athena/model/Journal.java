@@ -7,26 +7,28 @@ import java.sql.Date;
  * Created by Tommy on 2017/8/28.
  */
 @Entity
+@Table(name = "journal")
 @IdClass(JournalPK.class)
 public class Journal {
-    private Integer issn;
+    private String issn;
     private Integer year;
     private Integer index;
     private String title;
-    private String titleShortPinyin;
-    private String titlePinyin;
+    private Integer titleShortPinyin;
+    private Integer titlePinyin;
     private Double price;
     private String coverUrl;
     private String directory;
     private Date publishDate;
+    private Publisher publisher;
 
     @Id
-    @Column(name = "issn", nullable = false)
-    public Integer getIssn() {
+    @Column(name = "issn", nullable = false, length = 8)
+    public String getIssn() {
         return issn;
     }
 
-    public void setIssn(Integer issn) {
+    public void setIssn(String issn) {
         this.issn = issn;
     }
 
@@ -50,6 +52,22 @@ public class Journal {
         this.index = index;
     }
 
+    @Transient
+    public void setId(JournalPK journalPK){
+        this.issn = journalPK.getIssn();
+        this.year = journalPK.getYear();
+        this.index = journalPK.getIndex();
+    }
+
+    @Transient
+    public JournalPK getId(){
+        JournalPK journalPK = new JournalPK();
+        journalPK.setIssn(this.issn);
+        journalPK.setYear(this.year);
+        journalPK.setIndex(this.index);
+        return journalPK;
+    }
+
     @Basic
     @Column(name = "title", nullable = false, length = 128)
     public String getTitle() {
@@ -62,21 +80,21 @@ public class Journal {
 
     @Basic
     @Column(name = "title_short_pinyin", nullable = true)
-    public String getTitleShortPinyin() {
+    public Integer getTitleShortPinyin() {
         return titleShortPinyin;
     }
 
-    public void setTitleShortPinyin(String titleShortPinyin) {
+    public void setTitleShortPinyin(Integer titleShortPinyin) {
         this.titleShortPinyin = titleShortPinyin;
     }
 
     @Basic
     @Column(name = "title_pinyin", nullable = true)
-    public String getTitlePinyin() {
+    public Integer getTitlePinyin() {
         return titlePinyin;
     }
 
-    public void setTitlePinyin(String titlePinyin) {
+    public void setTitlePinyin(Integer titlePinyin) {
         this.titlePinyin = titlePinyin;
     }
 
@@ -155,5 +173,15 @@ public class Journal {
         result = 31 * result + (directory != null ? directory.hashCode() : 0);
         result = 31 * result + (publishDate != null ? publishDate.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "publisher_id", referencedColumnName = "id", nullable = false)
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 }

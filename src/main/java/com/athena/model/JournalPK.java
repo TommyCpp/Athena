@@ -8,17 +8,17 @@ import java.io.Serializable;
  * Created by Tommy on 2017/8/28.
  */
 public class JournalPK implements Serializable {
-    private Integer issn;
+    private String issn;
     private Integer year;
     private Integer index;
 
-    @Column(name = "issn", nullable = false)
+    @Column(name = "issn", nullable = false, length = 8)
     @Id
-    public Integer getIssn() {
+    public String getIssn() {
         return issn;
     }
 
-    public void setIssn(Integer issn) {
+    public void setIssn(String issn) {
         this.issn = issn;
     }
 
