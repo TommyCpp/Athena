@@ -5,6 +5,7 @@ import com.athena.security.filter.JwtLoginFilter;
 import com.athena.security.service.JwtAuthenticationProvider;
 import com.athena.security.service.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -27,16 +28,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    public static String JWT_TOKEN_HEADER_PARAM;
-    public static String HEADER_PREFIX;//Jwt Header prefix
+    @Value("${web.url.prefix}")
+    private final String URL_PREFIX = null;
 
 
-    @Autowired
-    private
+    private final
     JwtAuthenticationProvider jwtAuthenticationProvider;
 
+    private final TokenAuthenticationService tokenAuthenticationService;
+
     @Autowired
-    private TokenAuthenticationService tokenAuthenticationService;
+    public SecurityConfig(JwtAuthenticationProvider jwtAuthenticationProvider, TokenAuthenticationService tokenAuthenticationService) {
+        this.jwtAuthenticationProvider = jwtAuthenticationProvider;
+        this.tokenAuthenticationService = tokenAuthenticationService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -46,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/api/v1/books").permitAll()
+                .antMatchers(this.URL_PREFIX + "/books").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
