@@ -1,12 +1,8 @@
 <dataset>
-    <copy isbn="9787111124444" copy_id="0" status="2"/>
-    <copy isbn="9787111124444" copy_id="1" status="1"/>
-    <copy isbn="9787111124444" copy_id="2" status="1"/>
-    <copy isbn="9787111124444" copy_id="3" status="1"/>
-    <copy isbn="9787111124444" copy_id="4" status="1"/>
-    <copy isbn="9787111124444" copy_id="5" status="1"/>
-    <copy isbn="9783158101900" copy_id="0" status="1"/>
-    <copy isbn="9783158101900" copy_id="1" status="1"/>
-    <copy isbn="9783158101900" copy_id="2" status="1"/>
-    <copy isbn="9783158101900" copy_id="3" status="1"/>
+    <copy id="1" status="0"/>
+    <copy id="2" status="0"/>
+    <copy id="3" status="0"/>
+    <copy id="4" status="0"/>
+    <copy id="5" status="0"/>
+    <copy id="6" status="0"/>
 </dataset>

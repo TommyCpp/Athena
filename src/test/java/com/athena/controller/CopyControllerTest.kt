@@ -75,7 +75,6 @@ open class CopyControllerTest {
         )
                 .andExpect(status().isCreated)
 
-        Assert.assertNotNull(this.copyRepository!!.findOne(CopyPK(isbn.toLong(), 1)))
 
         var batchList = this.batchRepository!!.findByType("Copy")
         Assert.assertNotEquals(0, batchList.size)

@@ -2,7 +2,6 @@ package com.athena.model;
 
 import com.athena.service.PinyinConvertService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -16,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "book")
-public class Book {
+public class Book implements Publication {
     private Long isbn;
     private String _author;
     private String _translator;
@@ -35,7 +34,7 @@ public class Book {
     private Double price;
 
     private Publisher publisher;
-    private List<Copy> copies;
+    private List<BookCopy> copies;
 
     @Transient
     private PinyinConvertService pinyinConvertService;
@@ -293,13 +292,19 @@ public class Book {
         this.titleShortPinyin = titleShortPinyin;
     }
 
-    @OneToMany(mappedBy = "book")
+
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @OneToMany
+    @JoinTable(name = "book_copy",
+            joinColumns = @JoinColumn(name = "isbn", table = "book", referencedColumnName = "isbn"),
+            inverseJoinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName ="id")
+    )
     @JsonIgnore
-    public List<Copy> getCopies() {
+    public List<BookCopy> getCopies() {
         return copies;
     }
 
-    public void setCopies(List<Copy> copies) {
+    public void setCopies(List<BookCopy> copies) {
         this.copies = copies;
     }
 }

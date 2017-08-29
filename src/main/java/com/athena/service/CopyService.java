@@ -29,34 +29,34 @@ public class CopyService {
     public void saveCopies(Long[] copyPKList) {
         Map<Long, Integer> indexMap = new HashMap<>();
         List<Copy> copyList = new ArrayList<>();
-        for (Long isbn : copyPKList) {
-            Copy copy = new Copy();
-            if (indexMap.containsKey(isbn)) {
-                copy.setId(new CopyPK(isbn, indexMap.get(isbn) + 1));
-            } else {
-                indexMap.put(isbn, 0);
-                copy.setId(new CopyPK(isbn, indexMap.get(isbn) + 1));
-            }
-            copyList.add(copy);
-        }
+//        for (Long isbn : copyPKList) {
+//            Copy copy = new Copy();
+//            if (indexMap.containsKey(isbn)) {
+//                copy.setId(new CopyPK(isbn, indexMap.get(isbn) + 1));
+//            } else {
+//                indexMap.put(isbn, 0);
+//                copy.setId(new CopyPK(isbn, indexMap.get(isbn) + 1));
+//            }
+//            copyList.add(copy);
+//        }
         this.copyRepository.save(copyList);
     }
 
     public List<Copy> saveCopies(List<CopyPK> copyPKList) throws BookNotFoundException {
         List<Copy> copyList = new ArrayList<>();
         Map<Long, Set<CopyPK>> isbnCopyPK = this.divideCopyPKByIsbn(copyPKList);
-        for (Long isbn: isbnCopyPK.keySet()) {
-            Book book = this.bookRepository.findOne(isbn);
-            if(book == null){
-                throw new BookNotFoundException(isbn);
-            }
-            for (CopyPK copyPK : isbnCopyPK.get(isbn)) {
-                Copy copy = new Copy();
-                copy.setId(copyPK);
-                copy.setBook(book);
-                copyList.add(copy);
-            }
-        }
+//        for (Long isbn: isbnCopyPK.keySet()) {
+//            Book book = this.bookRepository.findOne(isbn);
+//            if(book == null){
+//                throw new BookNotFoundException(isbn);
+//            }
+//            for (CopyPK copyPK : isbnCopyPK.get(isbn)) {
+//                Copy copy = new Copy();
+//                copy.setId(copyPK);
+//                copy.setBook(book);
+//                copyList.add(copy);
+//            }
+//        }
         this.copyRepository.save(copyList);
         return copyList;
     }
@@ -87,7 +87,8 @@ public class CopyService {
     }
 
     public Copy getCopy(Long isbn, Integer id) throws IdOfResourceNotFoundException {
-        Copy copy = this.copyRepository.findOne(new CopyPK(isbn, id));
+//        Copy copy = this.copyRepository.findOne(new CopyPK(isbn, id));
+        Copy copy = new Copy();
         if(copy == null){
             throw new IdOfResourceNotFoundException();
         }
@@ -100,6 +101,6 @@ public class CopyService {
             throw new BookNotFoundException(isbn);
         }
 
-        return this.copyRepository.getCopiesByBook(book);
+        return new ArrayList<Copy>();
     }
 }

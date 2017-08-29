@@ -69,5 +69,11 @@ open class BookTest {
         System.out.println(ObjectMapper().writeValueAsString(book))
     }
 
+    @Test
+    fun testGetCopy() {
+        val book = repository!!.findOne(9787111125643L)
+        Assert.assertNotEquals(0, book.copies.size)
+    }
+
 
 }

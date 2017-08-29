@@ -1,7 +1,9 @@
 package com.athena.model
 
+import com.athena.repository.jpa.BookCopyRepository
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.CopyRepository
+import com.athena.repository.jpa.JournalCopyRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -22,27 +24,23 @@ import javax.transaction.Transactional
 @SpringBootTest
 @Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml", "classpath:book_copy.xml", "classpath:journal_copy.xml", "classpath:journals.xml")
 open class CopyTest {
     @Autowired var copyRepository: CopyRepository? = null
+    @Autowired var bookCopyRepository: BookCopyRepository? = null
     @Autowired var bookRepository: BookRepository? = null
+    @Autowired var journalCopyRepository: JournalCopyRepository? = null
 
-    @Test fun testCopy() {
-        val result = copyRepository!!.findOne(CopyPK(9787111124444L, 0))
-        val except = "C程序设计"
+    @Test fun testBookCopy() {
+        val result = bookCopyRepository!!.findOne(1L)
+        val except = "C++程序设计指南"
         Assert.assertEquals(except, result.book.title)
     }
 
-    @Test fun testBookCopy() {
-        val book = bookRepository!!.findOne(9787111124444L)
-        var result = book.copies[0]
-        var except = copyRepository!!.findOne(CopyPK(9787111124444L, 0))
-        Assert.assertEquals(except, result)
-        book.copies[0].status = 2
-        copyRepository!!.save(book.copies)
-        bookRepository!!.save(book)
-        except = copyRepository!!.findOne(CopyPK(9787111124444L,0))
-        Assert.assertEquals(6, book.copies.count())
-        Assert.assertEquals(2,except.status)
+    @Test fun testJournalCopy() {
+        val result = journalCopyRepository!!.findOne(3L)
+        val except = "Test Magazine"
+        Assert.assertEquals(except, result.journal.title)
+
     }
 }

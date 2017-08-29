@@ -2,6 +2,7 @@ package com.athena.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by Tommy on 2017/8/28.
@@ -9,7 +10,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "journal")
 @IdClass(JournalPK.class)
-public class Journal {
+public class Journal{
     private String issn;
     private Integer year;
     private Integer index;
@@ -21,6 +22,8 @@ public class Journal {
     private String directory;
     private Date publishDate;
     private Publisher publisher;
+
+    private List<JournalCopy> copies; // todo: setter/getter and annotation
 
     @Id
     @Column(name = "issn", nullable = false, length = 8)

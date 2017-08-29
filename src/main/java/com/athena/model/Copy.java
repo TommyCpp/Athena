@@ -7,12 +7,10 @@ import java.util.Calendar;
 /**
  * Created by Tommy on 2017/6/9.
  */
-@Entity
-@Table(name = "copy")
+@MappedSuperclass
 public class Copy {
-    private CopyPK id;
+    private Long id;
     private Integer status; //0:new included;1:available;2:booked;3:checked out;4:reserved;5:damaged
-    private Book book;
     private Timestamp createdDate;
     private Timestamp updatedDate;
 
@@ -23,12 +21,13 @@ public class Copy {
         this.updatedDate = timestamp;
     }
 
-    @EmbeddedId
-    public CopyPK getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
         return id;
     }
 
-    public void setId(CopyPK id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -84,17 +83,6 @@ public class Copy {
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
         return result;
-    }
-
-    @MapsId("isbn")
-    @ManyToOne
-    @JoinColumn(name = "isbn", referencedColumnName = "isbn", nullable = false)
-    public Book getBook() {
-        return this.book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
     }
 
 
