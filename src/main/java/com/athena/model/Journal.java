@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "journal")
 @IdClass(JournalPK.class)
-public class Journal{
+public class Journal {
     private String issn;
     private Integer year;
     private Integer index;
@@ -23,7 +23,7 @@ public class Journal{
     private Date publishDate;
     private Publisher publisher;
 
-    private List<JournalCopy> copies; // todo: setter/getter and annotation
+    private List<JournalCopy> copies;
 
     @Id
     @Column(name = "issn", nullable = false, length = 8)
@@ -56,14 +56,14 @@ public class Journal{
     }
 
     @Transient
-    public void setId(JournalPK journalPK){
+    public void setId(JournalPK journalPK) {
         this.issn = journalPK.getIssn();
         this.year = journalPK.getYear();
         this.index = journalPK.getIndex();
     }
 
     @Transient
-    public JournalPK getId(){
+    public JournalPK getId() {
         JournalPK journalPK = new JournalPK();
         journalPK.setIssn(this.issn);
         journalPK.setYear(this.year);
@@ -186,5 +186,22 @@ public class Journal{
 
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
+    }
+
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @OneToMany
+    @JoinTable(name = "journal_copy",
+            joinColumns = {@JoinColumn(name = "issn", table = "journal", referencedColumnName = "issn"),
+                    @JoinColumn(name = "year", table = "journal", referencedColumnName = "year"),
+                    @JoinColumn(name = "index", table = "journal", referencedColumnName = "index")},
+            inverseJoinColumns = @JoinColumn(name="copy_id", referencedColumnName = "id",table = "copy")
+
+    )
+    public List<JournalCopy> getCopies() {
+        return copies;
+    }
+
+    public void setCopies(List<JournalCopy> copies) {
+        this.copies = copies;
     }
 }

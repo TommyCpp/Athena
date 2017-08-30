@@ -9,7 +9,7 @@ import java.util.List;
  * Created by tommy on 2017/3/28.
  */
 @Entity
-@Table(name="publisher")
+@Table(name = "publisher")
 public class Publisher {
     private String id;
     private String name;
@@ -59,7 +59,7 @@ public class Publisher {
     }
 
     @OneToMany(mappedBy = "publisher")
-    @JsonBackReference
+    @JsonBackReference(value = "book")
     public List<Book> getBooks() {
         return books;
     }
@@ -69,7 +69,7 @@ public class Publisher {
     }
 
     @OneToMany(mappedBy = "publisher")
-    @JsonBackReference
+    @JsonBackReference(value = "journal")
     public List<Journal> getJournals() {
         return journals;
     }
@@ -79,7 +79,7 @@ public class Publisher {
     }
 
     @Basic
-    @Column(name="location")
+    @Column(name = "location")
     public String getLocation() {
         return location;
     }

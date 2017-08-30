@@ -32,7 +32,7 @@ public class DatabaseConnectionTest {
         User user = new User();
         user.setPassword("12");
         user.setUsername("TEst");
-        user.setIdentity("READER");
+        user.setIdentity("ROLE_READER");
         user.setWechatId("123312");
         user.setEmail("test@test.com");
         service.save(user);

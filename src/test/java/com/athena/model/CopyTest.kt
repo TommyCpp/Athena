@@ -41,6 +41,11 @@ open class CopyTest {
         val result = journalCopyRepository!!.findOne(3L)
         val except = "Test Magazine"
         Assert.assertEquals(except, result.journal.title)
+    }
 
+    @Test fun testSaveBookCopy() {
+        val bookCopy = BookCopy()
+        bookCopyRepository!!.save(bookCopy)
+        Assert.assertNotNull(bookCopyRepository!!.findOne(bookCopy.id))
     }
 }

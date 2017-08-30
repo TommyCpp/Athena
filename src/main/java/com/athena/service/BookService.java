@@ -147,4 +147,9 @@ public class BookService {
     public void removeBooks(List<Book> books) {
         this.bookRepository.delete(books);
     }
+
+
+    public Book findBook(Long isbn){
+        return this.bookRepository.findOne(isbn);
+    }
 }

@@ -34,7 +34,7 @@ class BookGenerator {
         book.categoryId = selectCategoryId()
         book.version = 1
         book.price = (this.random.nextFloat() * 100).toDouble()
-        book.introduction = RandomStringUtils.randomAlphabetic(1000)
+        book.introduction = RandomStringUtils.randomAlphabetic(300)
         return book
     }
 

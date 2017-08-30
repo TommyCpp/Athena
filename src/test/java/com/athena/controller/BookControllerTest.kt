@@ -162,6 +162,7 @@ open class BookControllerTest {
         )
                 .andExpect(status().isCreated)
 
+
         mvc!!.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))

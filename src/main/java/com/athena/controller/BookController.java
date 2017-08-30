@@ -1,10 +1,11 @@
 package com.athena.controller;
 
 import com.athena.exception.BatchStoreException;
-import com.athena.model.Batch;
-import com.athena.model.Book;
+import com.athena.exception.BookNotFoundException;
+import com.athena.model.*;
 import com.athena.service.BatchService;
 import com.athena.service.BookService;
+import com.athena.service.CopyService;
 import com.athena.service.PageableHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,12 +40,14 @@ public class BookController {
     private final String baseUrl;
     private final String bookUrl;
     private final BatchService batchService;
+    private final CopyService copyService;
 
     @Autowired
-    public BookController(BookService bookService, PageableHeaderService pageableHeaderService, BatchService batchService, @Value("${web.url}") String baseUrl) {
+    public BookController(BookService bookService, PageableHeaderService pageableHeaderService, BatchService batchService, CopyService copyService, @Value("${web.url}") String baseUrl) {
         this.bookService = bookService;
         this.pageableHeaderService = pageableHeaderService;
         this.batchService = batchService;
+        this.copyService = copyService;
         this.baseUrl = baseUrl;
         this.bookUrl = baseUrl + "/books";
     }
@@ -141,4 +144,21 @@ public class BookController {
         }
     }
 
+    @PostMapping(path = "/{isbn}/copy")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
+    public ResponseEntity<?> createCopy(@PathVariable Long isbn, @RequestBody List<CopyInfo> copyInfoList) throws BookNotFoundException {
+        Book book = this.bookService.findBook(isbn);
+        if (book == null) {
+            throw new BookNotFoundException(isbn);
+        }
+        List<BookCopy> bookCopyList = new ArrayList<>();
+
+        for (CopyInfo copyInfo : copyInfoList) {
+            bookCopyList.add(new BookCopy(new Copy(copyInfo), book));
+        }
+        // todo:save and add batch
+
+        return ResponseEntity.ok().build();
+
+    }
 }

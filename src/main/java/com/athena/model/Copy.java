@@ -1,5 +1,7 @@
 package com.athena.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -8,21 +10,35 @@ import java.util.Calendar;
  * Created by Tommy on 2017/6/9.
  */
 @MappedSuperclass
-public class Copy {
-    private Long id;
-    private Integer status; //0:new included;1:available;2:booked;3:checked out;4:reserved;5:damaged
-    private Timestamp createdDate;
-    private Timestamp updatedDate;
+public class Copy extends CopyInfo {
+    protected Long id;
+    protected Timestamp createdDate;
+    protected Timestamp updatedDate;
 
     public Copy() {
-        this.status = CopyStatus.CREATED;
+        super();
+        Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        this.createdDate = timestamp;
+        this.updatedDate = timestamp;
+    }
+
+    public Copy(Copy copy) {
+        super(copy.status);
+        this.createdDate = copy.createdDate;
+        this.updatedDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
+    }
+
+    public Copy(CopyInfo copyInfo){
+        super(copyInfo.status);
         Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
         this.createdDate = timestamp;
         this.updatedDate = timestamp;
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GenericGenerator(name="copy_id_generator",strategy = "increment")
+    @GeneratedValue(generator = "copy_id_generator")
+    @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
     }
@@ -31,15 +47,6 @@ public class Copy {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "status", nullable = true)
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 
     @Basic
     @Column(name = "created_date", nullable = true)

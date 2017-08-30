@@ -50,16 +50,16 @@ open class BookServiceTest {
     }
 
     @Test fun testSearchByFullName() {
-        val keyword = "C程序设计"
+        val keyword = "ut erat id"
         val pageable = PageRequest(0, 20)
         val result = service!!.searchBookByFullName(pageable, keyword)
-        val expects = bookRepository!!.findOne(9787111124444L)
+        val expects = bookRepository!!.findOne(9785226422377L)
         Assert.assertEquals(1, result.totalElements)
         Assert.assertEquals(expects, result.content[0])
     }
 
     @Test fun testSearchByAuthors() {
-        var authors = arrayOf("Dneig dlsa", "Rdlf dls")
+        var authors = arrayOf("Aneig dlsa", "Rdlf dls")
         val pageable = PageRequest(0, 20)
         var result = service!!.searchBookByAuthors(pageable, authors)
         var expects = HashSet<Book>()
@@ -67,7 +67,7 @@ open class BookServiceTest {
         expects.add(bookRepository.findOne(9783158101897L))
         Assert.assertEquals(expects, HashSet<Book>(result.content))
 
-        authors = arrayOf("Rdlf dls", "Dneig dlsa", "Dlicn Tlidb")
+        authors = arrayOf("Rdlf dls", "Aneig dlsa", "Zlicn Tlidb")
         result = service.searchBookByAuthors(pageable, authors)
         expects = HashSet<Book>()
         expects.add(bookRepository.findOne(9783158101897L))

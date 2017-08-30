@@ -34,7 +34,7 @@ open class UserTest {
         var user:User = User()
         user.password = "123456"
         user.email = "test"
-        user.identity = "ADMIN"
+        user.identity = "ROLE_ADMIN"
         user.username = "testUser"
         user.wechatId = "sadf"
 

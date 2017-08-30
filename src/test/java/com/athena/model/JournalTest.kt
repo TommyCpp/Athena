@@ -22,7 +22,7 @@ import javax.transaction.Transactional
 @SpringBootTest
 @Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml", "classpath:journals.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml", "classpath:journals.xml","classpath:journal_copy.xml")
 open class JournalTest {
     @Autowired var journalRepository: JournalRepository? = null
 
@@ -33,6 +33,7 @@ open class JournalTest {
         journalPk.year = 2017
         journalPk.index = 1
         Assert.assertNotNull(this.journalRepository!!.findOne(journalPk))
+        Assert.assertNotEquals(0,this.journalRepository!!.findOne(journalPk).copies.size)
 
         journalPk.index = 2
         var journal: Journal = Journal()

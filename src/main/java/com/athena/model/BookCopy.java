@@ -8,6 +8,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "copy")
 public class BookCopy extends Copy {
+    public BookCopy() {
+        super();
+        this.book = null;
+    }
+
+    public BookCopy(Copy copy,Book book) {
+        super(copy);
+        this.book = book;
+    }
+
     private Book book;
 
     @ManyToOne

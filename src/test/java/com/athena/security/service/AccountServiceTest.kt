@@ -31,7 +31,7 @@ open class AccountServiceTest {
         val user = User()
         user.username = "TestUser"
         user.email = "test@test.com"
-        user.identity = "ADMIN"
+        user.identity = "ROLE_ADMIN"
         user.password = "123456"
         user.wechatId = "testtest"
         this.user = user
