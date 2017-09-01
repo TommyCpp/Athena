@@ -3,10 +3,13 @@ package com.athena.service;
 import com.athena.exception.BookNotFoundException;
 import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.model.Book;
+import com.athena.model.BookCopy;
 import com.athena.model.Copy;
 import com.athena.model.CopyPK;
+import com.athena.repository.jpa.BookCopyRepository;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.CopyRepository;
+import com.athena.repository.jpa.JournalCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +22,23 @@ import java.util.*;
 public class CopyService {
     private final CopyRepository copyRepository;
     private final BookRepository bookRepository;
+    private final BookCopyRepository bookCopyRepository;
+    private final JournalCopyRepository journalCopyRepository;
 
     @Autowired
-    public CopyService(CopyRepository copyRepository,BookRepository bookRepository) {
+    public CopyService(CopyRepository copyRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, JournalCopyRepository journalCopyRepository) {
         this.copyRepository = copyRepository;
         this.bookRepository = bookRepository;
+        this.bookCopyRepository = bookCopyRepository;
+        this.journalCopyRepository = journalCopyRepository;
+    }
+
+    public void saveCopies(Copy[] copies) {
+        if (copies != null && copies.length > 0) {
+            if (copies[0] instanceof BookCopy) {
+                //todo: distinguish BookCopy and JournalCopy
+            }
+        }
     }
 
     public void saveCopies(Long[] copyPKList) {
@@ -71,8 +86,7 @@ public class CopyService {
                 Set<CopyPK> set = result.get(isbn);
                 set.add(copyPK);
                 result.put(isbn, set);
-            }
-            else{
+            } else {
                 //if not
                 Set<CopyPK> set = new HashSet<>();
                 set.add(copyPK);
@@ -89,7 +103,7 @@ public class CopyService {
     public Copy getCopy(Long isbn, Integer id) throws IdOfResourceNotFoundException {
 //        Copy copy = this.copyRepository.findOne(new CopyPK(isbn, id));
         Copy copy = new Copy();
-        if(copy == null){
+        if (copy == null) {
             throw new IdOfResourceNotFoundException();
         }
         return copy;
@@ -97,7 +111,7 @@ public class CopyService {
 
     public List<Copy> getCopies(Long isbn) throws BookNotFoundException {
         Book book = this.bookRepository.findOne(isbn);
-        if(book == null){
+        if (book == null) {
             throw new BookNotFoundException(isbn);
         }
 

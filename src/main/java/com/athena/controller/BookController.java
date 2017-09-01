@@ -146,19 +146,33 @@ public class BookController {
 
     @PostMapping(path = "/{isbn}/copy")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> createCopy(@PathVariable Long isbn, @RequestBody List<CopyInfo> copyInfoList) throws BookNotFoundException {
+    public ResponseEntity<?> createCopy(@PathVariable Long isbn, @RequestBody List<CopyInfo> copyInfoList) throws BookNotFoundException, BatchStoreException, URISyntaxException {
+        List<BookCopy> bookCopyList = new ArrayList<>();
+        List<String> urls = new ArrayList<>();
+
         Book book = this.bookService.findBook(isbn);
         if (book == null) {
             throw new BookNotFoundException(isbn);
         }
-        List<BookCopy> bookCopyList = new ArrayList<>();
 
         for (CopyInfo copyInfo : copyInfoList) {
             bookCopyList.add(new BookCopy(new Copy(copyInfo), book));
         }
-        // todo:save and add batch
+        //todo: Create Copy
 
-        return ResponseEntity.ok().build();
+        //Create Batch
+        for (BookCopy bookCopy : bookCopyList) {
+            urls.add(this.baseUrl + "/" + bookCopy.getBook().getIsbn().toString() + "/copy/" + bookCopy.getId().toString());
+        }
+
+        Batch batch = new Batch(UUID.randomUUID().toString(), "Copy", Calendar.getInstance().getTime(), urls);
+        try {
+            this.batchService.save(batch);
+        } catch (DataAccessException mongoDataAccessException) {
+            throw new BatchStoreException(bookCopyList, "Copy");
+        }
+
+        return ResponseEntity.created(new URI(this.baseUrl + "/batch" + batch.getId())).build();
 
     }
 }
