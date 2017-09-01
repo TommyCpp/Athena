@@ -2,8 +2,8 @@ package com.athena.model
 
 import com.athena.repository.jpa.BookCopyRepository
 import com.athena.repository.jpa.BookRepository
-import com.athena.repository.jpa.CopyRepository
 import com.athena.repository.jpa.JournalCopyRepository
+import com.athena.repository.jpa.SimpleCopyRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -26,7 +26,7 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml", "classpath:book_copy.xml", "classpath:journal_copy.xml", "classpath:journals.xml")
 open class CopyTest {
-    @Autowired var copyRepository: CopyRepository? = null
+    @Autowired var simpleCopyRepository: SimpleCopyRepository? = null
     @Autowired var bookCopyRepository: BookCopyRepository? = null
     @Autowired var bookRepository: BookRepository? = null
     @Autowired var journalCopyRepository: JournalCopyRepository? = null
@@ -41,6 +41,11 @@ open class CopyTest {
         val result = journalCopyRepository!!.findOne(3L)
         val except = "Test Magazine"
         Assert.assertEquals(except, result.journal.title)
+    }
+
+    @Test fun testCopy(){
+        val result = this.simpleCopyRepository!!.findOne(1L)
+        Assert.assertNotNull(result)
     }
 
     @Test fun testSaveBookCopy() {

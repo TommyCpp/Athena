@@ -28,7 +28,7 @@ public class Copy extends CopyInfo {
         this.updatedDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
     }
 
-    public Copy(CopyInfo copyInfo){
+    public Copy(CopyInfo copyInfo) {
         super(copyInfo.status);
         Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
         this.createdDate = timestamp;
@@ -36,7 +36,7 @@ public class Copy extends CopyInfo {
     }
 
     @Id
-    @GenericGenerator(name="copy_id_generator",strategy = "increment")
+    @GenericGenerator(name = "copy_id_generator", strategy = "increment")
     @GeneratedValue(generator = "copy_id_generator")
     @Column(name = "id", nullable = false)
     public Long getId() {

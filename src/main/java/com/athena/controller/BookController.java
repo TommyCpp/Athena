@@ -52,7 +52,7 @@ public class BookController {
         this.bookUrl = baseUrl + "/books";
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping(path = "/**", method = RequestMethod.GET)
     public Page<Book> searchBooks(
             @RequestParam(value = "title", required = false) String[] titles,
             @RequestParam(value = "publisher", required = false) String publisher,
@@ -123,7 +123,7 @@ public class BookController {
 
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.POST)
+    @RequestMapping(path = "/**", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException, BatchStoreException {
         try {
@@ -158,7 +158,11 @@ public class BookController {
         for (CopyInfo copyInfo : copyInfoList) {
             bookCopyList.add(new BookCopy(new Copy(copyInfo), book));
         }
-        //todo: Create Copy
+        try {
+            this.copyService.saveCopies(bookCopyList);
+        } catch (DataAccessException e) {
+            return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(e.getMessage());
+        }
 
         //Create Batch
         for (BookCopy bookCopy : bookCopyList) {
@@ -172,7 +176,7 @@ public class BookController {
             throw new BatchStoreException(bookCopyList, "Copy");
         }
 
-        return ResponseEntity.created(new URI(this.baseUrl + "/batch" + batch.getId())).build();
-
+        return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
     }
+
 }

@@ -1,10 +1,9 @@
 package com.athena.service;
 
 import com.athena.model.Book;
-import com.athena.model.Copy;
 import com.athena.repository.jpa.BookRepository;
-import com.athena.repository.jpa.CopyRepository;
 import com.athena.repository.jpa.PublisherRepository;
+import com.athena.repository.jpa.SimpleCopyRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +21,7 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
-    private final CopyRepository copyRepository;
+    private final SimpleCopyRepository simpleCopyRepository;
 
 
     /**
@@ -31,10 +30,10 @@ public class BookService {
      * @param bookRepository the bookRepository
      */
     @Autowired
-    public BookService(BookRepository bookRepository, PublisherRepository publisherRepository, CopyRepository copyRepository) {
+    public BookService(BookRepository bookRepository, PublisherRepository publisherRepository, SimpleCopyRepository simpleCopyRepository) {
         this.bookRepository = bookRepository;
         this.publisherRepository = publisherRepository;
-        this.copyRepository = copyRepository;
+        this.simpleCopyRepository = simpleCopyRepository;
     }
 
 
@@ -135,13 +134,6 @@ public class BookService {
         this.bookRepository.save(book);
     }
 
-    public void saveCopies(List<Copy> copies) {
-        this.copyRepository.save(copies);
-    }
-
-    public void saveCopy(Copy copy) {
-        this.copyRepository.save(copy);
-    }
 
 
     public void removeBooks(List<Book> books) {

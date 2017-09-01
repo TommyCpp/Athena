@@ -1,7 +1,7 @@
 package com.athena.controller
 
 import com.athena.model.CopyPK
-import com.athena.repository.jpa.CopyRepository
+import com.athena.repository.jpa.SimpleCopyRepository
 import com.athena.repository.mongo.BatchRepository
 import com.athena.util.IdentityGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -44,7 +44,7 @@ import java.util.*
 @WebAppConfiguration
 open class CopyControllerTest {
     @Autowired private val context: WebApplicationContext? = null
-    @Autowired private val copyRepository: CopyRepository? = null
+    @Autowired private val copyRepository: SimpleCopyRepository? = null
     @Autowired private val batchRepository: BatchRepository? = null
     private var mvc: MockMvc? = null
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
