@@ -26,4 +26,21 @@ public class JournalCopy extends Copy {
         this.journal = journal;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        JournalCopy that = (JournalCopy) o;
+
+        return journal != null ? journal.equals(that.journal) : that.journal == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (journal != null ? journal.hashCode() : 0);
+        return result;
+    }
 }

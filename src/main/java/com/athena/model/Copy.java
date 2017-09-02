@@ -10,7 +10,7 @@ import java.util.Calendar;
  * Created by Tommy on 2017/6/9.
  */
 @MappedSuperclass
-public class Copy extends CopyInfo {
+abstract public class Copy extends CopyInfo {
     protected Long id;
     protected Timestamp createdDate;
     protected Timestamp updatedDate;
@@ -20,12 +20,6 @@ public class Copy extends CopyInfo {
         Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
         this.createdDate = timestamp;
         this.updatedDate = timestamp;
-    }
-
-    public Copy(Copy copy) {
-        super(copy.status);
-        this.createdDate = copy.createdDate;
-        this.updatedDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
     }
 
     public Copy(CopyInfo copyInfo) {

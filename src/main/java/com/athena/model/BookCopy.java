@@ -13,10 +13,29 @@ public class BookCopy extends Copy {
         this.book = null;
     }
 
-    public BookCopy(Copy copy,Book book) {
-        super(copy);
+    public BookCopy(CopyInfo copyInfo, Book book) {
+        super(copyInfo);
         this.book = book;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        BookCopy bookCopy = (BookCopy) o;
+
+        return book != null ? book.equals(bookCopy.book) : bookCopy.book == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (book != null ? book.hashCode() : 0);
+        return result;
+    }
+
 
     private Book book;
 

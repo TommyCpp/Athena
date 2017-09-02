@@ -155,6 +155,8 @@ Among the Athena, we may encounter different kind of exceptions. The Http standa
 
 code | meaning
 -----|--------
+***400***|**BadRequest**
+4001 | Invalid Copy type
 ***401*** | **Unauthorized**
 4010 | Unauthorized
 4011 | JWT token is expired

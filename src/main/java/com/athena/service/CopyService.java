@@ -1,11 +1,11 @@
 package com.athena.service;
 
-import com.athena.exception.BookNotFoundException;
 import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.model.Book;
+import com.athena.exception.InvalidCopyTypeException;
 import com.athena.model.BookCopy;
 import com.athena.model.Copy;
 import com.athena.model.JournalCopy;
+import com.athena.model.SimpleCopy;
 import com.athena.repository.jpa.BookCopyRepository;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.JournalCopyRepository;
@@ -13,7 +13,6 @@ import com.athena.repository.jpa.SimpleCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,10 +20,10 @@ import java.util.List;
  */
 @Service
 public class CopyService {
-    private final SimpleCopyRepository simpleCopyRepository;
-    private final BookRepository bookRepository;
-    private final BookCopyRepository bookCopyRepository;
-    private final JournalCopyRepository journalCopyRepository;
+    protected final SimpleCopyRepository simpleCopyRepository;
+    protected final BookRepository bookRepository;
+    protected final BookCopyRepository bookCopyRepository;
+    protected final JournalCopyRepository journalCopyRepository;
 
     @Autowired
     public CopyService(SimpleCopyRepository simpleCopyRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, JournalCopyRepository journalCopyRepository) {
@@ -54,23 +53,41 @@ public class CopyService {
             if (copyList.get(0) instanceof BookCopy) {
                 this.bookCopyRepository.delete((List<BookCopy>) copyList);
             }
-            if(copyList.get(0) instanceof JournalCopy){
+            if (copyList.get(0) instanceof JournalCopy) {
                 this.journalCopyRepository.delete((List<JournalCopy>) copyList);
             }
         }
     }
 
-    public Copy getCopy(Long id) throws IdOfResourceNotFoundException {
-        //todo: how to get different kind of copy?
-        return new Copy();
+    public Copy getCopy(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+        SimpleCopy copy = this.simpleCopyRepository.findOne(id);
+        if (copy == null) {
+            throw new IdOfResourceNotFoundException();
+        }
+        return copy;
     }
 
-    public List<Copy> getCopies(Long isbn) throws BookNotFoundException {
-        Book book = this.bookRepository.findOne(isbn);
-        if (book == null) {
-            throw new BookNotFoundException(isbn);
+    public Copy getCopy(Long id, String type) throws InvalidCopyTypeException, IdOfResourceNotFoundException {
+        Copy copy = null;
+        switch (type) {
+            case "Book": {
+                copy = this.bookCopyRepository.findOne(id);
+            }
+            break;
+            case "Journal": {
+                copy = this.journalCopyRepository.findOne(id);
+            }
+            break;
+            default: {
+                throw new InvalidCopyTypeException();
+            }
         }
 
-        return new ArrayList<Copy>();
+        //if the id is not exist
+        if (copy == null) {
+            throw new IdOfResourceNotFoundException();
+        }
+        return copy;
     }
+
 }

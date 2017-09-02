@@ -1,5 +1,8 @@
 package com.athena.controller;
 
+import com.athena.exception.IdOfResourceNotFoundException;
+import com.athena.exception.InvalidCopyTypeException;
+import com.athena.model.Copy;
 import com.athena.service.BatchService;
 import com.athena.service.CopyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +34,9 @@ public class CopyController {
     }
 
     @GetMapping(name = "/{id}")
-    public ResponseEntity<?> getCopy(@PathVariable Long id){
-        //todo: get Copy
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> getCopy(@PathVariable Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+        Copy copy = this.copyService.getCopy(id);
+        return ResponseEntity.ok(copy);
     }
 
 }

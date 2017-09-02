@@ -2,10 +2,15 @@ package com.athena.controller;
 
 import com.athena.exception.BatchStoreException;
 import com.athena.exception.BookNotFoundException;
-import com.athena.model.*;
+import com.athena.exception.IdOfResourceNotFoundException;
+import com.athena.exception.InvalidCopyTypeException;
+import com.athena.model.Batch;
+import com.athena.model.Book;
+import com.athena.model.BookCopy;
+import com.athena.model.CopyInfo;
 import com.athena.service.BatchService;
+import com.athena.service.BookCopyService;
 import com.athena.service.BookService;
-import com.athena.service.CopyService;
 import com.athena.service.PageableHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,14 +45,14 @@ public class BookController {
     private final String baseUrl;
     private final String bookUrl;
     private final BatchService batchService;
-    private final CopyService copyService;
+    private final BookCopyService bookCopyService;
 
     @Autowired
-    public BookController(BookService bookService, PageableHeaderService pageableHeaderService, BatchService batchService, CopyService copyService, @Value("${web.url}") String baseUrl) {
+    public BookController(BookService bookService, PageableHeaderService pageableHeaderService, BatchService batchService, BookCopyService bookCopyService, @Value("${web.url}") String baseUrl) {
         this.bookService = bookService;
         this.pageableHeaderService = pageableHeaderService;
         this.batchService = batchService;
-        this.copyService = copyService;
+        this.bookCopyService = bookCopyService;
         this.baseUrl = baseUrl;
         this.bookUrl = baseUrl + "/books";
     }
@@ -144,7 +149,7 @@ public class BookController {
         }
     }
 
-    @PostMapping(path = "/{isbn}/copy")
+    @PostMapping(path = "/{isbn}/copy/")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> createCopy(@PathVariable Long isbn, @RequestBody List<CopyInfo> copyInfoList) throws BookNotFoundException, BatchStoreException, URISyntaxException {
         List<BookCopy> bookCopyList = new ArrayList<>();
@@ -156,10 +161,10 @@ public class BookController {
         }
 
         for (CopyInfo copyInfo : copyInfoList) {
-            bookCopyList.add(new BookCopy(new Copy(copyInfo), book));
+            bookCopyList.add(new BookCopy(copyInfo, book));
         }
         try {
-            this.copyService.saveCopies(bookCopyList);
+            this.bookCopyService.saveCopies(bookCopyList);
         } catch (DataAccessException e) {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(e.getMessage());
         }
@@ -179,4 +184,14 @@ public class BookController {
         return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
     }
 
+    @GetMapping(path = "/{isbn}/copy/")
+    public ResponseEntity<?> getCopies(@PathVariable Long isbn) throws IdOfResourceNotFoundException {
+        return ResponseEntity.ok(this.bookCopyService.getCopies(isbn));
+    }
+
+    @GetMapping(path = "/{isbn}/copy/{id}")
+    public ResponseEntity<?> getCopy(@PathVariable Long isbn, @PathVariable Long id) throws InvalidCopyTypeException, IdOfResourceNotFoundException {
+        BookCopy copy = this.bookCopyService.getCopy(id);
+        return ResponseEntity.ok(copy);
+    }
 }

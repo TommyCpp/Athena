@@ -241,10 +241,26 @@ open class BookControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().isCreated)
+    }
+
+    @Test
+    fun testGetCopy() {
+        // get copy
+        this.mvc!!.perform(get(this.url_prefix + "/books/9787111125643/copy/1")
+                .with(this.authentication("ROLE_READER"))
+        )
+                .andDo(print())
+                .andExpect(status().isOk)
+                .andExpect(content().json("{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"book\":{\"isbn\":9787111125643,\"publishDate\":1483632000000,\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}}"))
 
 
-
-
+        //get copies
+        this.mvc!!.perform(get(this.url_prefix + "/books/9787111125643/copy")
+                .with(this.authentication("ROLE_READER"))
+        )
+                .andDo(print())
+                .andExpect(status().isOk)
+                .andExpect(content().json("[{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"book\":{\"isbn\":9787111125643,\"publishDate\":1483632000000,\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}},{\"status\":0,\"id\":2,\"createdDate\":null,\"updatedDate\":null,\"book\":{\"isbn\":9787111125643,\"publishDate\":1483632000000,\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}}]"))
     }
 }
 
