@@ -11,6 +11,7 @@ import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.JournalCopyRepository;
 import com.athena.repository.jpa.SimpleCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -88,6 +89,18 @@ public class CopyService {
             throw new IdOfResourceNotFoundException();
         }
         return copy;
+    }
+
+    public void deleteCopy(Long id) {
+        this.simpleCopyRepository.delete(id);
+    }
+
+    public void deleteCopies(List<Long> ids) {
+        List<SimpleCopy> copies = this.simpleCopyRepository.findAll(ids);
+        if (copies.size() == 0) {
+            throw new EmptyResultDataAccessException(ids.size());
+        }
+        this.simpleCopyRepository.delete(copies);
     }
 
 }

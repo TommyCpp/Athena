@@ -41,9 +41,16 @@ open class CopyTest {
         val result = journalCopyRepository!!.findOne(3L)
         val except = "Test Magazine"
         Assert.assertEquals(except, result.journal.title)
+
+        var nullJournalCopy: JournalCopy? = journalCopyRepository!!.findOne(1L)
+        Assert.assertNull(nullJournalCopy)
+
+        var nullJournalCopyList: List<JournalCopy> = journalCopyRepository!!.findAll(arrayListOf(1L)) //todo: make this work
+        Assert.assertEquals(0, nullJournalCopyList.size)
+
     }
 
-    @Test fun testCopy(){
+    @Test fun testCopy() {
         val result = this.simpleCopyRepository!!.findOne(1L)
         Assert.assertNotNull(result)
     }

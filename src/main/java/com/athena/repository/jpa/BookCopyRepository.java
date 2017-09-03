@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface BookCopyRepository extends JpaRepository<BookCopy, Long> {
     List<BookCopy> findByBook(Book book);
+
+    List<BookCopy> findByIdIsInAndBookIsNotNull(List<Long> idList);
 }

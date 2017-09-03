@@ -10,12 +10,21 @@ import javax.persistence.*;
 public class JournalCopy extends Copy {
     private Journal journal;
 
-    @ManyToOne
+    public JournalCopy() {
+        super();
+        this.journal = null;
+    }
+
+    public JournalCopy(Long id) {
+        this.id = id;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "journal_copy",
-            joinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id"),
-            inverseJoinColumns = {@JoinColumn(name = "issn", table = "journal", referencedColumnName = "issn"),
-                    @JoinColumn(name = "year", table = "journal", referencedColumnName = "year"),
-                    @JoinColumn(name = "index", table = "journal", referencedColumnName = "index")
+            joinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = {@JoinColumn(name = "issn", table = "journal", referencedColumnName = "issn", nullable = false),
+                    @JoinColumn(name = "year", table = "journal", referencedColumnName = "year", nullable = false),
+                    @JoinColumn(name = "index", table = "journal", referencedColumnName = "index", nullable = false)
             }
     )
     public Journal getJournal() {

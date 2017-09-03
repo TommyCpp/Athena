@@ -8,7 +8,10 @@ import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.JournalCopyRepository;
 import com.athena.repository.jpa.SimpleCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by Tommy on 2017/9/2.
@@ -24,5 +27,19 @@ public class JournalCopyService extends CopyService {
     @Override
     public JournalCopy getCopy(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
         return (JournalCopy) super.getCopy(id, "Journal");
+    }
+
+    @Override
+    public void deleteCopy(Long id) {
+        this.journalCopyRepository.delete(id);
+    }
+
+    @Override
+    public void deleteCopies(List<Long> ids) {
+        List<JournalCopy> copies = this.journalCopyRepository.findAll(ids);
+        if(copies.size() == 0){
+            throw new EmptyResultDataAccessException(ids.size());
+        }
+        this.journalCopyRepository.delete(copies);
     }
 }

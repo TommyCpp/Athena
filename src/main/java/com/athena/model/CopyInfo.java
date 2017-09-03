@@ -22,7 +22,7 @@ public class CopyInfo {
     }
 
     @Basic
-    @Column(name = "status", nullable = true)
+    @Column(name = "status", nullable = false)
     public Integer getStatus() {
         return status;
     }

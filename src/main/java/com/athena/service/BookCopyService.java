@@ -9,6 +9,7 @@ import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.JournalCopyRepository;
 import com.athena.repository.jpa.SimpleCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,5 +41,19 @@ public class BookCopyService extends CopyService {
         //get Copies
         return this.bookCopyRepository.findByBook(book);
 
+    }
+
+    @Override
+    public void deleteCopy(Long id) {
+        this.bookCopyRepository.delete(id);
+    }
+
+    @Override
+    public void deleteCopies(List<Long> ids) {
+        List<BookCopy> copies = this.bookCopyRepository.findAll(ids);
+        if (copies.size() == 0) {
+            throw new EmptyResultDataAccessException(ids.size());
+        }
+        this.bookCopyRepository.delete(copies);
     }
 }

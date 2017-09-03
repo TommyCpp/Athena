@@ -194,4 +194,11 @@ public class BookController {
         BookCopy copy = this.bookCopyService.getCopy(id);
         return ResponseEntity.ok(copy);
     }
+
+    @DeleteMapping(path = "/{isbn}/copy")
+    public ResponseEntity<?> deleteCopies(@PathVariable Long isbn) {
+
+        //todo: delete copies
+        return ResponseEntity.ok().build();
+    }
 }
