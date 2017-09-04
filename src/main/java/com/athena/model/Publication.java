@@ -7,4 +7,6 @@ import java.util.List;
  */
 public interface Publication {
     List<? extends Copy> getCopies();
+
+    String getTitle();
 }

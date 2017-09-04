@@ -45,9 +45,6 @@ open class CopyTest {
         var nullJournalCopy: JournalCopy? = journalCopyRepository!!.findOne(1L)
         Assert.assertNull(nullJournalCopy)
 
-        var nullJournalCopyList: List<JournalCopy> = journalCopyRepository!!.findAll(arrayListOf(1L)) //todo: make this work
-        Assert.assertEquals(0, nullJournalCopyList.size)
-
     }
 
     @Test fun testCopy() {

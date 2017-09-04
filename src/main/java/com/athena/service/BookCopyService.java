@@ -44,13 +44,18 @@ public class BookCopyService extends CopyService {
     }
 
     @Override
+    public List<BookCopy> getCopies(List<Long> idList) {
+        return this.bookCopyRepository.findByIdIsInAndBookIsNotNull(idList);
+    }
+
+    @Override
     public void deleteCopy(Long id) {
         this.bookCopyRepository.delete(id);
     }
 
     @Override
     public void deleteCopies(List<Long> ids) {
-        List<BookCopy> copies = this.bookCopyRepository.findAll(ids);
+        List<BookCopy> copies = this.getCopies(ids);
         if (copies.size() == 0) {
             throw new EmptyResultDataAccessException(ids.size());
         }

@@ -30,14 +30,19 @@ public class JournalCopyService extends CopyService {
     }
 
     @Override
+    public List<JournalCopy> getCopies(List<Long> idList) {
+        return this.journalCopyRepository.findByIdIsInAndJournalIsNotNull(idList);
+    }
+
+    @Override
     public void deleteCopy(Long id) {
         this.journalCopyRepository.delete(id);
     }
 
     @Override
     public void deleteCopies(List<Long> ids) {
-        List<JournalCopy> copies = this.journalCopyRepository.findAll(ids);
-        if(copies.size() == 0){
+        List<JournalCopy> copies = this.getCopies(ids);
+        if (copies.size() == 0) {
             throw new EmptyResultDataAccessException(ids.size());
         }
         this.journalCopyRepository.delete(copies);

@@ -91,6 +91,10 @@ public class CopyService {
         return copy;
     }
 
+    public List<? extends Copy> getCopies(List<Long> idList) {
+        return this.simpleCopyRepository.findAll(idList);
+    }
+
     public void deleteCopy(Long id) {
         this.simpleCopyRepository.delete(id);
     }
