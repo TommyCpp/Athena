@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Tommy on 2017/9/2.
@@ -61,4 +63,18 @@ public class BookCopyService extends CopyService {
         }
         this.bookCopyRepository.delete(copies);
     }
+
+    @Transactional
+    public void deleteCopies(Long isbn) throws IdOfResourceNotFoundException {
+        Book book = this.bookRepository.findOne(isbn);
+        if(book == null){
+            throw new IdOfResourceNotFoundException();
+        }
+
+        Set<BookCopy> copies = this.bookCopyRepository.findByBookAndBookIsNotNull(book);
+
+        this.bookCopyRepository.delete(copies);
+    }
+
+
 }
