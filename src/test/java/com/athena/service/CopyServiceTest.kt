@@ -30,7 +30,7 @@ import javax.transaction.Transactional
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml")
 open class CopyServiceTest {
     @Qualifier("copyService")
-    @Autowired private var copyService: CopyService? = null
+    @Autowired private var simpleCopyService: CopyService? = null
     @Autowired private var bookCopyService: BookCopyService? = null
     @Autowired private var journalCopyService: JournalCopyService? = null
     @Autowired private var bookCopyRepository: BookCopyRepository? = null
@@ -42,6 +42,12 @@ open class CopyServiceTest {
     fun testGetCopy() {
         Assert.assertTrue(journalCopyRepository!!.findOne(3L).equals(journalCopyService!!.getCopy(3L)))
         Assert.assertTrue(bookCopyRepository!!.findOne(1L).equals(bookCopyService!!.getCopy(1L)))
+    }
+
+    @Test
+    fun testDeleteCopyFromSimpleCopyService() {
+        this.simpleCopyService!!.deleteCopy(1L)
+        Assert.assertNull(this.bookCopyRepository!!.findOne(1L))
     }
 
     @Test

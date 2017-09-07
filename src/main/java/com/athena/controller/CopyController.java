@@ -8,10 +8,7 @@ import com.athena.service.CopyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Tommy on 2017/8/24.
@@ -20,23 +17,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("${web.url.prefix}/copy/**")
 public class CopyController {
 
-    private final CopyService copyService;
+    private final CopyService simpleCopyService;
     private final String copyUrl;
     private final BatchService batchService;
     private final String baseUrl;
 
     @Autowired
     public CopyController(CopyService copyService, @Value("${web.url}") String baseUrl, BatchService batchService) {
-        this.copyService = copyService;
+        this.simpleCopyService = copyService;
         this.baseUrl = baseUrl;
         this.copyUrl = baseUrl + "/copy";
         this.batchService = batchService;
     }
 
-    @GetMapping(name = "/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<?> getCopy(@PathVariable Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
-        Copy copy = this.copyService.getCopy(id);
+        Copy copy = this.simpleCopyService.getCopy(id);
         return ResponseEntity.ok(copy);
     }
 
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deleteCopy(@PathVariable Long id) {
+        this.simpleCopyService.deleteCopy(id);
+        return ResponseEntity.ok().build();
+    }
 }

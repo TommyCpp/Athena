@@ -196,9 +196,9 @@ public class BookController {
     }
 
     @DeleteMapping(path = "/{isbn}/copy")
-    public ResponseEntity<?> deleteCopies(@PathVariable Long isbn) {
-
-        //todo: delete copies
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
+    public ResponseEntity<?> deleteCopies(@PathVariable Long isbn) throws IdOfResourceNotFoundException {
+        this.bookCopyService.deleteCopies(isbn);
         return ResponseEntity.ok().build();
     }
 }
