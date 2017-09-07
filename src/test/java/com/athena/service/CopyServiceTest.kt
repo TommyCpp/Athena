@@ -29,7 +29,8 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml")
 open class CopyServiceTest {
-    @Qualifier("copyService") @Autowired private var copyService: CopyService? = null
+    @Qualifier("copyService")
+    @Autowired private var copyService: CopyService? = null
     @Autowired private var bookCopyService: BookCopyService? = null
     @Autowired private var journalCopyService: JournalCopyService? = null
     @Autowired private var bookCopyRepository: BookCopyRepository? = null
@@ -45,8 +46,8 @@ open class CopyServiceTest {
 
     @Test
     fun testDeleteCopy() {
+        this.bookCopyService!!.deleteCopies(arrayListOf(1L, 2L))
         this.journalCopyService!!.deleteCopy(3L)
-        this.bookCopyService!!.deleteCopies(arrayListOf(2L, 1L))
 
         Assert.assertNull(this.bookCopyRepository!!.findOne(1L))
         Assert.assertNull(this.bookCopyRepository!!.findOne(2L))

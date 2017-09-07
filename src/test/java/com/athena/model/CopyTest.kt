@@ -31,6 +31,12 @@ open class CopyTest {
     @Autowired var bookRepository: BookRepository? = null
     @Autowired var journalCopyRepository: JournalCopyRepository? = null
 
+    @Test fun testGetBookCopies(){
+        val result = bookCopyRepository!!.findByIdIsInAndBookIsNotNull(arrayListOf(1L, 2L))
+        Assert.assertEquals(2, result.size)
+
+    }
+
     @Test fun testBookCopy() {
         val result = bookCopyRepository!!.findOne(1L)
         val except = "C++程序设计指南"
