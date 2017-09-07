@@ -1,6 +1,7 @@
 package com.athena.controller
 
 import com.athena.model.*
+import com.athena.repository.jpa.BookCopyRepository
 import com.athena.repository.jpa.BookRepository
 import com.athena.security.model.Account
 import com.athena.security.model.JwtAuthenticationToken
@@ -29,8 +30,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.request.RequestPostProcessor
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
@@ -47,12 +47,14 @@ open class BookControllerTest {
     @Autowired private val context: WebApplicationContext? = null
     @Autowired private val applicationContext: ApplicationContext? = null
     @Autowired private val bookRepository: BookRepository? = null
+    @Autowired private val bookCopyRepository: BookCopyRepository? = null
 
     private var mvc: MockMvc? = null
     private val mockBookGenerator: BookGenerator = BookGenerator()
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
 
-    @Before fun setup() {
+    @Before
+    fun setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context!!).apply<DefaultMockMvcBuilder>(springSecurity()).build()
     }
 
@@ -261,6 +263,19 @@ open class BookControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(content().json("[{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"book\":{\"isbn\":9787111125643,\"publishDate\":1483632000000,\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}},{\"status\":0,\"id\":2,\"createdDate\":null,\"updatedDate\":null,\"book\":{\"isbn\":9787111125643,\"publishDate\":1483632000000,\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}}]"))
+    }
+
+
+    @Test
+    fun testDeleteCopies() {
+        this.mvc!!.perform(delete(this.url_prefix + "/books/9787111125643/copy")
+                .with(this.authentication("ROLE_ADMIN"))
+        )
+                .andDo(print())
+                .andExpect(status().isOk)
+
+        Assert.assertEquals(0, this.bookCopyRepository!!.findByBook(this.bookRepository!!.findOne(9787111125643L)).size)
+
     }
 }
 

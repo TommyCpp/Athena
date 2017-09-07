@@ -19,7 +19,7 @@ public class JournalCopy extends Copy {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinTable(name = "journal_copy",
             joinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = {@JoinColumn(name = "issn", table = "journal", referencedColumnName = "issn", nullable = false),

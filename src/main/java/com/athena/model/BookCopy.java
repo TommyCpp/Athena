@@ -25,7 +25,7 @@ public class BookCopy extends Copy {
         this.book = book;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinTable(name = "book_copy",
             joinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id",nullable = false),
             inverseJoinColumns = @JoinColumn(name = "isbn", table = "book", referencedColumnName = "isbn",nullable = false)

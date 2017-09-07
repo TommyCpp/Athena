@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Tommy on 2017/9/2.
@@ -71,7 +70,7 @@ public class BookCopyService extends CopyService {
             throw new IdOfResourceNotFoundException();
         }
 
-        Set<BookCopy> copies = this.bookCopyRepository.findByBookAndBookIsNotNull(book);
+        List<BookCopy> copies = this.bookCopyRepository.findByBook(book);
 
         this.bookCopyRepository.delete(copies);
     }
