@@ -1,6 +1,7 @@
 package com.athena.service;
 
 import com.athena.exception.IdOfResourceNotFoundException;
+import com.athena.exception.IllegalEntityAttributeExcpetion;
 import com.athena.exception.InvalidCopyTypeException;
 import com.athena.model.BookCopy;
 import com.athena.model.Copy;
@@ -105,6 +106,14 @@ public class CopyService {
             throw new EmptyResultDataAccessException(ids.size());
         }
         this.simpleCopyRepository.delete(copies);
+    }
+
+    public void updateCopies(List<SimpleCopy> copyList) throws IllegalEntityAttributeExcpetion {
+        try {
+            this.simpleCopyRepository.save(copyList);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalEntityAttributeExcpetion();
+        }
     }
 
 }

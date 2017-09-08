@@ -297,7 +297,7 @@ public class Book implements Publication {
     @OneToMany
     @JoinTable(name = "book_copy",
             joinColumns = @JoinColumn(name = "isbn", table = "book", referencedColumnName = "isbn"),
-            inverseJoinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName ="id")
+            inverseJoinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id")
     )
     @JsonIgnore
     public List<BookCopy> getCopies() {

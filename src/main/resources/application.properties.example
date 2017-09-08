@@ -1,0 +1,13 @@
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driverClassName=
+
+
+spring.redis.host=
+spring.redis.password=
+
+spring.data.mongodb.host=
+spring.data.mongodb.username=
+spring.data.mongodb.password=
+spring.data.mongodb.database=

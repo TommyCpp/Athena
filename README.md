@@ -68,10 +68,19 @@ To install the application, first need to create some config file in resources
 
     > Config url
 
+
     key | value
     ----| ----
     web.url| the whole url prefix of project. e.g `http://localhost:8080/api/v1`
     web.url.prefix| the url without protocol host and port e.g `/api/v1`
+    
+    
+    > Config Privilege
+    
+    
+    key | value
+    ----| -----
+    privilege.sequence | The sequence that denote the importance of privilege.
 
 
 
@@ -157,6 +166,7 @@ code | meaning
 -----|--------
 ***400***|**BadRequest**
 4001 | Invalid Copy type
+4002 | Illegal entity attribute
 ***401*** | **Unauthorized**
 4010 | Unauthorized
 4011 | JWT token is expired

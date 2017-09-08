@@ -1,5 +1,7 @@
 package com.athena.service
 
+import com.athena.model.CopyStatus
+import com.athena.model.SimpleCopy
 import com.athena.repository.jpa.BookCopyRepository
 import com.athena.repository.jpa.JournalCopyRepository
 import com.athena.repository.jpa.SimpleCopyRepository
@@ -85,6 +87,18 @@ open class CopyServiceTest {
         this.journalCopyService!!.deleteCopies(arrayListOf(1L, 2L))
 
         Assert.assertTrue(true)
+    }
+
+    @Test
+    fun testUpdateCopies() {
+        var copy = SimpleCopy()
+        copy.id = 6
+        copy.status = CopyStatus.BOOKED
+        var copyList = arrayListOf(copy)
+
+        this.simpleCopyService!!.updateCopies(copyList)
+
+        Assert.assertEquals(CopyStatus.BOOKED, this.simpleCopyRepository!!.findOne(6L).status)
 
     }
 }
