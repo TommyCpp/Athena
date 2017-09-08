@@ -13,6 +13,8 @@ This is project is inspired by the question from [here](http://www.cnsoftbei.com
 ## Install & Preparation
 ### Add config file
 To install the application, first need to create some config file in resources
+
+Or you can copy the key in `/src/main/java/resource/application.properties.example` and `src/main/java/resource/config.properties.example` , then create corresponding new config file
 * application.properties
 
     > Config MySQL
