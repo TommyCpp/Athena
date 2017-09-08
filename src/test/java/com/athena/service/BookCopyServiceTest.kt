@@ -1,6 +1,8 @@
 package com.athena.service
 
 import com.athena.exception.IdOfResourceNotFoundException
+import com.athena.exception.IsbnAndCopyIdMismatchException
+import com.athena.exception.MixedCopyTypeException
 import com.athena.model.Book
 import com.athena.repository.jpa.BookCopyRepository
 import com.athena.repository.jpa.BookRepository
@@ -30,7 +32,8 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml")
 open class BookCopyServiceTest {
-    @Qualifier("copyService") @Autowired private var copyService: CopyService? = null
+    @Qualifier("copyService")
+    @Autowired private var copyService: CopyService? = null
     @Autowired private var bookCopyService: BookCopyService? = null
     @Autowired private var journalCopyService: JournalCopyService? = null
     @Autowired private var bookCopyRepository: BookCopyRepository? = null
@@ -50,6 +53,17 @@ open class BookCopyServiceTest {
     @Test(expected = IdOfResourceNotFoundException::class)
     fun testDeleteByIsbnException() {
         this.bookCopyService!!.deleteCopies(111111111111111111L)
-
     }
+
+    @Test(expected = MixedCopyTypeException::class)
+    fun testTriggerMixedCopyTypeException() {
+        var copyIdList = arrayListOf(1L, 2L, 3L)
+        this.bookCopyService!!.deleteCopies(copyIdList)
+    }
+
+    @Test(expected = IsbnAndCopyIdMismatchException::class)
+    fun testTriggerIsbnAndCopyIdMismatchException() {
+        this.bookCopyService!!.deleteCopy(9783158101895L, 1L)
+    }
+
 }
