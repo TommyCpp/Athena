@@ -11,6 +11,6 @@ public class InvalidCopyTypeException extends BaseException {
     public InvalidCopyTypeException() {
         this.code = 4001;
         this.statusCode = 400;
-        this.message = "The type of copy is invalid";
+        this.message = "The type of copy is invalid, mostly because the type is not exist";
     }
 }

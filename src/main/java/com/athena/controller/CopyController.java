@@ -10,6 +10,7 @@ import com.athena.service.CopyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,12 +42,14 @@ public class CopyController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> deleteCopy(@PathVariable Long id) {
         this.simpleCopyService.deleteCopy(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping(path = "/")
+    @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> updateCopies(@RequestBody List<SimpleCopy> copies) throws IllegalEntityAttributeExcpetion {
         this.simpleCopyService.updateCopies(copies);
         return ResponseEntity.ok().build();

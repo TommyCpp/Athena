@@ -2,6 +2,7 @@ package com.athena.service;
 
 import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.exception.InvalidCopyTypeException;
+import com.athena.model.Copy;
 import com.athena.model.JournalCopy;
 import com.athena.repository.jpa.BookCopyRepository;
 import com.athena.repository.jpa.BookRepository;
@@ -46,5 +47,12 @@ public class JournalCopyService extends CopyService {
             throw new EmptyResultDataAccessException(ids.size());
         }
         this.journalCopyRepository.delete(copies);
+    }
+
+    @Override
+    public void updateCopy(Copy copy) {
+        if (copy instanceof JournalCopy) {
+            this.journalCopyRepository.save((JournalCopy) copy);
+        }
     }
 }

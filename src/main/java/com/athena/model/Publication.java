@@ -9,4 +9,6 @@ public interface Publication {
     List<? extends Copy> getCopies();
 
     String getTitle();
+
+    Publisher getPublisher();
 }

@@ -3,6 +3,7 @@ package com.athena.service;
 import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.exception.IllegalEntityAttributeExcpetion;
 import com.athena.exception.InvalidCopyTypeException;
+import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.BookCopy;
 import com.athena.model.Copy;
 import com.athena.model.JournalCopy;
@@ -100,7 +101,7 @@ public class CopyService {
         this.simpleCopyRepository.delete(id);
     }
 
-    public void deleteCopies(List<Long> ids) {
+    public void deleteCopies(List<Long> ids) throws MixedCopyTypeException {
         List<SimpleCopy> copies = this.simpleCopyRepository.findAll(ids);
         if (copies.size() == 0) {
             throw new EmptyResultDataAccessException(ids.size());
@@ -115,5 +116,12 @@ public class CopyService {
             throw new IllegalEntityAttributeExcpetion();
         }
     }
+
+    public void updateCopy(Copy copy) {
+        if (copy instanceof SimpleCopy) {
+            this.simpleCopyRepository.save((SimpleCopy) copy);
+        }
+    }
+
 
 }

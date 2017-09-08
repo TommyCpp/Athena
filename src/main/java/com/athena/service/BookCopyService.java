@@ -1,9 +1,9 @@
 package com.athena.service;
 
-import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.exception.InvalidCopyTypeException;
+import com.athena.exception.*;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
+import com.athena.model.Copy;
 import com.athena.repository.jpa.BookCopyRepository;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.JournalCopyRepository;
@@ -49,14 +49,34 @@ public class BookCopyService extends CopyService {
         return this.bookCopyRepository.findByIdIsInAndBookIsNotNull(idList);
     }
 
+    @Transactional
+    public void deleteCopy(Long isbn, Long id) throws BookNotFoundException, IsbnAndCopyIdMismatchException {
+        //Check if the book has id
+        Book book = this.bookRepository.findOne(isbn);
+        if (book == null) {
+            throw new BookNotFoundException(isbn);
+        }
+        if (this.bookCopyRepository.findByIdAndBookIsNotNull(id) != null) {
+            this.deleteCopy(id);
+        } else {
+            throw new IsbnAndCopyIdMismatchException(isbn, id);
+        }
+
+    }
+
+
     @Override
     public void deleteCopy(Long id) {
         this.bookCopyRepository.delete(id);
     }
 
     @Override
-    public void deleteCopies(List<Long> ids) {
+    public void deleteCopies(List<Long> ids) throws MixedCopyTypeException {
         List<BookCopy> copies = this.getCopies(ids);
+        if (ids.size() != copies.size()) {
+            //indicate that some of the id do not belongs to BookCopy
+            throw new MixedCopyTypeException(BookCopy.class);
+        }
         if (copies.size() == 0) {
             throw new EmptyResultDataAccessException(ids.size());
         }
@@ -66,7 +86,7 @@ public class BookCopyService extends CopyService {
     @Transactional
     public void deleteCopies(Long isbn) throws IdOfResourceNotFoundException {
         Book book = this.bookRepository.findOne(isbn);
-        if(book == null){
+        if (book == null) {
             throw new IdOfResourceNotFoundException();
         }
 
@@ -76,4 +96,10 @@ public class BookCopyService extends CopyService {
     }
 
 
+    @Override
+    public void updateCopy(Copy copy) {
+        if (copy instanceof BookCopy) {
+            this.bookCopyRepository.save((BookCopy) copy);
+        }
+    }
 }

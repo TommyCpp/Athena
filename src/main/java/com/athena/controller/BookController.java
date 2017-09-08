@@ -1,9 +1,6 @@
 package com.athena.controller;
 
-import com.athena.exception.BatchStoreException;
-import com.athena.exception.BookNotFoundException;
-import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.exception.InvalidCopyTypeException;
+import com.athena.exception.*;
 import com.athena.model.Batch;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
@@ -199,6 +196,20 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> deleteCopies(@PathVariable Long isbn) throws IdOfResourceNotFoundException {
         this.bookCopyService.deleteCopies(isbn);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(path = "/{isbn}/copy/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
+    public ResponseEntity<?> deleteCopy(@PathVariable Long isbn, @PathVariable Long id, @RequestBody BookCopy copy) throws BookNotFoundException, IsbnAndCopyIdMismatchException {
+        this.bookCopyService.deleteCopy(isbn, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(path = "/copy")
+    @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
+    public ResponseEntity<?> deleteCopies(@RequestBody List<Long> copyList) throws MixedCopyTypeException {
+        this.bookCopyService.deleteCopies(copyList);
+        return ResponseEntity.noContent().build();
     }
 }
