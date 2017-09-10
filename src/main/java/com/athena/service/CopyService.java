@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 /**
  * Created by Tommy on 2017/8/24.
  */
@@ -109,9 +110,13 @@ public class CopyService {
         this.simpleCopyRepository.delete(copies);
     }
 
-    public void updateCopies(List<SimpleCopy> copyList) throws IllegalEntityAttributeExcpetion {
+    public void updateCopies(List<? extends Copy> copyList) throws IllegalEntityAttributeExcpetion, MixedCopyTypeException {
         try {
-            this.simpleCopyRepository.save(copyList);
+            if (copyList.stream().anyMatch(o -> !(o instanceof SimpleCopy))) {
+                throw new MixedCopyTypeException(SimpleCopy.class);
+            }
+
+            this.simpleCopyRepository.save((List<SimpleCopy>) copyList);
         } catch (IllegalArgumentException e) {
             throw new IllegalEntityAttributeExcpetion();
         }

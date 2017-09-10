@@ -4,6 +4,8 @@ import com.athena.exception.IdOfResourceNotFoundException
 import com.athena.exception.IsbnAndCopyIdMismatchException
 import com.athena.exception.MixedCopyTypeException
 import com.athena.model.Book
+import com.athena.model.BookCopy
+import com.athena.model.CopyStatus
 import com.athena.repository.jpa.BookCopyRepository
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.JournalCopyRepository
@@ -64,6 +66,24 @@ open class BookCopyServiceTest {
     @Test(expected = IsbnAndCopyIdMismatchException::class)
     fun testTriggerIsbnAndCopyIdMismatchException() {
         this.bookCopyService!!.deleteCopy(9783158101895L, 1L)
+    }
+
+
+    @Test
+    fun testUpdateBookCopy(){
+        var copy1 = BookCopy()
+        copy1.id = 1L
+        copy1.status = CopyStatus.BOOKED
+
+        var copy2 = BookCopy()
+        copy2.id = 2L
+        copy2.status = CopyStatus.BOOKED
+
+        var copyList: List<BookCopy> = arrayListOf(copy1, copy2)
+
+        this.bookCopyService!!.updateCopies(copyList)
+
+        Assert.assertEquals(CopyStatus.BOOKED, this.bookCopyRepository!!.findOne(1L).status)
     }
 
 }

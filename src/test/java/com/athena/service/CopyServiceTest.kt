@@ -1,5 +1,7 @@
 package com.athena.service
 
+import com.athena.exception.MixedCopyTypeException
+import com.athena.model.BookCopy
 import com.athena.model.CopyStatus
 import com.athena.model.SimpleCopy
 import com.athena.repository.jpa.BookCopyRepository
@@ -91,14 +93,30 @@ open class CopyServiceTest {
 
     @Test
     fun testUpdateCopies() {
-        var copy = SimpleCopy()
-        copy.id = 6
-        copy.status = CopyStatus.BOOKED
-        var copyList = arrayListOf(copy)
+        var copy1 = SimpleCopy()
+        copy1.id = 6
+        copy1.status = CopyStatus.BOOKED
+        var copyList = arrayListOf(copy1)
 
         this.simpleCopyService!!.updateCopies(copyList)
 
         Assert.assertEquals(CopyStatus.BOOKED, this.simpleCopyRepository!!.findOne(6L).status)
+    }
 
+    @Test(expected = MixedCopyTypeException::class)
+    fun testUpdateMixedCopies() {
+        var copy1 = BookCopy()
+        copy1.id = 1L
+        copy1.status = CopyStatus.BOOKED
+
+        var copy2 = BookCopy()
+        copy2.id = 2L
+        copy2.status = CopyStatus.BOOKED
+
+        var copyList: List<BookCopy> = arrayListOf(copy1, copy2)
+
+        this.simpleCopyService!!.updateCopies(copyList)
+
+        Assert.assertEquals(CopyStatus.BOOKED, this.simpleCopyRepository!!.findOne(1L).status)
     }
 }

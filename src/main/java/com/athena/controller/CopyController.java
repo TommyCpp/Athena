@@ -3,6 +3,7 @@ package com.athena.controller;
 import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.exception.IllegalEntityAttributeExcpetion;
 import com.athena.exception.InvalidCopyTypeException;
+import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.Copy;
 import com.athena.model.SimpleCopy;
 import com.athena.service.BatchService;
@@ -50,7 +51,7 @@ public class CopyController {
 
     @PutMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> updateCopies(@RequestBody List<SimpleCopy> copies) throws IllegalEntityAttributeExcpetion {
+    public ResponseEntity<?> updateCopies(@RequestBody List<SimpleCopy> copies) throws IllegalEntityAttributeExcpetion, MixedCopyTypeException {
         this.simpleCopyService.updateCopies(copies);
         return ResponseEntity.ok().build();
     }

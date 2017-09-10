@@ -206,10 +206,10 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping(path = "/copy")
+    @PutMapping(path = "/copy")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> deleteCopies(@RequestBody List<Long> copyList) throws MixedCopyTypeException {
-        this.bookCopyService.deleteCopies(copyList);
+    public ResponseEntity<?> updateCopy(@RequestBody List<BookCopy> bookCopies) throws IllegalEntityAttributeExcpetion, MixedCopyTypeException {
+        this.bookCopyService.updateCopies(bookCopies);
         return ResponseEntity.noContent().build();
     }
 }
