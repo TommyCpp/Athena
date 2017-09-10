@@ -8,7 +8,7 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "audio")
-public class Audio {
+public class Audio{
     private String isrc;
     private String title;
     private String subtitle;

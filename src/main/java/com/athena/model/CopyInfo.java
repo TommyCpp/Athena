@@ -11,7 +11,15 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public class CopyInfo {
-    protected Integer status; //0:new included;1:available;2:booked;3:checked out;4:reserved;5:damaged
+    /**
+     * 0: new included;
+     * 1: available;
+     * 2: booked;
+     * 3: checked out;
+     * 4: reserved;
+     * 5: damaged
+     * */
+    protected Integer status;
 
     public CopyInfo() {
         this.status = CopyStatus.CREATED;
