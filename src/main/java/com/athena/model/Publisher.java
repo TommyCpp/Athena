@@ -17,26 +17,7 @@ public class Publisher {
 
     private List<Book> books;
     private List<Journal> journals;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Publisher publisher = (Publisher) o;
-
-        if (!id.equals(publisher.id)) return false;
-        if (!name.equals(publisher.name)) return false;
-        return location.equals(publisher.location);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + location.hashCode();
-        return result;
-    }
+    private List<Audio> audios;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -86,5 +67,35 @@ public class Publisher {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @OneToMany(mappedBy = "publisher")
+    @JsonBackReference(value = "audio")
+    public List<Audio> getAudios() {
+        return audios;
+    }
+
+    public void setAudios(List<Audio> audios) {
+        this.audios = audios;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Publisher publisher = (Publisher) o;
+
+        if (!id.equals(publisher.id)) return false;
+        if (!name.equals(publisher.name)) return false;
+        return location.equals(publisher.location);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + location.hashCode();
+        return result;
     }
 }
