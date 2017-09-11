@@ -8,6 +8,7 @@ import com.athena.repository.jpa.BookCopyRepository;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.JournalCopyRepository;
 import com.athena.repository.jpa.SimpleCopyRepository;
+import com.athena.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -121,7 +122,7 @@ public class BookCopyService extends CopyService {
 
     @Override
     public void updateCopies(List<? extends Copy> copyList) throws IllegalEntityAttributeExcpetion, MixedCopyTypeException {
-        if (copyList.stream().anyMatch(o -> !(o instanceof BookCopy))) {
+        if (ListUtil.genericTypeIs(copyList, BookCopy.class)) {
             throw new MixedCopyTypeException(BookCopy.class);
         }
         try {
