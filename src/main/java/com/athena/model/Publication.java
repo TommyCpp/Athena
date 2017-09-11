@@ -11,4 +11,6 @@ public interface Publication {
     String getTitle();
 
     Publisher getPublisher();
+
+
 }

@@ -15,8 +15,8 @@ public class Journal {
     private Integer year;
     private Integer index;
     private String title;
-    private Integer titleShortPinyin;
-    private Integer titlePinyin;
+    private String titleShortPinyin;
+    private String titlePinyin;
     private Double price;
     private String coverUrl;
     private String directory;
@@ -83,21 +83,21 @@ public class Journal {
 
     @Basic
     @Column(name = "title_short_pinyin", nullable = true)
-    public Integer getTitleShortPinyin() {
+    public String getTitleShortPinyin() {
         return titleShortPinyin;
     }
 
-    public void setTitleShortPinyin(Integer titleShortPinyin) {
+    public void setTitleShortPinyin(String titleShortPinyin) {
         this.titleShortPinyin = titleShortPinyin;
     }
 
     @Basic
     @Column(name = "title_pinyin", nullable = true)
-    public Integer getTitlePinyin() {
+    public String getTitlePinyin() {
         return titlePinyin;
     }
 
-    public void setTitlePinyin(Integer titlePinyin) {
+    public void setTitlePinyin(String titlePinyin) {
         this.titlePinyin = titlePinyin;
     }
 
