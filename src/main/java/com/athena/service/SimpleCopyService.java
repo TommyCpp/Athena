@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Tommy on 2017/8/24.
  */
 @Service
-public class SimpleCopyService implements CopyService<SimpleCopy> {
+public class SimpleCopyService implements GenericCopyService<SimpleCopy, Long> {
     private final SimpleCopyRepository simpleCopyRepository;
     private final BookCopyRepository bookCopyRepository;
     private final JournalCopyRepository journalCopyRepository;
@@ -56,6 +56,7 @@ public class SimpleCopyService implements CopyService<SimpleCopy> {
     public List<SimpleCopy> getCopies(List<Long> idList) {
         return this.simpleCopyRepository.findAll(idList);
     }
+
 
     @Override
     public void deleteCopy(Long id) {

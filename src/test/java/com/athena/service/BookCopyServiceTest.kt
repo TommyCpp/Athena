@@ -31,44 +31,55 @@ import javax.transaction.Transactional
 @SpringBootTest
 @Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:book_copy.xml", "classpath:journal_copy.xml", "classpath:journals.xml", "classpath:copies.xml")
 open class BookCopyServiceTest {
-    @Autowired private var simpleCopyService: SimpleCopyService? = null
-    @Autowired private var bookCopyService: BookCopyService? = null
-    @Autowired private var journalCopyService: JournalCopyService? = null
-    @Autowired private var bookCopyRepository: BookCopyRepository? = null
-    @Autowired private var journalCopyRepository: JournalCopyRepository? = null
-    @Autowired private var simpleCopyRepository: SimpleCopyRepository? = null
-    @Autowired private var bookRepository: BookRepository? = null
+    @Autowired private lateinit var simpleCopyService: SimpleCopyService
+    @Autowired private lateinit var bookCopyService: BookCopyService
+    @Autowired private lateinit var journalCopyService: JournalCopyService
+    @Autowired private lateinit var bookCopyRepository: BookCopyRepository
+    @Autowired private lateinit var journalCopyRepository: JournalCopyRepository
+    @Autowired private lateinit var simpleCopyRepository: SimpleCopyRepository
+    @Autowired private lateinit var bookRepository: BookRepository
 
+    @Test
+    fun testAddCopy() {
+        var copy = BookCopy()
+        var book = this.bookRepository.findOne(9786395132407L)
+        copy.book = book
+        copy.status = CopyStatus.BOOKED
+        this.bookCopyService.addCopy(copy)
+
+        Assert.assertNotNull(this.bookCopyRepository.findOne(copy.id))
+
+    }
 
     @Test
     fun testDeleteCopyByIsbn() {
-        this.bookCopyService!!.deleteCopies(9783158101895L)
-        var book: Book = this.bookRepository!!.findOne(9783158101895L)
-        Assert.assertEquals(0, this.bookCopyRepository!!.findByBook(book).size)
+        this.bookCopyService.deleteCopies(9783158101895L)
+        var book: Book = this.bookRepository.findOne(9783158101895L)
+        Assert.assertEquals(0, this.bookCopyRepository.findByBook(book).size)
     }
 
 
     @Test(expected = IdOfResourceNotFoundException::class)
     fun testDeleteByIsbnException() {
-        this.bookCopyService!!.deleteCopies(111111111111111111L)
+        this.bookCopyService.deleteCopies(111111111111111111L)
     }
 
     @Test(expected = MixedCopyTypeException::class)
     fun testTriggerMixedCopyTypeException() {
         var copyIdList = arrayListOf(1L, 2L, 3L)
-        this.bookCopyService!!.deleteCopies(copyIdList)
+        this.bookCopyService.deleteCopies(copyIdList)
     }
 
     @Test(expected = IsbnAndCopyIdMismatchException::class)
     fun testTriggerIsbnAndCopyIdMismatchException() {
-        this.bookCopyService!!.deleteCopy(9783158101895L, 1L)
+        this.bookCopyService.deleteCopy(9783158101895L, 1L)
     }
 
 
     @Test
-    fun testUpdateBookCopy(){
+    fun testUpdateBookCopy() {
         var copy1 = BookCopy()
         copy1.id = 1L
         copy1.status = CopyStatus.BOOKED
@@ -79,9 +90,9 @@ open class BookCopyServiceTest {
 
         var copyList: List<BookCopy> = arrayListOf(copy1, copy2)
 
-        this.bookCopyService!!.updateCopies(copyList)
+        this.bookCopyService.updateCopies(copyList)
 
-        Assert.assertEquals(CopyStatus.BOOKED, this.bookCopyRepository!!.findOne(1L).status)
+        Assert.assertEquals(CopyStatus.BOOKED, this.bookCopyRepository.findOne(1L).status)
     }
 
 }

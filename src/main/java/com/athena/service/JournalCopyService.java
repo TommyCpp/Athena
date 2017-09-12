@@ -2,7 +2,6 @@ package com.athena.service;
 
 import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.exception.IllegalEntityAttributeExcpetion;
-import com.athena.exception.InvalidCopyTypeException;
 import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
@@ -53,9 +52,16 @@ public class JournalCopyService implements CopyService<JournalCopy, Long, Journa
         return this.journalCopyRepository.findByIdIsInAndJournalIsNotNull(idList);
     }
 
+    /**
+     * Get all copies of certain journal
+     *
+     * @param fkList the key of journal
+     * @return
+     * @throws IdOfResourceNotFoundException
+     */
     @Override
-    public List<JournalCopy> getCopies(JournalPK fkList) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
-        Journal journal = this.journalRepository.findById(fkList);
+    public List<JournalCopy> getCopies(JournalPK fkList) throws IdOfResourceNotFoundException {
+        Journal journal = this.journalRepository.findOne(fkList);
         if (journal == null) {
             throw new IdOfResourceNotFoundException();
         }
