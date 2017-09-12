@@ -7,7 +7,7 @@ import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.Copy;
 import com.athena.model.SimpleCopy;
 import com.athena.service.BatchService;
-import com.athena.service.CopyService;
+import com.athena.service.SimpleCopyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +23,14 @@ import java.util.List;
 @RequestMapping("${web.url.prefix}/copy/**")
 public class CopyController {
 
-    private final CopyService simpleCopyService;
+    private final SimpleCopyService simpleCopyService;
     private final String copyUrl;
     private final BatchService batchService;
     private final String baseUrl;
 
     @Autowired
-    public CopyController(CopyService copyService, @Value("${web.url}") String baseUrl, BatchService batchService) {
-        this.simpleCopyService = copyService;
+    public CopyController(SimpleCopyService simpleCopyService, @Value("${web.url}") String baseUrl, BatchService batchService) {
+        this.simpleCopyService = simpleCopyService;
         this.baseUrl = baseUrl;
         this.copyUrl = baseUrl + "/copy";
         this.batchService = batchService;
@@ -46,13 +46,13 @@ public class CopyController {
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> deleteCopy(@PathVariable Long id) {
         this.simpleCopyService.deleteCopy(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> updateCopies(@RequestBody List<SimpleCopy> copies) throws IllegalEntityAttributeExcpetion, MixedCopyTypeException {
         this.simpleCopyService.updateCopies(copies);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

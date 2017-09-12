@@ -161,7 +161,7 @@ public class BookController {
             bookCopyList.add(new BookCopy(copyInfo, book));
         }
         try {
-            this.bookCopyService.saveCopies(bookCopyList);
+            this.bookCopyService.addCopies(bookCopyList);
         } catch (DataAccessException e) {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(e.getMessage());
         }

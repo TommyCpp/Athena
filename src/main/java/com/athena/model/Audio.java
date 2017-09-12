@@ -2,13 +2,14 @@ package com.athena.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by Tommy on 2017/9/10.
  */
 @Entity
 @Table(name = "audio")
-public class Audio{
+public class Audio implements Publication{
     private String isrc;
     private String title;
     private String subtitle;
@@ -20,6 +21,7 @@ public class Audio{
     private String titlePinyin;
     private String titleShortPinyin;
     private Publisher publisher;
+    private List<AudioCopy> copies;
 
     @Id
     @Column(name = "isrc", nullable = false, length = 14)
@@ -166,5 +168,21 @@ public class Audio{
 
     public void setPublisher(Publisher publisherId) {
         this.publisher = publisherId;
+    }
+
+
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @OneToMany
+    @JoinTable(name = "audio_copy",
+            joinColumns = @JoinColumn(name = "isrc", table = "audio", referencedColumnName = "isrc"),
+            inverseJoinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id")
+    )
+    public List<AudioCopy> getCopies() {
+
+        return copies;
+    }
+
+    public void setCopies(List<AudioCopy> copies) {
+        this.copies = copies;
     }
 }

@@ -16,7 +16,6 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
@@ -34,8 +33,7 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml")
 open class BookCopyServiceTest {
-    @Qualifier("copyService")
-    @Autowired private var copyService: CopyService? = null
+    @Autowired private var simpleCopyService: SimpleCopyService? = null
     @Autowired private var bookCopyService: BookCopyService? = null
     @Autowired private var journalCopyService: JournalCopyService? = null
     @Autowired private var bookCopyRepository: BookCopyRepository? = null

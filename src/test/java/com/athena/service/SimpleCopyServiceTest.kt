@@ -1,7 +1,5 @@
 package com.athena.service
 
-import com.athena.exception.MixedCopyTypeException
-import com.athena.model.BookCopy
 import com.athena.model.CopyStatus
 import com.athena.model.SimpleCopy
 import com.athena.repository.jpa.BookCopyRepository
@@ -13,7 +11,6 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.test.context.TestExecutionListeners
@@ -31,10 +28,9 @@ import javax.transaction.Transactional
 @SpringBootTest
 @Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml")
-open class CopyServiceTest {
-    @Qualifier("copyService")
-    @Autowired private var simpleCopyService: CopyService? = null
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml", "classpath:journal_copy.xml", "classpath:book_copy.xml")
+open class SimpleCopyServiceTest {
+    @Autowired private var simpleCopyService: SimpleCopyService? = null
     @Autowired private var bookCopyService: BookCopyService? = null
     @Autowired private var journalCopyService: JournalCopyService? = null
     @Autowired private var bookCopyRepository: BookCopyRepository? = null
@@ -56,11 +52,8 @@ open class CopyServiceTest {
 
     @Test
     fun testDeleteCopy() {
-        this.bookCopyService!!.deleteCopies(arrayListOf(1L, 2L))
         this.journalCopyService!!.deleteCopy(3L)
 
-        Assert.assertNull(this.bookCopyRepository!!.findOne(1L))
-        Assert.assertNull(this.bookCopyRepository!!.findOne(2L))
         Assert.assertNull(this.journalCopyRepository!!.findOne(3L))
 
     }
@@ -103,20 +96,5 @@ open class CopyServiceTest {
         Assert.assertEquals(CopyStatus.BOOKED, this.simpleCopyRepository!!.findOne(6L).status)
     }
 
-    @Test(expected = MixedCopyTypeException::class)
-    fun testUpdateMixedCopies() {
-        var copy1 = BookCopy()
-        copy1.id = 1L
-        copy1.status = CopyStatus.BOOKED
 
-        var copy2 = BookCopy()
-        copy2.id = 2L
-        copy2.status = CopyStatus.BOOKED
-
-        var copyList: List<BookCopy> = arrayListOf(copy1, copy2)
-
-        this.simpleCopyService!!.updateCopies(copyList)
-
-        Assert.assertEquals(CopyStatus.BOOKED, this.simpleCopyRepository!!.findOne(1L).status)
-    }
 }

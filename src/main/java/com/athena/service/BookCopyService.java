@@ -3,12 +3,10 @@ package com.athena.service;
 import com.athena.exception.*;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
-import com.athena.model.Copy;
 import com.athena.repository.jpa.BookCopyRepository;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.JournalCopyRepository;
 import com.athena.repository.jpa.SimpleCopyRepository;
-import com.athena.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +17,13 @@ import java.util.List;
  * Created by Tommy on 2017/9/2.
  */
 @Service
-public class BookCopyService extends CopyService {
+public class BookCopyService implements CopyService<BookCopy> {
+
+
+    private final SimpleCopyRepository simpleCopyRepository;
+    private final BookCopyRepository bookCopyRepository;
+    private final JournalCopyRepository journalCopyRepository;
+    private final BookRepository bookRepository;
 
 
     /**
@@ -32,12 +36,19 @@ public class BookCopyService extends CopyService {
      */
     @Autowired
     public BookCopyService(SimpleCopyRepository simpleCopyRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, JournalCopyRepository journalCopyRepository) {
-        super(simpleCopyRepository, bookRepository, bookCopyRepository, journalCopyRepository);
+        this.simpleCopyRepository = simpleCopyRepository;
+        this.bookCopyRepository = bookCopyRepository;
+        this.journalCopyRepository = journalCopyRepository;
+        this.bookRepository = bookRepository;
     }
 
     @Override
     public BookCopy getCopy(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
-        return (BookCopy) super.getCopy(id, "Book");
+        BookCopy bookCopy = this.bookCopyRepository.findByIdAndBookIsNotNull(id);
+        if (bookCopy == null) {
+            throw new IdOfResourceNotFoundException();
+        }
+        return bookCopy;
     }
 
     /**
@@ -93,6 +104,15 @@ public class BookCopyService extends CopyService {
         this.bookCopyRepository.delete(id);
     }
 
+    @Override
+    public void deleteCopies(List<Long> copyIdList) throws MixedCopyTypeException {
+        List<BookCopy> bookCopyList = this.getCopies(copyIdList);
+        if (bookCopyList.size() != copyIdList.size()) {
+            throw new MixedCopyTypeException(BookCopy.class);
+        }
+        this.bookCopyRepository.delete(bookCopyList);
+    }
+
 
     /**
      * Delete copies.
@@ -113,22 +133,30 @@ public class BookCopyService extends CopyService {
     }
 
 
+    /**
+     * Update
+     */
+
     @Override
-    public void updateCopy(Copy copy) {
-        if (copy instanceof BookCopy) {
-            this.bookCopyRepository.save((BookCopy) copy);
+    public void updateCopy(BookCopy copy) {
+        this.bookCopyRepository.save(copy);
+    }
+
+    @Override
+    public void updateCopies(List<BookCopy> copyList) throws IllegalEntityAttributeExcpetion {
+        try {
+            this.bookCopyRepository.save(copyList);
+        } catch (Exception e) {
+            throw new IllegalEntityAttributeExcpetion();
         }
     }
 
     @Override
-    public void updateCopies(List<? extends Copy> copyList) throws IllegalEntityAttributeExcpetion, MixedCopyTypeException {
-        if (ListUtil.genericTypeIs(copyList, BookCopy.class)) {
-            throw new MixedCopyTypeException(BookCopy.class);
-        }
-        try {
-            this.bookCopyRepository.save((List<BookCopy>) copyList);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalEntityAttributeExcpetion();
-        }
+    public void addCopy(BookCopy copy) {
+        this.bookCopyRepository.save(copy);
+    }
+
+    public void addCopies(List<BookCopy> bookCopyList) {
+        this.bookCopyRepository.save(bookCopyList);
     }
 }

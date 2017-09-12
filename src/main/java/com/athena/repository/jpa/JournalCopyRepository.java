@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface JournalCopyRepository extends JpaRepository<JournalCopy, Long> {
     List<JournalCopy> findByIdIsInAndJournalIsNotNull(List<Long> ids);
+
+    JournalCopy findByIdAndJournalIsNotNull(Long id);
 }

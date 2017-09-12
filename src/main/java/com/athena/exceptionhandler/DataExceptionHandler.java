@@ -4,25 +4,26 @@ import com.athena.exception.BatchStoreException;
 import com.athena.model.Book;
 import com.athena.model.Copy;
 import com.athena.service.BookService;
-import com.athena.service.CopyService;
+import com.athena.service.SimpleCopyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Tommy on 2017/8/27.
  */
 @ControllerAdvice(basePackages = "com.athena.controller")
 public class DataExceptionHandler {
-    private final CopyService copyService;
+    private final SimpleCopyService simpleCopyService;
     private final BookService bookService;
 
     @Autowired
-    public DataExceptionHandler(CopyService copyService, BookService bookService) {
-        this.copyService = copyService;
+    public DataExceptionHandler(SimpleCopyService simpleCopyService, BookService bookService) {
+        this.simpleCopyService = simpleCopyService;
         this.bookService = bookService;
     }
 
@@ -38,7 +39,8 @@ public class DataExceptionHandler {
             break;
             case "Copy": {
                 if (exception.elements.size() != 0 && exception.elements.get(0) instanceof Copy) {
-                    copyService.removeCopies((List<Copy>) exception.elements);
+                    List<Long> idList = exception.elements.stream().map(o -> ((Copy) o).getId()).collect(Collectors.toList());
+                    simpleCopyService.deleteCopies(idList);
                 }
             }
             default:

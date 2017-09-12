@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "journal")
 @IdClass(JournalPK.class)
-public class Journal {
+public class Journal implements Publication{
     private String issn;
     private Integer year;
     private Integer index;
