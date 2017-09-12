@@ -2,12 +2,13 @@ package com.athena.service;
 
 import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.exception.IllegalEntityAttributeExcpetion;
+import com.athena.exception.InvalidCopyTypeException;
 import com.athena.exception.MixedCopyTypeException;
+import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
-import com.athena.repository.jpa.BookCopyRepository;
-import com.athena.repository.jpa.BookRepository;
+import com.athena.model.JournalPK;
 import com.athena.repository.jpa.JournalCopyRepository;
-import com.athena.repository.jpa.SimpleCopyRepository;
+import com.athena.repository.jpa.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +18,15 @@ import java.util.List;
  * Created by Tommy on 2017/9/2.
  */
 @Service
-public class JournalCopyService implements CopyService<JournalCopy> {
+public class JournalCopyService implements CopyService<JournalCopy, Long, JournalPK> {
 
-    private final SimpleCopyRepository simpleCopyRepository;
-    private final BookCopyRepository bookCopyRepository;
     private final JournalCopyRepository journalCopyRepository;
-    private final BookRepository bookRepository;
+    private final JournalRepository journalRepository;
 
     @Autowired
-    public JournalCopyService(SimpleCopyRepository simpleCopyRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, JournalCopyRepository journalCopyRepository) {
-        this.simpleCopyRepository = simpleCopyRepository;
-        this.bookCopyRepository = bookCopyRepository;
+    public JournalCopyService(JournalCopyRepository journalCopyRepository, JournalRepository journalRepository) {
         this.journalCopyRepository = journalCopyRepository;
-        this.bookRepository = bookRepository;
+        this.journalRepository = journalRepository;
     }
 
     @Override
@@ -54,6 +51,15 @@ public class JournalCopyService implements CopyService<JournalCopy> {
     @Override
     public List<JournalCopy> getCopies(List<Long> idList) {
         return this.journalCopyRepository.findByIdIsInAndJournalIsNotNull(idList);
+    }
+
+    @Override
+    public List<JournalCopy> getCopies(JournalPK fkList) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+        Journal journal = this.journalRepository.findById(fkList);
+        if (journal == null) {
+            throw new IdOfResourceNotFoundException();
+        }
+        return this.journalCopyRepository.findByJournal(journal);
     }
 
     @Override
@@ -83,4 +89,5 @@ public class JournalCopyService implements CopyService<JournalCopy> {
             throw new IllegalEntityAttributeExcpetion();
         }
     }
+
 }

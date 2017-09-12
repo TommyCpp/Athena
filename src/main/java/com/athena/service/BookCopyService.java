@@ -5,8 +5,6 @@ import com.athena.model.Book;
 import com.athena.model.BookCopy;
 import com.athena.repository.jpa.BookCopyRepository;
 import com.athena.repository.jpa.BookRepository;
-import com.athena.repository.jpa.JournalCopyRepository;
-import com.athena.repository.jpa.SimpleCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,28 +15,22 @@ import java.util.List;
  * Created by Tommy on 2017/9/2.
  */
 @Service
-public class BookCopyService implements CopyService<BookCopy> {
+public class BookCopyService implements CopyService<BookCopy, Long, Long> {
 
 
-    private final SimpleCopyRepository simpleCopyRepository;
     private final BookCopyRepository bookCopyRepository;
-    private final JournalCopyRepository journalCopyRepository;
     private final BookRepository bookRepository;
 
 
     /**
      * Instantiates a new Book copy service.
      *
-     * @param simpleCopyRepository  the simple copy repository
-     * @param bookRepository        the book repository
-     * @param bookCopyRepository    the book copy repository
-     * @param journalCopyRepository the journal copy repository
+     * @param bookRepository     the book repository
+     * @param bookCopyRepository the book copy repository
      */
     @Autowired
-    public BookCopyService(SimpleCopyRepository simpleCopyRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, JournalCopyRepository journalCopyRepository) {
-        this.simpleCopyRepository = simpleCopyRepository;
+    public BookCopyService(BookRepository bookRepository, BookCopyRepository bookCopyRepository) {
         this.bookCopyRepository = bookCopyRepository;
-        this.journalCopyRepository = journalCopyRepository;
         this.bookRepository = bookRepository;
     }
 

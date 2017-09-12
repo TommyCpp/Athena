@@ -6,12 +6,13 @@ import com.athena.exception.InvalidCopyTypeException;
 import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.Copy;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by 吴钟扬 on 2017/9/12.
  */
-interface CopyService<T extends Copy> {
+interface CopyService<T extends Copy, ID extends Serializable, FK extends Serializable> {
     /**
      * Add
      */
@@ -22,15 +23,17 @@ interface CopyService<T extends Copy> {
 
     /**
      * Get
-     * */
-    T getCopy(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException;
+     */
+    T getCopy(ID id) throws IdOfResourceNotFoundException, InvalidCopyTypeException;
 
-    List<T> getCopies(List<Long> idList);
+    List<T> getCopies(List<ID> idList);
+
+    List<T> getCopies(FK fkList) throws IdOfResourceNotFoundException;
 
 
     /**
      * Delete
-     * */
+     */
     void deleteCopy(Long id);
 
     void deleteCopies(List<Long> copyIdList) throws MixedCopyTypeException;
@@ -38,7 +41,7 @@ interface CopyService<T extends Copy> {
 
     /**
      * Update
-     * */
+     */
     void updateCopy(T copy) throws IllegalEntityAttributeExcpetion;
 
     void updateCopies(List<T> copyList) throws IllegalEntityAttributeExcpetion;
