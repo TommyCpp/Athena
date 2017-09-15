@@ -11,6 +11,8 @@ import java.util.List;
 
 /**
  * Created by 吴钟扬 on 2017/9/12.
+ *
+ * Basic Copy operation. Use for SimpleCopy
  */
 public interface GenericCopyService<T extends Copy, ID extends Serializable> {
     /**

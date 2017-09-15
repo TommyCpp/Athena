@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * Created by 吴钟扬 on 2017/9/12.
+ *
+ * Copy operation for BookCopy,JournalCopy...
  */
 interface CopyService<T extends Copy, ID extends Serializable, FK extends Serializable> extends GenericCopyService<T, ID> {
 
