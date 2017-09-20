@@ -106,6 +106,7 @@ The following dependencies are required by Athena, you can also find them in the
 * Apache Common
 * Jpinyin
 * Jjwt
+* Springfox Swagger2
 
 The dependencies below are required for test
 
@@ -164,6 +165,15 @@ User with Admin or SuperAdmin clearance can create books in database
 
 * create single book
 * create multiple books
+
+## API
+To access the api documentation,
+first run the application
+```java
+mvn spring-boot:run
+```
+
+And then access the `http://localhost:8080/swagger-ui.html#/`
 
 ## Exception Check List
 Among the Athena, we may encounter different kind of exceptions. The Http standard status code(like 401,400) may not be enough. Thus, we introduce some custom status code which will be include in the response body when exception happens.
