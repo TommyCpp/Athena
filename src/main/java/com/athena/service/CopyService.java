@@ -15,4 +15,6 @@ interface CopyService<T extends Copy, ID extends Serializable, FK extends Serial
 
     List<T> getCopies(FK fkList) throws IdOfResourceNotFoundException;
 
+    void deleteCopies(FK fk) throws IdOfResourceNotFoundException;
+
 }

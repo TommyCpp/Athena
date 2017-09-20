@@ -17,7 +17,7 @@ import java.util.List;
  * Created by 吴钟扬 on 2017/9/12.
  */
 @Service
-public class AudioCopyService implements CopyService<AudioCopy, Long, Long> {
+public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
 
     private final AudioCopyRepository audioCopyRepository;
     private final AudioRepository audioRepository;
@@ -54,7 +54,7 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, Long> {
     }
 
     @Override
-    public List<AudioCopy> getCopies(Long fkList) throws IdOfResourceNotFoundException {
+    public List<AudioCopy> getCopies(String fkList) throws IdOfResourceNotFoundException {
         Audio audio = this.audioRepository.findOne(fkList);
         if(audio == null){
             throw new IdOfResourceNotFoundException();
@@ -74,6 +74,10 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, Long> {
             throw new MixedCopyTypeException(AudioCopy.class);
         }
         this.audioCopyRepository.delete(copyList);
+    }
+
+    public void deleteCopies(String pk) throws IdOfResourceNotFoundException {
+        this.audioCopyRepository.delete(this.getCopies(pk));
     }
 
     @Override

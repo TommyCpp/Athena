@@ -69,6 +69,11 @@ public class JournalCopyService implements CopyService<JournalCopy, Long, Journa
     }
 
     @Override
+    public void deleteCopies(JournalPK journalPK) throws IdOfResourceNotFoundException {
+        this.journalCopyRepository.delete(this.getCopies(journalPK));
+    }
+
+    @Override
     public void deleteCopy(Long id) {
         this.journalCopyRepository.delete(id);
     }
