@@ -68,7 +68,7 @@ open class BookCopyServiceTest {
 
     @Test(expected = MixedCopyTypeException::class)
     fun testTriggerMixedCopyTypeException() {
-        var copyIdList = arrayListOf(1L, 2L, 3L)
+        var copyIdList = arrayListOf(1L, 2L, 3L) //Mixed Type
         this.bookCopyService.deleteCopies(copyIdList)
     }
 
@@ -80,19 +80,17 @@ open class BookCopyServiceTest {
 
     @Test
     fun testUpdateBookCopy() {
-        var copy1 = BookCopy()
-        copy1.id = 1L
+        var copy1 = this.bookCopyRepository.findByIdAndBookIsNotNull(1L)
         copy1.status = CopyStatus.BOOKED
 
-        var copy2 = BookCopy()
-        copy2.id = 2L
+        var copy2 = this.bookCopyRepository.findByIdAndBookIsNotNull(1L)
         copy2.status = CopyStatus.BOOKED
 
         var copyList: List<BookCopy> = arrayListOf(copy1, copy2)
 
         this.bookCopyService.updateCopies(copyList)
 
-        Assert.assertEquals(CopyStatus.BOOKED, this.bookCopyRepository.findOne(1L).status)
+        Assert.assertEquals(CopyStatus.BOOKED, this.bookCopyRepository.findByIdAndBookIsNotNull(1L).status)
     }
 
 }

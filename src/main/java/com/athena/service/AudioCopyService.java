@@ -93,6 +93,7 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
     public void updateCopies(List<AudioCopy> copyList) throws IllegalEntityAttributeExcpetion {
         try {
             this.audioCopyRepository.save(copyList);
+            //todo: use @Query to update with one SQL
         } catch (Exception e) {
             throw new IllegalEntityAttributeExcpetion();
         }

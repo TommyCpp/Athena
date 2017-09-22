@@ -25,7 +25,7 @@ import javax.transaction.Transactional
 @SpringBootTest
 @Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:book_copy.xml", "classpath:journal_copy.xml", "classpath:journals.xml", "classpath:copies.xml", "classpath:audios.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:book_copy.xml", "classpath:journal_copy.xml", "classpath:journals.xml", "classpath:copies.xml", "classpath:audios.xml", "classpath:audio_copy.xml")
 open class AudioCopyServiceTest {
     @Autowired private lateinit var audioCopyService: AudioCopyService
     @Autowired private lateinit var audioRepository: AudioRepository
@@ -48,5 +48,16 @@ open class AudioCopyServiceTest {
         this.audioCopyService.deleteCopies("CNM010100300")
 
         Assert.assertEquals(0, this.audioCopyRepository.findByAudio(audio).size)
+    }
+
+    @Test
+    fun testUpdateAudioCopy() {
+        var copy1 = this.audioCopyRepository.findByIdAndAudioIsNotNull(8L)
+        copy1.status = CopyStatus.AVAILABLE
+
+        this.audioCopyService.updateCopies(arrayListOf(copy1))
+
+        Assert.assertEquals(CopyStatus.AVAILABLE, this.audioCopyRepository.findByIdAndAudioIsNotNull(8L).status)
+
     }
 }

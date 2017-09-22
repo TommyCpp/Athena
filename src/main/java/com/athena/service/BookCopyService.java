@@ -68,7 +68,7 @@ public class BookCopyService implements CopyService<BookCopy, Long, Long> {
     }
 
     /**
-     * Delete copy.
+     * Delete copy with id and belongs to book.
      *
      * @param isbn the isbn
      * @param id   the id
