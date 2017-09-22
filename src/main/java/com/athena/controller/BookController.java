@@ -9,6 +9,10 @@ import com.athena.service.BatchService;
 import com.athena.service.BookCopyService;
 import com.athena.service.BookService;
 import com.athena.service.PageableHeaderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -35,6 +39,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("${web.url.prefix}/books/**")
+@Api(value = "Book", description = "Manage books")
 public class BookController {
     private final BookService bookService;
 
@@ -54,7 +59,12 @@ public class BookController {
         this.bookUrl = baseUrl + "/books";
     }
 
-    @RequestMapping(path = "/**", method = RequestMethod.GET)
+    @ApiOperation(value = "search book", response = Page.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "search success"),
+            @ApiResponse(code = 401, message = "search term is missing")
+    })
+    @RequestMapping(path = "/**", method = RequestMethod.GET, produces = "application/json")
     public Page<Book> searchBooks(
             @RequestParam(value = "title", required = false) String[] titles,
             @RequestParam(value = "publisher", required = false) String publisher,

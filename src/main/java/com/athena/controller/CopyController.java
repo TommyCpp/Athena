@@ -8,6 +8,8 @@ import com.athena.model.Copy;
 import com.athena.model.SimpleCopy;
 import com.athena.service.BatchService;
 import com.athena.service.SimpleCopyService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +38,18 @@ public class CopyController {
         this.batchService = batchService;
     }
 
+    @ApiOperation(value = "get simple copy", response = Copy.class)
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getCopy(@PathVariable Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
         Copy copy = this.simpleCopyService.getCopy(id);
         return ResponseEntity.ok(copy);
     }
 
+    @ApiOperation(value = "delete copy", authorizations = {
+            @Authorization(
+                    value = "admin/superadmin"
+            )
+    })
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> deleteCopy(@PathVariable Long id) {
