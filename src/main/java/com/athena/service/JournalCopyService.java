@@ -89,13 +89,13 @@ public class JournalCopyService implements CopyService<JournalCopy, Long, Journa
 
     @Override
     public void updateCopy(JournalCopy copy) {
-        this.journalCopyRepository.save(copy);
+        this.journalCopyRepository.update(copy);
     }
 
     @Override
     public void updateCopies(List<JournalCopy> copyList) throws IllegalEntityAttributeExcpetion {
         try {
-            this.journalCopyRepository.save(copyList);
+            this.journalCopyRepository.update(copyList);
         } catch (Exception e) {
             throw new IllegalEntityAttributeExcpetion();
         }

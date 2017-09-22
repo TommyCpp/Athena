@@ -159,6 +159,11 @@ open class JournalCopyServiceTest {
         Assert.assertEquals(CopyStatus.RESERVED, this.journalCopyRepository.findOne(7L).status)
     }
 
+    /**
+     * Test update a book-copy with JournalCopyService
+     *
+     * Should change nothing
+     * */
     @Test
     fun testUpdateOtherKindCopy() {
         val journalPK = JournalPK()
@@ -174,5 +179,10 @@ open class JournalCopyServiceTest {
         this.journalCopyRepository.update(copy)
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
+
+        this.journalCopyService.updateCopies(arrayListOf(copy))
+
+        Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
+
     }
 }
