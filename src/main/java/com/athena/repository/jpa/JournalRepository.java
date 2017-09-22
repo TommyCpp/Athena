@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * Created by Tommy on 2017/8/28.
  */
 @Repository
-public interface JournalRepository extends JpaRepository<Journal, JournalPK>, JournalRepositoryCustom {
+public interface JournalRepository extends JpaRepository<Journal, JournalPK> {
 }

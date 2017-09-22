@@ -5,6 +5,7 @@ import com.athena.exception.MixedCopyTypeException
 import com.athena.model.CopyStatus
 import com.athena.model.JournalCopy
 import com.athena.model.JournalPK
+import com.athena.repository.jpa.BookCopyRepository
 import com.athena.repository.jpa.JournalCopyRepository
 import com.athena.repository.jpa.JournalRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
@@ -39,6 +40,8 @@ open class JournalCopyServiceTest {
 
     @Qualifier("journalCopyRepository")
     @Autowired lateinit var journalCopyRepository: JournalCopyRepository
+
+    @Autowired lateinit var bookCopyRepository: BookCopyRepository
 
     @Test
     fun testAddCopy() {
@@ -152,7 +155,24 @@ open class JournalCopyServiceTest {
         var copies = this.journalCopyRepository.findAll(arrayListOf(3L, 7L))
         copies[0].status = CopyStatus.CHECKED_OUT
         copies[1].status = CopyStatus.RESERVED
-        Assert.assertEquals(CopyStatus.CHECKED_OUT,this.journalCopyRepository.findOne(3L).status)
-        Assert.assertEquals(CopyStatus.RESERVED,this.journalCopyRepository.findOne(7L).status)
+        Assert.assertEquals(CopyStatus.CHECKED_OUT, this.journalCopyRepository.findOne(3L).status)
+        Assert.assertEquals(CopyStatus.RESERVED, this.journalCopyRepository.findOne(7L).status)
+    }
+
+    @Test
+    fun testUpdateOtherKindCopy() {
+        val journalPK = JournalPK()
+        journalPK.issn = "03718471"
+        journalPK.year = 2017
+        journalPK.index = 1
+
+        var copy = JournalCopy()
+        copy.id = 1L
+        copy.journal = this.journalRepository.findOne(journalPK)
+        copy.status = CopyStatus.DAMAGED
+
+        this.journalCopyRepository.update(copy)
+
+        Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
     }
 }
