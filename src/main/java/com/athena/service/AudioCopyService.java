@@ -56,7 +56,7 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
     @Override
     public List<AudioCopy> getCopies(String fkList) throws IdOfResourceNotFoundException {
         Audio audio = this.audioRepository.findOne(fkList);
-        if(audio == null){
+        if (audio == null) {
             throw new IdOfResourceNotFoundException();
         }
         return this.audioCopyRepository.findByAudio(audio);

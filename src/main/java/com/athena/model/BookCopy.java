@@ -1,6 +1,7 @@
 package com.athena.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Tommy on 2017/8/29.
@@ -30,6 +31,7 @@ public class BookCopy extends Copy {
             joinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id",nullable = false),
             inverseJoinColumns = @JoinColumn(name = "isbn", table = "book", referencedColumnName = "isbn",nullable = false)
     )
+    @NotNull
     public Book getBook() {
         return this.book;
     }

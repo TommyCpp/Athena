@@ -1,6 +1,7 @@
 package com.athena.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Tommy on 2017/8/30.
@@ -27,6 +28,7 @@ public class JournalCopy extends Copy {
                     @JoinColumn(name = "index", table = "journal", referencedColumnName = "index", nullable = false)
             }
     )
+    @NotNull
     public Journal getJournal() {
         return journal;
     }
