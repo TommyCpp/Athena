@@ -83,7 +83,7 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
     @Override
     public void updateCopy(AudioCopy copy) throws IllegalEntityAttributeExcpetion {
         try {
-            this.audioCopyRepository.save(copy);
+            this.audioCopyRepository.update(copy);
         } catch (Exception e) {
             throw new IllegalEntityAttributeExcpetion();
         }
@@ -92,7 +92,7 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
     @Override
     public void updateCopies(List<AudioCopy> copyList) throws IllegalEntityAttributeExcpetion {
         try {
-            this.audioCopyRepository.save(copyList);
+            this.audioCopyRepository.update(copyList);
         } catch (Exception e) {
             throw new IllegalEntityAttributeExcpetion();
         }

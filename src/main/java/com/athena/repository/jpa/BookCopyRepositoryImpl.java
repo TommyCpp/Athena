@@ -5,8 +5,6 @@ import com.athena.model.BookCopy;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
-import java.util.stream.StreamSupport;
 
 /**
  * Created by Tommy on 2017/9/24.
@@ -26,11 +24,5 @@ public class BookCopyRepositoryImpl implements CopyRepositoryCustom<BookCopy> {
         query.setParameter(4, copy.getUpdatedDate());
         query.setParameter(5, copy.getCreatedDate());
         query.executeUpdate();
-    }
-
-    @Override
-    @Transactional
-    public void update(Iterable<BookCopy> copies) {
-        StreamSupport.stream(copies.spliterator(), false).forEach(this::update);
     }
 }

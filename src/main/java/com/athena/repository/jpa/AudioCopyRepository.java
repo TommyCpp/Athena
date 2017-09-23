@@ -11,7 +11,7 @@ import java.util.List;
  * Created by 吴钟扬 on 2017/9/12.
  */
 @Repository
-public interface AudioCopyRepository extends JpaRepository<AudioCopy, Long> {
+public interface AudioCopyRepository extends JpaRepository<AudioCopy, Long>, CopyRepositoryCustom<AudioCopy> {
     List<AudioCopy> findByIdInAndAudioIsNotNull(List<Long> idList);
 
     AudioCopy findByIdAndAudioIsNotNull(Long id);

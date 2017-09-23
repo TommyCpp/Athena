@@ -68,7 +68,7 @@ open class AudioCopyServiceTest {
     /**
      * Update BookCopy with AudioCopyService. Should be prevented
      * */
-    @Test(expected= ConstraintViolationException::class)
+    @Test(expected = ConstraintViolationException::class)
     fun testModifyOtherKindCopy() {
         var book_copy = AudioCopy()
         book_copy.id = 1L
@@ -79,5 +79,29 @@ open class AudioCopyServiceTest {
         this.audioCopyService.updateCopy(book_copy)
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findByIdAndBookIsNotNull(1L).status)
+    }
+
+
+    /**
+     * Test update a book-copy with AudioCopyService
+     *
+     * Should change nothing
+     * */
+    @Test
+    fun testUpdateOtherKindCopy() {
+
+        var copy = AudioCopy()
+        copy.id = 1L
+        copy.audio = this.audioRepository.findOne("CNM010100300")
+        copy.status = CopyStatus.DAMAGED
+
+        this.audioCopyService.updateCopy(copy)
+
+        Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
+
+        this.audioCopyService.updateCopies(arrayListOf(copy))
+
+        Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
+
     }
 }
