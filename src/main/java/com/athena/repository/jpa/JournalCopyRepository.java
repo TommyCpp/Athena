@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Tommy on 2017/8/30.
  */
 @Repository
-public interface JournalCopyRepository extends JpaRepository<JournalCopy, Long>, JournalCopyRepositoryCustom {
+public interface JournalCopyRepository extends JpaRepository<JournalCopy, Long>, CopyRepositoryCustom<JournalCopy> {
     List<JournalCopy> findByIdIsInAndJournalIsNotNull(List<Long> ids);
 
     JournalCopy findByIdAndJournalIsNotNull(Long id);

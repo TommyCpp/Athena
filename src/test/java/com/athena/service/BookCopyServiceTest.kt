@@ -93,4 +93,28 @@ open class BookCopyServiceTest {
         Assert.assertEquals(CopyStatus.BOOKED, this.bookCopyRepository.findByIdAndBookIsNotNull(1L).status)
     }
 
+
+    /**
+     * Test update a journal-copy with BookCopyService
+     *
+     * Should change nothing
+     * */
+    @Test
+    fun testUpdateOtherKindCopy() {
+
+        var copy = BookCopy()
+        copy.id = 3L
+        copy.book = this.bookRepository.findOne(9783158101895L)
+        copy.status = CopyStatus.DAMAGED
+
+        this.bookCopyService.updateCopy(copy)
+
+        Assert.assertNotEquals(CopyStatus.DAMAGED, this.journalCopyRepository.findOne(3L).status)
+
+        this.bookCopyService.updateCopies(arrayListOf(copy))
+
+        Assert.assertNotEquals(CopyStatus.DAMAGED, this.journalCopyRepository.findOne(3L).status)
+
+    }
+
 }

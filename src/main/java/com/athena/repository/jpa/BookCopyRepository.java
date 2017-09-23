@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Tommy on 2017/8/30.
  */
 @Repository
-public interface BookCopyRepository extends JpaRepository<BookCopy, Long> {
+public interface BookCopyRepository extends JpaRepository<BookCopy, Long>, CopyRepositoryCustom<BookCopy> {
     List<BookCopy> findByBook(Book book);
 
     List<BookCopy> findByIdIsInAndBookIsNotNull(List<Long> idList);

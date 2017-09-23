@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
  * Created by 吴钟扬 on 2017/9/12.
  */
 @Repository
-public class JournalCopyRepositoryImpl implements JournalCopyRepositoryCustom {
+public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCopy> {
 
     @PersistenceContext
     private final EntityManager em;

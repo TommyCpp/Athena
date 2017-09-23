@@ -176,7 +176,7 @@ open class JournalCopyServiceTest {
         copy.journal = this.journalRepository.findOne(journalPK)
         copy.status = CopyStatus.DAMAGED
 
-        this.journalCopyRepository.update(copy)
+        this.journalCopyService.updateCopy(copy)
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
 
