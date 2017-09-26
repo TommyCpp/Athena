@@ -24,6 +24,7 @@ public class SwaggerConfig {
         securitySchemes.add(new ApiKey("admin/superadmin", "", ""));
 
         return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
                 .securitySchemes(securitySchemes)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.athena.controller"))

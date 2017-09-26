@@ -9,16 +9,14 @@ import com.athena.service.BatchService;
 import com.athena.service.BookCopyService;
 import com.athena.service.BookService;
 import com.athena.service.PageableHeaderService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -135,7 +133,19 @@ public class BookController {
 
     }
 
+    @ApiOperation(value = "create book info", authorizations = {
+            @Authorization(
+                    value = "admin/superadmin"
+            )
+    },
+            response = Book.class,
+            responseContainer = "List"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Data access exception"),
+    })
     @RequestMapping(path = "/**", method = RequestMethod.POST)
+    @ResponseStatus(value= HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException, BatchStoreException {
         try {
