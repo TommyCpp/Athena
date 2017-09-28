@@ -5,6 +5,7 @@ import com.athena.model.Batch;
 import com.athena.security.model.Account;
 import com.athena.security.service.AccountService;
 import com.athena.service.BatchService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,9 +29,11 @@ public class BatchController {
         this.accountService = accountService;
     }
 
+
+    @ApiOperation(value = "get batch", response = Batch.class)
     @RequestMapping(path = "/{uuid}", method = RequestMethod.GET)
     public ResponseEntity<Batch> batch(@PathVariable String uuid, @AuthenticationPrincipal Account user) throws ResourceNotFoundException {
-        if (this.accountService.privilegeBigger(user,"ROLE_READER")) {
+        if (this.accountService.privilegeBigger(user, "ROLE_READER")) {
             // if it is admin or above
             return ResponseEntity.ok(this.batchService.findOne(uuid));
         } else {

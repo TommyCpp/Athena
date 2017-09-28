@@ -4,9 +4,6 @@ import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.exception.IllegalEntityAttributeExcpetion;
 import com.athena.exception.InvalidCopyTypeException;
 import com.athena.model.SimpleCopy;
-import com.athena.repository.jpa.BookCopyRepository;
-import com.athena.repository.jpa.BookRepository;
-import com.athena.repository.jpa.JournalCopyRepository;
 import com.athena.repository.jpa.SimpleCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,16 +17,10 @@ import java.util.List;
 @Service
 public class SimpleCopyService implements GenericCopyService<SimpleCopy, Long> {
     private final SimpleCopyRepository simpleCopyRepository;
-    private final BookCopyRepository bookCopyRepository;
-    private final JournalCopyRepository journalCopyRepository;
-    private final BookRepository bookRepository;
 
     @Autowired
-    public SimpleCopyService(SimpleCopyRepository simpleCopyRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, JournalCopyRepository journalCopyRepository) {
+    public SimpleCopyService(SimpleCopyRepository simpleCopyRepository) {
         this.simpleCopyRepository = simpleCopyRepository;
-        this.bookCopyRepository = bookCopyRepository;
-        this.journalCopyRepository = journalCopyRepository;
-        this.bookRepository = bookRepository;
     }
 
 

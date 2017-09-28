@@ -10,6 +10,8 @@ public interface Publication {
 
     void setTitle(String title);
 
+    String getTitlePinyin();
+
     Publisher getPublisher();
 
     void setPublisher(Publisher publisher);

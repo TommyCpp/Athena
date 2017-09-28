@@ -1,5 +1,6 @@
 package com.athena.model;
 
+import com.athena.model.listener.BookListener;
 import com.athena.service.PinyinConvertService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,9 @@ import java.util.List;
  * Created by tommy on 2017/3/28.
  */
 @Entity
+@EntityListeners({
+        BookListener.class
+})
 @Table(name = "book")
 public class Book implements Publication {
     private Long isbn;
@@ -160,6 +164,7 @@ public class Book implements Publication {
         this.title = title;
         this.setTitlePinyin(this.pinyinConvertService.getPinYin(title));
         this.setTitleShortPinyin(this.pinyinConvertService.getShortPinYin(title));
+        //todo: change the way to set the title_pin_yin *need tested*
     }
 
     @Basic
@@ -228,6 +233,7 @@ public class Book implements Publication {
 
         if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
         if (_author != null ? !_author.equals(book._author) : book._author != null) return false;
+        if (_translator != null ? !_translator.equals(book._translator) : book._translator != null) return false;
         if (publishDate != null ? !publishDate.equals(book.publishDate) : book.publishDate != null) return false;
         if (categoryId != null ? !categoryId.equals(book.categoryId) : book.categoryId != null) return false;
         if (version != null ? !version.equals(book.version) : book.version != null) return false;
@@ -236,18 +242,22 @@ public class Book implements Publication {
         if (introduction != null ? !introduction.equals(book.introduction) : book.introduction != null) return false;
         if (directory != null ? !directory.equals(book.directory) : book.directory != null) return false;
         if (title != null ? !title.equals(book.title) : book.title != null) return false;
+        if (titlePinyin != null ? !titlePinyin.equals(book.titlePinyin) : book.titlePinyin != null) return false;
+        if (titleShortPinyin != null ? !titleShortPinyin.equals(book.titleShortPinyin) : book.titleShortPinyin != null)
+            return false;
         if (subtitle != null ? !subtitle.equals(book.subtitle) : book.subtitle != null) return false;
         if (language != null ? !language.equals(book.language) : book.language != null) return false;
-        if (_translator != null ? !_translator.equals(book._translator) : book._translator != null) return false;
         if (price != null ? !price.equals(book.price) : book.price != null) return false;
-
-        return true;
+        if (publisher != null ? !publisher.equals(book.publisher) : book.publisher != null) return false;
+        if (copies != null ? !copies.equals(book.copies) : book.copies != null) return false;
+        return pinyinConvertService != null ? pinyinConvertService.equals(book.pinyinConvertService) : book.pinyinConvertService == null;
     }
 
     @Override
     public int hashCode() {
         int result = isbn != null ? isbn.hashCode() : 0;
         result = 31 * result + (_author != null ? _author.hashCode() : 0);
+        result = 31 * result + (_translator != null ? _translator.hashCode() : 0);
         result = 31 * result + (publishDate != null ? publishDate.hashCode() : 0);
         result = 31 * result + (categoryId != null ? categoryId.hashCode() : 0);
         result = 31 * result + (version != null ? version.hashCode() : 0);
@@ -256,10 +266,14 @@ public class Book implements Publication {
         result = 31 * result + (introduction != null ? introduction.hashCode() : 0);
         result = 31 * result + (directory != null ? directory.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (titlePinyin != null ? titlePinyin.hashCode() : 0);
+        result = 31 * result + (titleShortPinyin != null ? titleShortPinyin.hashCode() : 0);
         result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
         result = 31 * result + (language != null ? language.hashCode() : 0);
-        result = 31 * result + (_translator != null ? _translator.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (publisher != null ? publisher.hashCode() : 0);
+        result = 31 * result + (copies != null ? copies.hashCode() : 0);
+        result = 31 * result + (pinyinConvertService != null ? pinyinConvertService.hashCode() : 0);
         return result;
     }
 

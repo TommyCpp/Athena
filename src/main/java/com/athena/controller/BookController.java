@@ -145,7 +145,7 @@ public class BookController {
             @ApiResponse(code = 400, message = "Data access exception"),
     })
     @RequestMapping(path = "/**", method = RequestMethod.POST)
-    @ResponseStatus(value= HttpStatus.CREATED)
+    @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException, BatchStoreException {
         try {
@@ -166,7 +166,18 @@ public class BookController {
         }
     }
 
+    @ApiOperation(value = "create copy", authorizations = {
+            @Authorization(
+                    value = "admin/superadmin"
+            )
+    },
+            response = Void.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "Copy's correspond book do not exist")
+    })
     @PostMapping(path = "/{isbn}/copy/")
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> createCopy(@PathVariable Long isbn, @RequestBody List<CopyInfo> copyInfoList) throws BookNotFoundException, BatchStoreException, URISyntaxException {
         List<BookCopy> bookCopyList = new ArrayList<>();
