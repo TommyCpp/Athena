@@ -1,6 +1,8 @@
 package com.athena.model
 
 import com.athena.repository.jpa.BookRepository
+import com.athena.repository.jpa.PublisherRepository
+import com.athena.util.BookGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -25,11 +27,16 @@ import javax.transaction.Transactional
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml")
 open class BookTest {
     @Autowired
-    private var repository: BookRepository? = null
+    private lateinit var bookRepository: BookRepository
+
+    @Autowired
+    private lateinit var publisherRepository: PublisherRepository
+
+    private var generator: BookGenerator = BookGenerator()
 
     @Test
     fun testGetPublisher() {
-        val book = repository!!.findOne(9787111124444L)
+        val book = bookRepository.findOne(9787111124444L)
         Assert.assertEquals(book.publisher.name, "测试出版社")
         val authors = ArrayList<String>()
         authors.add("谭浩强")
@@ -38,15 +45,26 @@ open class BookTest {
 
     @Test
     fun testSaveBook() {
-        val book = repository!!.findOne(9787111124444L)
+        val book = this.generator.generateBook()
+        book.publisher = this.publisherRepository.findOne("127")
         book.title = "测试书就"
-        repository!!.save(book)
-        Assert.assertEquals("ce,shi,shu,jiu", repository!!.findOne(9787111124444L).titlePinyin)
+        bookRepository.save(book)
+        Assert.assertEquals("ce,shi,shu,jiu", bookRepository.findOne(book.isbn).titlePinyin)
+
+        var another_book = this.bookRepository.findOne(9787111124444L)
+        another_book.title = "测试书就"
+        another_book = bookRepository.save(another_book)
+        Assert.assertNotNull("ce,shi,shu,jiu", another_book.titlePinyin)
+        Assert.assertEquals("测试书就", bookRepository.findOne(9787111124444L).title)
+        Assert.assertEquals("ce,shi,shu,jiu", bookRepository.findOne(9787111124444L).titlePinyin)
+        //todo: to handle the operation before em.merge
+
+
     }
 
     @Test
     fun testGetByPinyin() {
-        val books = repository!!.getBooksByTitlePinyin("cchenxvsheji")
+        val books = bookRepository.getBooksByTitlePinyin("cchenxvsheji")
         Assert.assertEquals(9787111124444L, books[0].isbn)
     }
 
@@ -57,7 +75,7 @@ open class BookTest {
         val pageable = PageRequest(0, 20)
 
 
-        var books = repository!!.getBookBy_authorContains(pageable, "Nickola Dolling").content
+        var books = bookRepository.getBookBy_authorContains(pageable, "Nickola Dolling").content
         Assert.assertEquals(9783158101890L, books[0].isbn)
 
     }
@@ -65,13 +83,13 @@ open class BookTest {
 
     @Test
     fun testChineseTitle() {
-        val book = repository!!.findOne(9783158101891L)
+        val book = bookRepository.findOne(9783158101891L)
         System.out.println(ObjectMapper().writeValueAsString(book))
     }
 
     @Test
     fun testGetCopy() {
-        val book = repository!!.findOne(9787111125643L)
+        val book = bookRepository.findOne(9787111125643L)
         Assert.assertNotEquals(0, book.copies.size)
     }
 

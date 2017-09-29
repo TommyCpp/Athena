@@ -5,6 +5,7 @@ import com.athena.model.Book;
 import com.athena.model.BookCopy;
 import com.athena.repository.jpa.BookCopyRepository;
 import com.athena.repository.jpa.BookRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,7 +98,7 @@ public class BookCopyService implements CopyService<BookCopy, Long, Long> {
     }
 
     @Override
-    public void deleteCopies(List<Long> copyIdList) throws MixedCopyTypeException {
+    public void deleteCopies(@NotNull List<Long> copyIdList) throws MixedCopyTypeException {
         List<BookCopy> bookCopyList = this.getCopies(copyIdList);
         if (bookCopyList.size() != copyIdList.size()) {
             throw new MixedCopyTypeException(BookCopy.class);

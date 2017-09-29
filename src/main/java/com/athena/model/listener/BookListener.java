@@ -13,24 +13,17 @@ import javax.persistence.PreUpdate;
  */
 public class BookListener {
 
+    public BookListener() {
+
+    }
+
     @PrePersist
+    @PreUpdate
     public void setPinyin(Book book) throws PinyinException {
         if (book.getLanguage().equals("Chinese")) {
             // if the book is written in chinese then must set pinyin
             book.setTitlePinyin(PinyinHelper.convertToPinyinString(book.getTitle(), ",", PinyinFormat.WITHOUT_TONE));
             book.setTitleShortPinyin(PinyinHelper.getShortPinyin(book.getTitle()));
-        }
-    }
-
-    @PreUpdate
-    public void setPinyinIfNot(Book book) throws PinyinException {
-        if (book.getLanguage().equals("Chinese")) {
-            if (book.getTitlePinyin() == null || book.getTitlePinyin().length() == 0) {
-                book.setTitlePinyin(PinyinHelper.convertToPinyinString(book.getTitle(), ",", PinyinFormat.WITHOUT_TONE));
-            }
-            if (book.getTitleShortPinyin() == null || book.getTitleShortPinyin().length() == 0) {
-                book.setTitleShortPinyin(PinyinHelper.getShortPinyin(book.getTitle()));
-            }
         }
     }
 

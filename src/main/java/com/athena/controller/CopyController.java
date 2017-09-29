@@ -6,14 +6,12 @@ import com.athena.exception.InvalidCopyTypeException;
 import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.Copy;
 import com.athena.model.SimpleCopy;
-import com.athena.service.BatchService;
 import com.athena.service.SimpleCopyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,16 +27,10 @@ import java.util.List;
 public class CopyController {
 
     private final SimpleCopyService simpleCopyService;
-    private final String copyUrl;
-    private final BatchService batchService;
-    private final String baseUrl;
 
     @Autowired
-    public CopyController(SimpleCopyService simpleCopyService, @Value("${web.url}") String baseUrl, BatchService batchService) {
+    public CopyController(SimpleCopyService simpleCopyService) {
         this.simpleCopyService = simpleCopyService;
-        this.baseUrl = baseUrl;
-        this.copyUrl = baseUrl + "/copy";
-        this.batchService = batchService;
     }
 
     @ApiOperation(value = "get simple copy", response = Copy.class)

@@ -162,8 +162,6 @@ public class Book implements Publication {
 
     public void setTitle(String title) {
         this.title = title;
-        this.setTitlePinyin(this.pinyinConvertService.getPinYin(title));
-        this.setTitleShortPinyin(this.pinyinConvertService.getShortPinYin(title));
         //todo: change the way to set the title_pin_yin *need tested*
     }
 
