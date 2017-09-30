@@ -33,7 +33,7 @@ public class DataExceptionHandler {
             case "Book": {
                 //if happen in book controller
                 if (exception.elements.size() != 0 && exception.elements.get(0) instanceof Book) {
-                    bookService.removeBooks((List<Book>) exception.elements);
+                    bookService.delete((List<Book>) exception.elements);
                 }
             }
             break;

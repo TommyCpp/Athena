@@ -149,7 +149,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException, BatchStoreException {
         try {
-            bookService.saveBooks(books);
+            bookService.add(books);
             List<String> urls = new ArrayList<>();
             for (Book book : books) {
                 urls.add(this.bookUrl + "/" + book.getIsbn());
@@ -183,7 +183,7 @@ public class BookController {
         List<BookCopy> bookCopyList = new ArrayList<>();
         List<String> urls = new ArrayList<>();
 
-        Book book = this.bookService.findBook(isbn);
+        Book book = this.bookService.get(isbn);
         if (book == null) {
             throw new BookNotFoundException(isbn);
         }

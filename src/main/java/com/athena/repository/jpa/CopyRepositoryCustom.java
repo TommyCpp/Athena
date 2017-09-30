@@ -15,4 +15,5 @@ public interface CopyRepositoryCustom<T extends Copy> {
     default void update(Iterable<T> copies) {
         StreamSupport.stream(copies.spliterator(), false).forEach(this::update);
     }
+
 }

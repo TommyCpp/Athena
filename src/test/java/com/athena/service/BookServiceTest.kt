@@ -97,7 +97,7 @@ open class BookServiceTest {
         val bookGenerator: BookGenerator = BookGenerator()
         val book = bookGenerator.generateBook()
         book.publisher = publisherRepository!!.findOne("999")
-        this.service!!.saveBook(book)
+        this.service!!.add(book)
         Assert.assertNotNull(bookRepository!!.findOne(book.isbn))
     }
 

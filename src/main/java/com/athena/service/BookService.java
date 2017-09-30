@@ -1,10 +1,11 @@
 package com.athena.service;
 
+import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.model.Book;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.PublisherRepository;
-import com.athena.repository.jpa.SimpleCopyRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,11 +18,10 @@ import java.util.*;
  * Created by tommy on 2017/3/28.
  */
 @Service
-public class BookService {
+public class BookService implements PublicationService<Book, Long> {
 
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
-    private final SimpleCopyRepository simpleCopyRepository;
 
 
     /**
@@ -30,10 +30,9 @@ public class BookService {
      * @param bookRepository the bookRepository
      */
     @Autowired
-    public BookService(BookRepository bookRepository, PublisherRepository publisherRepository, SimpleCopyRepository simpleCopyRepository) {
+    public BookService(BookRepository bookRepository, PublisherRepository publisherRepository) {
         this.bookRepository = bookRepository;
         this.publisherRepository = publisherRepository;
-        this.simpleCopyRepository = simpleCopyRepository;
     }
 
 
@@ -81,6 +80,7 @@ public class BookService {
         return bookRepository.getBookBy_authorContains(pageable, author);
     }
 
+    @NotNull
     private Page<Book> ListToPage(Pageable pageable, List<Book> list) {
         int start = pageable.getOffset();//Get the start index
         int pageSize = pageable.getPageSize();
@@ -126,22 +126,42 @@ public class BookService {
         return bookRepository.getBookByPublisher(pageable, publisherRepository.findPublisherByName(publisherName));
     }
 
-    public void saveBooks(List<Book> books) {
+    public void add(List<Book> books) {
         this.bookRepository.save(books);
     }
 
-    public void saveBook(Book book) {
+    public void add(Book book) {
         this.bookRepository.save(book);
     }
 
-
-
-    public void removeBooks(List<Book> books) {
+    public void delete(List<Book> books) {
         this.bookRepository.delete(books);
     }
 
 
-    public Book findBook(Long isbn){
+    public Book get(Long isbn) {
         return this.bookRepository.findOne(isbn);
     }
+
+    @Override
+    public List<Book> get(List<Long> longs) {
+        return this.bookRepository.findAll(longs);
+    }
+
+    @Override
+    public void update(Book book) throws IdOfResourceNotFoundException {
+        //todo: PublicationService
+    }
+
+    @Override
+    public void update(List<Book> books) throws IdOfResourceNotFoundException {
+
+    }
+
+    @Override
+    public void delete(Book book) throws IdOfResourceNotFoundException {
+
+    }
+
+
 }
