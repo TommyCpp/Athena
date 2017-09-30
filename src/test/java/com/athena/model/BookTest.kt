@@ -17,12 +17,10 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import java.util.*
-import javax.transaction.Transactional
 
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
-@Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml")
 open class BookTest {
@@ -45,20 +43,23 @@ open class BookTest {
 
     @Test
     fun testSaveBook() {
-        val book = this.generator.generateBook()
+        var book = this.generator.generateBook()
         book.publisher = this.publisherRepository.findOne("127")
         book.title = "测试书就"
         bookRepository.save(book)
-        Assert.assertEquals("ce,shi,shu,jiu", bookRepository.findOne(book.isbn).titlePinyin)
+        book = bookRepository.findOne(book.isbn)
+        if (book.language == "Chinese") {
+            Assert.assertEquals("ce,shi,shu,jiu", book.titlePinyin)
+        }
 
         var another_book = this.bookRepository.findOne(9787111124444L)
         another_book.title = "测试书就"
-        another_book = bookRepository.save(another_book)
+        bookRepository.save(another_book)
         Assert.assertNotNull("ce,shi,shu,jiu", another_book.titlePinyin)
-        Assert.assertEquals("测试书就", bookRepository.findOne(9787111124444L).title)
-        Assert.assertEquals("ce,shi,shu,jiu", bookRepository.findOne(9787111124444L).titlePinyin)
-        //todo: to handle the operation before em.merge
-
+        bookRepository.flush() // crucial
+        another_book = bookRepository.findOne(9787111124444L)
+        Assert.assertEquals("测试书就", another_book.title)
+        Assert.assertEquals("ce,shi,shu,jiu", another_book.titlePinyin)
 
     }
 

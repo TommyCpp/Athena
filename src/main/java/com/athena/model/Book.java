@@ -162,7 +162,6 @@ public class Book implements Publication {
 
     public void setTitle(String title) {
         this.title = title;
-        //todo: change the way to set the title_pin_yin *need tested*
     }
 
     @Basic
