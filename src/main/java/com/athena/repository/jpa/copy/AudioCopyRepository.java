@@ -1,4 +1,4 @@
-package com.athena.repository.jpa;
+package com.athena.repository.jpa.copy;
 
 import com.athena.model.Audio;
 import com.athena.model.AudioCopy;

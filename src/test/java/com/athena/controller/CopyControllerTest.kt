@@ -1,6 +1,6 @@
 package com.athena.controller
 
-import com.athena.repository.jpa.SimpleCopyRepository
+import com.athena.repository.jpa.copy.SimpleCopyRepository
 import com.athena.repository.mongo.BatchRepository
 import com.athena.util.IdentityGenerator
 import com.github.springtestdbunit.DbUnitTestExecutionListener

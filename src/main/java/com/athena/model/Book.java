@@ -1,7 +1,7 @@
 package com.athena.model;
 
 import com.athena.model.listener.BookListener;
-import com.athena.service.PinyinConvertService;
+import com.athena.service.util.PinyinConvertService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 

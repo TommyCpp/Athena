@@ -1,10 +1,10 @@
-package com.athena.service;
+package com.athena.service.copy;
 
 import com.athena.exception.*;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
-import com.athena.repository.jpa.BookCopyRepository;
 import com.athena.repository.jpa.BookRepository;
+import com.athena.repository.jpa.copy.BookCopyRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

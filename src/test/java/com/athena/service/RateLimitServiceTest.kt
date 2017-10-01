@@ -1,5 +1,6 @@
 package com.athena.service
 
+import com.athena.service.util.RateLimitService
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith

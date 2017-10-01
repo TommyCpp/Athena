@@ -5,9 +5,10 @@ import com.athena.exception.MixedCopyTypeException
 import com.athena.model.CopyStatus
 import com.athena.model.JournalCopy
 import com.athena.model.JournalPK
-import com.athena.repository.jpa.BookCopyRepository
-import com.athena.repository.jpa.JournalCopyRepository
 import com.athena.repository.jpa.JournalRepository
+import com.athena.repository.jpa.copy.BookCopyRepository
+import com.athena.repository.jpa.copy.JournalCopyRepository
+import com.athena.service.copy.JournalCopyService
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert

@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.util;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;

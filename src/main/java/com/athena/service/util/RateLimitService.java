@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

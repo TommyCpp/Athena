@@ -1,8 +1,8 @@
 package com.athena.controller
 
 import com.athena.model.*
-import com.athena.repository.jpa.BookCopyRepository
 import com.athena.repository.jpa.BookRepository
+import com.athena.repository.jpa.copy.BookCopyRepository
 import com.athena.security.model.Account
 import com.athena.security.model.JwtAuthenticationToken
 import com.athena.util.BookGenerator

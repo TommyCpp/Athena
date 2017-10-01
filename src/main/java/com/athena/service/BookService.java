@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 /**
@@ -22,6 +23,15 @@ public class BookService implements PublicationService<Book, Long> {
 
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
+
+
+    @NotNull
+    private Page<Book> ListToPage(Pageable pageable, List<Book> list) {
+        int start = pageable.getOffset();//Get the start index
+        int pageSize = pageable.getPageSize();
+        int end = (start + pageSize) > list.size() ? list.size() : (start + pageSize);
+        return new PageImpl<>(list.subList(start, end), pageable, list.size());
+    }
 
 
     /**
@@ -80,13 +90,6 @@ public class BookService implements PublicationService<Book, Long> {
         return bookRepository.getBookBy_authorContains(pageable, author);
     }
 
-    @NotNull
-    private Page<Book> ListToPage(Pageable pageable, List<Book> list) {
-        int start = pageable.getOffset();//Get the start index
-        int pageSize = pageable.getPageSize();
-        int end = (start + pageSize) > list.size() ? list.size() : (start + pageSize);
-        return new PageImpl<>(list.subList(start, end), pageable, list.size());
-    }
 
     /**
      * Search for all books contains the requested author
@@ -134,11 +137,6 @@ public class BookService implements PublicationService<Book, Long> {
         this.bookRepository.save(book);
     }
 
-    public void delete(List<Book> books) {
-        this.bookRepository.delete(books);
-    }
-
-
     public Book get(Long isbn) {
         return this.bookRepository.findOne(isbn);
     }
@@ -149,19 +147,36 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     @Override
-    public void update(Book book) throws IdOfResourceNotFoundException {
-        //todo: PublicationService
+    public Book update(Book book) throws IdOfResourceNotFoundException {
+        Book _book = this.bookRepository.findOne(book.getIsbn());
+        if (_book == null) {
+            throw new IdOfResourceNotFoundException();
+        }
+        if (!_book.equals(book)) {
+            //if the two is not equal
+            return this.bookRepository.save(book);
+        }
+        return book;
     }
 
     @Override
-    public void update(List<Book> books) throws IdOfResourceNotFoundException {
-
+    @Transactional
+    public List<Book> update(List<Book> books) throws IdOfResourceNotFoundException {
+        List<Book> result = new ArrayList<>();
+        for (Book book : books) {
+            result.add(this.update(book));
+        }
+        return result;
     }
 
     @Override
     public void delete(Book book) throws IdOfResourceNotFoundException {
-
+        //todo: add copy status checker
+        this.bookRepository.delete(book);
     }
 
+    public void delete(List<Book> books) {
+        this.bookRepository.delete(books);
+    }
 
 }

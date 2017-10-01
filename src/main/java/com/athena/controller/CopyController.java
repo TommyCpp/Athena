@@ -6,7 +6,7 @@ import com.athena.exception.InvalidCopyTypeException;
 import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.Copy;
 import com.athena.model.SimpleCopy;
-import com.athena.service.SimpleCopyService;
+import com.athena.service.copy.SimpleCopyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

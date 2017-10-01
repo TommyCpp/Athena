@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.copy;
 
 import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.exception.IllegalEntityAttributeExcpetion;
@@ -6,8 +6,8 @@ import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
 import com.athena.model.JournalPK;
-import com.athena.repository.jpa.JournalCopyRepository;
 import com.athena.repository.jpa.JournalRepository;
+import com.athena.repository.jpa.copy.JournalCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

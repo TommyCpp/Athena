@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.util;
 
 import com.github.stuxuhai.jpinyin.PinyinException;
 import com.github.stuxuhai.jpinyin.PinyinFormat;

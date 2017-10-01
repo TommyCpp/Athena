@@ -15,10 +15,10 @@ public interface PublicationService<T extends Publication, PK extends Serializab
 
     List<T> get(List<PK> pks);
 
-    void update(T t) throws IdOfResourceNotFoundException;
+    T update(T t) throws IdOfResourceNotFoundException;
 
     @Transactional
-    void update(List<T> ts) throws IdOfResourceNotFoundException;
+    List<T> update(List<T> ts) throws IdOfResourceNotFoundException;
 
     void delete(T t) throws IdOfResourceNotFoundException;
 

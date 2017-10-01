@@ -4,7 +4,7 @@ import com.athena.exception.BatchStoreException;
 import com.athena.model.Book;
 import com.athena.model.Copy;
 import com.athena.service.BookService;
-import com.athena.service.SimpleCopyService;
+import com.athena.service.copy.SimpleCopyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
