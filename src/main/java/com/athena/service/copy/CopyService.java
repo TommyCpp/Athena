@@ -36,17 +36,32 @@ interface CopyService<T extends Copy, ID extends Serializable, FK extends Serial
      */
     void deleteCopies(FK fk) throws IdOfResourceNotFoundException;
 
+
     /**
-     * Check if the copy of fk is not fit the predicate
+     * filter copies from certain publication
      *
      * @param fk        the fk
      * @param predicate the predicate
      * @return the list
      * @throws IdOfResourceNotFoundException the id of resource not found exception
      */
-    default List<T> copyChecker(FK fk, Predicate<? super T> predicate) throws IdOfResourceNotFoundException {
+    default List<T> filterCopy(FK fk, Predicate<? super T> predicate) throws IdOfResourceNotFoundException {
         return this.getCopies(fk).stream().filter(predicate).collect(Collectors.toList());
         //todo: test
     }
+
+    /**
+     * Filter copy list.
+     *
+     * @param copies    the copies
+     * @param predicate the predicate
+     * @return the list
+     */
+    default List<T> filterCopy(List<T> copies, Predicate<? super T> predicate){
+        return copies.stream().filter(predicate).collect(Collectors.toList());
+    }
+
+
+
 
 }

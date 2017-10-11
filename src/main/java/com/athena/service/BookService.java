@@ -4,9 +4,11 @@ import com.athena.exception.IdOfResourceNotFoundException;
 import com.athena.model.Book;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.PublisherRepository;
+import com.athena.service.copy.BookCopyService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +25,7 @@ public class BookService implements PublicationService<Book, Long> {
 
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
-
+    private final BookCopyService bookCopyService;
 
     @NotNull
     private Page<Book> ListToPage(Pageable pageable, List<Book> list) {
@@ -40,9 +42,10 @@ public class BookService implements PublicationService<Book, Long> {
      * @param bookRepository the bookRepository
      */
     @Autowired
-    public BookService(BookRepository bookRepository, PublisherRepository publisherRepository) {
+    public BookService(BookRepository bookRepository, PublisherRepository publisherRepository, @Qualifier("bookCopyService") BookCopyService bookCopyService) {
         this.bookRepository = bookRepository;
         this.publisherRepository = publisherRepository;
+        this.bookCopyService = bookCopyService;
     }
 
 
@@ -171,7 +174,7 @@ public class BookService implements PublicationService<Book, Long> {
 
     @Override
     public void delete(Book book) throws IdOfResourceNotFoundException {
-        //todo: add copy status checker
+//        List<BookCopy> uncleanBookCopy  = this.bookCopy
         this.bookRepository.delete(book);
     }
 

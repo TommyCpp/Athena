@@ -2,17 +2,19 @@ package com.athena.repository.jpa.copy;
 
 import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
-import org.springframework.stereotype.Repository;
+import com.athena.model.JournalPK;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Created by 吴钟扬 on 2017/9/12.
  */
-@Repository
-public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCopy> {
+@Component
+public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCopy, JournalPK> {
 
     @PersistenceContext
     private final EntityManager em;
@@ -33,6 +35,12 @@ public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCo
         query.setParameter(6, journalCopy.getCreatedDate());
         query.setParameter(7, journalCopy.getUpdatedDate());
         query.executeUpdate();
+    }
+
+    @Override
+    public List<JournalCopy> isNotDeletable(JournalPK journalPK) {
+        //todo: finish
+        return null;
     }
 
 }

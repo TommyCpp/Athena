@@ -43,5 +43,8 @@
     <book isbn="9783158101900" title="第二部测试书" author="Tdinv,Zdnif" title_pinyin="di,er,bu,ce,shi,shu"
           title_short_pinyin="debcss" language="Chinese" publisher_id="127" publish_date="2016-11-13" version="2"
           category_id="TC331B" price="66.67"/>
+    <book isbn="9783158101901" title="第三部测试书" author="Tdicko" title_pinyin="di,san,bu,ce,shi,shu"
+          title_short_pinyin="dsbcss" language="Chinese" publisher_id="127" publish_date="2017-11-13" version="1"
+          category_id="TC331B" price="152.67"/>
 
 </dataset>

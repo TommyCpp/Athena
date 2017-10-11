@@ -5,11 +5,12 @@ import com.athena.model.AudioCopy;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Created by Tommy on 2017/9/24.
  */
-public class AudioCopyRepositoryImpl implements CopyRepositoryCustom<AudioCopy> {
+public class AudioCopyRepositoryImpl implements CopyRepositoryCustom<AudioCopy,String> {
 
     @PersistenceContext
     private EntityManager em;
@@ -23,5 +24,11 @@ public class AudioCopyRepositoryImpl implements CopyRepositoryCustom<AudioCopy> 
         query.setParameter(4, copy.getCreatedDate());
         query.setParameter(5, copy.getUpdatedDate());
         query.executeUpdate();
+    }
+
+    @Override
+    public List<AudioCopy> isNotDeletable(String s) {
+        //todo: finish
+        return null;
     }
 }
