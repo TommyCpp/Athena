@@ -239,7 +239,7 @@ public class BookController {
 
     @PutMapping(path = "/copy")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> updateCopy(@RequestBody List<BookCopy> bookCopies) throws IllegalEntityAttributeExcpetion, MixedCopyTypeException {
+    public ResponseEntity<?> updateCopy(@RequestBody List<BookCopy> bookCopies) throws IllegalEntityAttributeException, MixedCopyTypeException {
         this.bookCopyService.updateCopies(bookCopies);
         return ResponseEntity.noContent().build();
     }

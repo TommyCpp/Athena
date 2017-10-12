@@ -1,14 +1,15 @@
 package com.athena.service;
 
 import com.athena.exception.IdOfResourceNotFoundException;
+import com.athena.exception.ResourceNotDeletable;
 import com.athena.model.Book;
+import com.athena.model.BookCopy;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.PublisherRepository;
-import com.athena.service.copy.BookCopyService;
+import com.athena.repository.jpa.copy.BookCopyRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public class BookService implements PublicationService<Book, Long> {
 
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
-    private final BookCopyService bookCopyService;
+    private final BookCopyRepository bookCopyRepository;
 
     @NotNull
     private Page<Book> ListToPage(Pageable pageable, List<Book> list) {
@@ -39,13 +40,14 @@ public class BookService implements PublicationService<Book, Long> {
     /**
      * Instantiates a new Book service.
      *
-     * @param bookRepository the bookRepository
+     * @param bookRepository     the bookRepository
+     * @param bookCopyRepository
      */
     @Autowired
-    public BookService(BookRepository bookRepository, PublisherRepository publisherRepository, @Qualifier("bookCopyService") BookCopyService bookCopyService) {
+    public BookService(BookRepository bookRepository, PublisherRepository publisherRepository, BookCopyRepository bookCopyRepository) {
         this.bookRepository = bookRepository;
         this.publisherRepository = publisherRepository;
-        this.bookCopyService = bookCopyService;
+        this.bookCopyRepository = bookCopyRepository;
     }
 
 
@@ -173,8 +175,13 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     @Override
-    public void delete(Book book) throws IdOfResourceNotFoundException {
-//        List<BookCopy> uncleanBookCopy  = this.bookCopy
+    public void delete(Book book) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+        List<BookCopy> notDeletableCopy = this.bookCopyRepository.isNotDeletable(book.getIsbn());
+        if (notDeletableCopy.size() > 0) {
+            //if there is some copy that cannot be delete
+            throw new ResourceNotDeletable(BookCopy.class);
+            //todo: test
+        }
         this.bookRepository.delete(book);
     }
 

@@ -1,7 +1,7 @@
 package com.athena.service.copy;
 
 import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.exception.IllegalEntityAttributeExcpetion;
+import com.athena.exception.IllegalEntityAttributeException;
 import com.athena.exception.InvalidCopyTypeException;
 import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.Audio;
@@ -81,20 +81,20 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
     }
 
     @Override
-    public void updateCopy(AudioCopy copy) throws IllegalEntityAttributeExcpetion {
+    public void updateCopy(AudioCopy copy) throws IllegalEntityAttributeException {
         try {
             this.audioCopyRepository.update(copy);
         } catch (Exception e) {
-            throw new IllegalEntityAttributeExcpetion();
+            throw new IllegalEntityAttributeException();
         }
     }
 
     @Override
-    public void updateCopies(List<AudioCopy> copyList) throws IllegalEntityAttributeExcpetion {
+    public void updateCopies(List<AudioCopy> copyList) throws IllegalEntityAttributeException {
         try {
             this.audioCopyRepository.update(copyList);
         } catch (Exception e) {
-            throw new IllegalEntityAttributeExcpetion();
+            throw new IllegalEntityAttributeException();
         }
     }
 }

@@ -136,11 +136,11 @@ public class BookCopyService implements CopyService<BookCopy, Long, Long> {
     }
 
     @Override
-    public void updateCopies(List<BookCopy> copyList) throws IllegalEntityAttributeExcpetion {
+    public void updateCopies(List<BookCopy> copyList) throws IllegalEntityAttributeException {
         try {
             this.bookCopyRepository.update(copyList);
         } catch (Exception e) {
-            throw new IllegalEntityAttributeExcpetion();
+            throw new IllegalEntityAttributeException();
         }
     }
 

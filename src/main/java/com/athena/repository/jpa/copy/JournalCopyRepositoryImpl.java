@@ -3,6 +3,7 @@ package com.athena.repository.jpa.copy;
 import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
 import com.athena.model.JournalPK;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,9 @@ public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCo
 
     @PersistenceContext
     private final EntityManager em;
+
+    @Value("${copy.status.isDeletable}")
+    private String deletable;
 
     public JournalCopyRepositoryImpl(EntityManager em) {
         this.em = em;
@@ -39,8 +43,12 @@ public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCo
 
     @Override
     public List<JournalCopy> isNotDeletable(JournalPK journalPK) {
-        //todo: finish
-        return null;
+        Query query = em.createNativeQuery("SELECT * FROM journal_copy INNER JOIN copy ON book_copy.copy_id = copy.id WHERE issn=?1 AND `index`=?2 AND year=?3 AND status NOT IN (?4)");
+        query.setParameter(1, journalPK.getIndex());
+        query.setParameter(2, journalPK.getIndex());
+        query.setParameter(3, journalPK.getYear());
+        query.setParameter(4, deletable);
+        return query.getResultList();
     }
 
 }

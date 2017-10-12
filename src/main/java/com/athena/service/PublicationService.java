@@ -1,6 +1,7 @@
 package com.athena.service;
 
 import com.athena.exception.IdOfResourceNotFoundException;
+import com.athena.exception.ResourceNotDeletable;
 import com.athena.model.Publication;
 
 import javax.transaction.Transactional;
@@ -20,7 +21,7 @@ public interface PublicationService<T extends Publication, PK extends Serializab
     @Transactional
     List<T> update(List<T> ts) throws IdOfResourceNotFoundException;
 
-    void delete(T t) throws IdOfResourceNotFoundException;
+    void delete(T t) throws IdOfResourceNotFoundException, ResourceNotDeletable;
 
     @Transactional
     void delete(List<T> ts) throws IdOfResourceNotFoundException;

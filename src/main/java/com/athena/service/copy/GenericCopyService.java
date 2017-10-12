@@ -1,7 +1,7 @@
 package com.athena.service.copy;
 
 import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.exception.IllegalEntityAttributeExcpetion;
+import com.athena.exception.IllegalEntityAttributeException;
 import com.athena.exception.InvalidCopyTypeException;
 import com.athena.exception.MixedCopyTypeException;
 import com.athena.model.Copy;
@@ -40,7 +40,7 @@ public interface GenericCopyService<T extends Copy, ID extends Serializable> {
     /**
      * Update
      */
-    void updateCopy(T copy) throws IllegalEntityAttributeExcpetion;
+    void updateCopy(T copy) throws IllegalEntityAttributeException;
 
-    void updateCopies(List<T> copyList) throws IllegalEntityAttributeExcpetion;
+    void updateCopies(List<T> copyList) throws IllegalEntityAttributeException;
 }
