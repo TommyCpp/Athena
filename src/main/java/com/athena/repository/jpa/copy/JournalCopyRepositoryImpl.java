@@ -43,12 +43,13 @@ public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCo
 
     @Override
     public List<JournalCopy> isNotDeletable(JournalPK journalPK) {
-        Query query = em.createNativeQuery("SELECT * FROM journal_copy INNER JOIN copy ON book_copy.copy_id = copy.id WHERE issn=?1 AND `index`=?2 AND year=?3 AND status NOT IN (?4)");
-        query.setParameter(1, journalPK.getIndex());
-        query.setParameter(2, journalPK.getIndex());
-        query.setParameter(3, journalPK.getYear());
-        query.setParameter(4, deletable);
-        return query.getResultList();
+//        Query query = em.createNativeQuery("SELECT * FROM journal_copy INNER JOIN copy ON book_copy.copy_id = copy.id WHERE issn=?1 AND `index`=?2 AND year=?3 AND status NOT IN (?4)");
+//        query.setParameter(1, journalPK.getIndex());
+//        query.setParameter(2, journalPK.getIndex());
+//        query.setParameter(3, journalPK.getYear());
+//        query.setParameter(4, deletable);
+//        return query.getResultList();
+        return this.isNotDeletable(JournalCopy.class, journalPK, this.em, deletable);
     }
 
 }

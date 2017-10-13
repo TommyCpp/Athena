@@ -1,11 +1,15 @@
 package com.athena.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by Tommy on 2017/10/12.
  */
 public class NameUtil {
     /**
-     * @param input
+     * To string.
+     *
+     * @param input the input
      * @return convert a camel-style name to _style
      */
     public static String to_(String input) {
@@ -31,5 +35,38 @@ public class NameUtil {
         } else {
             return stringBuffer.toString();
         }
+    }
+
+
+    /**
+     * convert the name of input to camel-style
+     *
+     * @param input
+     * @param isCapitalize if true then capitalize the return value
+     * @return
+     */
+    public static String toCamel(String input, boolean isCapitalize) {
+        if (input == null) {
+            return null;
+        }
+        String[] parts = input.split("_");
+        StringBuffer result = new StringBuffer();
+        for (String part : parts) {
+            result.append(StringUtils.capitalize(part));
+        }
+        if (!isCapitalize) {
+            return StringUtils.uncapitalize(result.toString());
+        }
+        return result.toString();
+    }
+
+    /**
+     * convert the name of input to camel-style
+     *
+     * @param input
+     * @return
+     */
+    public static String toCamel(String input) {
+        return NameUtil.toCamel(input, false);
     }
 }
