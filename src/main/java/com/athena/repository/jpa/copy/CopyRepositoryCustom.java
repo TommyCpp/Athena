@@ -35,7 +35,7 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
     default List<T> isNotDeletable(Class<? extends Copy> targetClass, ID id, EntityManager em, String deletableStauts) {
         String tableName = null;
         List<String> publicationPk = new ArrayList<>(5);
-        String template = "SELECT * FROM {0} INNER JOIN COPY ON copy.id = {0}.copy_id WHERE `status` NOT IN (?1) AND {1}";
+        String template = "SELECT * FROM {0} INNER JOIN copy ON copy.id = {0}.copy_id WHERE `status` NOT IN (?1) AND {1}";
         Field[] fields = targetClass.getDeclaredFields();
         for (Field field : fields) {
             JoinTable[] joinTables = field.getAnnotationsByType(JoinTable.class);
@@ -71,12 +71,14 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
         //concat the publicationPK
         publicationPk = publicationPk.stream().map(NameUtil::to_).collect(Collectors.toList()); // change the name style
         String whereClause = "";
+        String pkClause = "";
         Map<String, Integer> publicationPkToIndex = new HashMap<>();
         for (int i = 2; i < publicationPk.size() + 2; i++) {
+            pkClause = "`" + publicationPk.get(i - 2) + "`=?" + i;
             if (i == 2) {
-                whereClause += publicationPk.get(i - 2) + "=?" + i;
+                whereClause += pkClause;
             } else {
-                whereClause += " AND " + publicationPk.get(i - 2) + "=?" + i;
+                whereClause += " AND " + pkClause;
             }
             publicationPkToIndex.put(publicationPk.get(i - 2), i);
             //todo: solve the keyword problem
