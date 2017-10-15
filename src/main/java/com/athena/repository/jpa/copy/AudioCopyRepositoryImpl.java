@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,10 +33,11 @@ public class AudioCopyRepositoryImpl implements CopyRepositoryCustom<AudioCopy,S
 
     @Override
     public List<AudioCopy> isNotDeletable(String isrc) {
-        //todo:user CopyQueryGenerator to generator SQL
-        Query query = em.createNativeQuery("SELECT * FROM audio_copy INNER JOIN copy ON book_copy.copy_id = copy.id WHERE isrc=?1 AND status NOT IN (?2)");
-        query.setParameter(1, isrc);
-        query.setParameter(2, deletable);
-        return query.getResultList();
+        String[] deletableStrings = this.deletable.split(",");
+        List<Integer> deletableInt = new ArrayList<>(deletableStrings.length);
+        for (int i = 0; i < deletableStrings.length; i++) {
+            deletableInt.add(Integer.valueOf(deletableStrings[i]));
+        }
+        return this.isNotDeletable(AudioCopy.class, isrc, this.em, deletableInt);
     }
 }

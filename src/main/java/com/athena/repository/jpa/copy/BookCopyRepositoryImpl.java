@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,10 +36,12 @@ public class BookCopyRepositoryImpl implements CopyRepositoryCustom<BookCopy, Lo
 
     @Override
     public List<BookCopy> isNotDeletable(Long id) {
-        Query query = em.createNativeQuery("SELECT * FROM book_copy INNER JOIN copy ON book_copy.copy_id = copy.id WHERE isbn=?1 AND status NOT IN (?2)");
-        query.setParameter(1, id);
-        query.setParameter(2, deletable);
-        return query.getResultList();
+        String[] deletableStrings = this.deletable.split(",");
+        List<Integer> deletableInt = new ArrayList<>(deletableStrings.length);
+        for (int i = 0; i < deletableStrings.length; i++) {
+            deletableInt.add(Integer.valueOf(deletableStrings[i]));
+        }
+        return this.isNotDeletable(BookCopy.class, id, this.em, deletableInt);
     }
 
 
