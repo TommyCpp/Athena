@@ -2,6 +2,7 @@ package com.athena.repository.jpa.copy;
 
 import com.athena.model.Copy;
 import com.athena.util.NameUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
@@ -32,15 +33,29 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
         StreamSupport.stream(copies.spliterator(), false).forEach(this::update);
     }
 
-    default List<T> isNotDeletable(Class<? extends Copy> targetClass, ID id, EntityManager em, String deletableStauts) {
-        String tableName = null;
-        List<String> publicationPk = new ArrayList<>(5);
-        String template = "SELECT * FROM {0} INNER JOIN copy ON copy.id = {0}.copy_id WHERE `status` NOT IN (?1) AND {1}";
+    default List<T> isNotDeletable(Class<? extends Copy> targetClass, ID id, EntityManager em, List<Integer> deletableStatus) {
+        String tableName = null;                                            // name of the target table
+        List<String> publicationPk = new ArrayList<>(5);        // target class's id
+        int deletableCount = deletableStatus.size();                        // how many status is deletable
+
+        // position holder for in-clause
+        String[] deletablePositionHolders = new String[deletableCount];     // ?1,?2,... to hold the position of deletableStaus
+        for (int i = 0; i < deletableCount; i++) {
+            deletablePositionHolders[i] = "?" + (i + 1);
+        }
+        String inClause = StringUtils.join(deletablePositionHolders, ",");
+
+        // template of Native query
+        String template = "SELECT * FROM {0} INNER JOIN copy ON copy.id = {0}.copy_id WHERE `status` NOT IN ({1}) AND {2}";
+
+        // extra fields from entity
         Field[] fields = targetClass.getDeclaredFields();
         for (Field field : fields) {
+            // get the joinTable's name
             JoinTable[] joinTables = field.getAnnotationsByType(JoinTable.class);
             if (joinTables.length == 1) {
                 tableName = (joinTables[0]).name();
+                //get the corresponding publication type
                 Class publication = field.getType();
                 for (Field publicationField : publication.getDeclaredFields()) {
                     Id[] ids = publicationField.getAnnotationsByType(Id.class);// get field that has @Id
@@ -52,6 +67,8 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
                 break;
             }
         }
+
+        //extra method from entity
         Method[] methods = targetClass.getDeclaredMethods();
         for (Method method : methods) {
             JoinTable[] joinTables = method.getAnnotationsByType(JoinTable.class);
@@ -68,27 +85,38 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
                 break;
             }
         }
+
+
         //concat the publicationPK
         publicationPk = publicationPk.stream().map(NameUtil::to_).collect(Collectors.toList()); // change the name style
+
+
+        //where clause of primary key
         String whereClause = "";
+
+        //clause for single primary key
         String pkClause = "";
         Map<String, Integer> publicationPkToIndex = new HashMap<>();
-        for (int i = 2; i < publicationPk.size() + 2; i++) {
-            pkClause = "`" + publicationPk.get(i - 2) + "`=?" + i;
-            if (i == 2) {
+        int offset = deletableCount + 1;
+        for (int i = offset; i < publicationPk.size() + offset; i++) {
+            pkClause = "`" + publicationPk.get(i - offset) + "`=?" + i;
+            if (i == offset) {
                 whereClause += pkClause;
             } else {
                 whereClause += " AND " + pkClause;
             }
-            publicationPkToIndex.put(publicationPk.get(i - 2), i);
-            //todo: solve the keyword problem
+            publicationPkToIndex.put(publicationPk.get(i - offset), i);
         }
-        Query query = em.createNativeQuery(MessageFormat.format(template, tableName, whereClause));
+
+        //generate query
+        Query query = em.createNativeQuery(MessageFormat.format(template, tableName, inClause, whereClause));
         //set Parameter
-        query.setParameter(1, deletableStauts);
+        for (int i = 0; i < deletableCount; i++) {
+            query.setParameter(i + 1, deletableStatus.get(i));
+        }
         if (publicationPkToIndex.size() == 1) {
             //if the ID is single attribute.
-            query.setParameter(2, id);
+            query.setParameter(deletableCount + 1, id);
 
         } else {
             //if the ID is complex object.

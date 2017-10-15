@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +50,12 @@ public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCo
 //        query.setParameter(3, journalPK.getYear());
 //        query.setParameter(4, deletable);
 //        return query.getResultList();
-        return this.isNotDeletable(JournalCopy.class, journalPK, this.em, deletable);
+        String[] deletableStrings = this.deletable.split(",");
+        List<Integer> deletableInt = new ArrayList<>(deletableStrings.length);
+        for (int i = 0; i < deletableStrings.length; i++) {
+            deletableInt.add(Integer.valueOf(deletableStrings[i]));
+        }
+        return this.isNotDeletable(JournalCopy.class, journalPK, this.em, deletableInt);
     }
 
 }
