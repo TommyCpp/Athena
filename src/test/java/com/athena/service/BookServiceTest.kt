@@ -1,6 +1,7 @@
 package com.athena.service
 
 import com.athena.exception.IdOfResourceNotFoundException
+import com.athena.exception.ResourceNotDeletable
 import com.athena.model.Book
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.PublisherRepository
@@ -132,5 +133,12 @@ open class BookServiceTest {
         }
         Assert.assertTrue(flag)
     }
+
+    @Test(expected = ResourceNotDeletable::class)
+    fun testDeleteBookWithNotDeletableBookCopy() {
+        val book: Book = this.bookRepository.findOne(9783158101901L)
+        this.service.delete(book)
+    }
+
 
 }

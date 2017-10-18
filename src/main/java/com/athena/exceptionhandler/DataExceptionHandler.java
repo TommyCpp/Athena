@@ -1,6 +1,7 @@
 package com.athena.exceptionhandler;
 
 import com.athena.exception.BatchStoreException;
+import com.athena.exception.ResourceNotDeletable;
 import com.athena.model.Book;
 import com.athena.model.Copy;
 import com.athena.service.BookService;
@@ -28,7 +29,7 @@ public class DataExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity handleBatchStoreException(BatchStoreException exception) {
+    public ResponseEntity handleBatchStoreException(BatchStoreException exception) throws ResourceNotDeletable {
         switch (exception.type) {
             case "Book": {
                 //if happen in book controller
