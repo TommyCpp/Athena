@@ -24,7 +24,7 @@ public interface PublicationService<T extends Publication, PK extends Serializab
     void delete(T t) throws IdOfResourceNotFoundException, ResourceNotDeletable;
 
     @Transactional
-    void delete(List<T> ts) throws IdOfResourceNotFoundException;
+    void delete(List<T> ts) throws IdOfResourceNotFoundException, ResourceNotDeletable;
 
     void add(T t);
 

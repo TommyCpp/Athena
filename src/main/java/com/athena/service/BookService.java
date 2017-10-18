@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by tommy on 2017/3/28.
@@ -179,13 +180,17 @@ public class BookService implements PublicationService<Book, Long> {
         List<BookCopy> notDeletableCopy = this.bookCopyRepository.isNotDeletable(book.getIsbn());
         if (notDeletableCopy.size() > 0) {
             //if there is some copy that cannot be delete
-            throw new ResourceNotDeletable(BookCopy.class);
+            throw new ResourceNotDeletable(notDeletableCopy);
             //todo: test
         }
         this.bookRepository.delete(book);
     }
 
-    public void delete(List<Book> books) {
+    public void delete(List<Book> books) throws ResourceNotDeletable {
+        List<Book> notDeletableBooks = books.stream().filter(book -> !this.bookCopyRepository.isNotDeletable(book.getIsbn()).isEmpty()).collect(Collectors.toList());
+        if (notDeletableBooks.size() >  0) {
+            throw new ResourceNotDeletable(notDeletableBooks);
+        }
         this.bookRepository.delete(books);
     }
 
