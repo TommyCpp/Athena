@@ -1,7 +1,7 @@
 package com.athena.service;
 
-import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.exception.ResourceNotDeletable;
+import com.athena.exception.http.IdOfResourceNotFoundException;
+import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
 import com.athena.repository.jpa.BookRepository;
@@ -181,7 +181,6 @@ public class BookService implements PublicationService<Book, Long> {
         if (notDeletableCopy.size() > 0) {
             //if there is some copy that cannot be delete
             throw new ResourceNotDeletable(notDeletableCopy);
-            //todo: test
         }
         this.bookRepository.delete(book);
     }

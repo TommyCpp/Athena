@@ -1,7 +1,7 @@
 package com.athena.service
 
-import com.athena.exception.IdOfResourceNotFoundException
-import com.athena.exception.ResourceNotDeletable
+import com.athena.exception.http.IdOfResourceNotFoundException
+import com.athena.exception.http.ResourceNotDeletable
 import com.athena.model.Book
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.PublisherRepository

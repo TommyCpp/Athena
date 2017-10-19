@@ -1,9 +1,9 @@
 package com.athena.controller;
 
-import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.exception.IllegalEntityAttributeException;
-import com.athena.exception.InvalidCopyTypeException;
-import com.athena.exception.MixedCopyTypeException;
+import com.athena.exception.http.IdOfResourceNotFoundException;
+import com.athena.exception.http.IllegalEntityAttributeException;
+import com.athena.exception.http.InvalidCopyTypeException;
+import com.athena.exception.http.MixedCopyTypeException;
 import com.athena.model.Copy;
 import com.athena.model.SimpleCopy;
 import com.athena.service.copy.SimpleCopyService;

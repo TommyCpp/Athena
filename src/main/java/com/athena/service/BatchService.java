@@ -1,7 +1,7 @@
 package com.athena.service;
 
-import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.exception.ResourceNotFoundException;
+import com.athena.exception.http.IdOfResourceNotFoundException;
+import com.athena.exception.http.ResourceNotFoundException;
 import com.athena.model.Batch;
 import com.athena.repository.mongo.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;

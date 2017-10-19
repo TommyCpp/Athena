@@ -1,6 +1,6 @@
 package com.athena.service.copy;
 
-import com.athena.exception.IdOfResourceNotFoundException;
+import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.model.Copy;
 
 import java.io.Serializable;

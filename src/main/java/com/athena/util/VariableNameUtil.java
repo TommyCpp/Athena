@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Created by Tommy on 2017/10/12.
  */
-public class NameUtil {
+public class VariableNameUtil {
     /**
      * To string.
      *
@@ -67,6 +67,6 @@ public class NameUtil {
      * @return
      */
     public static String toCamel(String input) {
-        return NameUtil.toCamel(input, false);
+        return VariableNameUtil.toCamel(input, false);
     }
 }

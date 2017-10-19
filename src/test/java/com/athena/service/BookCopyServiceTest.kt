@@ -1,8 +1,8 @@
 package com.athena.service
 
-import com.athena.exception.IdOfResourceNotFoundException
-import com.athena.exception.IsbnAndCopyIdMismatchException
-import com.athena.exception.MixedCopyTypeException
+import com.athena.exception.http.IdOfResourceNotFoundException
+import com.athena.exception.http.IsbnAndCopyIdMismatchException
+import com.athena.exception.http.MixedCopyTypeException
 import com.athena.model.Book
 import com.athena.model.BookCopy
 import com.athena.model.CopyStatus

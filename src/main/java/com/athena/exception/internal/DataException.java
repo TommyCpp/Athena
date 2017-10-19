@@ -1,4 +1,6 @@
-package com.athena.exception;
+package com.athena.exception.internal;
+
+import com.athena.exception.BaseException;
 
 /**
  * Created by Tommy on 2017/8/27.

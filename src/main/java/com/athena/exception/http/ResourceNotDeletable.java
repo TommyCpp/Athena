@@ -1,5 +1,6 @@
-package com.athena.exception;
+package com.athena.exception.http;
 
+import com.athena.exception.BaseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

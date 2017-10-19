@@ -1,8 +1,8 @@
 package com.athena.service.copy;
 
-import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.exception.IllegalEntityAttributeException;
-import com.athena.exception.MixedCopyTypeException;
+import com.athena.exception.http.IdOfResourceNotFoundException;
+import com.athena.exception.http.IllegalEntityAttributeException;
+import com.athena.exception.http.MixedCopyTypeException;
 import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
 import com.athena.model.JournalPK;

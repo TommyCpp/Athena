@@ -1,7 +1,7 @@
 package com.athena.repository.jpa.copy;
 
 import com.athena.model.Copy;
-import com.athena.util.NameUtil;
+import com.athena.util.VariableNameUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -88,7 +88,7 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
 
 
         //concat the publicationPK
-        publicationPk = publicationPk.stream().map(NameUtil::to_).collect(Collectors.toList()); // change the name style
+        publicationPk = publicationPk.stream().map(VariableNameUtil::to_).collect(Collectors.toList()); // change the name style
 
 
         //where clause of primary key
@@ -122,7 +122,7 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
             //if the ID is complex object.
             for (Map.Entry<String, Integer> entry : publicationPkToIndex.entrySet()) {
                 //get value
-                String methodName = "get" + NameUtil.toCamel(entry.getKey(), true);
+                String methodName = "get" + VariableNameUtil.toCamel(entry.getKey(), true);
                 try {
                     Object attributeValue = id.getClass().getMethod(methodName).invoke(id);
                     //set value

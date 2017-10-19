@@ -1,6 +1,6 @@
 package com.athena.service.copy;
 
-import com.athena.exception.*;
+import com.athena.exception.http.*;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
 import com.athena.repository.jpa.BookRepository;

@@ -1,8 +1,8 @@
 package com.athena.service.copy;
 
-import com.athena.exception.IdOfResourceNotFoundException;
-import com.athena.exception.IllegalEntityAttributeException;
-import com.athena.exception.InvalidCopyTypeException;
+import com.athena.exception.http.IdOfResourceNotFoundException;
+import com.athena.exception.http.IllegalEntityAttributeException;
+import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.model.SimpleCopy;
 import com.athena.repository.jpa.copy.SimpleCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;

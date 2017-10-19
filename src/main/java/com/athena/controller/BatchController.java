@@ -1,6 +1,6 @@
 package com.athena.controller;
 
-import com.athena.exception.ResourceNotFoundException;
+import com.athena.exception.http.ResourceNotFoundException;
 import com.athena.model.Batch;
 import com.athena.security.model.Account;
 import com.athena.security.service.AccountService;

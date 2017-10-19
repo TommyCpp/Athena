@@ -1,6 +1,7 @@
 package com.athena.controller;
 
-import com.athena.exception.*;
+import com.athena.exception.http.*;
+import com.athena.exception.internal.BatchStoreException;
 import com.athena.model.Batch;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;

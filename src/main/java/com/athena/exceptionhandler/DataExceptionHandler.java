@@ -1,7 +1,7 @@
 package com.athena.exceptionhandler;
 
-import com.athena.exception.BatchStoreException;
-import com.athena.exception.ResourceNotDeletable;
+import com.athena.exception.http.ResourceNotDeletable;
+import com.athena.exception.internal.BatchStoreException;
 import com.athena.model.Book;
 import com.athena.model.Copy;
 import com.athena.service.BookService;

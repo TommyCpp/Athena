@@ -1,4 +1,4 @@
-package com.athena.exception;
+package com.athena.exception.internal;
 
 import java.util.List;
 
