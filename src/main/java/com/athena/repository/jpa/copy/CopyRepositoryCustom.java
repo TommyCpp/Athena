@@ -121,8 +121,8 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
         } else {
             //if the ID is complex object.
             for (Map.Entry<String, Integer> entry : publicationPkToIndex.entrySet()) {
-                //getByPublications value
-                String methodName = "getByPublications" + VariableNameUtil.toCamel(entry.getKey(), true);
+                //get value
+                String methodName = "get" + VariableNameUtil.toCamel(entry.getKey(), true);
                 try {
                     Object attributeValue = id.getClass().getMethod(methodName).invoke(id);
                     //set value

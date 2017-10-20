@@ -125,7 +125,7 @@ open class BookControllerTest {
             request
         }
         for (i in 1..5) {
-            // Note that the search.limit.getByPublications.times in config.properties must be 3
+            // Note that the search.limit.get.times in config.properties must be 3
             if (i < 4) {
                 mvc!!.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().isOk)
             } else {
@@ -247,7 +247,7 @@ open class BookControllerTest {
 
     @Test
     fun testGetCopy() {
-        // getByPublications copy
+        // get copy
         this.mvc!!.perform(get(this.url_prefix + "/books/9787111125643/copy/1")
                 .with(this.authentication("ROLE_READER"))
         )
