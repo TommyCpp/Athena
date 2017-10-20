@@ -25,7 +25,7 @@ import java.util.stream.StreamSupport;
  * Created by tommy on 2017/3/28.
  */
 @Service
-public class PublisherService implements ModelCRUDService<Publisher,String>{
+public class PublisherService implements ModelCRUDService<Publisher, String> {
 
     private PublisherRepository repository;
     private BookService bookService;
@@ -95,12 +95,12 @@ public class PublisherService implements ModelCRUDService<Publisher,String>{
      * @param afterChange the after change
      * @throws IdOfResourceNotFoundException the id of resource not found exception
      */
-    public void update(Publisher afterChange) throws IdOfResourceNotFoundException {
+    public Publisher update(Publisher afterChange) throws IdOfResourceNotFoundException {
         Publisher beforeChange = this.repository.findOne(afterChange.getId());
         if (beforeChange == null) {
             throw new IdOfResourceNotFoundException();
         } else {
-            this.repository.saveAndFlush(afterChange);
+            return this.repository.saveAndFlush(afterChange);
         }
     }
 
@@ -112,7 +112,7 @@ public class PublisherService implements ModelCRUDService<Publisher,String>{
      * @throws IdOfResourceNotFoundException    the id of resource not found exception
      * @throws EntityAttributeNotFoundException the entity attribute not found exception
      */
-    public void update(String id, Iterable<Map.Entry<String, Object>> attributeKVs) throws IdOfResourceNotFoundException, EntityAttributeNotFoundException {
+    public Publisher update(String id, Iterable<Map.Entry<String, Object>> attributeKVs) throws IdOfResourceNotFoundException, EntityAttributeNotFoundException {
         Publisher target = this.repository.findOne(id);
         if (target == null) {
             throw new IdOfResourceNotFoundException();
@@ -143,6 +143,6 @@ public class PublisherService implements ModelCRUDService<Publisher,String>{
         }
 
         // persistence the target
-        this.repository.saveAndFlush(target);
+        return this.repository.saveAndFlush(target);
     }
 }
