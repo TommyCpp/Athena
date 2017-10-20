@@ -1,4 +1,5 @@
 # Athena
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/21467d5fe5e04162accce3d650b1b533)](https://www.codacy.com/app/a444529216/Athena?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TommyCpp/Athena&amp;utm_campaign=Badge_Grade)
 
 Book Management System based on Spring Framework and Restful API
 
