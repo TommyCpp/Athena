@@ -1,5 +1,6 @@
 package com.athena.service
 
+import com.athena.model.Book
 import com.athena.model.JournalPK
 import com.athena.model.Publication
 import com.athena.model.Publisher
@@ -18,7 +19,9 @@ import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
+import java.util.*
 import javax.transaction.Transactional
+import kotlin.collections.HashMap
 
 /**
  * Created by Tommy on 2017/10/18.
@@ -39,7 +42,7 @@ open class PublisherServiceTest {
     @Test
     fun testGetPublisher() {
         val except = this.publisherRepository.findOne("806")
-        val actual = this.publisherService.getPublisher("806")
+        val actual = this.publisherService.get("806")
         Assert.assertEquals(except, actual)
     }
 
@@ -57,6 +60,23 @@ open class PublisherServiceTest {
         publications.add(this.journalRepository.findOne(journalPK))
         publications.add(this.audioRepository.findOne("CNM010100300"))
 
-        Assert.assertEquals(HashSet<Publisher>(result), this.publisherService.getPublishers(publications))
+        Assert.assertEquals(HashSet<Publisher>(result), this.publisherService.getByPublications(publications))
+    }
+
+    @Test
+    fun testPartialUpdate() {
+        val attributeKVs = HashMap<String, Any>()
+        val id = "127"
+        val bookList = arrayListOf<Book>(this.bookRepository.findOne(9785867649253L))
+
+        attributeKVs.put("name", "ChangedPublisherName")
+        attributeKVs.put("books", bookList)
+
+        this.publisherService.update(id, attributeKVs.entries)
+
+        val afterChange = this.publisherRepository.findOne(id)
+        Assert.assertEquals(afterChange.name, attributeKVs["name"])
+        Assert.assertEquals(setOf(afterChange.books), setOf(bookList))
+
     }
 }

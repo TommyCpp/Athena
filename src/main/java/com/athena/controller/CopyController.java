@@ -33,7 +33,7 @@ public class CopyController {
         this.simpleCopyService = simpleCopyService;
     }
 
-    @ApiOperation(value = "get simple copy", response = Copy.class)
+    @ApiOperation(value = "getByPublications simple copy", response = Copy.class)
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 400, message = "Invalid copy type")

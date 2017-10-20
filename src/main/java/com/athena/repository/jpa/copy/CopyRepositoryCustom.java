@@ -51,14 +51,14 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
         // extra fields from entity
         Field[] fields = targetClass.getDeclaredFields();
         for (Field field : fields) {
-            // get the joinTable's name
+            // getByPublications the joinTable's name
             JoinTable[] joinTables = field.getAnnotationsByType(JoinTable.class);
             if (joinTables.length == 1) {
                 tableName = (joinTables[0]).name();
-                //get the corresponding publication type
+                //getByPublications the corresponding publication type
                 Class publication = field.getType();
                 for (Field publicationField : publication.getDeclaredFields()) {
-                    Id[] ids = publicationField.getAnnotationsByType(Id.class);// get field that has @Id
+                    Id[] ids = publicationField.getAnnotationsByType(Id.class);// getByPublications field that has @Id
                     if (ids.length == 1) {
                         // if has @Id
                         publicationPk.add(publicationField.getName());
@@ -76,10 +76,10 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
                 tableName = (joinTables[0]).name();
                 Class publication = method.getReturnType();
                 for (Method publicationMethod : publication.getDeclaredMethods()) {
-                    Id[] ids = publicationMethod.getAnnotationsByType(Id.class);// get field that has @Id
+                    Id[] ids = publicationMethod.getAnnotationsByType(Id.class);// getByPublications field that has @Id
                     if (ids.length == 1) {
                         // if has @Id
-                        publicationPk.add(publicationMethod.getName().replace("get", ""));
+                        publicationPk.add(publicationMethod.getName().replace("getByPublications", ""));
                     }
                 }
                 break;
@@ -121,8 +121,8 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
         } else {
             //if the ID is complex object.
             for (Map.Entry<String, Integer> entry : publicationPkToIndex.entrySet()) {
-                //get value
-                String methodName = "get" + VariableNameUtil.toCamel(entry.getKey(), true);
+                //getByPublications value
+                String methodName = "getByPublications" + VariableNameUtil.toCamel(entry.getKey(), true);
                 try {
                     Object attributeValue = id.getClass().getMethod(methodName).invoke(id);
                     //set value

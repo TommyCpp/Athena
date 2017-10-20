@@ -30,7 +30,7 @@ public class BatchController {
     }
 
 
-    @ApiOperation(value = "get batch", response = Batch.class)
+    @ApiOperation(value = "getByPublications batch", response = Batch.class)
     @RequestMapping(path = "/{uuid}", method = RequestMethod.GET)
     public ResponseEntity<Batch> batch(@PathVariable String uuid, @AuthenticationPrincipal Account user) throws ResourceNotFoundException {
         if (this.accountService.privilegeBigger(user, "ROLE_READER")) {
