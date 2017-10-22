@@ -15,10 +15,10 @@ import java.util.stream.StreamSupport;
  * Created by Tommy on 2017/10/20.
  */
 public interface ModelCRUDService<T, K extends Serializable> {
-    void add(T t);
+    T add(T t);
 
-    default void add(Iterable<T> ts) {
-        StreamSupport.stream(ts.spliterator(), false).forEach(this::add);
+    default Iterable<T> add(Iterable<T> ts) {
+        return StreamSupport.stream(ts.spliterator(), false).map(this::add).collect(Collectors.toList());
     }
 
 

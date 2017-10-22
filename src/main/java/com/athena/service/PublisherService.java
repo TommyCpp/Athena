@@ -14,10 +14,7 @@ import javax.transaction.Transactional;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -45,7 +42,7 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
 
 
     /**
-     * Gets publisher set from publications
+     * Gets publisher set from publications.
      *
      * @param publications the publications
      * @return the publishers
@@ -55,8 +52,8 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
     }
 
     @Override
-    public void add(Publisher publisher) {
-        this.repository.saveAndFlush(publisher);
+    public Publisher add(Publisher publisher) {
+        return this.repository.saveAndFlush(publisher);
     }
 
     /**
@@ -73,6 +70,12 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
         } else {
             return publisher;
         }
+    }
+
+    @Override
+    public void delete(Publisher publisher) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+        Objects.requireNonNull(publisher);
+        this.delete(publisher.getId());
     }
 
 
@@ -107,14 +110,6 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
         } else {
             return this.repository.saveAndFlush(afterChange);
         }
-    }
-
-    @Override
-    public void delete(Publisher publisher) throws IdOfResourceNotFoundException, ResourceNotDeletable {
-        //delete books
-        this.bookService.delete(publisher.getBooks());
-        //delete other publication
-        this.repository.delete(publisher);
     }
 
     /**

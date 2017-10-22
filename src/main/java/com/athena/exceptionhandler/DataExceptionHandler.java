@@ -44,6 +44,7 @@ public class DataExceptionHandler {
                     simpleCopyService.deleteCopies(idList);
                 }
             }
+            break;
             default:
         }
         return ResponseEntity.status(500).body(exception);

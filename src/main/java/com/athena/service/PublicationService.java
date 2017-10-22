@@ -11,10 +11,10 @@ import java.util.List;
 /**
  * Created by Tommy on 2017/10/1.
  */
-public interface PublicationService<T extends Publication, PK extends Serializable> extends ModelCRUDService<T,PK>{
-    T get(PK pk);
+public interface PublicationService<T extends Publication, K extends Serializable> extends ModelCRUDService<T, K>{
+    T get(K k);
 
-    List<T> get(List<PK> pks);
+    List<T> get(List<K> ks);
 
     T update(T t) throws IdOfResourceNotFoundException;
 
@@ -26,8 +26,5 @@ public interface PublicationService<T extends Publication, PK extends Serializab
     @Transactional
     void delete(List<T> ts) throws IdOfResourceNotFoundException, ResourceNotDeletable;
 
-    void add(T t);
-
-    void add(List<T> ts);
-
+    List<T> add(Iterable<T> ts);
 }

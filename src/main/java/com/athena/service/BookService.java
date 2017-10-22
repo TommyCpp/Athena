@@ -136,13 +136,13 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     @Override
-    public void add(List<Book> books) {
-        this.bookRepository.save(books);
+    public List<Book> add(Iterable<Book> books) {
+        return this.bookRepository.save(books);
     }
 
     @Override
-    public void add(Book book) {
-        this.bookRepository.save(book);
+    public Book add(Book book) {
+        return this.bookRepository.save(book);
     }
 
     @Override
