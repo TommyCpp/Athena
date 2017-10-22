@@ -135,14 +135,17 @@ public class BookService implements PublicationService<Book, Long> {
         return bookRepository.getBookByPublisher(pageable, publisherRepository.findPublisherByName(publisherName));
     }
 
+    @Override
     public void add(List<Book> books) {
         this.bookRepository.save(books);
     }
 
+    @Override
     public void add(Book book) {
         this.bookRepository.save(book);
     }
 
+    @Override
     public Book get(Long isbn) {
         return this.bookRepository.findOne(isbn);
     }
@@ -185,12 +188,13 @@ public class BookService implements PublicationService<Book, Long> {
         this.bookRepository.delete(book);
     }
 
+    @Override
     public void delete(List<Book> books) throws ResourceNotDeletable {
         List<Book> notDeletableBooks = books.stream().filter(book -> !this.bookCopyRepository.isNotDeletable(book.getIsbn()).isEmpty()).collect(Collectors.toList());
         if (notDeletableBooks.size() >  0) {
             throw new ResourceNotDeletable(notDeletableBooks);
         }
-        this.bookRepository.delete(books);
+        this.bookRepository.delete(books); // will delete correspond copy
     }
 
 }

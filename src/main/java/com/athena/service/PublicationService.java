@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Tommy on 2017/10/1.
  */
-public interface PublicationService<T extends Publication, PK extends Serializable> {
+public interface PublicationService<T extends Publication, PK extends Serializable> extends ModelCRUDService<T,PK>{
     T get(PK pk);
 
     List<T> get(List<PK> pks);

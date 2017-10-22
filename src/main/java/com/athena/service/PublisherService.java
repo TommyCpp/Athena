@@ -54,6 +54,11 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
         return StreamSupport.stream(publications.spliterator(), true).map(Publication::getPublisher).collect(Collectors.toSet());
     }
 
+    @Override
+    public void add(Publisher publisher) {
+        this.repository.saveAndFlush(publisher);
+    }
+
     /**
      * Gets publisher by id
      *
@@ -102,6 +107,14 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
         } else {
             return this.repository.saveAndFlush(afterChange);
         }
+    }
+
+    @Override
+    public void delete(Publisher publisher) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+        //delete books
+        this.bookService.delete(publisher.getBooks());
+        //delete other publication
+        this.repository.delete(publisher);
     }
 
     /**

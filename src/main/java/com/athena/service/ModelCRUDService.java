@@ -1,6 +1,7 @@
 package com.athena.service;
 
 import com.athena.exception.http.IdOfResourceNotFoundException;
+import com.athena.exception.http.ResourceNotDeletable;
 
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.util.stream.StreamSupport;
 /**
  * Created by Tommy on 2017/10/20.
  */
-public interface ModelCRUDService<T, PK extends Serializable> {
+public interface ModelCRUDService<T, K extends Serializable> {
     void add(T t);
 
     default void add(Iterable<T> ts) {
@@ -21,18 +22,17 @@ public interface ModelCRUDService<T, PK extends Serializable> {
     }
 
 
-    T get(PK pk) throws IdOfResourceNotFoundException;
+    T get(K k) throws IdOfResourceNotFoundException;
 
-    default Iterable<T> get(Iterable<PK> pks) {
-        return StreamSupport.stream(pks.spliterator(), false).map(pk -> {
+    default Iterable<T> get(Iterable<K> pks) {
+        return StreamSupport.stream(pks.spliterator(), false).map(k -> {
             try {
-                return this.get(pk);
+                return this.get(k);
             } catch (IdOfResourceNotFoundException e) {
                 e.printStackTrace();//todo: error handle
             }
             return null;
         }).filter(Objects::nonNull).collect(Collectors.toSet());
-        //todo: implement in every model
     }
 
     T update(T t) throws IdOfResourceNotFoundException;
@@ -46,5 +46,13 @@ public interface ModelCRUDService<T, PK extends Serializable> {
         return result;
     }
 
+    void delete(T t) throws IdOfResourceNotFoundException, ResourceNotDeletable;
+
+    @Transactional
+    default void delete(Iterable<T> ts) throws IdOfResourceNotFoundException, ResourceNotDeletable{
+        for(T t:ts){
+            this.delete(t);
+        }
+    }
 
 }
