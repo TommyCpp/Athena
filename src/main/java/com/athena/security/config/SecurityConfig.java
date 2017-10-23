@@ -43,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.tokenAuthenticationService = tokenAuthenticationService;
     }
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.

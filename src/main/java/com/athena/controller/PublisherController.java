@@ -45,7 +45,7 @@ public class PublisherController {
     })
     @RequestMapping(path = "/**", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(value= HttpStatus.CREATED)
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
+    @PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_SUPERADMIN'})")
     public ResponseEntity<?> create(Publisher publisher) {
         publisher = this.publisherService.add(publisher);
         return ResponseEntity.created(URI.create(this.publisherUrl + "/" + publisher.getId())).build();
@@ -58,8 +58,9 @@ public class PublisherController {
             @ApiResponse(code=404,message = "id of publisher is not exist"),
             @ApiResponse(code=403,message = "some of relate resource is not deleteable, thus the publisher cannot be deleted")
     })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(path="/{id}",method = RequestMethod.DELETE,produces = "application/json")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
+    @PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_SUPERADMIN'})")
     public ResponseEntity<?> delete(@PathVariable String id) throws ResourceNotDeletable, IdOfResourceNotFoundException {
         this.publisherService.delete(id);
         return ResponseEntity.noContent().build();
@@ -72,10 +73,22 @@ public class PublisherController {
             @ApiResponse(code = 400, message = "attribute is not exist")
     })
     @RequestMapping(path = "/{id}", method = RequestMethod.PATCH, produces = "application/json", consumes = "application/json")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_SUPERADMIN'})")
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody Map<String, Object> attributeKVs) throws EntityAttributeNotFoundException, IdOfResourceNotFoundException {
         Publisher publisher = this.publisherService.update(id, attributeKVs.entrySet());
         return ResponseEntity.ok(publisher);
+    }
+
+    @ApiOperation(value = "get publisher", response = Publisher.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "get"),
+            @ApiResponse(code = 404, message = "id of publisher is not exist")
+    })
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> get(@PathVariable String id) throws IdOfResourceNotFoundException {
+        return ResponseEntity.ok(this.publisherService.get(id));
     }
 
 }
