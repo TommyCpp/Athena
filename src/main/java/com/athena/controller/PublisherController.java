@@ -46,7 +46,7 @@ public class PublisherController {
     @RequestMapping(path = "/**", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(value= HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_SUPERADMIN'})")
-    public ResponseEntity<?> create(Publisher publisher) {
+    public ResponseEntity<?> create(@RequestBody Publisher publisher) {
         publisher = this.publisherService.add(publisher);
         return ResponseEntity.created(URI.create(this.publisherUrl + "/" + publisher.getId())).build();
     }

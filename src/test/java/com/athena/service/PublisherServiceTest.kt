@@ -1,5 +1,6 @@
 package com.athena.service
 
+import com.athena.exception.http.ResourceNotDeletable
 import com.athena.model.Book
 import com.athena.model.JournalPK
 import com.athena.model.Publication
@@ -78,5 +79,18 @@ open class PublisherServiceTest {
         Assert.assertEquals(afterChange.name, attributeKVs["name"])
         Assert.assertEquals(setOf(afterChange.books), setOf(bookList))
 
+    }
+
+    @Test
+    fun testDelete(){
+        val publisherToBeDeleted = this.publisherRepository.findOne("128")
+        this.publisherService.delete("128")
+        Assert.assertNull(this.publisherRepository.findOne("128"))
+    }
+
+    @Test(expected = ResourceNotDeletable::class)
+    fun testDeleteNotDeletablePublisher(){
+        this.publisherService.delete("127")
+        Assert.assertNull(this.publisherRepository.findOne("127"))
     }
 }

@@ -79,7 +79,7 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
                     Id[] ids = publicationMethod.getAnnotationsByType(Id.class);// getByPublications field that has @Id
                     if (ids.length == 1) {
                         // if has @Id
-                        publicationPk.add(publicationMethod.getName().replace("getByPublications", ""));
+                        publicationPk.add(publicationMethod.getName().replace("get", ""));
                     }
                 }
                 break;

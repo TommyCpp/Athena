@@ -1,7 +1,6 @@
 package com.athena.model;
 
 import com.athena.model.listener.BookListener;
-import com.athena.service.util.PinyinConvertService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 
@@ -40,11 +39,8 @@ public class Book implements Publication {
     private Publisher publisher;
     private List<BookCopy> copies;
 
-    @Transient
-    private PinyinConvertService pinyinConvertService;
-
     public Book() {
-        this.pinyinConvertService = new PinyinConvertService();
+
     }
 
     @Id
@@ -246,8 +242,7 @@ public class Book implements Publication {
         if (language != null ? !language.equals(book.language) : book.language != null) return false;
         if (price != null ? !price.equals(book.price) : book.price != null) return false;
         if (publisher != null ? !publisher.equals(book.publisher) : book.publisher != null) return false;
-        if (copies != null ? !copies.equals(book.copies) : book.copies != null) return false;
-        return pinyinConvertService != null ? pinyinConvertService.equals(book.pinyinConvertService) : book.pinyinConvertService == null;
+        return copies != null ? !copies.equals(book.copies) : book.copies != null;
     }
 
     @Override
@@ -270,7 +265,6 @@ public class Book implements Publication {
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (publisher != null ? publisher.hashCode() : 0);
         result = 31 * result + (copies != null ? copies.hashCode() : 0);
-        result = 31 * result + (pinyinConvertService != null ? pinyinConvertService.hashCode() : 0);
         return result;
     }
 

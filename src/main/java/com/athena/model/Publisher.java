@@ -1,6 +1,7 @@
 package com.athena.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -46,6 +47,7 @@ public class Publisher {
 
     @OneToMany(mappedBy = "publisher")
     @JsonBackReference(value = "book")
+    @JsonIgnore
     public List<Book> getBooks() {
         return books;
     }
@@ -56,6 +58,7 @@ public class Publisher {
 
     @OneToMany(mappedBy = "publisher")
     @JsonBackReference(value = "journal")
+    @JsonIgnore
     public List<Journal> getJournals() {
         return journals;
     }
@@ -76,6 +79,7 @@ public class Publisher {
 
     @OneToMany(mappedBy = "publisher")
     @JsonBackReference(value = "audio")
+    @JsonIgnore
     public List<Audio> getAudios() {
         return audios;
     }

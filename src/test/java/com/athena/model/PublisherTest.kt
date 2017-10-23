@@ -41,6 +41,10 @@ open class PublisherTest {
     fun testJsonSerialization() {
         val publisher = publisherRepository!!.findOne("999")
         System.out.println(ObjectMapper().writeValueAsString(publisher))
+
+
+        val objectMapString = "{\"id\":\"129\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"}"
+        val publisher_2 = ObjectMapper().readValue(objectMapString,Publisher::class.java)
         Assert.assertTrue(true)
     }
 }

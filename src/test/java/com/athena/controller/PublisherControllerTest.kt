@@ -5,12 +5,14 @@ import com.athena.repository.mongo.BatchRepository
 import com.athena.util.IdentityGenerator
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
@@ -19,6 +21,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -35,7 +38,7 @@ import org.springframework.web.context.WebApplicationContext
 @WebAppConfiguration
 class PublisherControllerTest {
     @Autowired private val context: WebApplicationContext? = null
-    @Autowired private val publisherRepository: PublisherRepository? = null
+    @Autowired private lateinit var publisherRepository: PublisherRepository
     @Autowired private val batchRepository: BatchRepository? = null
     private lateinit var mvc: MockMvc
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
@@ -55,6 +58,38 @@ class PublisherControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json("{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"}"))
 
+    }
+
+    @Test
+    fun testSave(){
+        this.mvc.perform(MockMvcRequestBuilders.post(this.url_prefix + "/publishers").contentType(MediaType.APPLICATION_JSON_UTF8).content("{\"id\":\"129\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"}")
+                .with(this.identity.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(MockMvcResultMatchers.status().`is`(201))
+                .andDo(MockMvcResultHandlers.print())
+    }
+
+
+    @Test
+    fun testPartialUpdate(){
+        this.mvc.perform(MockMvcRequestBuilders.patch(this.url_prefix + "/publishers/127").contentType(MediaType.APPLICATION_JSON_UTF8).content("{\"name\":\"ChangedName\"}")
+                .with(this.identity.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andDo(MockMvcResultHandlers.print())
+
+        val publisher = this.publisherRepository.findOne("127")
+        Assert.assertEquals(publisher.name,"ChangedName")
+
+    }
+
+    @Test
+    fun testDelete(){
+        this.mvc.perform(MockMvcRequestBuilders.delete(this.url_prefix+"/publishers/128").contentType(MediaType.APPLICATION_JSON_UTF8)
+                .with(this.identity.authentication("ROLE_ADMIN"))
+        )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent)
     }
 
 
