@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by tommy on 2017/3/28.
@@ -151,7 +152,7 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     @Override
-    public List<Book> get(List<Long> longs) {
+    public List<Book> get(Iterable<Long> longs) {
         return this.bookRepository.findAll(longs);
     }
 
@@ -170,7 +171,7 @@ public class BookService implements PublicationService<Book, Long> {
 
     @Override
     @Transactional
-    public List<Book> update(List<Book> books) throws IdOfResourceNotFoundException {
+    public List<Book> update(Iterable<Book> books) throws IdOfResourceNotFoundException {
         List<Book> result = new ArrayList<>();
         for (Book book : books) {
             result.add(this.update(book));
@@ -189,9 +190,9 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     @Override
-    public void delete(List<Book> books) throws ResourceNotDeletable {
-        List<Book> notDeletableBooks = books.stream().filter(book -> !this.bookCopyRepository.isNotDeletable(book.getIsbn()).isEmpty()).collect(Collectors.toList());
-        if (notDeletableBooks.size() >  0) {
+    public void delete(Iterable<Book> books) throws ResourceNotDeletable {
+        List<Book> notDeletableBooks = StreamSupport.stream(books.spliterator(), false).filter(book -> !this.bookCopyRepository.isNotDeletable(book.getIsbn()).isEmpty()).collect(Collectors.toList());
+        if (notDeletableBooks.size() > 0) {
             throw new ResourceNotDeletable(notDeletableBooks);
         }
         this.bookRepository.delete(books); // will delete correspond copy
