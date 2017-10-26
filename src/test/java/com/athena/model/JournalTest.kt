@@ -12,7 +12,6 @@ import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
-import javax.transaction.Transactional
 
 /**
  * Created by Tommy on 2017/8/28.
@@ -20,11 +19,10 @@ import javax.transaction.Transactional
  */
 @RunWith(SpringRunner::class)
 @SpringBootTest
-@Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml", "classpath:journals.xml","classpath:journal_copy.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml", "classpath:journals.xml", "classpath:journal_copy.xml")
 open class JournalTest {
-    @Autowired var journalRepository: JournalRepository? = null
+    @Autowired lateinit var journalRepository: JournalRepository
 
     @Test
     fun testJournal() {
@@ -32,17 +30,26 @@ open class JournalTest {
         journalPk.issn = "03718471"
         journalPk.year = 2017
         journalPk.index = 1
-        Assert.assertNotNull(this.journalRepository!!.findOne(journalPk))
-        Assert.assertNotEquals(0,this.journalRepository!!.findOne(journalPk).copies.size)
+        Assert.assertNotNull(this.journalRepository.findOne(journalPk))
+        Assert.assertNotEquals(0, this.journalRepository.findOne(journalPk).copies.size) // test relationship
 
         journalPk.index = 2
         var journal: Journal = Journal()
         journal.id = journalPk
         journal.title = "Test"
-        this.journalRepository!!.save(journal)
+        this.journalRepository.save(journal)
 
-        Assert.assertNotNull(this.journalRepository!!.findOne(journal.id))
+        Assert.assertNotNull(this.journalRepository.findOne(journal.id))
 
+    }
+
+    @Test
+    fun testUpdate() {
+        val journalPk = JournalPK("03718471", 2017, 1)
+        var journal = this.journalRepository.findOne(journalPk)
+        journal.title = "Change Title"
+        journal = this.journalRepository.save(journal)
+        Assert.assertEquals("Change Title", this.journalRepository.findOne(journalPk).title)
     }
 
 }

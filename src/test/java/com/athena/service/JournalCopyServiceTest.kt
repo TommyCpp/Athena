@@ -29,7 +29,7 @@ import javax.transaction.Transactional
  */
 @RunWith(SpringRunner::class)
 @SpringBootTest
-@Transactional
+//@Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:book_copy.xml", "classpath:journal_copy.xml", "classpath:journals.xml", "classpath:copies.xml")
 open class JournalCopyServiceTest {
@@ -83,7 +83,9 @@ open class JournalCopyServiceTest {
 
     @Test
     fun testGetCopy() {
-        Assert.assertEquals(this.journalCopyRepository.findOne(3L), this.journalCopyService.getCopy(3L))
+        val expect = this.journalCopyRepository.findOne(3L)
+        val result = this.journalCopyService.getCopy(3L)
+        Assert.assertTrue(expect.id == result.id)
     }
 
 
@@ -95,7 +97,7 @@ open class JournalCopyServiceTest {
         expect.add(this.journalCopyRepository.findOne(7L))
         var result = HashSet<JournalCopy>(this.journalCopyService.getCopies(ids))
 
-        Assert.assertEquals(expect, result)
+        Assert.assertEquals(expect.hashCode(), result.hashCode())
     }
 
     /**
@@ -109,7 +111,8 @@ open class JournalCopyServiceTest {
     }
 
     @Test
-    fun testGetCopiesByFkList() {
+    @Transactional
+    open fun testGetCopiesByFkList() {
         val journalPK = JournalPK()
         journalPK.issn = "03718471"
         journalPK.year = 2017
@@ -156,6 +159,8 @@ open class JournalCopyServiceTest {
         var copies = this.journalCopyRepository.findAll(arrayListOf(3L, 7L))
         copies[0].status = CopyStatus.CHECKED_OUT
         copies[1].status = CopyStatus.RESERVED
+        this.journalCopyService.updateCopies(copies)
+
         Assert.assertEquals(CopyStatus.CHECKED_OUT, this.journalCopyRepository.findOne(3L).status)
         Assert.assertEquals(CopyStatus.RESERVED, this.journalCopyRepository.findOne(7L).status)
     }

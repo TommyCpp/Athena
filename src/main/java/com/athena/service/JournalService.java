@@ -31,10 +31,11 @@ public class JournalService implements PublicationService<Journal,JournalPK>{
         this.journalCopyRepository = journalCopyRepository;
     }
 
+
     @Override
     public Journal get(JournalPK journalPK) throws IdOfResourceNotFoundException {
         Journal journal = this.journalRepository.findOne(journalPK);
-        if (!Objects.isNull(journal)) {
+        if (Objects.isNull(journal)) {
             throw new IdOfResourceNotFoundException();
         }
         return journal;

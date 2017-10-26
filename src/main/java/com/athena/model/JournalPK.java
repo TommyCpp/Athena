@@ -12,6 +12,15 @@ public class JournalPK implements Serializable {
     private Integer year;
     private Integer index;
 
+    public JournalPK(){
+    }
+
+    public JournalPK(String issn, Integer year, Integer index) {
+        this.issn = issn;
+        this.year = year;
+        this.index = index;
+    }
+
     @Column(name = "issn", nullable = false, length = 8)
     @Id
     public String getIssn() {

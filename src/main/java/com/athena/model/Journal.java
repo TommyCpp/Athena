@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "journal")
 @IdClass(JournalPK.class)
-public class Journal implements Publication{
+public class Journal implements Publication {
     private String issn;
     private Integer year;
     private Integer index;
@@ -21,8 +21,9 @@ public class Journal implements Publication{
     private String coverUrl;
     private String directory;
     private Date publishDate;
-    private Publisher publisher;
+    private String language;
 
+    private Publisher publisher;
     private List<JournalCopy> copies;
 
     @Id
@@ -141,6 +142,17 @@ public class Journal implements Publication{
         this.publishDate = publishDate;
     }
 
+
+    @Basic
+    @Column(name = "language", nullable = false)
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -193,8 +205,8 @@ public class Journal implements Publication{
     @JoinTable(name = "journal_copy",
             joinColumns = {@JoinColumn(name = "issn", table = "journal", referencedColumnName = "issn"),
                     @JoinColumn(name = "year", table = "journal", referencedColumnName = "year"),
-                    @JoinColumn(name = "index", table = "journal", referencedColumnName = "index")},
-            inverseJoinColumns = @JoinColumn(name="copy_id", referencedColumnName = "id",table = "copy")
+                    @JoinColumn(name = "journal_index", table = "journal", referencedColumnName = "index")},
+            inverseJoinColumns = @JoinColumn(name = "copy_id", referencedColumnName = "id", table = "copy")
 
     )
     public List<JournalCopy> getCopies() {

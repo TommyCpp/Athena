@@ -22,4 +22,8 @@ public interface Publication {
 
     void setPrice(Double price);
 
+    String getLanguage();
+
+    void setLanguage(String language);
+
 }

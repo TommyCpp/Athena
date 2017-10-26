@@ -9,7 +9,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "audio")
-public class Audio implements Publication{
+public class Audio implements Publication {
     private String isrc;
     private String title;
     private String subtitle;
@@ -20,6 +20,8 @@ public class Audio implements Publication{
     private Double price;
     private String titlePinyin;
     private String titleShortPinyin;
+    private String language;
+
     private Publisher publisher;
     private List<AudioCopy> copies;
 
@@ -121,6 +123,16 @@ public class Audio implements Publication{
 
     public void setTitleShortPinyin(String titleShortPinyin) {
         this.titleShortPinyin = titleShortPinyin;
+    }
+
+    @Basic
+    @Column(name = "language", nullable = false)
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     @Override

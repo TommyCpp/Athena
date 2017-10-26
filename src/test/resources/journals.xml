@@ -1,6 +1,9 @@
 <dataset>
-    <journal issn="03718471" year="2017" index="1" publisher_id="922" title="Test Magazine" price="11.5"/>
-    <journal issn="03718472" year="2014" index="23" publisher_id="922" title="Java Magazine" price="9.5"/>
-    <journal issn="03718473" year="2016" index="22" publisher_id="922" title="Javax Magazine" price="10.5"/>
+    <journal issn="03718471" year="2017" index="1" publisher_id="922" title="Test Magazine" price="11.5"
+             language="English"/>
+    <journal issn="03718472" year="2014" index="23" publisher_id="922" title="Java Magazine" price="9.5"
+             language="English"/>
+    <journal issn="03718473" year="2016" index="22" publisher_id="922" title="Javax Magazine" price="10.5"
+             language="English"/>
 
 </dataset>
