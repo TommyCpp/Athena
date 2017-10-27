@@ -14,7 +14,7 @@ import java.util.List;
 public interface BookCopyRepository extends JpaRepository<BookCopy, Long>, CopyRepositoryCustom<BookCopy, Long> {
     List<BookCopy> findByBook(Book book);
 
-    List<BookCopy> findByIdIsInAndBookIsNotNull(List<Long> idList);
+    List<BookCopy> findByIdIsInAndBookIsNotNull(Iterable<Long> idList);
 
     BookCopy findByIdAndBookIsNotNull(Long id);
 

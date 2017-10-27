@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Tommy on 2017/8/24.
  */
 @Service
-public class SimpleCopyService implements GenericCopyService<SimpleCopy, Long> {
+public class SimpleCopyService implements GenericCopyService<SimpleCopy> {
     private final SimpleCopyRepository simpleCopyRepository;
 
     @Autowired
@@ -25,17 +25,17 @@ public class SimpleCopyService implements GenericCopyService<SimpleCopy, Long> {
 
 
     @Override
-    public void addCopy(SimpleCopy copy) {
-        this.simpleCopyRepository.save(copy);
+    public SimpleCopy add(SimpleCopy copy) {
+        return this.simpleCopyRepository.save(copy);
     }
 
     @Override
-    public void addCopies(List<SimpleCopy> copies) {
-        this.simpleCopyRepository.save(copies);
+    public List<SimpleCopy> add(Iterable<SimpleCopy> copies) {
+        return this.simpleCopyRepository.save(copies);
     }
 
     @Override
-    public SimpleCopy getCopy(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+    public SimpleCopy get(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
         SimpleCopy copy = this.simpleCopyRepository.findOne(id);
         if (copy == null) {
             throw new IdOfResourceNotFoundException();
@@ -44,35 +44,35 @@ public class SimpleCopyService implements GenericCopyService<SimpleCopy, Long> {
     }
 
     @Override
-    public List<SimpleCopy> getCopies(List<Long> idList) {
+    public List<SimpleCopy> get(Iterable<Long> idList) {
         return this.simpleCopyRepository.findAll(idList);
     }
 
 
     @Override
-    public void deleteCopy(Long id) {
+    public void deleteById(Long id) {
         this.simpleCopyRepository.delete(id);
     }
 
     @Override
-    public void deleteCopies(List<Long> copyIdList) {
+    public void deleteById(List<Long> copyIdList) {
         List<SimpleCopy> simpleCopies = this.simpleCopyRepository.findAll(copyIdList);
         this.simpleCopyRepository.delete(simpleCopies);
     }
 
     @Override
-    public void updateCopy(SimpleCopy copy) throws IllegalEntityAttributeException {
+    public SimpleCopy update(SimpleCopy copy) throws IllegalEntityAttributeException {
         try {
-            this.simpleCopyRepository.save(copy);
+            return this.simpleCopyRepository.save(copy);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
     }
 
     @Override
-    public void updateCopies(List<SimpleCopy> copyList) throws IllegalEntityAttributeException {
+    public List<SimpleCopy> update(Iterable<SimpleCopy> copyList) throws IllegalEntityAttributeException {
         try {
-            this.simpleCopyRepository.save(copyList);
+            return this.simpleCopyRepository.save(copyList);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }

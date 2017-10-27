@@ -3,6 +3,7 @@ package com.athena.service.copy;
 import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.MixedCopyTypeException;
+import com.athena.model.Copy;
 import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
 import com.athena.model.JournalPK;
@@ -12,12 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by Tommy on 2017/9/2.
  */
 @Service
-public class JournalCopyService implements CopyService<JournalCopy, Long, JournalPK> {
+public class JournalCopyService implements CopyService<JournalCopy, JournalPK> {
 
     private final JournalCopyRepository journalCopyRepository;
     private final JournalRepository journalRepository;
@@ -29,17 +32,17 @@ public class JournalCopyService implements CopyService<JournalCopy, Long, Journa
     }
 
     @Override
-    public void addCopy(JournalCopy copy) {
-        this.journalCopyRepository.save(copy);
+    public JournalCopy add(JournalCopy copy) {
+        return this.journalCopyRepository.save(copy);
     }
 
     @Override
-    public void addCopies(List<JournalCopy> copies) {
-        this.journalCopyRepository.save(copies);
+    public List<JournalCopy> add(Iterable<JournalCopy> copies) {
+        return this.journalCopyRepository.save(copies);
     }
 
     @Override
-    public JournalCopy getCopy(Long id) throws IdOfResourceNotFoundException {
+    public JournalCopy get(Long id) throws IdOfResourceNotFoundException {
         JournalCopy copy = this.journalCopyRepository.findByIdAndJournalIsNotNull(id);
         if (copy == null) {
             throw new IdOfResourceNotFoundException();
@@ -48,7 +51,7 @@ public class JournalCopyService implements CopyService<JournalCopy, Long, Journa
     }
 
     @Override
-    public List<JournalCopy> getCopies(List<Long> idList) {
+    public List<JournalCopy> get(Iterable<Long> idList) {
         return this.journalCopyRepository.findByIdIsInAndJournalIsNotNull(idList);
     }
 
@@ -74,13 +77,13 @@ public class JournalCopyService implements CopyService<JournalCopy, Long, Journa
     }
 
     @Override
-    public void deleteCopy(Long id) {
+    public void deleteById(Long id) {
         this.journalCopyRepository.delete(id);
     }
 
     @Override
-    public void deleteCopies(List<Long> ids) throws MixedCopyTypeException {
-        List<JournalCopy> copies = this.getCopies(ids);
+    public void deleteById(List<Long> ids) throws MixedCopyTypeException {
+        List<JournalCopy> copies = this.get(ids);
         if (ids.size() != copies.size()) {
             throw new MixedCopyTypeException(JournalCopy.class);
         }
@@ -88,17 +91,19 @@ public class JournalCopyService implements CopyService<JournalCopy, Long, Journa
     }
 
     @Override
-    public void updateCopy(JournalCopy copy) {
+    public JournalCopy update(JournalCopy copy) {
         this.journalCopyRepository.update(copy);
+        return this.journalCopyRepository.findOne(copy.getId());
     }
 
     @Override
-    public void updateCopies(List<JournalCopy> copyList) throws IllegalEntityAttributeException {
+    public List<JournalCopy> update(Iterable<JournalCopy> copyList) throws IllegalEntityAttributeException {
         try {
             this.journalCopyRepository.update(copyList);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
+        return this.journalCopyRepository.findAll(StreamSupport.stream(copyList.spliterator(), false).map(Copy::getId).collect(Collectors.toList()));
     }
 
 }

@@ -193,7 +193,7 @@ public class BookController {
             bookCopyList.add(new BookCopy(copyInfo, book));
         }
         try {
-            this.bookCopyService.addCopies(bookCopyList);
+            this.bookCopyService.add(bookCopyList);
         } catch (DataAccessException e) {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(e.getMessage());
         }
@@ -220,7 +220,7 @@ public class BookController {
 
     @GetMapping(path = "/{isbn}/copy/{id}")
     public ResponseEntity<?> getCopy(@PathVariable Long isbn, @PathVariable Long id) throws InvalidCopyTypeException, IdOfResourceNotFoundException {
-        BookCopy copy = this.bookCopyService.getCopy(id);
+        BookCopy copy = this.bookCopyService.get(id);
         return ResponseEntity.ok(copy);
     }
 
@@ -241,7 +241,7 @@ public class BookController {
     @PutMapping(path = "/copy")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> updateCopy(@RequestBody List<BookCopy> bookCopies) throws IllegalEntityAttributeException, MixedCopyTypeException {
-        this.bookCopyService.updateCopies(bookCopies);
+        this.bookCopyService.update(bookCopies);
         return ResponseEntity.noContent().build();
     }
 }

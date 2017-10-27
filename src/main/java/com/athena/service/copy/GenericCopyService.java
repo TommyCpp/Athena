@@ -5,42 +5,51 @@ import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.MixedCopyTypeException;
 import com.athena.model.Copy;
+import com.athena.service.ModelCRUDService;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by 吴钟扬 on 2017/9/12.
- *
+ * <p>
  * Basic Copy operation. Use for SimpleCopy
  */
-public interface GenericCopyService<T extends Copy, ID extends Serializable> {
+public interface GenericCopyService<T extends Copy> extends ModelCRUDService<T, Long> {
     /**
      * Add
      */
-    void addCopy(T copy);
+    @Override
+    T add(T copy);
 
-    void addCopies(List<T> copies);
+    @Override
+    List<T> add(Iterable<T> copies);
 
     /**
      * Get
      */
-    T getCopy(ID id) throws IdOfResourceNotFoundException, InvalidCopyTypeException;
+    @Override
+    T get(Long aLong) throws IdOfResourceNotFoundException, InvalidCopyTypeException;
 
-    List<T> getCopies(List<ID> idList);
+    List<T> get(Iterable<Long> idList);
 
     /**
      * Delete
+     * @param aLong
      */
-    void deleteCopy(Long id);
+    void deleteById(Long aLong);
 
-    void deleteCopies(List<Long> copyIdList) throws MixedCopyTypeException;
+    void deleteById(List<Long> copyLongList) throws MixedCopyTypeException;
+
+    default void delete(T t){
+        this.deleteById(t.getId());
+    }
 
 
     /**
      * Update
      */
-    void updateCopy(T copy) throws IllegalEntityAttributeException;
+    @Override
+    T update(T copy) throws IllegalEntityAttributeException;
 
-    void updateCopies(List<T> copyList) throws IllegalEntityAttributeException;
+    List<T> update(Iterable<T> copyList) throws IllegalEntityAttributeException;
 }

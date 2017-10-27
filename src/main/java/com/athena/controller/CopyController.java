@@ -40,7 +40,7 @@ public class CopyController {
     })
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getCopy(@PathVariable Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
-        Copy copy = this.simpleCopyService.getCopy(id);
+        Copy copy = this.simpleCopyService.get(id);
         return ResponseEntity.ok(copy);
     }
 
@@ -53,7 +53,7 @@ public class CopyController {
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> deleteCopy(@PathVariable Long id) {
-        this.simpleCopyService.deleteCopy(id);
+        this.simpleCopyService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -73,7 +73,7 @@ public class CopyController {
     @PutMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> updateCopies(@RequestBody List<SimpleCopy> copies) throws IllegalEntityAttributeException, MixedCopyTypeException {
-        this.simpleCopyService.updateCopies(copies);
+        this.simpleCopyService.update(copies);
         return ResponseEntity.noContent().build();
     }
 }

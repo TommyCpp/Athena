@@ -50,7 +50,7 @@ open class BookCopyServiceTest {
         var book = this.bookRepository.findOne(9786395132407L)
         copy.book = book
         copy.status = CopyStatus.BOOKED
-        this.bookCopyService.addCopy(copy)
+        this.bookCopyService.add(copy)
 
         Assert.assertNotNull(this.bookCopyRepository.findOne(copy.id))
 
@@ -72,7 +72,7 @@ open class BookCopyServiceTest {
     @Test(expected = MixedCopyTypeException::class)
     fun testTriggerMixedCopyTypeException() {
         var copyIdList = arrayListOf(1L, 2L, 3L) //Mixed Type
-        this.bookCopyService.deleteCopies(copyIdList)
+        this.bookCopyService.deleteById(copyIdList)
     }
 
     @Test(expected = IsbnAndCopyIdMismatchException::class)
@@ -91,7 +91,7 @@ open class BookCopyServiceTest {
 
         var copyList: List<BookCopy> = arrayListOf(copy1, copy2)
 
-        this.bookCopyService.updateCopies(copyList)
+        this.bookCopyService.update(copyList)
 
         Assert.assertEquals(CopyStatus.BOOKED, this.bookCopyRepository.findByIdAndBookIsNotNull(1L).status)
     }
@@ -110,11 +110,11 @@ open class BookCopyServiceTest {
         copy.book = this.bookRepository.findOne(9783158101895L)
         copy.status = CopyStatus.DAMAGED
 
-        this.bookCopyService.updateCopy(copy)
+        this.bookCopyService.update(copy)
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.journalCopyRepository.findOne(3L).status)
 
-        this.bookCopyService.updateCopies(arrayListOf(copy))
+        this.bookCopyService.update(arrayListOf(copy))
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.journalCopyRepository.findOne(3L).status)
 

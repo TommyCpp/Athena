@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by 吴钟扬 on 2017/9/12.
  */
 @Service
-public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
+public class AudioCopyService implements CopyService<AudioCopy, String> {
 
     private final AudioCopyRepository audioCopyRepository;
     private final AudioRepository audioRepository;
@@ -30,17 +32,17 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
     }
 
     @Override
-    public void addCopy(AudioCopy copy) {
-        this.audioCopyRepository.save(copy);
+    public AudioCopy add(AudioCopy copy) {
+        return this.audioCopyRepository.save(copy);
     }
 
     @Override
-    public void addCopies(List<AudioCopy> copies) {
-        this.audioCopyRepository.save(copies);
+    public List<AudioCopy> add(Iterable<AudioCopy> copies) {
+        return this.audioCopyRepository.save(copies);
     }
 
     @Override
-    public AudioCopy getCopy(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+    public AudioCopy get(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
         AudioCopy copy = this.audioCopyRepository.findOne(id);
         if (copy == null) {
             throw new IdOfResourceNotFoundException();
@@ -49,7 +51,7 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
     }
 
     @Override
-    public List<AudioCopy> getCopies(List<Long> idList) {
+    public List<AudioCopy> get(Iterable<Long> idList) {
         return this.audioCopyRepository.findAll(idList);
     }
 
@@ -63,12 +65,12 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
     }
 
     @Override
-    public void deleteCopy(Long id) {
+    public void deleteById(Long id) {
         this.audioCopyRepository.delete(id);
     }
 
     @Override
-    public void deleteCopies(List<Long> copyIdList) throws MixedCopyTypeException {
+    public void deleteById(List<Long> copyIdList) throws MixedCopyTypeException {
         List<AudioCopy> copyList = this.audioCopyRepository.findByIdInAndAudioIsNotNull(copyIdList);
         if (copyIdList.size() != copyList.size()) {
             throw new MixedCopyTypeException(AudioCopy.class);
@@ -81,20 +83,22 @@ public class AudioCopyService implements CopyService<AudioCopy, Long, String> {
     }
 
     @Override
-    public void updateCopy(AudioCopy copy) throws IllegalEntityAttributeException {
+    public AudioCopy update(AudioCopy copy) throws IllegalEntityAttributeException {
         try {
             this.audioCopyRepository.update(copy);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
+        return this.audioCopyRepository.findOne(copy.getId());
     }
 
     @Override
-    public void updateCopies(List<AudioCopy> copyList) throws IllegalEntityAttributeException {
+    public List<AudioCopy> update(Iterable<AudioCopy> copyList) throws IllegalEntityAttributeException {
         try {
             this.audioCopyRepository.update(copyList);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
+        return this.audioCopyRepository.findAll(StreamSupport.stream(copyList.spliterator(), false).map(AudioCopy::getId).collect(Collectors.toList()));
     }
 }

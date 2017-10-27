@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @param <ID> the type parameter
  * @param <FK> the type parameter
  */
-interface CopyService<T extends Copy, ID extends Serializable, FK extends Serializable> extends GenericCopyService<T, ID> {
+interface CopyService<T extends Copy, FK extends Serializable> extends GenericCopyService<T> {
 
     /**
      * Gets copies.

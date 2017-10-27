@@ -41,7 +41,7 @@ public class DataExceptionHandler {
             case "Copy": {
                 if (exception.elements.size() != 0 && exception.elements.get(0) instanceof Copy) {
                     List<Long> idList = exception.elements.stream().map(o -> ((Copy) o).getId()).collect(Collectors.toList());
-                    simpleCopyService.deleteCopies(idList);
+                    simpleCopyService.deleteById(idList);
                 }
             }
             break;

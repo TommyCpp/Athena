@@ -53,7 +53,7 @@ open class JournalCopyServiceTest {
         journalPK.index = 23
         journalCopy.journal = journalRepository.findOne(journalPK)
         journalCopy.status = CopyStatus.BOOKED
-        this.journalCopyService.addCopy(journalCopy)
+        this.journalCopyService.add(journalCopy)
 
         Assert.assertNotNull(journalCopyRepository.findOne(journalCopy.id))
     }
@@ -74,7 +74,7 @@ open class JournalCopyServiceTest {
             journalCopyList.add(journalCopy)
         }
 
-        this.journalCopyService.addCopies(journalCopyList)
+        this.journalCopyService.add(journalCopyList)
 
         Assert.assertNotNull(journalCopyRepository.findOne(journalCopyList[0].id))
         Assert.assertNotNull(journalCopyRepository.findOne(journalCopyList[1].id))
@@ -84,7 +84,7 @@ open class JournalCopyServiceTest {
     @Test
     fun testGetCopy() {
         val expect = this.journalCopyRepository.findOne(3L)
-        val result = this.journalCopyService.getCopy(3L)
+        val result = this.journalCopyService.get(3L)
         Assert.assertTrue(expect.id == result.id)
     }
 
@@ -95,7 +95,7 @@ open class JournalCopyServiceTest {
         var expect = HashSet<JournalCopy>()
         expect.add(this.journalCopyRepository.findOne(3L))
         expect.add(this.journalCopyRepository.findOne(7L))
-        var result = HashSet<JournalCopy>(this.journalCopyService.getCopies(ids))
+        var result = HashSet<JournalCopy>(this.journalCopyService.get(ids))
 
         Assert.assertEquals(expect.hashCode(), result.hashCode())
     }
@@ -105,7 +105,7 @@ open class JournalCopyServiceTest {
      * */
     @Test(expected = IdOfResourceNotFoundException::class)
     fun testGetCopyWithException() {
-        this.journalCopyService.getCopy(1L)
+        this.journalCopyService.get(1L)
         Assert.assertTrue(true)
 
     }
@@ -122,14 +122,14 @@ open class JournalCopyServiceTest {
 
     @Test
     fun testDeleteCopy() {
-        this.journalCopyService.deleteCopy(3L)
+        this.journalCopyService.deleteById(3L)
         Assert.assertNull(this.journalCopyRepository.findOne(3L))
     }
 
     @Test
     fun testDeleteCopies() {
         var ids = arrayListOf(3L, 7L)
-        this.journalCopyService.deleteCopies(ids)
+        this.journalCopyService.deleteById(ids)
 
         Assert.assertNull(this.journalCopyRepository.findOne(3L))
         Assert.assertNull(this.journalCopyRepository.findOne(7L))
@@ -141,7 +141,7 @@ open class JournalCopyServiceTest {
     @Test(expected = MixedCopyTypeException::class)
     fun testDeleteCopiesWithException() {
         var ids = arrayListOf(1L, 3L)
-        this.journalCopyService.deleteCopies(ids)
+        this.journalCopyService.deleteById(ids)
         Assert.assertTrue(true)
     }
 
@@ -150,7 +150,7 @@ open class JournalCopyServiceTest {
     fun testUpdateCopy() {
         var copy = this.journalCopyRepository.findOne(3L)
         copy.status = CopyStatus.CHECKED_OUT
-        this.journalCopyService.updateCopy(copy)
+        this.journalCopyService.update(copy)
         Assert.assertEquals(CopyStatus.CHECKED_OUT, this.journalCopyRepository.findOne(3L).status)
     }
 
@@ -159,7 +159,7 @@ open class JournalCopyServiceTest {
         var copies = this.journalCopyRepository.findAll(arrayListOf(3L, 7L))
         copies[0].status = CopyStatus.CHECKED_OUT
         copies[1].status = CopyStatus.RESERVED
-        this.journalCopyService.updateCopies(copies)
+        this.journalCopyService.update(copies)
 
         Assert.assertEquals(CopyStatus.CHECKED_OUT, this.journalCopyRepository.findOne(3L).status)
         Assert.assertEquals(CopyStatus.RESERVED, this.journalCopyRepository.findOne(7L).status)
@@ -182,11 +182,11 @@ open class JournalCopyServiceTest {
         copy.journal = this.journalRepository.findOne(journalPK)
         copy.status = CopyStatus.DAMAGED
 
-        this.journalCopyService.updateCopy(copy)
+        this.journalCopyService.update(copy)
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
 
-        this.journalCopyService.updateCopies(arrayListOf(copy))
+        this.journalCopyService.update(arrayListOf(copy))
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
 

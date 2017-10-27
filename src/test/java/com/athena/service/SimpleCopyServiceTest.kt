@@ -43,19 +43,19 @@ open class SimpleCopyServiceTest {
 
     @Test
     fun testGetCopy() {
-        Assert.assertTrue(journalCopyRepository!!.findOne(3L).equals(journalCopyService!!.getCopy(3L)))
-        Assert.assertTrue(bookCopyRepository!!.findOne(1L).equals(bookCopyService!!.getCopy(1L)))
+        Assert.assertTrue(journalCopyRepository!!.findOne(3L).equals(journalCopyService!!.get(3L)))
+        Assert.assertTrue(bookCopyRepository!!.findOne(1L).equals(bookCopyService!!.get(1L)))
     }
 
     @Test
     fun testDeleteCopyFromSimpleCopyService() {
-        this.simpleCopyService!!.deleteCopy(1L)
+        this.simpleCopyService!!.deleteById(1L)
         Assert.assertNull(this.bookCopyRepository!!.findOne(1L))
     }
 
     @Test
     fun testDeleteCopy() {
-        this.journalCopyService!!.deleteCopy(3L)
+        this.journalCopyService!!.deleteById(3L)
 
         Assert.assertNull(this.journalCopyRepository!!.findOne(3L))
 
@@ -68,7 +68,7 @@ open class SimpleCopyServiceTest {
          *
          * 1. test using BookCopyService delete journalCopy
          * */
-        this.bookCopyService!!.deleteCopy(3L)
+        this.bookCopyService!!.deleteById(3L)
 
         Assert.assertTrue(true)
 
@@ -82,7 +82,7 @@ open class SimpleCopyServiceTest {
          *
          * 2. test using JournalCopyService delete multiple copy
          * */
-        this.journalCopyService!!.deleteCopies(arrayListOf(1L, 2L))
+        this.journalCopyService!!.deleteById(arrayListOf(1L, 2L))
 
         Assert.assertTrue(true)
     }
@@ -94,7 +94,7 @@ open class SimpleCopyServiceTest {
         copy1.status = CopyStatus.BOOKED
         var copyList = arrayListOf(copy1)
 
-        this.simpleCopyService!!.updateCopies(copyList)
+        this.simpleCopyService!!.update(copyList)
 
         Assert.assertEquals(CopyStatus.BOOKED, this.simpleCopyRepository!!.findOne(6L).status)
     }

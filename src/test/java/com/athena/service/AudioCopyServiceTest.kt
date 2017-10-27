@@ -41,7 +41,7 @@ open class AudioCopyServiceTest {
         var copy = AudioCopy()
         copy.audio = this.audioRepository.findOne("CNM010100300")
         copy.status = CopyStatus.BOOKED
-        this.audioCopyService.addCopy(copy)
+        this.audioCopyService.add(copy)
         Assert.assertNotNull(audioCopyRepository.findOne(copy.id))
     }
 
@@ -59,7 +59,7 @@ open class AudioCopyServiceTest {
         var copy1 = this.audioCopyRepository.findByIdAndAudioIsNotNull(8L)
         copy1.status = CopyStatus.AVAILABLE
 
-        this.audioCopyService.updateCopy(copy1)
+        this.audioCopyService.update(copy1)
 
         Assert.assertEquals(CopyStatus.AVAILABLE, this.audioCopyRepository.findByIdAndAudioIsNotNull(8L).status)
 
@@ -77,7 +77,7 @@ open class AudioCopyServiceTest {
         book_copy.status = CopyStatus.DAMAGED
 
 
-        this.audioCopyService.updateCopy(book_copy)
+        this.audioCopyService.update(book_copy)
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findByIdAndBookIsNotNull(1L).status)
     }
@@ -96,11 +96,11 @@ open class AudioCopyServiceTest {
         copy.audio = this.audioRepository.findOne("CNM010100300")
         copy.status = CopyStatus.DAMAGED
 
-        this.audioCopyService.updateCopy(copy)
+        this.audioCopyService.update(copy)
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
 
-        this.audioCopyService.updateCopies(arrayListOf(copy))
+        this.audioCopyService.update(arrayListOf(copy))
 
         Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findOne(1L).status)
 

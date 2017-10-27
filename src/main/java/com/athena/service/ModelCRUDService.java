@@ -1,6 +1,8 @@
 package com.athena.service;
 
 import com.athena.exception.http.IdOfResourceNotFoundException;
+import com.athena.exception.http.IllegalEntityAttributeException;
+import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.ResourceNotDeletable;
 
 import javax.transaction.Transactional;
@@ -22,23 +24,23 @@ public interface ModelCRUDService<T, K extends Serializable> {
     }
 
 
-    T get(K k) throws IdOfResourceNotFoundException;
+    T get(K k) throws IdOfResourceNotFoundException, InvalidCopyTypeException;
 
     default Iterable<T> get(Iterable<K> pks) {
         return StreamSupport.stream(pks.spliterator(), false).map(k -> {
             try {
                 return this.get(k);
-            } catch (IdOfResourceNotFoundException e) {
+            } catch (IdOfResourceNotFoundException | InvalidCopyTypeException e) {
                 e.printStackTrace();//todo: error handle
             }
             return null;
         }).filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
-    T update(T t) throws IdOfResourceNotFoundException;
+    T update(T t) throws IdOfResourceNotFoundException, IllegalEntityAttributeException;
 
     @Transactional
-    default Iterable<T> update(Iterable<T> ts) throws IdOfResourceNotFoundException {
+    default Iterable<T> update(Iterable<T> ts) throws IdOfResourceNotFoundException, IllegalEntityAttributeException {
         List<T> result = new ArrayList<>();
         for (T t : ts) {
             result.add(this.update(t));

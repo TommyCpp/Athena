@@ -3,6 +3,7 @@ package com.athena.service.copy;
 import com.athena.exception.http.*;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
+import com.athena.model.Copy;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.copy.BookCopyRepository;
 import org.jetbrains.annotations.NotNull;
@@ -11,12 +12,14 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by Tommy on 2017/9/2.
  */
 @Service
-public class BookCopyService implements CopyService<BookCopy, Long, Long> {
+public class BookCopyService implements CopyService<BookCopy, Long> {
 
 
     private final BookCopyRepository bookCopyRepository;
@@ -36,7 +39,7 @@ public class BookCopyService implements CopyService<BookCopy, Long, Long> {
     }
 
     @Override
-    public BookCopy getCopy(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+    public BookCopy get(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
         BookCopy bookCopy = this.bookCopyRepository.findByIdAndBookIsNotNull(id);
         if (bookCopy == null) {
             throw new IdOfResourceNotFoundException();
@@ -64,7 +67,7 @@ public class BookCopyService implements CopyService<BookCopy, Long, Long> {
     }
 
     @Override
-    public List<BookCopy> getCopies(List<Long> idList) {
+    public List<BookCopy> get(Iterable<Long> idList) {
         return this.bookCopyRepository.findByIdIsInAndBookIsNotNull(idList);
     }
 
@@ -84,7 +87,7 @@ public class BookCopyService implements CopyService<BookCopy, Long, Long> {
             throw new BookNotFoundException(isbn);
         }
         if (this.bookCopyRepository.findByIdAndBookIsNotNull(id) != null) {
-            this.deleteCopy(id);
+            this.deleteById(id);
         } else {
             throw new IsbnAndCopyIdMismatchException(isbn, id);
         }
@@ -93,13 +96,13 @@ public class BookCopyService implements CopyService<BookCopy, Long, Long> {
 
 
     @Override
-    public void deleteCopy(Long id) {
+    public void deleteById(Long id) {
         this.bookCopyRepository.delete(id);
     }
 
     @Override
-    public void deleteCopies(@NotNull List<Long> copyIdList) throws MixedCopyTypeException {
-        List<BookCopy> bookCopyList = this.getCopies(copyIdList);
+    public void deleteById(@NotNull List<Long> copyIdList) throws MixedCopyTypeException {
+        List<BookCopy> bookCopyList = this.get(copyIdList);
         if (bookCopyList.size() != copyIdList.size()) {
             throw new MixedCopyTypeException(BookCopy.class);
         }
@@ -131,25 +134,31 @@ public class BookCopyService implements CopyService<BookCopy, Long, Long> {
      */
 
     @Override
-    public void updateCopy(BookCopy copy) {
-        this.bookCopyRepository.update(copy);
+    public BookCopy update(BookCopy copy) throws IllegalEntityAttributeException {
+        try {
+            this.bookCopyRepository.update(copy);
+        } catch (Exception e) {
+            throw new IllegalEntityAttributeException();
+        }
+        return this.bookCopyRepository.findOne(copy.getId());
     }
 
     @Override
-    public void updateCopies(List<BookCopy> copyList) throws IllegalEntityAttributeException {
+    public List<BookCopy> update(Iterable<BookCopy> copyList) throws IllegalEntityAttributeException {
         try {
             this.bookCopyRepository.update(copyList);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
+        return this.bookCopyRepository.findAll(StreamSupport.stream(copyList.spliterator(), false).map(Copy::getId).collect(Collectors.toList()));
     }
 
     @Override
-    public void addCopy(BookCopy copy) {
-        this.bookCopyRepository.save(copy);
+    public BookCopy add(BookCopy copy) {
+        return this.bookCopyRepository.save(copy);
     }
 
-    public void addCopies(List<BookCopy> bookCopyList) {
-        this.bookCopyRepository.save(bookCopyList);
+    public List<BookCopy> add(Iterable<BookCopy> bookCopyList) {
+        return this.bookCopyRepository.save(bookCopyList);
     }
 }
