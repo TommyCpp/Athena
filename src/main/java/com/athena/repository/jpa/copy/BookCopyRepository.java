@@ -18,4 +18,5 @@ public interface BookCopyRepository extends JpaRepository<BookCopy, Long>, CopyR
 
     BookCopy findByIdAndBookIsNotNull(Long id);
 
+    BookCopy findByIdAndBook(Long id, Book book);
 }

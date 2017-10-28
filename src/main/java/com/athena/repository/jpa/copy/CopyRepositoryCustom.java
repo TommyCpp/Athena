@@ -24,13 +24,13 @@ import java.util.stream.StreamSupport;
  * Created by 吴钟扬 on 2017/9/12.
  */
 public interface CopyRepositoryCustom<T extends Copy, ID> {
-    void update(T copy);
+    T update(T copy);
 
     List<T> isNotDeletable(ID id);
 
     @Transactional
-    default void update(Iterable<T> copies) {
-        StreamSupport.stream(copies.spliterator(), false).forEach(this::update);
+    default List<T> update(Iterable<T> copies) {
+        return StreamSupport.stream(copies.spliterator(), false).map(this::update).collect(Collectors.toList());
     }
 
     default List<T> isNotDeletable(Class<? extends Copy> targetClass, ID id, EntityManager em, List<Integer> deletableStatus) {

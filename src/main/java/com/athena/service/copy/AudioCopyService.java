@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Created by 吴钟扬 on 2017/9/12.
@@ -85,20 +83,18 @@ public class AudioCopyService implements CopyService<AudioCopy, String> {
     @Override
     public AudioCopy update(AudioCopy copy) throws IllegalEntityAttributeException {
         try {
-            this.audioCopyRepository.update(copy);
+            return this.audioCopyRepository.update(copy);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
-        return this.audioCopyRepository.findOne(copy.getId());
     }
 
     @Override
     public List<AudioCopy> update(Iterable<AudioCopy> copyList) throws IllegalEntityAttributeException {
         try {
-            this.audioCopyRepository.update(copyList);
+            return this.audioCopyRepository.update(copyList);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
-        return this.audioCopyRepository.findAll(StreamSupport.stream(copyList.spliterator(), false).map(AudioCopy::getId).collect(Collectors.toList()));
     }
 }

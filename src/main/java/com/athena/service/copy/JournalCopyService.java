@@ -3,7 +3,6 @@ package com.athena.service.copy;
 import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.MixedCopyTypeException;
-import com.athena.model.Copy;
 import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
 import com.athena.model.JournalPK;
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Created by Tommy on 2017/9/2.
@@ -92,18 +89,16 @@ public class JournalCopyService implements CopyService<JournalCopy, JournalPK> {
 
     @Override
     public JournalCopy update(JournalCopy copy) {
-        this.journalCopyRepository.update(copy);
-        return this.journalCopyRepository.findOne(copy.getId());
+        return this.journalCopyRepository.update(copy);
     }
 
     @Override
     public List<JournalCopy> update(Iterable<JournalCopy> copyList) throws IllegalEntityAttributeException {
         try {
-            this.journalCopyRepository.update(copyList);
+            return this.journalCopyRepository.update(copyList);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
-        return this.journalCopyRepository.findAll(StreamSupport.stream(copyList.spliterator(), false).map(Copy::getId).collect(Collectors.toList()));
     }
 
 }

@@ -3,7 +3,6 @@ package com.athena.service.copy;
 import com.athena.exception.http.*;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
-import com.athena.model.Copy;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.copy.BookCopyRepository;
 import org.jetbrains.annotations.NotNull;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Created by Tommy on 2017/9/2.
@@ -86,7 +83,7 @@ public class BookCopyService implements CopyService<BookCopy, Long> {
         if (book == null) {
             throw new BookNotFoundException(isbn);
         }
-        if (this.bookCopyRepository.findByIdAndBookIsNotNull(id) != null) {
+        if (this.bookCopyRepository.findByIdAndBook(id, book) != null) {
             this.deleteById(id);
         } else {
             throw new IsbnAndCopyIdMismatchException(isbn, id);
@@ -134,23 +131,22 @@ public class BookCopyService implements CopyService<BookCopy, Long> {
      */
 
     @Override
+    @Transactional
     public BookCopy update(BookCopy copy) throws IllegalEntityAttributeException {
         try {
-            this.bookCopyRepository.update(copy);
+            return this.bookCopyRepository.update(copy);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
-        return this.bookCopyRepository.findOne(copy.getId());
     }
 
     @Override
     public List<BookCopy> update(Iterable<BookCopy> copyList) throws IllegalEntityAttributeException {
         try {
-            this.bookCopyRepository.update(copyList);
+            return this.bookCopyRepository.update(copyList);
         } catch (Exception e) {
             throw new IllegalEntityAttributeException();
         }
-        return this.bookCopyRepository.findAll(StreamSupport.stream(copyList.spliterator(), false).map(Copy::getId).collect(Collectors.toList()));
     }
 
     @Override
