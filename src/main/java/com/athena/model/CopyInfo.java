@@ -30,7 +30,7 @@ public class CopyInfo {
     }
 
     @Basic
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false,table = "copy")
     public Integer getStatus() {
         return status;
     }

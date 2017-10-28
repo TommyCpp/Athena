@@ -183,14 +183,8 @@ public class Audio implements Publication {
     }
 
 
-    @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToMany
-    @JoinTable(name = "audio_copy",
-            joinColumns = @JoinColumn(name = "isrc", table = "audio", referencedColumnName = "isrc"),
-            inverseJoinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id")
-    )
     public List<AudioCopy> getCopies() {
-
         return copies;
     }
 
