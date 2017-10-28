@@ -1,3 +1,43 @@
+create table audio
+(
+	isrc varchar(14) not null
+		primary key,
+	title varchar(128) not null,
+	subtitle varchar(128) null,
+	author varchar(128) not null,
+	translator varchar(128) null,
+	publisher_id varchar(16) not null,
+	publish_date date not null,
+	cover_url varchar(128) null,
+	price float default '0' not null,
+	title_pinyin varchar(256) null,
+	title_short_pinyin varchar(16) null,
+	language varchar(32) default 'Chinese' null
+)
+;
+
+create index audio_publisher_id_fk
+	on audio (publisher_id)
+;
+
+create table audio_copy
+(
+	isrc varchar(14) not null,
+	copy_id bigint default '0' not null,
+	primary key (copy_id, isrc),
+	constraint audio_copy_audio_isrc_fk
+	foreign key (isrc) references audio (isrc)
+)
+;
+
+create index audio_copy_copy_id_fk
+	on audio_copy (copy_id)
+;
+
+create index audio_copy_audio_isrc_fk
+	on audio_copy (isrc)
+;
+
 create table book
 (
 	isbn bigint not null
@@ -27,7 +67,7 @@ create table book_copy
 	copy_id bigint default '0' not null,
 	primary key (copy_id, isbn),
 	constraint book_copy_book_isbn_fk
-		foreign key (isbn) references book (isbn)
+	foreign key (isbn) references book (isbn)
 )
 ;
 
@@ -45,26 +85,33 @@ create table copy
 )
 ;
 
+alter table audio_copy
+	add constraint audio_copy_copy_id_fk
+foreign key (copy_id) references copy (id)
+	on delete cascade
+;
+
 alter table book_copy
 	add constraint book_copy_copy_id_fk
-		foreign key (copy_id) references copy (id)
-			on delete cascade
+foreign key (copy_id) references copy (id)
+	on delete cascade
 ;
 
 create table journal
 (
 	issn varchar(8) not null,
 	year int default '0' not null,
-	`index` int default '0' not null,
+	issue int default '0' not null,
 	title varchar(128) not null,
 	publisher_id varchar(16) not null,
-	title_short_pinyin int null,
-	title_pinyin int null,
+	title_short_pinyin varchar(16) null,
+	title_pinyin varchar(128) null,
 	price float not null,
 	cover_url varchar(128) null,
 	directory text null comment 'json',
 	publish_date date null,
-	primary key (year, issn, index)
+	language varchar(32) default 'Chinese' not null,
+	primary key (year, issn, issue)
 )
 ;
 
@@ -81,21 +128,23 @@ create index journal_year_index
 ;
 
 create index journal_index_index
-	on journal (`index`)
+	on journal (issue)
 ;
 
 create table journal_copy
 (
 	issn varchar(8) not null,
 	year int not null,
-	`index` int default '0' not null,
+	issue int default '0' not null,
 	copy_id bigint default '0' not null,
-	primary key (issn, year, index, copy_id),
-	constraint journal_copy_journal_issn_year_index_fk
-		foreign key (issn, year, index) references journal (issn, year, index),
+	primary key (issn, year, issue, copy_id),
+	constraint journal_copy_journal_issn_year_issue_fk
+	foreign key (issn, year, issue) references journal (issn, year, issue),
+	constraint journal_copy_journal_issn_fk
+	foreign key (issn) references journal (issn),
 	constraint journal_copy_copy_id_fk
-		foreign key (copy_id) references copy (id)
-			on delete cascade
+	foreign key (copy_id) references copy (id)
+		on delete cascade
 )
 ;
 
@@ -112,9 +161,14 @@ create table publisher
 )
 ;
 
+alter table audio
+	add constraint audio_publisher_id_fk
+foreign key (publisher_id) references publisher (id)
+;
+
 alter table journal
 	add constraint journal_publisher_id_fk
-		foreign key (publisher_id) references publisher (id)
+foreign key (publisher_id) references publisher (id)
 ;
 
 create table user

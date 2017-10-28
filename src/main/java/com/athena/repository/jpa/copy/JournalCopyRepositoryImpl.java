@@ -32,11 +32,11 @@ public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCo
     @Override
     @Transactional
     public JournalCopy update(JournalCopy copy) {
-        Query query = em.createNativeQuery("UPDATE journal_copy INNER JOIN copy ON copy.id=journal_copy.copy_id SET copy_id=?1,issn=?2,`journal_index`=?3,year=?4,status=?5,created_date=?6,updated_date=?7 WHERE copy_id=?1");
+        Query query = em.createNativeQuery("UPDATE journal_copy INNER JOIN copy ON copy.id=journal_copy.copy_id SET copy_id=?1,issn=?2,issue=?3,year=?4,status=?5,created_date=?6,updated_date=?7 WHERE copy_id=?1");
         query.setParameter(1, copy.getId());
         Journal journal = copy.getJournal();
         query.setParameter(2, journal.getIssn());
-        query.setParameter(3, journal.getIndex());
+        query.setParameter(3, journal.getIssue());
         query.setParameter(4, journal.getYear());
         query.setParameter(5, copy.getStatus());
         query.setParameter(6, copy.getCreatedDate());

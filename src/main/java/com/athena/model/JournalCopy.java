@@ -25,7 +25,7 @@ public class JournalCopy extends Copy {
             joinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = {@JoinColumn(name = "issn", table = "journal", referencedColumnName = "issn", nullable = false),
                     @JoinColumn(name = "year", table = "journal", referencedColumnName = "year", nullable = false),
-                    @JoinColumn(name = "journal_index", table = "journal", referencedColumnName = "index", nullable = false)}
+                    @JoinColumn(name = "issue", table = "journal", referencedColumnName = "issue", nullable = false)}
     )
     @NotNull
     public Journal getJournal() {

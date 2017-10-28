@@ -36,7 +36,7 @@ open class JournalCopyRepositoryTest {
     @Test
     fun testIsNotDeletable() {
         val journalPk: JournalPK = JournalPK()
-        journalPk.index = 22
+        journalPk.issue = 22
         journalPk.year = 2016
         journalPk.issn = "03718473"
         var journalCopies = this.journalCopyRepository.isNotDeletable(journalPk)

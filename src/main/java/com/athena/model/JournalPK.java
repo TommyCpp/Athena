@@ -10,15 +10,15 @@ import java.io.Serializable;
 public class JournalPK implements Serializable {
     private String issn;
     private Integer year;
-    private Integer index;
+    private Integer issue;
 
     public JournalPK(){
     }
 
-    public JournalPK(String issn, Integer year, Integer index) {
+    public JournalPK(String issn, Integer year, Integer issue) {
         this.issn = issn;
         this.year = year;
-        this.index = index;
+        this.issue = issue;
     }
 
     @Column(name = "issn", nullable = false, length = 8)
@@ -41,14 +41,14 @@ public class JournalPK implements Serializable {
         this.year = year;
     }
 
-    @Column(name = "index", nullable = false)
+    @Column(name = "issue", nullable = false)
     @Id
-    public Integer getIndex() {
-        return index;
+    public Integer getIssue() {
+        return issue;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
+    public void setIssue(Integer index) {
+        this.issue = index;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class JournalPK implements Serializable {
 
         if (issn != null ? !issn.equals(journalPK.issn) : journalPK.issn != null) return false;
         if (year != null ? !year.equals(journalPK.year) : journalPK.year != null) return false;
-        if (index != null ? !index.equals(journalPK.index) : journalPK.index != null) return false;
+        if (issue != null ? !issue.equals(journalPK.issue) : journalPK.issue != null) return false;
 
         return true;
     }
@@ -69,7 +69,7 @@ public class JournalPK implements Serializable {
     public int hashCode() {
         int result = issn != null ? issn.hashCode() : 0;
         result = 31 * result + (year != null ? year.hashCode() : 0);
-        result = 31 * result + (index != null ? index.hashCode() : 0);
+        result = 31 * result + (issue != null ? issue.hashCode() : 0);
         return result;
     }
 }

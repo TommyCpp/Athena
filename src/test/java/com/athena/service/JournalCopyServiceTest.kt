@@ -50,7 +50,7 @@ open class JournalCopyServiceTest {
         val journalPK = JournalPK()
         journalPK.issn = "03718472"
         journalPK.year = 2014
-        journalPK.index = 23
+        journalPK.issue = 23
         journalCopy.journal = journalRepository.findOne(journalPK)
         journalCopy.status = CopyStatus.BOOKED
         this.journalCopyService.add(journalCopy)
@@ -64,7 +64,7 @@ open class JournalCopyServiceTest {
         val journalPK = JournalPK()
         journalPK.issn = "03718472"
         journalPK.year = 2014
-        journalPK.index = 23
+        journalPK.issue = 23
         var journal = journalRepository.findOne(journalPK)
 
         for (i in 1..3) {
@@ -116,7 +116,7 @@ open class JournalCopyServiceTest {
         val journalPK = JournalPK()
         journalPK.issn = "03718471"
         journalPK.year = 2017
-        journalPK.index = 1
+        journalPK.issue = 1
         Assert.assertEquals(arrayListOf(this.journalCopyService.getCopies(journalPK)), arrayListOf(this.journalRepository.findOne(journalPK).copies))
     }
 
@@ -175,7 +175,7 @@ open class JournalCopyServiceTest {
         val journalPK = JournalPK()
         journalPK.issn = "03718471"
         journalPK.year = 2017
-        journalPK.index = 1
+        journalPK.issue = 1
 
         var copy = JournalCopy()
         copy.id = 1L

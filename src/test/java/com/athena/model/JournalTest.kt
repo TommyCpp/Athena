@@ -12,6 +12,7 @@ import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
+import javax.transaction.Transactional
 
 /**
  * Created by Tommy on 2017/8/28.
@@ -25,15 +26,16 @@ open class JournalTest {
     @Autowired lateinit var journalRepository: JournalRepository
 
     @Test
-    fun testJournal() {
+    @Transactional
+    open fun testJournal() {
         var journalPk: JournalPK = JournalPK()
         journalPk.issn = "03718471"
         journalPk.year = 2017
-        journalPk.index = 1
+        journalPk.issue = 1
         Assert.assertNotNull(this.journalRepository.findOne(journalPk))
         Assert.assertNotEquals(0, this.journalRepository.findOne(journalPk).copies.size) // test relationship
 
-        journalPk.index = 2
+        journalPk.issue = 2
         var journal: Journal = Journal()
         journal.id = journalPk
         journal.title = "Test"

@@ -13,7 +13,7 @@ import java.util.List;
 public class Journal implements Publication {
     private String issn;
     private Integer year;
-    private Integer index;
+    private Integer issue;
     private String title;
     private String titleShortPinyin;
     private String titlePinyin;
@@ -47,20 +47,20 @@ public class Journal implements Publication {
     }
 
     @Id
-    @Column(name = "index", nullable = false)
-    public Integer getIndex() {
-        return index;
+    @Column(name = "issue", nullable = false)
+    public Integer getIssue() {
+        return issue;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
+    public void setIssue(Integer index) {
+        this.issue = index;
     }
 
     @Transient
     public void setId(JournalPK journalPK) {
         this.issn = journalPK.getIssn();
         this.year = journalPK.getYear();
-        this.index = journalPK.getIndex();
+        this.issue = journalPK.getIssue();
     }
 
     @Transient
@@ -68,7 +68,7 @@ public class Journal implements Publication {
         JournalPK journalPK = new JournalPK();
         journalPK.setIssn(this.issn);
         journalPK.setYear(this.year);
-        journalPK.setIndex(this.index);
+        journalPK.setIssue(this.issue);
         return journalPK;
     }
 
@@ -162,7 +162,7 @@ public class Journal implements Publication {
 
         if (issn != null ? !issn.equals(journal.issn) : journal.issn != null) return false;
         if (year != null ? !year.equals(journal.year) : journal.year != null) return false;
-        if (index != null ? !index.equals(journal.index) : journal.index != null) return false;
+        if (issue != null ? !issue.equals(journal.issue) : journal.issue != null) return false;
         if (title != null ? !title.equals(journal.title) : journal.title != null) return false;
         if (titleShortPinyin != null ? !titleShortPinyin.equals(journal.titleShortPinyin) : journal.titleShortPinyin != null)
             return false;
@@ -179,7 +179,7 @@ public class Journal implements Publication {
     public int hashCode() {
         int result = issn != null ? issn.hashCode() : 0;
         result = 31 * result + (year != null ? year.hashCode() : 0);
-        result = 31 * result + (index != null ? index.hashCode() : 0);
+        result = 31 * result + (issue != null ? issue.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (titleShortPinyin != null ? titleShortPinyin.hashCode() : 0);
         result = 31 * result + (titlePinyin != null ? titlePinyin.hashCode() : 0);
@@ -205,7 +205,7 @@ public class Journal implements Publication {
     @JoinTable(name = "journal_copy",
             joinColumns = {@JoinColumn(name = "issn", table = "journal", referencedColumnName = "issn"),
                     @JoinColumn(name = "year", table = "journal", referencedColumnName = "year"),
-                    @JoinColumn(name = "journal_index", table = "journal", referencedColumnName = "index")},
+                    @JoinColumn(name = "issue", table = "journal", referencedColumnName = "issue")},
             inverseJoinColumns = @JoinColumn(name = "copy_id", referencedColumnName = "id", table = "copy")
 
     )

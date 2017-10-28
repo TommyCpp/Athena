@@ -57,7 +57,7 @@ open class PublisherServiceTest {
         val journalPK = JournalPK()
         journalPK.issn = "03718473"
         journalPK.year = 2016
-        journalPK.index = 22
+        journalPK.issue = 22
         publications.add(this.journalRepository.findOne(journalPK))
         publications.add(this.audioRepository.findOne("CNM010100300"))
 

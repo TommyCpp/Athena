@@ -1,6 +1,6 @@
 <dataset>
-    <journal_copy issn="03718471" year="2017" journal_index="1" copy_id="3"/>
-    <journal_copy issn="03718471" year="2017" journal_index="1" copy_id="7"/>
-    <journal_copy issn="03718473" year="2016" journal_index="22" copy_id="10"/>
-    <journal_copy issn="03718473" year="2016" journal_index="22" copy_id="11"/>
+    <journal_copy issn="03718471" year="2017" issue="1" copy_id="3"/>
+    <journal_copy issn="03718471" year="2017" issue="1" copy_id="7"/>
+    <journal_copy issn="03718473" year="2016" issue="22" copy_id="10"/>
+    <journal_copy issn="03718473" year="2016" issue="22" copy_id="11"/>
 </dataset>
