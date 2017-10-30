@@ -51,10 +51,18 @@ public interface ModelCRUDService<T, K extends Serializable> {
     void delete(T t) throws IdOfResourceNotFoundException, ResourceNotDeletable;
 
     @Transactional
-    default void delete(Iterable<T> ts) throws IdOfResourceNotFoundException, ResourceNotDeletable{
-        for(T t:ts){
+    default void delete(Iterable<T> ts) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+        for (T t : ts) {
             this.delete(t);
         }
+    }
+
+    default void delete(K id) throws IdOfResourceNotFoundException, ResourceNotDeletable, InvalidCopyTypeException {
+        T obj = this.get(id);
+        if (Objects.isNull(obj)) {
+            throw new IdOfResourceNotFoundException();
+        }
+        this.delete(obj);
     }
 
 }
