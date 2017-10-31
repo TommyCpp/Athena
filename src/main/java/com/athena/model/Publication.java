@@ -1,5 +1,6 @@
 package com.athena.model;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -25,5 +26,9 @@ public interface Publication {
     String getLanguage();
 
     void setLanguage(String language);
+
+    Date getPublishDate();
+
+    void setPublishDate(Date publishDate);
 
 }
