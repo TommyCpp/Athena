@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "copy")
-public class AudioCopy extends Copy {
+public class AudioCopy extends SimpleCopy {
     private Audio audio;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -21,7 +21,7 @@ public class AudioCopy extends Copy {
         return audio;
     }
 
-    public void setAudio(Audio audio){
+    public void setAudio(Audio audio) {
         this.audio = audio;
     }
 }

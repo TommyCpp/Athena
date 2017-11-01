@@ -2,8 +2,8 @@ package com.athena.exceptionhandler;
 
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.internal.BatchStoreException;
+import com.athena.model.AbstractCopy;
 import com.athena.model.Book;
-import com.athena.model.Copy;
 import com.athena.service.BookService;
 import com.athena.service.copy.SimpleCopyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +38,9 @@ public class DataExceptionHandler {
                 }
             }
             break;
-            case "Copy": {
-                if (exception.elements.size() != 0 && exception.elements.get(0) instanceof Copy) {
-                    List<Long> idList = exception.elements.stream().map(o -> ((Copy) o).getId()).collect(Collectors.toList());
+            case "AbstractCopy": {
+                if (exception.elements.size() != 0 && exception.elements.get(0) instanceof AbstractCopy) {
+                    List<Long> idList = exception.elements.stream().map(o -> ((AbstractCopy) o).getId()).collect(Collectors.toList());
                     simpleCopyService.deleteById(idList);
                 }
             }

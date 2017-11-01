@@ -203,11 +203,11 @@ public class BookController {
             urls.add(this.baseUrl + "/" + bookCopy.getBook().getIsbn().toString() + "/copy/" + bookCopy.getId().toString());
         }
 
-        Batch batch = new Batch(UUID.randomUUID().toString(), "Copy", Calendar.getInstance().getTime(), urls);
+        Batch batch = new Batch(UUID.randomUUID().toString(), "AbstractCopy", Calendar.getInstance().getTime(), urls);
         try {
             this.batchService.save(batch);
         } catch (DataAccessException mongoDataAccessException) {
-            throw new BatchStoreException(bookCopyList, "Copy");
+            throw new BatchStoreException(bookCopyList, "AbstractCopy");
         }
 
         return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();

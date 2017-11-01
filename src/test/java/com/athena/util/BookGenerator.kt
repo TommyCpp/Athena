@@ -2,6 +2,7 @@ package com.athena.util
 
 import com.athena.model.Book
 import org.apache.commons.lang3.RandomStringUtils
+import java.sql.Date
 import java.util.*
 
 /**
@@ -46,7 +47,7 @@ class BookGenerator {
         var calendar: Calendar = Calendar.getInstance()
         // Adjust day
         calendar.set(this.random.nextInt(100) + 1917, this.random.nextInt(12), this.random.nextInt(30))
-        var result: Date = calendar.time
+        var result: Date = Date(calendar.timeInMillis)
         return result
     }
 

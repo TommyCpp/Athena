@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "copy")
-public class BookCopy extends Copy {
+public class BookCopy extends SimpleCopy {
     private Book book;
 
     public BookCopy() {

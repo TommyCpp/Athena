@@ -1,6 +1,6 @@
 package com.athena.repository.jpa.copy;
 
-import com.athena.model.Copy;
+import com.athena.model.SimpleCopy;
 import com.athena.util.VariableNameUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -23,7 +23,7 @@ import java.util.stream.StreamSupport;
 /**
  * Created by 吴钟扬 on 2017/9/12.
  */
-public interface CopyRepositoryCustom<T extends Copy, ID> {
+public interface CopyRepositoryCustom<T extends SimpleCopy, ID> {
     T update(T copy);
 
     List<T> isNotDeletable(ID id);
@@ -33,7 +33,7 @@ public interface CopyRepositoryCustom<T extends Copy, ID> {
         return StreamSupport.stream(copies.spliterator(), false).map(this::update).collect(Collectors.toList());
     }
 
-    default List<T> isNotDeletable(Class<? extends Copy> targetClass, ID id, EntityManager em, List<Integer> deletableStatus) {
+    default List<T> isNotDeletable(Class<? extends SimpleCopy> targetClass, ID id, EntityManager em, List<Integer> deletableStatus) {
         String tableName = null;                                            // name of the target table
         List<String> publicationPk = new ArrayList<>(5);        // target class's id
         int deletableCount = deletableStatus.size();                        // how many status is deletable
