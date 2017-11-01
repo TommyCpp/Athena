@@ -1,11 +1,21 @@
 # Athena
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/21467d5fe5e04162accce3d650b1b533)](https://www.codacy.com/app/a444529216/Athena?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TommyCpp/Athena&amp;utm_campaign=Badge_Grade)
 
-Book Management System based on Spring Framework and Restful API
+使用 Spring 系列框架设计的 RESTful API
+
+目前，该项目包含如下组件
+* 一个RESTful API，位于 `/src/main/java`
+* 一个微信小程序，位于 `/src/main/javascript`
+
+预计未来会加入使用 Angular 系列框架的前端界面及 Android 客户端
+
+该项目灵感来自于[此问题](http://www.cnsoftbei.com/bencandy.php?fid=148&aid=1532)
+
+Library Management System based on Spring Framework and RESTful API
 
 Currently, the Athena Project contains following components:
 
-* A Restful API  `/src/main/java`
+* A RESTful API  `/src/main/java`
 * A WeChat Application `/src/main/javascript`
 
 More components like *the front-end based on Angular or React* and *the Android application* will be included in future
@@ -13,10 +23,14 @@ More components like *the front-end based on Angular or React* and *the Android 
 This is project is inspired by the question from [here](http://www.cnsoftbei.com/bencandy.php?fid=148&aid=1532)
 ## Install & Preparation
 ### Setup database
-Use `/src/resource/database.sql` to setup the database.
-
+使用 `/src/resource/database.sql` 中的.sql文件来设置数据库
+Use .sql file `/src/resource/database.sql` to setup the database.
 
 ### Add config file
+为了安装此应用，首先创建一些配置文件
+
+可以直接复制样例文件 `/src/main/java/resource/application.properties.example` 和 `src/main/java/resource/config.properties.example` ，修改其文件名并按照其中的配置项进行填写
+
 To install the application, first need to create some config file in resources
 
 Or you can copy the key in `/src/main/java/resource/application.properties.example` and `src/main/java/resource/config.properties.example` , then create corresponding new config file
@@ -93,6 +107,8 @@ Or you can copy the key in `/src/main/java/resource/application.properties.examp
 
 
 ### Install required library
+使用 `mvn` 命令安装所需的库
+
 Run following command in command line to install library by maven `mvn`
 
 The following dependencies are required by Athena, you can also find them in the `pom.xml`
@@ -122,62 +138,31 @@ The dependencies below are required for test
 
 
 ## Start
+使用下列命令来启动应用
 To run the application, use
 ```java
 mvn spring-boot:run
 ```
 
-## Feature
-### Overall
-The Athena application is a RESTful application, which shall be used with several endpoint such as Android application, Angular/React based website frontend or Wechat App (WeChat Mini Applications)
-
-### Authentication
-Currently, Athena has two kind of users, ADMIN and USER.
-
-We define the ADMIN as the admin of library, which has the privilege to lend the books to users.
-And the USER shall pay the pledge before they can borrow the book.
-
-The authentication will drive by JWT (JSON Web Token), which is a powerful tool for stateless authentication. Configuration about JWT can found above. The basic authentication process can be described as following:
-
-
-1. Send authentication information to certain URL
-1. Spring Security will take care the process to authentication.
-1. After the user info has been verified, an JWT will be generated and send back to client.
-1. When client request some confidential data, JWT should be included in *request head* in order to state the user principle.
-
-
-Notice that since the only authentication token is JWT, It is crucial for the client to protect JWT from leaking.
-
-### Search
-Athena support the following search strategy
-
-* search by name
-    * match the partial name (Default)
-    * match the exact name
-    * match the pronunciation
-
-* search by author
-    * match one author in author list
-    * match many authors in author list
-    * match all the author
-
-### Create Books
-User with Admin or SuperAdmin clearance can create books in database
-
-* create single book
-* create multiple books
 
 ## API
-To access the api documentation,
-first run the application
-```java
-mvn spring-boot:run
+启动应用程序之后访问如下网址来获取API列表
+
+```
+http://localhost:8080/swagger-ui.html#/
 ```
 
-And then access the `http://localhost:8080/swagger-ui.html#/`
+To access the api documentation,
+first run the application and then access the
+```
+http://localhost:8080/swagger-ui.html#/
+```
 
 ## Exception Check List
+在该应用中，我们自定义了一些异常以及异常码，下表列出了各类异常
+
 Among the Athena, we may encounter different kind of exceptions. The Http standard status code(like 401,400) may not be enough. Thus, we introduce some custom status code which will be include in the response body when exception happens.
+
 
 code | meaning
 -----|--------
@@ -201,62 +186,3 @@ code | meaning
 4291 | Too many requests for search
 ***500***| **Server Error**
 5001| Error regarding database connection or repository
-
-## Test
-This section will introduce the basic test component in Athena
-### Structure
-The test files is located in `src\test\java\com\athena` it contains following folders
-
-name | content
------|--------
-model| Test the model class and the converter
-security | Test the authentication function
-service | Test the service class
-
-### Configure
-Because the user table has one field name `password`, which is the reserve word of MySQL. So before test something regarding the User table, we need to override some of the default config.
-Specifically, We need to config the test as follows:
-```java
-    @Bean
-    public DatabaseConfigBean databaseConfigBean() {
-        DatabaseConfigBean databaseConfigBean = new DatabaseConfigBean();
-        databaseConfigBean.setEscapePattern("`?`"); //we change the default config here.
-        return databaseConfigBean;
-    }
-
-    @Bean
-    @Autowired
-    public DatabaseDataSourceConnectionFactoryBean dbUnitDatabaseConnection(DataSource dataSource, DatabaseConfigBean databaseConfigBean) {
-        DatabaseDataSourceConnectionFactoryBean factoryBean = new DatabaseDataSourceConnectionFactoryBean();
-        factoryBean.setDataSource(dataSource);
-        factoryBean.setDatabaseConfig(databaseConfigBean);
-        return factoryBean;
-    }
-```
-
-### Test Case Explanation
-#### model.BooKTest
-* Find one book which ISBN is 9787111124444, assert whether the book is the intend one.
-
-#### model.PublisherTest
-* Assert whether the publisher can access the book it published
-
-#### model.UserTest
-* Create an user, then save it to the database.
-* Change some attribute of the User, Assert the password does not be encrypt again.
-
-#### model.WriterConverter
-* Assert the WriterConverter can change the String[] into String concatenated by `,`
-
-#### service.PageableHeaderServiceTest
-* Query books with `http://www.example.com/books?author=test,test&last_cursor=555&page=4`. Assert the response has the right header param.
-
-#### service.BookServiceTest
-* Test the search by title `"埃里克森", "程序设计"`, assert that the corresponding book is in the result.
-
-#### service.PinyinConverterTest
-* Test the convert from word to pinyin
-* Test the convert from word to short version pinyin (composed by the first letter of every char)
-
-#### service.UserServiceTest
-* Test get user with id 11
