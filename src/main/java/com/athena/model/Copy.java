@@ -1,9 +1,8 @@
 package com.athena.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -32,6 +31,8 @@ abstract public class Copy extends CopyInfo {
 
 
     @Id
+    @GenericGenerator(name = "copy_id_generator", strategy = "increment")
+    @GeneratedValue(generator = "copy_id_generator")
     public Long getId() {
         return id;
     }
@@ -42,7 +43,7 @@ abstract public class Copy extends CopyInfo {
 
 
     @Basic
-    @Column(name = "created_date", nullable = true,table = "copy")
+    @Column(name = "created_date", nullable = true, table = "copy")
     public Timestamp getCreatedDate() {
         return createdDate;
     }
@@ -52,7 +53,7 @@ abstract public class Copy extends CopyInfo {
     }
 
     @Basic
-    @Column(name = "updated_date", nullable = true,table = "copy")
+    @Column(name = "updated_date", nullable = true, table = "copy")
     public Timestamp getUpdatedDate() {
         return updatedDate;
     }

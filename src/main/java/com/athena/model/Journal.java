@@ -201,6 +201,11 @@ public class Journal implements Publication {
     }
 
     @OneToMany
+    @JoinColumns({
+            @JoinColumn(name = "issn", referencedColumnName = "issn"),
+            @JoinColumn(name = "issue", referencedColumnName = "issue"),
+            @JoinColumn(name = "year", referencedColumnName = "year")
+    })
     public List<JournalCopy> getCopies() {
         return copies;
     }

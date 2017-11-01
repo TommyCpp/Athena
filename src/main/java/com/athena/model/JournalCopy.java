@@ -1,7 +1,5 @@
 package com.athena.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 /**
@@ -9,26 +7,13 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "journal_copy")
-@SecondaryTable(name = "copy", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "copy_id"))
-@AttributeOverride(name = "id", column = @Column(name = "copy_id", table = "journal_copy"))
-public class JournalCopy extends Copy {
+@PrimaryKeyJoinColumn(name = "copy_id", referencedColumnName = "id")
+public class JournalCopy extends SimpleCopy {
     private Journal journal;
 
     public JournalCopy() {
         super();
         this.journal = null;
-    }
-
-    public JournalCopy(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    @Id
-    @GenericGenerator(name = "copy_id_generator", strategy = "increment")
-    @GeneratedValue(generator = "copy_id_generator")
-    public Long getId() {
-        return super.getId();
     }
 
     @ManyToOne
