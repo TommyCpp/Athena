@@ -78,7 +78,6 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
         this.delete(publisher.getId());
     }
 
-
     /**
      * Delete.
      *
@@ -86,6 +85,7 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
      * @throws IdOfResourceNotFoundException the id of resource not found exception
      * @throws ResourceNotDeletable          the resource not deletable
      */
+    @Override
     @Transactional
     public void delete(String id) throws IdOfResourceNotFoundException, ResourceNotDeletable {
         Publisher publisher = this.repository.findOne(id);
@@ -96,6 +96,7 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
         this.bookService.delete(publisher.getBooks());
         this.repository.delete(publisher);
     }
+
 
     /**
      * Update.

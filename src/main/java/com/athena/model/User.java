@@ -3,6 +3,7 @@ package com.athena.model;
 import com.athena.model.listener.UserListener;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by tommy on 2017/3/20.
@@ -21,6 +22,7 @@ public class User{
     private String email;
     private String identity;
     private String phoneNumber;
+    private List<Borrow> borrows;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -83,6 +85,26 @@ public class User{
         this.identity = identity;
     }
 
+    @Basic
+    @Column(name="phone_number",nullable = true)
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+
+    @OneToMany
+    public List<Borrow> getBorrows() {
+        return borrows;
+    }
+
+    public void setBorrows(List<Borrow> borrows) {
+        this.borrows = borrows;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,8 +118,8 @@ public class User{
         if (wechatId != null ? !wechatId.equals(user.wechatId) : user.wechatId != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (identity != null ? !identity.equals(user.identity) : user.identity != null) return false;
-
-        return true;
+        if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) return false;
+        return borrows != null ? borrows.equals(user.borrows) : user.borrows == null;
     }
 
     @Override
@@ -108,16 +130,9 @@ public class User{
         result = 31 * result + (wechatId != null ? wechatId.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (identity != null ? identity.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (borrows != null ? borrows.hashCode() : 0);
         return result;
     }
-
-    @Basic
-    @Column(name="phone_number",nullable = true)
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 }
+

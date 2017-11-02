@@ -75,6 +75,27 @@ create index book_copy_book_isbn_fk
 	on book_copy (isbn)
 ;
 
+create table borrow
+(
+	id varchar(128) not null
+		primary key,
+	copy_id bigint not null,
+	user_id bigint not null,
+	enable tinyint(1) default '1' not null comment 'Is the copy is being borrowed?',
+	created_date datetime null,
+	updated_date datetime null
+)
+	comment 'relationship  between the copy and user'
+;
+
+create index borrow_copy_id_fk
+	on borrow (copy_id)
+;
+
+create index borrow_user_id_fk
+	on borrow (user_id)
+;
+
 create table copy
 (
 	id bigint auto_increment
@@ -95,6 +116,11 @@ alter table book_copy
 	add constraint book_copy_copy_id_fk
 foreign key (copy_id) references copy (id)
 	on delete cascade
+;
+
+alter table borrow
+	add constraint borrow_copy_id_fk
+foreign key (copy_id) references copy (id)
 ;
 
 create table journal
@@ -182,5 +208,10 @@ create table user
 	phone_number varchar(11) null,
 	password varchar(64) not null
 )
+;
+
+alter table borrow
+	add constraint borrow_user_id_fk
+foreign key (user_id) references user (id)
 ;
 
