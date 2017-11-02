@@ -1,7 +1,7 @@
 package com.athena.service.copy;
 
 import com.athena.exception.http.IdOfResourceNotFoundException;
-import com.athena.model.Copy;
+import com.athena.model.SimpleCopy;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @param <ID> the type parameter
  * @param <FK> the type parameter
  */
-interface CopyService<T extends Copy, FK extends Serializable> extends GenericCopyService<T> {
+interface CopyService<T extends SimpleCopy, FK extends Serializable> extends GenericCopyService<T> {
 
     /**
      * Gets copies.

@@ -4,7 +4,7 @@ import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.MixedCopyTypeException;
-import com.athena.model.Copy;
+import com.athena.model.AbstractCopy;
 import com.athena.service.ModelCRUDService;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * <p>
  * Basic Copy operation. Use for SimpleCopy
  */
-public interface GenericCopyService<T extends Copy> extends ModelCRUDService<T, Long> {
+public interface GenericCopyService<T extends AbstractCopy> extends ModelCRUDService<T, Long> {
     /**
      * Add
      */

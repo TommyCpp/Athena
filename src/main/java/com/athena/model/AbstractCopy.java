@@ -10,19 +10,19 @@ import java.util.Calendar;
  * Created by Tommy on 2017/6/9.
  */
 @MappedSuperclass
-abstract public class Copy extends CopyInfo {
+abstract public class AbstractCopy extends CopyInfo {
     protected Long id;
     protected Timestamp createdDate;
     protected Timestamp updatedDate;
 
-    public Copy() {
+    public AbstractCopy() {
         super();
         Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
         this.createdDate = timestamp;
         this.updatedDate = timestamp;
     }
 
-    public Copy(CopyInfo copyInfo) {
+    public AbstractCopy(CopyInfo copyInfo) {
         super(copyInfo.status);
         Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
         this.createdDate = timestamp;
@@ -67,12 +67,12 @@ abstract public class Copy extends CopyInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Copy copy = (Copy) o;
+        AbstractCopy abstractCopy = (AbstractCopy) o;
 
-        if (id.equals(copy.id)) return false;
-        if (status != null ? !status.equals(copy.status) : copy.status != null) return false;
-        if (createdDate != null ? !createdDate.equals(copy.createdDate) : copy.createdDate != null) return false;
-        if (updatedDate != null ? !updatedDate.equals(copy.updatedDate) : copy.updatedDate != null) return false;
+        if (id.equals(abstractCopy.id)) return false;
+        if (status != null ? !status.equals(abstractCopy.status) : abstractCopy.status != null) return false;
+        if (createdDate != null ? !createdDate.equals(abstractCopy.createdDate) : abstractCopy.createdDate != null) return false;
+        if (updatedDate != null ? !updatedDate.equals(abstractCopy.updatedDate) : abstractCopy.updatedDate != null) return false;
 
         return true;
     }

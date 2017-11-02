@@ -17,7 +17,7 @@ public interface Publication {
 
     void setPublisher(Publisher publisher);
 
-    List<? extends Copy> getCopies();
+    List<? extends SimpleCopy> getCopies();
 
     Double getPrice();
 
