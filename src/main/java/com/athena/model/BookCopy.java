@@ -1,14 +1,14 @@
 package com.athena.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by Tommy on 2017/8/29.
  */
 @Entity
-@Table(name = "copy")
-public class BookCopy extends Copy {
+@Table(name = "book_copy")
+@PrimaryKeyJoinColumn(name = "copy_id", referencedColumnName = "id")
+public class BookCopy extends SimpleCopy {
     private Book book;
 
     public BookCopy() {
@@ -16,7 +16,7 @@ public class BookCopy extends Copy {
         this.book = null;
     }
 
-    public BookCopy(Long id){
+    public BookCopy(Long id) {
         this();
         this.id = id;
     }
@@ -27,11 +27,7 @@ public class BookCopy extends Copy {
     }
 
     @ManyToOne
-    @JoinTable(name = "book_copy",
-            joinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id",nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "isbn", table = "book", referencedColumnName = "isbn",nullable = false)
-    )
-    @NotNull
+    @JoinColumn(name = "isbn", referencedColumnName = "isbn")
     public Book getBook() {
         return this.book;
     }

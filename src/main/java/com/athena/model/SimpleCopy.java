@@ -1,6 +1,9 @@
 package com.athena.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -12,7 +15,15 @@ import java.util.List;
  */
 @Entity
 @Table(name = "copy")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class SimpleCopy extends Copy {
+    public SimpleCopy() {
+    }
+
+    public SimpleCopy(CopyInfo copyInfo) {
+        super(copyInfo);
+    }
+  
     private List<Borrow> borrows;
 
     @OneToMany

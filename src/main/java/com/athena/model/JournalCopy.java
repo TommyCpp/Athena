@@ -1,14 +1,14 @@
 package com.athena.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by Tommy on 2017/8/30.
  */
 @Entity
-@Table(name = "copy")
-public class JournalCopy extends Copy {
+@Table(name = "journal_copy")
+@PrimaryKeyJoinColumn(name = "copy_id", referencedColumnName = "id")
+public class JournalCopy extends SimpleCopy {
     private Journal journal;
 
     public JournalCopy() {
@@ -16,18 +16,12 @@ public class JournalCopy extends Copy {
         this.journal = null;
     }
 
-    public JournalCopy(Long id) {
-        this.id = id;
-    }
-
     @ManyToOne
-    @JoinTable(name = "journal_copy",
-            joinColumns = @JoinColumn(name = "copy_id", table = "copy", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = {@JoinColumn(name = "issn", table = "journal", referencedColumnName = "issn", nullable = false),
-                    @JoinColumn(name = "year", table = "journal", referencedColumnName = "year", nullable = false),
-                    @JoinColumn(name = "issue", table = "journal", referencedColumnName = "issue", nullable = false)}
-    )
-    @NotNull
+    @JoinColumns({
+            @JoinColumn(name = "year", table = "journal_copy", referencedColumnName = "year"),
+            @JoinColumn(name = "issn", table = "journal_copy", referencedColumnName = "issn"),
+            @JoinColumn(name = "issue", table = "journal_copy", referencedColumnName = "issue")
+    })
     public Journal getJournal() {
         return journal;
     }

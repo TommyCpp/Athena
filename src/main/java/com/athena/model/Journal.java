@@ -200,15 +200,12 @@ public class Journal implements Publication {
         this.publisher = publisher;
     }
 
-    @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToMany
-    @JoinTable(name = "journal_copy",
-            joinColumns = {@JoinColumn(name = "issn", table = "journal", referencedColumnName = "issn"),
-                    @JoinColumn(name = "year", table = "journal", referencedColumnName = "year"),
-                    @JoinColumn(name = "issue", table = "journal", referencedColumnName = "issue")},
-            inverseJoinColumns = @JoinColumn(name = "copy_id", referencedColumnName = "id", table = "copy")
-
-    )
+    @JoinColumns({
+            @JoinColumn(name = "issn", referencedColumnName = "issn"),
+            @JoinColumn(name = "issue", referencedColumnName = "issue"),
+            @JoinColumn(name = "year", referencedColumnName = "year")
+    })
     public List<JournalCopy> getCopies() {
         return copies;
     }
