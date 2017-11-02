@@ -12,7 +12,7 @@ public class AudioCopy extends SimpleCopy {
     private Audio audio;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "isrc", table = "audio_copy", referencedColumnName = "isrc")
+    @JoinColumn(name = "isrc", referencedColumnName = "isrc")
     public Audio getAudio() {
         return audio;
     }

@@ -200,12 +200,7 @@ public class Journal implements Publication {
         this.publisher = publisher;
     }
 
-    @OneToMany
-    @JoinColumns({
-            @JoinColumn(name = "issn", referencedColumnName = "issn"),
-            @JoinColumn(name = "issue", referencedColumnName = "issue"),
-            @JoinColumn(name = "year", referencedColumnName = "year")
-    })
+    @OneToMany(mappedBy = "journal")
     public List<JournalCopy> getCopies() {
         return copies;
     }

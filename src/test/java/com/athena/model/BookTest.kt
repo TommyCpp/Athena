@@ -17,12 +17,13 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import java.util.*
+import javax.transaction.Transactional
 
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:book_copy.xml")
 open class BookTest {
     @Autowired
     private lateinit var bookRepository: BookRepository
@@ -89,7 +90,8 @@ open class BookTest {
     }
 
     @Test
-    fun testGetCopy() {
+    @Transactional
+    open fun testGetCopy() {
         val book = bookRepository.findOne(9787111125643L)
         Assert.assertNotEquals(0, book.copies.size)
     }

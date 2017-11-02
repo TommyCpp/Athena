@@ -298,7 +298,7 @@ public class Book implements Publication {
     }
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "book")
     @JsonIgnore
     public List<BookCopy> getCopies() {
         return copies;

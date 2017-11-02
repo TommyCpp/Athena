@@ -14,6 +14,7 @@ import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
+import javax.transaction.Transactional
 
 /**
  * Created by tommy on 2017/3/29.
@@ -29,14 +30,16 @@ open class PublisherTest {
     @Autowired private val bookRepository: BookRepository? = null
 
 
-    @Test fun testGetBooks() {
+    @Test
+    @Transactional
+    fun testGetBooks() {
         val publisher = publisherRepository!!.findOne("999")
         val books = bookRepository!!.getBooksByPublisher(publisher).toTypedArray()
         Assert.assertArrayEquals(books, publisher.books.toTypedArray())
     }
 
     @Test
-    fun testJsonSerialization() {
+    open fun testJsonSerialization() {
         val publisher = publisherRepository!!.findOne("999")
         System.out.println(ObjectMapper().writeValueAsString(publisher))
 

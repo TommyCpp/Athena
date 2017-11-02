@@ -64,7 +64,7 @@ open class CopyControllerTest {
         this.mvc!!.perform(MockMvcRequestBuilders.delete(this.url_prefix + "/copy/1")
                 .with(this.identity.authentication("ROLE_ADMIN"))
         )
-                .andExpect(status().isOk)
+                .andExpect(status().is2xxSuccessful)
                 .andDo(MockMvcResultHandlers.print())
 
         Assert.assertNull(this.simpleCopyRepository!!.findOne(1L))

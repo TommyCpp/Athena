@@ -18,10 +18,11 @@ public class SimpleCopy extends AbstractCopy {
     public SimpleCopy(CopyInfo copyInfo) {
         super(copyInfo);
     }
-  
+
     private List<Borrow> borrows;
 
     @OneToMany
+    @JoinColumn(name = "copy_id", referencedColumnName = "id")
     public List<Borrow> getBorrows() {
         return borrows;
     }

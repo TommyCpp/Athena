@@ -85,7 +85,7 @@ open class BookControllerTest {
 
         mvc!!.perform(get(this.url_prefix + "/books?title=elit").with(this.authentication()))
                 .andDo(print())
-                .andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"publishDate\":1474128000000,\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5,\"publisher\":{\"id\":\"922\",\"name\":\"Test Publisher\",\"location\":\"NewYork\"},\"translator\":[],\"author\":[\"Steffen Catcherside\"]}],\"totalElements\":1,\"totalPages\":1,\"last\":true,\"size\":20,\"number\":0,\"sort\":null,\"numberOfElements\":1,\"first\":true}"))
+                .andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"publishDate\":\"2016-09-18\",\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5,\"publisher\":{\"id\":\"922\",\"name\":\"Test Publisher\",\"location\":\"NewYork\"},\"author\":[\"Steffen Catcherside\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
 
     }
 
@@ -93,7 +93,7 @@ open class BookControllerTest {
     fun testBookSearchByFullTitle() {
         mvc!!.perform(get(this.url_prefix + "/books?title=consequat in consequat").with(this.authentication()))
                 .andDo(print())
-                .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":1468684800000,\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"publisher\":{\"id\":\"817\",\"name\":\"TestDn Publisher\",\"location\":\"NewYork\"},\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
+                .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"publisher\":{\"id\":\"817\",\"name\":\"TestDn Publisher\",\"location\":\"NewYork\"},\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
                 .andExpect(header().string("X-Total-Count", "1")).andExpect(header().string("Links", "<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"last\",<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"first\""))
         mvc!!.perform(get(this.url_prefix + "/books?title=consequat&match_all=true").with(this.authentication()))
                 .andExpect(header().string("X-Total-Count", "0"))
@@ -106,7 +106,7 @@ open class BookControllerTest {
                 .with(this.authentication()))
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":1468684800000,\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"publisher\":{\"id\":\"817\",\"name\":\"TestDn Publisher\",\"location\":\"NewYork\"},\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"totalPages\":1,\"last\":true,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
+                .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"publisher\":{\"id\":\"817\",\"name\":\"TestDn Publisher\",\"location\":\"NewYork\"},\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
     }
 
     @Test
@@ -115,7 +115,7 @@ open class BookControllerTest {
                 .with(this.authentication()))
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(content().json("{\"content\":[{\"isbn\":9783158101896,\"publishDate\":1478966400000,\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试作者书籍\",\"titlePinyin\":\"ce,shi,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"cszzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"publisher\":{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"},\"translator\":[],\"author\":[\"Aneig dlsa\",\"Bianfd sld\",\"Rdlf dls\"]},{\"isbn\":9783158101897,\"publishDate\":1478966400000,\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试多个作者书籍\",\"titlePinyin\":\"ce,shi,duo,ge,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"csdgzzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"publisher\":{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"},\"translator\":[],\"author\":[\"Aneig dlsa\",\"Rdlf dls\",\"Zlicn Tlidb\"]}],\"totalElements\":2,\"last\":true,\"totalPages\":1,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":2}"))
+                .andExpect(content().json("{\"content\":[{\"isbn\":9783158101896,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试作者书籍\",\"titlePinyin\":\"ce,shi,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"cszzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"publisher\":{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"},\"author\":[\"Aneig dlsa\",\"Bianfd sld\",\"Rdlf dls\"],\"translator\":[]},{\"isbn\":9783158101897,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试多个作者书籍\",\"titlePinyin\":\"ce,shi,duo,ge,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"csdgzzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"publisher\":{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"},\"author\":[\"Aneig dlsa\",\"Rdlf dls\",\"Zlicn Tlidb\"],\"translator\":[]}],\"totalElements\":2,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":2}"))
     }
 
     @Test
@@ -253,7 +253,7 @@ open class BookControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(content().json("{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"book\":{\"isbn\":9787111125643,\"publishDate\":1483632000000,\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}}"))
+                .andExpect(content().json("{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"borrows\":[],\"book\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}}"))
 
 
         //getByPublications copies
@@ -262,7 +262,7 @@ open class BookControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(content().json("[{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"book\":{\"isbn\":9787111125643,\"publishDate\":1483632000000,\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}},{\"status\":0,\"id\":2,\"createdDate\":null,\"updatedDate\":null,\"book\":{\"isbn\":9787111125643,\"publishDate\":1483632000000,\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}}]"))
+                .andExpect(content().json("[{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"borrows\":[],\"book\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}},{\"status\":0,\"id\":2,\"createdDate\":null,\"updatedDate\":null,\"borrows\":[],\"book\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}}]"))
     }
 
 
@@ -272,7 +272,7 @@ open class BookControllerTest {
                 .with(this.authentication("ROLE_ADMIN"))
         )
                 .andDo(print())
-                .andExpect(status().isOk)
+                .andExpect(status().is2xxSuccessful)
 
         Assert.assertEquals(0, this.bookCopyRepository!!.findByBook(this.bookRepository!!.findOne(9787111125643L)).size)
 

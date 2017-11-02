@@ -183,7 +183,7 @@ public class Audio implements Publication {
     }
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "audio")
     public List<AudioCopy> getCopies() {
         return copies;
     }
