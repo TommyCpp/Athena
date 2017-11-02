@@ -20,4 +20,22 @@ public class AudioCopy extends SimpleCopy {
     public void setAudio(Audio audio) {
         this.audio = audio;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        AudioCopy audioCopy = (AudioCopy) o;
+
+        return audio != null ? audio.equals(audioCopy.audio) : audioCopy.audio == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (audio != null ? audio.hashCode() : 0);
+        return result;
+    }
 }

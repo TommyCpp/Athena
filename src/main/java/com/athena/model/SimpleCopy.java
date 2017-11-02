@@ -14,4 +14,10 @@ import javax.persistence.Table;
 @Table(name = "copy")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class SimpleCopy extends Copy {
+    public SimpleCopy() {
+    }
+
+    public SimpleCopy(CopyInfo copyInfo) {
+        super(copyInfo);
+    }
 }
