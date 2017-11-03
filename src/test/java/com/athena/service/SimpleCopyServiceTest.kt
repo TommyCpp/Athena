@@ -1,5 +1,6 @@
 package com.athena.service
 
+import com.athena.exception.http.MixedCopyTypeException
 import com.athena.model.CopyStatus
 import com.athena.model.SimpleCopy
 import com.athena.repository.jpa.copy.BookCopyRepository
@@ -74,7 +75,7 @@ open class SimpleCopyServiceTest {
 
     }
 
-    @Test(expected = EmptyResultDataAccessException::class)
+    @Test(expected = MixedCopyTypeException::class)
     fun testDeleteCopiesException() {
 
         /**

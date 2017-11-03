@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import javax.transaction.Transactional
-import javax.validation.ConstraintViolationException
 
 /**
  * Created by Tommy on 2017/9/15.
@@ -63,23 +62,6 @@ open class AudioCopyServiceTest {
 
         Assert.assertEquals(CopyStatus.AVAILABLE, this.audioCopyRepository.findByIdAndAudioIsNotNull(8L).status)
 
-    }
-
-
-    /**
-     * Update BookCopy with AudioCopyService. Should be prevented
-     * */
-    @Test(expected = ConstraintViolationException::class)
-    fun testModifyOtherKindCopy() {
-        var book_copy = AudioCopy()
-        book_copy.id = 1L
-//        book_copy.audio = this.audioRepository.findOne("CNM010100300")
-        book_copy.status = CopyStatus.DAMAGED
-
-
-        this.audioCopyService.update(book_copy)
-
-        Assert.assertNotEquals(CopyStatus.DAMAGED, this.bookCopyRepository.findByIdAndBookIsNotNull(1L).status)
     }
 
 
