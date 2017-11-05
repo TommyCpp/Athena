@@ -27,6 +27,7 @@ create table audio_copy
 	primary key (copy_id, isrc),
 	constraint audio_copy_audio_isrc_fk
 	foreign key (isrc) references audio (isrc)
+		on update cascade on delete cascade
 )
 ;
 
@@ -82,6 +83,7 @@ create table borrow
 	copy_id bigint not null,
 	user_id bigint not null,
 	enable tinyint(1) default '1' not null comment 'Is the copy is being borrowed?',
+	type varchar(32) not null comment 'type of the copy',
 	created_date datetime null,
 	updated_date datetime null
 )
@@ -109,7 +111,7 @@ create table copy
 alter table audio_copy
 	add constraint audio_copy_copy_id_fk
 foreign key (copy_id) references copy (id)
-	on delete cascade
+	on update cascade on delete cascade
 ;
 
 alter table book_copy
