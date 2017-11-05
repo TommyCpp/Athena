@@ -18,6 +18,7 @@ public class Borrow {
     private Boolean enable;
     private Timestamp createdDate;
     private Timestamp updatedDate;
+    private String type;
     private User user;
     private SimpleCopy copy;
 
@@ -66,6 +67,17 @@ public class Borrow {
         this.updatedDate = updatedDate;
     }
 
+
+    @Basic
+    @Column(name = "type", nullable = false)
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,7 +89,9 @@ public class Borrow {
         if (enable != null ? !enable.equals(borrow.enable) : borrow.enable != null) return false;
         if (createdDate != null ? !createdDate.equals(borrow.createdDate) : borrow.createdDate != null) return false;
         if (updatedDate != null ? !updatedDate.equals(borrow.updatedDate) : borrow.updatedDate != null) return false;
-        return user != null ? user.equals(borrow.user) : borrow.user == null;
+        if (type != null ? !type.equals(borrow.type) : borrow.type != null) return false;
+        if (user != null ? !user.equals(borrow.user) : borrow.user != null) return false;
+        return copy != null ? copy.equals(borrow.copy) : borrow.copy == null;
     }
 
     @Override
@@ -86,7 +100,9 @@ public class Borrow {
         result = 31 * result + (enable != null ? enable.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (copy != null ? copy.hashCode() : 0);
         return result;
     }
 
@@ -109,4 +125,5 @@ public class Borrow {
     public void setCopy(SimpleCopy copy) {
         this.copy = copy;
     }
+
 }

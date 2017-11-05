@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "journal_copy")
 @PrimaryKeyJoinColumn(name = "copy_id", referencedColumnName = "id")
-public class JournalCopy extends SimpleCopy {
+public class JournalCopy extends SimpleCopy implements PublicationCopy{
     private Journal journal;
 
     public JournalCopy() {
@@ -46,5 +46,11 @@ public class JournalCopy extends SimpleCopy {
         int result = super.hashCode();
         result = 31 * result + (journal != null ? journal.hashCode() : 0);
         return result;
+    }
+
+    @Transient
+    @Override
+    public Publication getPublication() {
+        return this.getJournal();
     }
 }

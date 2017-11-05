@@ -5,8 +5,7 @@ import java.util.List;
 
 /**
  * Created by Tommy on 2017/9/2.
- * <p>
- * Delegation of Copy since that Copy has been annotated by @MappedSuperClass
+ *
  */
 @Entity
 @Table(name = "copy")

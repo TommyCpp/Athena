@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "audio_copy")
 @PrimaryKeyJoinColumn(name = "copy_id", referencedColumnName = "id")
-public class AudioCopy extends SimpleCopy {
+public class AudioCopy extends SimpleCopy implements PublicationCopy {
     private Audio audio;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -37,5 +37,11 @@ public class AudioCopy extends SimpleCopy {
         int result = super.hashCode();
         result = 31 * result + (audio != null ? audio.hashCode() : 0);
         return result;
+    }
+
+    @Transient
+    @Override
+    public Publication getPublication() {
+        return this.getAudio();
     }
 }
