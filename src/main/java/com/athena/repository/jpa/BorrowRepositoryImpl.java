@@ -33,7 +33,9 @@ public class BorrowRepositoryImpl implements BorrowRepositoryCustom {
             throw new NotCopyException(targetClass);
         }
         return ((PublicationCopy) result).getPublication();
-
-
     }
+
+
+
+
 }
