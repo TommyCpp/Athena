@@ -32,7 +32,7 @@ open class PublisherTest {
 
     @Test
     @Transactional
-    fun testGetBooks() {
+    open fun testGetBooks() {
         val publisher = publisherRepository!!.findOne("999")
         val books = bookRepository!!.getBooksByPublisher(publisher).toTypedArray()
         Assert.assertArrayEquals(books, publisher.books.toTypedArray())

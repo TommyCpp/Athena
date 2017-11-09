@@ -21,9 +21,11 @@ public class BorrowRepositoryImpl implements BorrowRepositoryCustom {
     public Publication getPublication(Borrow borrow) throws ClassNotFoundException, NotCopyException {
         Objects.requireNonNull(borrow);
 
-        Class targetClass = Class.forName(borrow.getType());
+        String packageName = SimpleCopy.class.getPackage().getName();
 
-        if (!targetClass.isInstance(SimpleCopy.class)) {
+        Class targetClass = Class.forName(packageName + "." + borrow.getType());
+
+        if (!SimpleCopy.class.isAssignableFrom(targetClass)) {
             //if the targetClass is not the child of SimpleCopy
             throw new NotCopyException(targetClass);
         }
@@ -34,8 +36,6 @@ public class BorrowRepositoryImpl implements BorrowRepositoryCustom {
         }
         return ((PublicationCopy) result).getPublication();
     }
-
-
 
 
 }

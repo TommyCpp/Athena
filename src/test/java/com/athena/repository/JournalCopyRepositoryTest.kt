@@ -1,4 +1,4 @@
-package com.athena.repository.util
+package com.athena.repository
 
 import com.athena.model.JournalPK
 import com.athena.repository.jpa.JournalRepository
