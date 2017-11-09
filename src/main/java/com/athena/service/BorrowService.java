@@ -5,10 +5,12 @@ import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.model.Borrow;
 import com.athena.repository.jpa.BorrowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Tommy on 2017/11/5.
  */
+@Service
 public class BorrowService implements ModelCRUDService<Borrow, String> {
 
     private BorrowRepository borrowRepository;
