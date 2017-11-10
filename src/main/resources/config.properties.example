@@ -14,3 +14,6 @@ web.url.prefix=/api/v1
 privilege.sequence=SUPERADMIN,ADMIN,READER
 
 copy.status.isDeletable=0,1
+
+# how many publication can user borrow
+borrow.publication.limit = 4
