@@ -25,6 +25,7 @@ public class Borrow {
     public Borrow() {
         this.id = UUID.randomUUID().toString();
         this.createdDate = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        this.enable = true;
     }
 
     @Id
@@ -124,6 +125,7 @@ public class Borrow {
 
     public void setCopy(SimpleCopy copy) {
         this.copy = copy;
+        this.setType(copy.getClass().getSimpleName());
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Created by tommy on 2017/3/22.
@@ -27,8 +28,13 @@ public class Account implements UserDetails {
         return user.getId();
     }
 
-    public void setId(Long id){
-        user.setId(id);}
+    public void setId(Long id) {
+        user.setId(id);
+    }
+
+    public User getUser() {
+        return Objects.requireNonNull(this.user);
+    }
 
     public String getUsername() {
         return user.getUsername();
