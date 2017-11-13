@@ -169,7 +169,8 @@ code | meaning
 ***400***|**BadRequest**
 4001 | Invalid Copy type
 4002 | Illegal entity attribute
-4003 | Illegal Borrow Request
+4003 | Illegal borrow request
+4004 | Illegal return request
 ***401*** | **Unauthorized**
 4010 | Unauthorized
 4011 | JWT token is expired

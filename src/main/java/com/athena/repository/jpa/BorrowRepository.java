@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Tommy on 2017/11/5.
@@ -14,5 +15,7 @@ import java.util.List;
 public interface BorrowRepository extends JpaRepository<Borrow, String>, BorrowRepositoryCustom {
 
     List<Borrow> findAllByUserAndEnableIsTrue(User user);
+
+    Optional<Borrow> findFirstByIdAndEnable(String id, Boolean status);
 
 }
