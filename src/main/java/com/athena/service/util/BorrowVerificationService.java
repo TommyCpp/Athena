@@ -29,7 +29,7 @@ public class BorrowVerificationService {
     private Integer publicationLimit;
 
     @Autowired
-    public BorrowVerificationService(BorrowRepository borrowRepository, SimpleCopyRepository simpleCopyRepository, @Value("borrow.publication.limit") Integer publicationLimit) {
+    public BorrowVerificationService(BorrowRepository borrowRepository, SimpleCopyRepository simpleCopyRepository, @Value("${borrow.publication.limit}") Integer publicationLimit) {
         this.simpleCopyRepository = simpleCopyRepository;
         this.borrowRepository = borrowRepository;
         this.publicationLimit = publicationLimit;
