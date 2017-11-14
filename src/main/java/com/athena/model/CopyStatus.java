@@ -10,4 +10,5 @@ public class CopyStatus {
     public static int CHECKED_OUT = 3;
     public static int RESERVED = 4;
     public static int DAMAGED = 5;
+    public static int WAIT_FOR_VERIFY = 6; // wait for admin to check if there is damage. Use when the reader return book by himself.
 }

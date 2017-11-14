@@ -69,7 +69,7 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
         this.borrowRepository.delete(borrow);
     }
 
-    public Borrow borrowBook(Account account, SimpleCopy simpleCopy) throws IllegalBorrowRequest {
+    public Borrow borrowCopy(Account account, SimpleCopy simpleCopy) throws IllegalBorrowRequest {
         Borrow borrow = new Borrow();
         borrow.setUser(account.getUser());
         borrow.setCopy(simpleCopy);
@@ -80,14 +80,44 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
         throw new IllegalBorrowRequest();
     }
 
-    public Borrow returnBook(Borrow borrow) throws IllegalReturnRequest {
+    public Borrow returnCopy(String id, Account account) throws IllegalReturnRequest {
+        return this.returnCopy(id, account, false);
+    }
+
+    @Transactional
+    public Borrow returnCopy(String id, Account account, Boolean isSelfService) throws IllegalReturnRequest {
+        //check if the account has the borrow
+        Borrow borrow = this.borrowRepository.findOne(id);
+        if (borrow == null) {
+            //if the borrow doesn't exist
+            throw new IllegalReturnRequest();
+        }
+        if (borrow.getUser() != account.getUser()) {
+            //if the user does not has the borrow
+            throw new IllegalReturnRequest();
+        }
+        return this.returnCopy(borrow, isSelfService);
+    }
+
+    private Borrow returnCopy(Borrow borrow, Boolean isSelfService) throws IllegalReturnRequest {
         Objects.requireNonNull(borrow);
         //check status
         if (borrowVerificationService.canReturn(borrow)) {
-            borrow.setEnable(false);
-            return this.borrowRepository.save(borrow);
+            return this.setReturnStatus(borrow, isSelfService);
         }
         throw new IllegalReturnRequest();
+    }
+
+    private Borrow setReturnStatus(Borrow borrow, boolean isSelfService) {
+        Objects.requireNonNull(borrow);
+        borrow.setEnable(false);
+        if (isSelfService) {
+            borrow.getCopy().setStatus(CopyStatus.WAIT_FOR_VERIFY);
+        } else {
+            borrow.getCopy().setStatus(CopyStatus.AVAILABLE);
+        }
+        borrow.setCopy(this.simpleCopyRepository.save(borrow.getCopy()));
+        return borrow;
     }
 
 }

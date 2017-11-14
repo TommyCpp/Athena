@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-//import javax.transaction.Transactional;
 
 /**
  * Created by Tommy on 2017/11/10.
@@ -61,6 +60,4 @@ public class BorrowVerificationService {
         Optional<Borrow> queriedBorrow = this.borrowRepository.findFirstByIdAndEnable(borrow.getId(), true);
         return queriedBorrow.isPresent();
     }
-
-
 }

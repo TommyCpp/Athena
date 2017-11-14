@@ -54,7 +54,7 @@ open class BorrowServiceTest {
             invocationOnMock.arguments[0]
         }
 
-        val borrow = this.borrowService.borrowBook(account, bookCopy)
+        val borrow = this.borrowService.borrowCopy(account, bookCopy)
 
         Assert.assertEquals(borrow.user, user)
 
