@@ -16,6 +16,7 @@ import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
+import java.util.*
 
 /**
  * Created by Tommy on 2017/11/14.
@@ -65,17 +66,17 @@ class BorrowVerificationServiceTest {
         `when`(borrow.enable).thenReturn(false)
         `when`(borrow.id).thenReturn("1")
 
+        val optional: Optional<Borrow> = Optional.ofNullable(null)
+        `when`(this.borrowRepository.findFirstByIdAndEnable(any(),eq(true))).thenReturn(optional)
+
         val result_1 = this.borrowVerificationService.canReturn(borrow)
         Assert.assertFalse(result_1)
 
-//        val optional: Optional<Borrow> = Optional.ofNullable(null)
-//
-//        `when`(this.borrowRepository.findFirstByIdAndEnable(any(), eq(true))).thenReturn(optional)
-//
-//        val result_2 = this.borrowVerificationService.canReturn(borrow)
-//
-//        verify(this.borrowRepository).findFirstByIdAndEnable(any(), eq(true))
-//        Assert.assertFalse(result_2)
+        `when`(borrow.enable).thenReturn(true)
+        val result_2 = this.borrowVerificationService.canReturn(borrow)
+
+        verify(this.borrowRepository).findFirstByIdAndEnable(any(), eq(true))
+        Assert.assertFalse(result_2)
 
     }
 }

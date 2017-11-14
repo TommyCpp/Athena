@@ -55,7 +55,7 @@ public class BorrowVerificationService {
     @Transactional(readOnly = true)
     public boolean canReturn(Borrow borrow) {
         Objects.requireNonNull(borrow);
-        if (borrow.getEnable()) {
+        if (!borrow.getEnable()) {
             return false;
         }
         Optional<Borrow> queriedBorrow = this.borrowRepository.findFirstByIdAndEnable(borrow.getId(), true);
