@@ -1,9 +1,8 @@
 package com.athena.service
 
-import com.athena.model.BookCopy
-import com.athena.model.Borrow
-import com.athena.model.User
+import com.athena.model.*
 import com.athena.repository.jpa.BorrowRepository
+import com.athena.repository.jpa.copy.SimpleCopyRepository
 import com.athena.security.model.Account
 import com.athena.service.util.BorrowVerificationService
 import org.junit.Assert
@@ -26,7 +25,10 @@ open class BorrowServiceTest {
     lateinit var borrowRepository: BorrowRepository
 
     @Mock
-    lateinit var borrowVerrificationService: BorrowVerificationService
+    lateinit var borrowVerificationService: BorrowVerificationService
+
+    @Mock
+    lateinit var simpleCopyRepository: SimpleCopyRepository
 
     @InjectMocks
     lateinit var borrowService: BorrowService
@@ -57,6 +59,52 @@ open class BorrowServiceTest {
         val borrow = this.borrowService.borrowCopy(account, bookCopy)
 
         Assert.assertEquals(borrow.user, user)
+
+    }
+
+    @Test
+    fun testReturnCopyByAdmin_ShouldReturnBorrowWithStatusIsAvailable() {
+        `when`(this.borrowVerificationService.canReturn(any(Borrow::class.java))).thenReturn(true)
+        val user = spy(User::class.java)
+        val borrow = spy(Borrow::class.java)
+        val account = spy(Account::class.java)
+        val copy = spy(SimpleCopy::class.java)
+        borrow.copy = copy
+        `when`(copy.status).thenReturn(CopyStatus.CHECKED_OUT)
+        `when`(account.user).thenReturn(user)
+        borrow.user = user
+        borrow.enable = true
+        `when`(this.simpleCopyRepository.save(any(SimpleCopy::class.java))).thenReturn(copy)
+        `when`(this.borrowRepository.findOne(any())).thenReturn(borrow)
+
+        this.borrowService.returnCopy(borrow.id, account)
+
+
+        verify(copy).status = CopyStatus.AVAILABLE
+        verify(borrow).enable = false
+    }
+
+    @Test
+    fun testReturnCopyBySelf_ShouldReturnBorrowWithStatusIsWaitForVerify() {
+        `when`(this.borrowVerificationService.canReturn(any(Borrow::class.java))).thenReturn(true)
+        val user = spy(User::class.java)
+        val borrow = spy(Borrow::class.java)
+        val account = spy(Account::class.java)
+        val copy = spy(SimpleCopy::class.java)
+        borrow.copy = copy
+        `when`(copy.status).thenReturn(CopyStatus.CHECKED_OUT)
+        `when`(account.user).thenReturn(user)
+        borrow.user = user
+        borrow.enable = true
+        `when`(this.simpleCopyRepository.save(any(SimpleCopy::class.java))).thenReturn(copy)
+        `when`(this.borrowRepository.findOne(any())).thenReturn(borrow)
+
+        this.borrowService.returnCopy(borrow.id, account, true)
+
+        verify(copy).status = CopyStatus.WAIT_FOR_VERIFY
+        verify(borrow).enable = false
+        verify(copy, never()).status = CopyStatus.AVAILABLE
+
 
     }
 }
