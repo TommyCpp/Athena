@@ -3,6 +3,7 @@ package com.athena.service.copy;
 import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
+import com.athena.model.CopyStatus;
 import com.athena.model.SimpleCopy;
 import com.athena.repository.jpa.copy.SimpleCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,15 @@ public class SimpleCopyService implements GenericCopyService<SimpleCopy> {
             throw new IllegalEntityAttributeException();
         }
 
+    }
+
+    public SimpleCopy verifyReturnedCopy(SimpleCopy simpleCopy, boolean isDamaged) {
+        if (isDamaged) {
+            simpleCopy.setStatus(CopyStatus.DAMAGED);
+            //todo: DamageHandler
+        } else {
+            simpleCopy.setStatus(CopyStatus.AVAILABLE);
+        }
+        return this.simpleCopyRepository.save(simpleCopy);
     }
 }

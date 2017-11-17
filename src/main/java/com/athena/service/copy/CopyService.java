@@ -47,7 +47,6 @@ interface CopyService<T extends SimpleCopy, FK extends Serializable> extends Gen
      */
     default List<T> filterCopy(FK fk, Predicate<? super T> predicate) throws IdOfResourceNotFoundException {
         return this.getCopies(fk).stream().filter(predicate).collect(Collectors.toList());
-        //todo: test
     }
 
     /**

@@ -14,6 +14,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.EmptyResultDataAccessException
@@ -22,7 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import javax.transaction.Transactional
-
 
 /**
  * Created by Tommy on 2017/9/2.
@@ -98,6 +98,19 @@ open class SimpleCopyServiceTest {
         this.simpleCopyService!!.update(copyList)
 
         Assert.assertEquals(CopyStatus.BOOKED, this.simpleCopyRepository!!.findOne(6L).status)
+    }
+
+    @Test
+    fun testVerifyReturnedCopy_ShouldSetCopyStatusToDAMAGED() {
+        val simpleCopyRepository = mock(SimpleCopyRepository::class.java)
+        val simpleCopyService = SimpleCopyService(simpleCopyRepository)
+        val simpleCopy = mock(SimpleCopy::class.java)
+        `when`(simpleCopyRepository.save(any(SimpleCopy::class.java))).then { invocationOnMock -> invocationOnMock.getArgumentAt(0, SimpleCopy::class.java) }
+
+        simpleCopyService.verifyReturnedCopy(simpleCopy, true)
+
+        verify(simpleCopy).status = CopyStatus.DAMAGED
+
     }
 
 

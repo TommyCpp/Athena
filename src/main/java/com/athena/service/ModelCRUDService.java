@@ -26,15 +26,12 @@ public interface ModelCRUDService<T, K extends Serializable> {
 
     T get(K k) throws IdOfResourceNotFoundException, InvalidCopyTypeException;
 
-    default Iterable<T> get(Iterable<K> pks) {
-        return StreamSupport.stream(pks.spliterator(), false).map(k -> {
-            try {
-                return this.get(k);
-            } catch (IdOfResourceNotFoundException | InvalidCopyTypeException e) {
-                e.printStackTrace();//todo: error handle
-            }
-            return null;
-        }).filter(Objects::nonNull).collect(Collectors.toSet());
+    default Iterable<T> get(Iterable<K> pks) throws InvalidCopyTypeException, IdOfResourceNotFoundException {
+        List<T> result = new ArrayList<>();
+        for (K pk : pks) {
+            result.add(this.get(pk));
+        }
+        return result.stream().filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
     T update(T t) throws IdOfResourceNotFoundException, IllegalEntityAttributeException;

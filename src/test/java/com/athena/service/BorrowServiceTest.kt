@@ -104,7 +104,5 @@ open class BorrowServiceTest {
         verify(copy).status = CopyStatus.WAIT_FOR_VERIFY
         verify(borrow).enable = false
         verify(copy, never()).status = CopyStatus.AVAILABLE
-
-
     }
 }
