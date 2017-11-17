@@ -69,12 +69,12 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
         this.borrowRepository.delete(borrow);
     }
 
-    public Borrow borrowCopy(Account account, SimpleCopy simpleCopy) throws IllegalBorrowRequest {
+    public Borrow borrowCopy(Account account, SimpleCopy copy) throws IllegalBorrowRequest {
         Borrow borrow = new Borrow();
         borrow.setUser(account.getUser());
-        borrow.setCopy(simpleCopy);
+        borrow.setCopy(copy);
 
-        if (borrowVerificationService.userCanBorrow(account) && borrowVerificationService.copyCanBorrow(simpleCopy)) {
+        if (borrowVerificationService.userCanBorrow(account) && borrowVerificationService.copyCanBorrow(copy)) {
             return this.add(borrow);
         }
         throw new IllegalBorrowRequest();

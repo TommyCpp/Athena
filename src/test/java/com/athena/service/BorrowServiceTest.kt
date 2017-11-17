@@ -51,14 +51,23 @@ open class BorrowServiceTest {
         val account: Account = mock(Account::class.java)
         val user: User = mock(User::class.java)
         val bookCopy: BookCopy = spy(BookCopy::class.java)
+        Mockito.`when`(borrowVerificationService.copyCanBorrow(any())).thenReturn(true)
+        Mockito.`when`(borrowVerificationService.userCanBorrow(any())).thenReturn(true)
+        Mockito.`when`(simpleCopyRepository.save(any(SimpleCopy::class.java))).then { invocationOnMock ->
+            invocationOnMock.arguments[0]
+        }
         Mockito.`when`(account.user).thenReturn(user)
         Mockito.`when`(this.borrowRepository.save(Matchers.any(Borrow::class.java))).thenAnswer { invocationOnMock ->
             invocationOnMock.arguments[0]
         }
 
-        val borrow = this.borrowService.borrowCopy(account, bookCopy)
+        val borrow_1 = this.borrowService.borrowCopy(account, bookCopy)
 
-        Assert.assertEquals(borrow.user, user)
+        Assert.assertEquals(user, borrow_1.user)
+
+        val realBookCopy = BookCopy()
+        val borrow_2 = this.borrowService.borrowCopy(account, realBookCopy)
+        Assert.assertEquals("BookCopy", borrow_2.type)
 
     }
 
