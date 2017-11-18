@@ -3,12 +3,15 @@ package com.athena.service
 import com.athena.exception.http.MixedCopyTypeException
 import com.athena.model.CopyStatus
 import com.athena.model.SimpleCopy
+import com.athena.model.User
 import com.athena.repository.jpa.copy.BookCopyRepository
 import com.athena.repository.jpa.copy.JournalCopyRepository
 import com.athena.repository.jpa.copy.SimpleCopyRepository
+import com.athena.security.model.Account
 import com.athena.service.copy.BookCopyService
 import com.athena.service.copy.JournalCopyService
 import com.athena.service.copy.SimpleCopyService
+import com.athena.util.PublicationDamagedHandler
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -103,11 +106,13 @@ open class SimpleCopyServiceTest {
     @Test
     fun testVerifyReturnedCopy_ShouldSetCopyStatusToDAMAGED() {
         val simpleCopyRepository = mock(SimpleCopyRepository::class.java)
-        val simpleCopyService = SimpleCopyService(simpleCopyRepository)
+        val simpleCopyService = SimpleCopyService(simpleCopyRepository, mock(PublicationDamagedHandler::class.java))
+        val account = mock(Account::class.java)
+        `when`(account.user).thenReturn(User())
         val simpleCopy = mock(SimpleCopy::class.java)
         `when`(simpleCopyRepository.save(any(SimpleCopy::class.java))).then { invocationOnMock -> invocationOnMock.getArgumentAt(0, SimpleCopy::class.java) }
 
-        simpleCopyService.verifyReturnedCopy(simpleCopy, true)
+        simpleCopyService.verifyReturnedCopy(account, simpleCopy, true)
 
         verify(simpleCopy).status = CopyStatus.DAMAGED
 

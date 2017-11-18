@@ -6,6 +6,8 @@ import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.model.CopyStatus;
 import com.athena.model.SimpleCopy;
 import com.athena.repository.jpa.copy.SimpleCopyRepository;
+import com.athena.security.model.Account;
+import com.athena.util.PublicationDamagedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,12 @@ import java.util.List;
 @Service
 public class SimpleCopyService implements GenericCopyService<SimpleCopy> {
     private final SimpleCopyRepository simpleCopyRepository;
+    private PublicationDamagedHandler publicationDamagedHandler;
 
     @Autowired
-    public SimpleCopyService(SimpleCopyRepository simpleCopyRepository) {
+    public SimpleCopyService(SimpleCopyRepository simpleCopyRepository, PublicationDamagedHandler publicationDamagedHandler) {
         this.simpleCopyRepository = simpleCopyRepository;
+        this.publicationDamagedHandler = publicationDamagedHandler;
     }
 
 
@@ -80,10 +84,10 @@ public class SimpleCopyService implements GenericCopyService<SimpleCopy> {
 
     }
 
-    public SimpleCopy verifyReturnedCopy(SimpleCopy simpleCopy, boolean isDamaged) {
+    public SimpleCopy verifyReturnedCopy(Account account, SimpleCopy simpleCopy, boolean isDamaged) {
         if (isDamaged) {
             simpleCopy.setStatus(CopyStatus.DAMAGED);
-            //todo: DamageHandler
+            publicationDamagedHandler.handleDamage(account,simpleCopy);
         } else {
             simpleCopy.setStatus(CopyStatus.AVAILABLE);
         }
