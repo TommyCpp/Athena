@@ -1,4 +1,4 @@
-package com.athena.annotation;
+package com.athena.util.annotation;
 
 import org.springframework.security.test.context.support.WithSecurityContext;
 

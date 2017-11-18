@@ -1,4 +1,4 @@
-package com.athena.annotation;
+package com.athena.util.annotation;
 
 import com.athena.model.User;
 import com.athena.security.model.Account;

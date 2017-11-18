@@ -1,5 +1,6 @@
 package com.athena.service;
 
+import com.athena.annotation.ArgumentNotNull;
 import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalBorrowRequest;
 import com.athena.exception.http.IllegalReturnRequest;
@@ -14,8 +15,6 @@ import com.athena.service.util.BorrowVerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 /**
  * Created by Tommy on 2017/11/5.
@@ -65,7 +64,6 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
 
     @Override
     public void delete(Borrow borrow) throws IdOfResourceNotFoundException, ResourceNotDeletable {
-        Objects.requireNonNull(borrow);
         this.borrowRepository.delete(borrow);
     }
 
@@ -85,6 +83,7 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
     }
 
     @Transactional
+    @ArgumentNotNull
     public Borrow returnCopy(String id, Account account, Boolean isSelfService) throws IllegalReturnRequest {
         //check if the account has the borrow
         Borrow borrow = this.borrowRepository.findOne(id);
@@ -100,7 +99,6 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
     }
 
     private Borrow returnCopy(Borrow borrow, Boolean isSelfService) throws IllegalReturnRequest {
-        Objects.requireNonNull(borrow);
         //check status
         if (borrowVerificationService.canReturn(borrow)) {
             return this.setReturnStatus(borrow, isSelfService);
@@ -109,7 +107,6 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
     }
 
     private Borrow setReturnStatus(Borrow borrow, boolean isSelfService) {
-        Objects.requireNonNull(borrow);
         borrow.setEnable(false);
         if (isSelfService) {
             borrow.getCopy().setStatus(CopyStatus.WAIT_FOR_VERIFY);
