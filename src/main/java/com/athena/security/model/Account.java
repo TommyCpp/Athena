@@ -93,4 +93,10 @@ public class Account implements UserDetails {
     public int hashCode() {
         return user != null ? user.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        String authentiries = this.getAuthorities().toString();
+        return "[" + authentiries + "]" + this.user.getUsername();
+    }
 }

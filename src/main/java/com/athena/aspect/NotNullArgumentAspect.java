@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class HandleNullArgument {
+public class NotNullArgumentAspect {
 
 
     @Around("@annotation(com.athena.annotation.ArgumentNotNull)")

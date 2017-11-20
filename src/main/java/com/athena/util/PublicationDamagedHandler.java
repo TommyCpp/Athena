@@ -1,5 +1,7 @@
 package com.athena.util;
 
+import com.athena.model.Borrow;
+import com.athena.model.CopyStatus;
 import com.athena.model.SimpleCopy;
 import com.athena.repository.jpa.BorrowRepository;
 import com.athena.security.model.Account;
@@ -7,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Calendar;
 
 /**
  * Created by Tommy on 2017/11/18.
@@ -22,6 +26,14 @@ public class PublicationDamagedHandler {
     }
 
     public void handleDamage(Account handler, SimpleCopy publicationCopy) {
-        //todo:find last borrow
+        Borrow lastBorrow = this.borrowRepository.findFirstByCopyOrderByUpdatedDate(publicationCopy);
+        if (lastBorrow == null) {
+            //if no borrow correspond to publicationCopy
+            publicationCopy.setStatus(CopyStatus.AVAILABLE);
+            logger.error("{}----{}---- Copy has not been borrowed", Calendar.getInstance().toString(),handler.toString());
+        }
+        else{
+            //todo:send email
+        }
     }
 }
