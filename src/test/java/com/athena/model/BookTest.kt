@@ -96,5 +96,14 @@ open class BookTest {
         Assert.assertNotEquals(0, book.copies.size)
     }
 
+    @Test
+    fun testListener() {
+        var book = bookRepository.findOne(9785226422377L)
+        book.language = "Chinese"
+        book.title = "测试书籍"
+        book = bookRepository.saveAndFlush(book)
+        Assert.assertEquals("ce,shi,shu,ji", book.titlePinyin)
+    }
+
 
 }

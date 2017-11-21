@@ -13,6 +13,12 @@ public interface Publication {
 
     String getTitlePinyin();
 
+    void setTitlePinyin(String pinyin);
+
+    String getTitleShortPinyin();
+
+    void setTitleShortPinyin(String pinyin);
+
     Publisher getPublisher();
 
     void setPublisher(Publisher publisher);
