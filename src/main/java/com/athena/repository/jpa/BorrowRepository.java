@@ -19,6 +19,6 @@ public interface BorrowRepository extends JpaRepository<Borrow, String>, BorrowR
 
     Optional<Borrow> findFirstByIdAndEnable(String id, Boolean status);
 
-    Borrow findFirstByCopyOrderByUpdatedDate(SimpleCopy simpleCopy);//todo:test
+    Borrow findFirstByCopyAndEnableIsFalseOrderByUpdatedDateDesc(SimpleCopy simpleCopy);
 
 }

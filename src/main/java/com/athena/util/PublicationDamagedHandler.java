@@ -26,7 +26,7 @@ public class PublicationDamagedHandler {
     }
 
     public void handleDamage(Account handler, SimpleCopy publicationCopy) {
-        Borrow lastBorrow = this.borrowRepository.findFirstByCopyOrderByUpdatedDate(publicationCopy);
+        Borrow lastBorrow = this.borrowRepository.findFirstByCopyAndEnableIsFalseOrderByUpdatedDateDesc(publicationCopy);
         if (lastBorrow == null) {
             //if no borrow correspond to publicationCopy
             publicationCopy.setStatus(CopyStatus.AVAILABLE);

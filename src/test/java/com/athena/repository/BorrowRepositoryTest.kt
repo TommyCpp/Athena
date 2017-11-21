@@ -1,5 +1,6 @@
 package com.athena.repository
 
+import com.athena.model.AudioCopy
 import com.athena.repository.jpa.BorrowRepository
 import com.athena.repository.jpa.PublisherRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
@@ -36,6 +37,14 @@ open class BorrowRepositoryTest {
         val publisher = this.publisherRepository.findOne("127")
 
         Assert.assertEquals(publisher, this.borrowRepository.getPublication(borrow).publisher)
+    }
+
+    @Test
+    fun testFindFirstByCopyAndEnableIsFalseOrderByUpdatedDateDesc() {
+        val copy = AudioCopy()
+        copy.id = 11
+        val borrow = this.borrowRepository.findFirstByCopyAndEnableIsFalseOrderByUpdatedDateDesc(copy)
+        Assert.assertEquals("825a790d-52a1-4231-9781-b1e7713dae1d", borrow.id)
     }
 
 }
