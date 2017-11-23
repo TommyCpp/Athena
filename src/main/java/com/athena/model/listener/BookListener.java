@@ -9,7 +9,7 @@ import javax.persistence.PreUpdate;
 /**
  * Created by Tommy on 2017/9/28.
  */
-public class BookListener implements PublicationListener<Book> {
+public class BookListener implements PublicationListener {
 
     @PrePersist
     @PreUpdate

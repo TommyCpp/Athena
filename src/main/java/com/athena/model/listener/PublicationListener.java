@@ -8,9 +8,7 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 /**
  * Created by Tommy on 2017/11/22.
  */
-public interface PublicationListener<T extends Publication>{
-
-    void setPinyin(T t) throws PinyinException ;
+public interface PublicationListener{
 
     default void setPublicationPinyin(Publication publication) throws PinyinException {
         if (publication.getLanguage().equals("Chinese")) {
