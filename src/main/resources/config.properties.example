@@ -16,4 +16,7 @@ privilege.sequence=SUPERADMIN,ADMIN,READER
 copy.status.isDeletable=0,1
 
 # how many publication can user borrow
-borrow.publication.limit = 4
+borrow.publication.limit=4
+
+# how many messenger to set
+message.messenger.count=4
