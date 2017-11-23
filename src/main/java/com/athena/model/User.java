@@ -3,6 +3,7 @@ package com.athena.model;
 import com.athena.model.listener.UserListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
         UserListener.class
 })
 @Table(name="user")
-public class User{
+public class User implements Serializable{
     private Long id;
     private String username;
     private String password;

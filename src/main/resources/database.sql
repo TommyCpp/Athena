@@ -39,6 +39,19 @@ create index audio_copy_audio_isrc_fk
 	on audio_copy (isrc)
 ;
 
+create table block
+(
+	user_id bigint not null
+		primary key,
+	handler_id bigint not null,
+	created_at datetime null
+)
+;
+
+create index block_user_handler_id_id_fk
+	on block (handler_id)
+;
+
 create table book
 (
 	isbn bigint not null
@@ -210,6 +223,18 @@ create table user
 	phone_number varchar(11) null,
 	password varchar(64) not null
 )
+;
+
+alter table block
+	add constraint block_user_user_id_id_fk
+foreign key (user_id) references user (id)
+	on update cascade on delete cascade
+;
+
+alter table block
+	add constraint block_user_handler_id_id_fk
+foreign key (handler_id) references user (id)
+	on update cascade
 ;
 
 alter table borrow
