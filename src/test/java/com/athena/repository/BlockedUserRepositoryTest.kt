@@ -1,6 +1,6 @@
 package com.athena.repository
 
-import com.athena.repository.jpa.BlockRepository
+import com.athena.repository.jpa.BlockedUserRepository
 import com.athena.repository.jpa.UserRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -22,16 +22,16 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 @SpringBootTest
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:blocks.xml", "classpath:users.xml")
-class BlockRepositoryTest {
+class BlockedUserRepositoryTest {
     @Autowired
-    lateinit var blockRepository: BlockRepository
+    lateinit var blockedUserRepository: BlockedUserRepository
     @Autowired
     lateinit var userRepository: UserRepository
 
     @Test
     fun testFindOne() {
         val user = this.userRepository.findOne(11L)
-        val result = this.blockRepository.findOne(user)
+        val result = this.blockedUserRepository.findOne(user.id)
         Assert.assertEquals(10, result.handler.id)
 
     }

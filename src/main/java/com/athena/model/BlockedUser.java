@@ -1,7 +1,6 @@
 package com.athena.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -9,10 +8,10 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "block")
-public class Block implements Serializable{
+@PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
+public class BlockedUser extends User {
     private Timestamp createdAt;
     private User handler;
-    private User user;
 
     @Basic
     @Column(name = "created_at", nullable = true)
@@ -28,20 +27,23 @@ public class Block implements Serializable{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
-        Block block = (Block) o;
+        BlockedUser that = (BlockedUser) o;
 
-        if (createdAt != null ? !createdAt.equals(block.createdAt) : block.createdAt != null) return false;
-
-        return true;
+        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
+        return handler != null ? handler.equals(that.handler) : that.handler == null;
     }
 
     @Override
     public int hashCode() {
-        return createdAt != null ? createdAt.hashCode() : 0;
+        int result = super.hashCode();
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (handler != null ? handler.hashCode() : 0);
+        return result;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "handler_id", referencedColumnName = "id", nullable = false)
     public User getHandler() {
         return handler;
@@ -49,16 +51,5 @@ public class Block implements Serializable{
 
     public void setHandler(User handler) {
         this.handler = handler;
-    }
-
-    @Id
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

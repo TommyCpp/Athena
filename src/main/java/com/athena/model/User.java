@@ -15,6 +15,7 @@ import java.util.List;
         UserListener.class
 })
 @Table(name="user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable{
     private Long id;
     private String username;
