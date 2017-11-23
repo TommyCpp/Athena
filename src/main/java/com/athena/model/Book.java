@@ -14,9 +14,7 @@ import java.util.List;
  * Created by tommy on 2017/3/28.
  */
 @Entity
-@EntityListeners({
-        BookListener.class
-})
+@EntityListeners(BookListener.class)
 @Table(name = "book")
 public class Book implements Publication {
     private Long isbn;

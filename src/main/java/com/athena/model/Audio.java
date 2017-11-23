@@ -1,5 +1,7 @@
 package com.athena.model;
 
+import com.athena.model.listener.AudioListener;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.List;
  * Created by Tommy on 2017/9/10.
  */
 @Entity
+@EntityListeners(AudioListener.class)
 @Table(name = "audio")
 public class Audio implements Publication {
     private String isrc;

@@ -10,7 +10,7 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
  */
 public interface PublicationListener{
 
-    default void setPinyin(Publication publication) throws PinyinException {
+    default void setPublicationPinyin(Publication publication) throws PinyinException {
         if (publication.getLanguage().equals("Chinese")) {
             // if the publication is written in chinese then must set pinyin
             publication.setTitlePinyin(PinyinHelper.convertToPinyinString(publication.getTitle(), ",", PinyinFormat.WITHOUT_TONE));

@@ -1,5 +1,7 @@
 package com.athena.model;
 
+import com.athena.model.listener.JournalListener;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "journal")
+@EntityListeners(JournalListener.class)
 @IdClass(JournalPK.class)
 public class Journal implements Publication {
     private String issn;
