@@ -26,6 +26,9 @@ public class User implements Serializable{
     private String phoneNumber;
     private List<Borrow> borrows;
 
+    public User(){
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

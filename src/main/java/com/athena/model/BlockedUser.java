@@ -1,5 +1,7 @@
 package com.athena.model;
 
+import com.athena.annotation.CopyPropertiesFromParent;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -12,6 +14,14 @@ import java.sql.Timestamp;
 public class BlockedUser extends User {
     private Timestamp createdAt;
     private User handler;
+
+    public BlockedUser() {
+        super();
+    }
+
+    @CopyPropertiesFromParent
+    public BlockedUser(User user) {
+    }
 
     @Basic
     @Column(name = "created_at", nullable = true)
