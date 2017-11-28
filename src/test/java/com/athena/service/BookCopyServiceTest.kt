@@ -1,8 +1,8 @@
 package com.athena.service
 
-import com.athena.exception.http.IdOfResourceNotFoundException
 import com.athena.exception.http.IsbnAndCopyIdMismatchException
 import com.athena.exception.http.MixedCopyTypeException
+import com.athena.exception.http.ResourceNotFoundByIdException
 import com.athena.model.Book
 import com.athena.model.BookCopy
 import com.athena.model.CopyStatus
@@ -63,7 +63,7 @@ open class BookCopyServiceTest {
     }
 
 
-    @Test(expected = IdOfResourceNotFoundException::class)
+    @Test(expected = ResourceNotFoundByIdException::class)
     fun testDeleteByIsbnException() {
         this.bookCopyService.deleteCopies(111111111111111111L)
     }

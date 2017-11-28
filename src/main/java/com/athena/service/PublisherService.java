@@ -1,7 +1,7 @@
 package com.athena.service;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.ResourceNotDeletable;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.exception.internal.EntityAttributeNotFoundException;
 import com.athena.model.Publication;
 import com.athena.model.Publisher;
@@ -61,19 +61,19 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
      *
      * @param id the id
      * @return the publisher
-     * @throws IdOfResourceNotFoundException the id of resource not found exception
+     * @throws ResourceNotFoundByIdException the id of resource not found exception
      */
-    public Publisher get(String id) throws IdOfResourceNotFoundException {
+    public Publisher get(String id) throws ResourceNotFoundByIdException {
         Publisher publisher = this.repository.findOne(id);
         if (publisher == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         } else {
             return publisher;
         }
     }
 
     @Override
-    public void delete(Publisher publisher) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+    public void delete(Publisher publisher) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         Objects.requireNonNull(publisher);
         this.delete(publisher.getId());
     }
@@ -82,15 +82,15 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
      * Delete.
      *
      * @param id the id
-     * @throws IdOfResourceNotFoundException the id of resource not found exception
+     * @throws ResourceNotFoundByIdException the id of resource not found exception
      * @throws ResourceNotDeletable          the resource not deletable
      */
     @Override
     @Transactional
-    public void delete(String id) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+    public void delete(String id) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         Publisher publisher = this.repository.findOne(id);
         if (publisher == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         //check if the book is clear and delete
         this.bookService.delete(publisher.getBooks());
@@ -102,12 +102,12 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
      * Update.
      *
      * @param afterChange the after change
-     * @throws IdOfResourceNotFoundException the id of resource not found exception
+     * @throws ResourceNotFoundByIdException the id of resource not found exception
      */
-    public Publisher update(Publisher afterChange) throws IdOfResourceNotFoundException {
+    public Publisher update(Publisher afterChange) throws ResourceNotFoundByIdException {
         Publisher beforeChange = this.repository.findOne(afterChange.getId());
         if (beforeChange == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         } else {
             return this.repository.saveAndFlush(afterChange);
         }
@@ -118,13 +118,13 @@ public class PublisherService implements ModelCRUDService<Publisher, String> {
      *
      * @param id           the id
      * @param attributeKVs the attribute k vs
-     * @throws IdOfResourceNotFoundException    the id of resource not found exception
+     * @throws ResourceNotFoundByIdException    the id of resource not found exception
      * @throws EntityAttributeNotFoundException the entity attribute not found exception
      */
-    public Publisher update(String id, Iterable<Map.Entry<String, Object>> attributeKVs) throws IdOfResourceNotFoundException, EntityAttributeNotFoundException {
+    public Publisher update(String id, Iterable<Map.Entry<String, Object>> attributeKVs) throws ResourceNotFoundByIdException, EntityAttributeNotFoundException {
         Publisher target = this.repository.findOne(id);
         if (target == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         } else {
             List<Field> fields = Arrays.asList(Publisher.class.getDeclaredFields());
             List<Method> methods = Arrays.asList(Publisher.class.getMethods());

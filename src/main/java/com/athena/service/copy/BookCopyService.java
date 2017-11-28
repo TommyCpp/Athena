@@ -36,10 +36,10 @@ public class BookCopyService implements CopyService<BookCopy, Long> {
     }
 
     @Override
-    public BookCopy get(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+    public BookCopy get(Long id) throws ResourceNotFoundByIdException, InvalidCopyTypeException {
         BookCopy bookCopy = this.bookCopyRepository.findByIdAndBookIsNotNull(id);
         if (bookCopy == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return bookCopy;
     }
@@ -49,13 +49,13 @@ public class BookCopyService implements CopyService<BookCopy, Long> {
      *
      * @param isbn the isbn
      * @return the copies
-     * @throws IdOfResourceNotFoundException the id of resource not found exception
+     * @throws ResourceNotFoundByIdException the id of resource not found exception
      */
-    public List<BookCopy> getCopies(Long isbn) throws IdOfResourceNotFoundException {
+    public List<BookCopy> getCopies(Long isbn) throws ResourceNotFoundByIdException {
         //get Book
         Book book = this.bookRepository.findOne(isbn);
         if (book == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
 
         //get Copies
@@ -111,13 +111,13 @@ public class BookCopyService implements CopyService<BookCopy, Long> {
      * Delete copies.
      *
      * @param isbn the isbn
-     * @throws IdOfResourceNotFoundException the id of resource not found exception
+     * @throws ResourceNotFoundByIdException the id of resource not found exception
      */
     @Transactional
-    public void deleteCopies(Long isbn) throws IdOfResourceNotFoundException {
+    public void deleteCopies(Long isbn) throws ResourceNotFoundByIdException {
         Book book = this.bookRepository.findOne(isbn);
         if (book == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
 
         List<BookCopy> copies = this.bookCopyRepository.findByBook(book);

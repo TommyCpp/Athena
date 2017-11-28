@@ -1,8 +1,8 @@
 package com.athena.service.copy;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.MixedCopyTypeException;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
 import com.athena.model.JournalPK;
@@ -39,10 +39,10 @@ public class JournalCopyService implements CopyService<JournalCopy, JournalPK> {
     }
 
     @Override
-    public JournalCopy get(Long id) throws IdOfResourceNotFoundException {
+    public JournalCopy get(Long id) throws ResourceNotFoundByIdException {
         JournalCopy copy = this.journalCopyRepository.findByIdAndJournalIsNotNull(id);
         if (copy == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return copy;
     }
@@ -57,19 +57,19 @@ public class JournalCopyService implements CopyService<JournalCopy, JournalPK> {
      *
      * @param fkList the key of journal
      * @return
-     * @throws IdOfResourceNotFoundException
+     * @throws ResourceNotFoundByIdException
      */
     @Override
-    public List<JournalCopy> getCopies(JournalPK fkList) throws IdOfResourceNotFoundException {
+    public List<JournalCopy> getCopies(JournalPK fkList) throws ResourceNotFoundByIdException {
         Journal journal = this.journalRepository.findOne(fkList);
         if (journal == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return this.journalCopyRepository.findByJournal(journal);
     }
 
     @Override
-    public void deleteCopies(JournalPK journalPK) throws IdOfResourceNotFoundException {
+    public void deleteCopies(JournalPK journalPK) throws ResourceNotFoundByIdException {
         this.journalCopyRepository.delete(this.getCopies(journalPK));
     }
 

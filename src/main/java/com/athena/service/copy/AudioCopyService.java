@@ -1,9 +1,9 @@
 package com.athena.service.copy;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.MixedCopyTypeException;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.Audio;
 import com.athena.model.AudioCopy;
 import com.athena.repository.jpa.AudioRepository;
@@ -40,10 +40,10 @@ public class AudioCopyService implements CopyService<AudioCopy, String> {
     }
 
     @Override
-    public AudioCopy get(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+    public AudioCopy get(Long id) throws ResourceNotFoundByIdException, InvalidCopyTypeException {
         AudioCopy copy = this.audioCopyRepository.findOne(id);
         if (copy == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return copy;
     }
@@ -54,10 +54,10 @@ public class AudioCopyService implements CopyService<AudioCopy, String> {
     }
 
     @Override
-    public List<AudioCopy> getCopies(String fkList) throws IdOfResourceNotFoundException {
+    public List<AudioCopy> getCopies(String fkList) throws ResourceNotFoundByIdException {
         Audio audio = this.audioRepository.findOne(fkList);
         if (audio == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return this.audioCopyRepository.findByAudio(audio);
     }
@@ -76,7 +76,7 @@ public class AudioCopyService implements CopyService<AudioCopy, String> {
         this.audioCopyRepository.delete(copyList);
     }
 
-    public void deleteCopies(String pk) throws IdOfResourceNotFoundException {
+    public void deleteCopies(String pk) throws ResourceNotFoundByIdException {
         this.audioCopyRepository.delete(this.getCopies(pk));
     }
 

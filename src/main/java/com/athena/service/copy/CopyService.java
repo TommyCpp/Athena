@@ -1,6 +1,6 @@
 package com.athena.service.copy;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.SimpleCopy;
 
 import java.io.Serializable;
@@ -24,17 +24,17 @@ interface CopyService<T extends SimpleCopy, FK extends Serializable> extends Gen
      *
      * @param fkList the fk list
      * @return the copies
-     * @throws IdOfResourceNotFoundException the id of resource not found exception
+     * @throws ResourceNotFoundByIdException the id of resource not found exception
      */
-    List<T> getCopies(FK fkList) throws IdOfResourceNotFoundException;
+    List<T> getCopies(FK fkList) throws ResourceNotFoundByIdException;
 
     /**
      * Delete copies.
      *
      * @param fk the fk
-     * @throws IdOfResourceNotFoundException the id of resource not found exception
+     * @throws ResourceNotFoundByIdException the id of resource not found exception
      */
-    void deleteCopies(FK fk) throws IdOfResourceNotFoundException;
+    void deleteCopies(FK fk) throws ResourceNotFoundByIdException;
 
 
     /**
@@ -43,9 +43,9 @@ interface CopyService<T extends SimpleCopy, FK extends Serializable> extends Gen
      * @param fk        the fk
      * @param predicate the predicate
      * @return the list
-     * @throws IdOfResourceNotFoundException the id of resource not found exception
+     * @throws ResourceNotFoundByIdException the id of resource not found exception
      */
-    default List<T> filterCopy(FK fk, Predicate<? super T> predicate) throws IdOfResourceNotFoundException {
+    default List<T> filterCopy(FK fk, Predicate<? super T> predicate) throws ResourceNotFoundByIdException {
         return this.getCopies(fk).stream().filter(predicate).collect(Collectors.toList());
     }
 

@@ -214,19 +214,19 @@ public class BookController {
     }
 
     @GetMapping(path = "/{isbn}/copy/")
-    public ResponseEntity<?> getCopies(@PathVariable Long isbn) throws IdOfResourceNotFoundException {
+    public ResponseEntity<?> getCopies(@PathVariable Long isbn) throws ResourceNotFoundByIdException {
         return ResponseEntity.ok(this.bookCopyService.getCopies(isbn));
     }
 
     @GetMapping(path = "/{isbn}/copy/{id}")
-    public ResponseEntity<?> getCopy(@PathVariable Long isbn, @PathVariable Long id) throws InvalidCopyTypeException, IdOfResourceNotFoundException {
+    public ResponseEntity<?> getCopy(@PathVariable Long isbn, @PathVariable Long id) throws InvalidCopyTypeException, ResourceNotFoundByIdException {
         BookCopy copy = this.bookCopyService.get(id);
         return ResponseEntity.ok(copy);
     }
 
     @DeleteMapping(path = "/{isbn}/copy")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> deleteCopies(@PathVariable Long isbn) throws IdOfResourceNotFoundException {
+    public ResponseEntity<?> deleteCopies(@PathVariable Long isbn) throws ResourceNotFoundByIdException {
         this.bookCopyService.deleteCopies(isbn);
         return ResponseEntity.noContent().build();
     }

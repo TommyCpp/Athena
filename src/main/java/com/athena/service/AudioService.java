@@ -1,9 +1,9 @@
 package com.athena.service;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.ResourceNotDeletable;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.Audio;
 import com.athena.model.AudioCopy;
 import com.athena.repository.jpa.AudioRepository;
@@ -40,20 +40,20 @@ public class AudioService implements PublicationService<Audio, String> {
 
     @Override
     @Transactional
-    public Audio update(Audio audio) throws IdOfResourceNotFoundException, IllegalEntityAttributeException {
+    public Audio update(Audio audio) throws ResourceNotFoundByIdException, IllegalEntityAttributeException {
         Objects.requireNonNull(audio);
         if (!this.audioRepository.exists(audio.getIsrc())) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return this.audioRepository.save(audio);
     }
 
     @Override
     @Transactional
-    public void delete(Audio audio) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+    public void delete(Audio audio) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         Objects.requireNonNull(audio);
         if (!this.audioRepository.exists(audio.getIsrc())) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         List<AudioCopy> notDeletable = this.audioCopyRepository.isNotDeletable(audio.getIsrc());
         if (!notDeletable.isEmpty()) {
@@ -64,7 +64,7 @@ public class AudioService implements PublicationService<Audio, String> {
     }
 
     @Override
-    public void delete(Iterable<Audio> audios) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+    public void delete(Iterable<Audio> audios) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         Objects.requireNonNull(audios);
         List<Audio> notDeletable = StreamSupport.stream(audios.spliterator(), false).filter(audio -> !this.audioCopyRepository.isNotDeletable(audio.getIsrc()).isEmpty()).collect(Collectors.toList());
         if (notDeletable.size() > 0) {
@@ -87,10 +87,10 @@ public class AudioService implements PublicationService<Audio, String> {
     }
 
     @Override
-    public Audio get(String id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+    public Audio get(String id) throws ResourceNotFoundByIdException, InvalidCopyTypeException {
         Audio result = this.audioRepository.findOne(id);
         if (Objects.isNull(result)) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return result;
     }

@@ -1,10 +1,10 @@
 package com.athena.service;
 
 import com.athena.annotation.ArgumentNotNull;
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalBorrowRequest;
 import com.athena.exception.http.IllegalReturnRequest;
 import com.athena.exception.http.ResourceNotDeletable;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.Borrow;
 import com.athena.model.CopyStatus;
 import com.athena.model.SimpleCopy;
@@ -45,25 +45,25 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
     }
 
     @Override
-    public Borrow get(String id) throws IdOfResourceNotFoundException {
+    public Borrow get(String id) throws ResourceNotFoundByIdException {
         Borrow borrow = this.borrowRepository.findOne(id);
         if (borrow == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return borrow;
     }
 
     @Override
-    public Borrow update(Borrow borrow) throws IdOfResourceNotFoundException {
+    public Borrow update(Borrow borrow) throws ResourceNotFoundByIdException {
         if (!this.borrowRepository.exists(borrow.getId())) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         this.borrowRepository.save(borrow);
         return borrow;
     }
 
     @Override
-    public void delete(Borrow borrow) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+    public void delete(Borrow borrow) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         this.borrowRepository.delete(borrow);
     }
 

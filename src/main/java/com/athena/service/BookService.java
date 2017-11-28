@@ -1,7 +1,7 @@
 package com.athena.service;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.ResourceNotDeletable;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
 import com.athena.repository.jpa.BookRepository;
@@ -157,10 +157,10 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     @Override
-    public Book update(Book book) throws IdOfResourceNotFoundException {
+    public Book update(Book book) throws ResourceNotFoundByIdException {
         Book _book = this.bookRepository.findOne(book.getIsbn());
         if (_book == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         if (!_book.equals(book)) {
             //if the two is not equal
@@ -171,7 +171,7 @@ public class BookService implements PublicationService<Book, Long> {
 
     @Override
     @Transactional
-    public List<Book> update(Iterable<Book> books) throws IdOfResourceNotFoundException {
+    public List<Book> update(Iterable<Book> books) throws ResourceNotFoundByIdException {
         List<Book> result = new ArrayList<>();
         for (Book book : books) {
             result.add(this.update(book));
@@ -180,7 +180,7 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     @Override
-    public void delete(Book book) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+    public void delete(Book book) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         List<BookCopy> notDeletableCopy = this.bookCopyRepository.isNotDeletable(book.getIsbn());
         if (notDeletableCopy.size() > 0) {
             //if there is some copy that cannot be delete

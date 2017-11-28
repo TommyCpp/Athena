@@ -1,7 +1,7 @@
 package com.athena.service;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.Publication;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,7 @@ public interface PublicationService<T extends Publication, K extends Serializabl
     List<T> get(Iterable<K> ks);
 
     @Transactional
-    default List<T> update(Iterable<T> ts) throws IdOfResourceNotFoundException, IllegalEntityAttributeException {
+    default List<T> update(Iterable<T> ts) throws ResourceNotFoundByIdException, IllegalEntityAttributeException {
         List<T> result = new ArrayList<>();
         for (T t : ts) {
             result.add(this.update(t));

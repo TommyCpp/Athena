@@ -1,7 +1,7 @@
 package com.athena.service
 
-import com.athena.exception.http.IdOfResourceNotFoundException
 import com.athena.exception.http.ResourceNotDeletable
+import com.athena.exception.http.ResourceNotFoundByIdException
 import com.athena.model.Book
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.PublisherRepository
@@ -128,7 +128,7 @@ open class BookServiceTest {
         var flag = false
         try {
             this.service.update(book_3)
-        } catch (e: IdOfResourceNotFoundException) {
+        } catch (e: ResourceNotFoundByIdException) {
             flag = true
         }
         Assert.assertTrue(flag)

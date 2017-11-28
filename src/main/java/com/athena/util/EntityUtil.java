@@ -1,6 +1,9 @@
 package com.athena.util;
 
+import com.athena.exception.http.ResourceNotFoundByIdException;
+
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 /**
  * Created by Tommy on 2017/11/28.
@@ -19,6 +22,14 @@ public class EntityUtil {
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void requireEntityNotNull(Object object) throws ResourceNotFoundByIdException {
+        try{
+            Objects.requireNonNull(object);
+        }catch (NullPointerException e){
+            throw new ResourceNotFoundByIdException();
         }
     }
 }

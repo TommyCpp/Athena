@@ -1,8 +1,8 @@
 package com.athena.service.copy;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.CopyStatus;
 import com.athena.model.SimpleCopy;
 import com.athena.repository.jpa.copy.SimpleCopyRepository;
@@ -40,10 +40,10 @@ public class SimpleCopyService implements GenericCopyService<SimpleCopy> {
     }
 
     @Override
-    public SimpleCopy get(Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+    public SimpleCopy get(Long id) throws ResourceNotFoundByIdException, InvalidCopyTypeException {
         SimpleCopy copy = this.simpleCopyRepository.findOne(id);
         if (copy == null) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return copy;
     }

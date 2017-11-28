@@ -1,9 +1,9 @@
 package com.athena.service;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.ResourceNotDeletable;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -24,9 +24,9 @@ public interface ModelCRUDService<T, K extends Serializable> {
     }
 
 
-    T get(K k) throws IdOfResourceNotFoundException, InvalidCopyTypeException;
+    T get(K k) throws ResourceNotFoundByIdException, InvalidCopyTypeException;
 
-    default Iterable<T> get(Iterable<K> pks) throws InvalidCopyTypeException, IdOfResourceNotFoundException {
+    default Iterable<T> get(Iterable<K> pks) throws InvalidCopyTypeException, ResourceNotFoundByIdException {
         List<T> result = new ArrayList<>();
         for (K pk : pks) {
             result.add(this.get(pk));
@@ -34,10 +34,10 @@ public interface ModelCRUDService<T, K extends Serializable> {
         return result.stream().filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
-    T update(T t) throws IdOfResourceNotFoundException, IllegalEntityAttributeException;
+    T update(T t) throws ResourceNotFoundByIdException, IllegalEntityAttributeException;
 
     @Transactional
-    default Iterable<T> update(Iterable<T> ts) throws IdOfResourceNotFoundException, IllegalEntityAttributeException {
+    default Iterable<T> update(Iterable<T> ts) throws ResourceNotFoundByIdException, IllegalEntityAttributeException {
         List<T> result = new ArrayList<>();
         for (T t : ts) {
             result.add(this.update(t));
@@ -45,19 +45,19 @@ public interface ModelCRUDService<T, K extends Serializable> {
         return result;
     }
 
-    void delete(T t) throws IdOfResourceNotFoundException, ResourceNotDeletable;
+    void delete(T t) throws ResourceNotFoundByIdException, ResourceNotDeletable;
 
     @Transactional
-    default void delete(Iterable<T> ts) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+    default void delete(Iterable<T> ts) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         for (T t : ts) {
             this.delete(t);
         }
     }
 
-    default void delete(K id) throws IdOfResourceNotFoundException, ResourceNotDeletable, InvalidCopyTypeException {
+    default void delete(K id) throws ResourceNotFoundByIdException, ResourceNotDeletable, InvalidCopyTypeException {
         T obj = this.get(id);
         if (Objects.isNull(obj)) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         this.delete(obj);
     }

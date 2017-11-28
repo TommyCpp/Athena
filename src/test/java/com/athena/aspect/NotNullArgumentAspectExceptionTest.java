@@ -1,7 +1,7 @@
 package com.athena.aspect;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalReturnRequest;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.service.BorrowService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class NotNullArgumentAspectExceptionTest {
     public BorrowService borrowService;
 
     @Test
-    public void testAspect() throws IllegalReturnRequest, IdOfResourceNotFoundException {
+    public void testAspect() throws IllegalReturnRequest, ResourceNotFoundByIdException {
         int counter = 0;
         try {
             borrowService.returnCopy(null, null, null);

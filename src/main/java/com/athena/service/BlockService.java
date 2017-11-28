@@ -1,14 +1,13 @@
 package com.athena.service;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.BlockedUser;
 import com.athena.model.User;
 import com.athena.repository.jpa.BlockedUserRepository;
 import com.athena.repository.jpa.UserRepository;
+import com.athena.util.EntityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 /**
  * Created by Tommy on 2017/11/27.
@@ -16,8 +15,8 @@ import java.util.Objects;
 @Service
 public class BlockService {
 
-    private final BlockedUserRepository blockedUserRepository;
-    private final UserRepository userRepository;
+    private BlockedUserRepository blockedUserRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public BlockService(BlockedUserRepository blockedUserRepository, UserRepository userRepository) {
@@ -25,18 +24,22 @@ public class BlockService {
         this.userRepository = userRepository;
     }
 
-    public void blockUser(Long userId, User handler) throws IdOfResourceNotFoundException {
+    public void blockUser(Long userId, User handler) throws ResourceNotFoundByIdException {
         User user = this.userRepository.findOne(userId);
-        try {
-            Objects.requireNonNull(user);
-        } catch (NullPointerException e) {
-            throw new IdOfResourceNotFoundException();
-        }
+        EntityUtil.requireEntityNotNull(user);
         this.blockUser(user, handler);
     }
 
 
-    private void blockUser(User user, User handler) throws IdOfResourceNotFoundException {
+    private void blockUser(User user, User handler) {
         BlockedUser blockedUser = new BlockedUser(user);
+        blockedUser.setHandler(handler);
+        this.blockedUserRepository.save(blockedUser);
+    }
+
+    public void unBlockUser(Long userId, User handler) throws ResourceNotFoundByIdException {
+        BlockedUser blockedUser = this.blockedUserRepository.findOne(userId);
+        EntityUtil.requireEntityNotNull(blockedUser);
+        this.blockedUserRepository.delete(blockedUser);
     }
 }

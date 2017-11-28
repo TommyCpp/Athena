@@ -1,7 +1,7 @@
 package com.athena.service;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.ResourceNotDeletable;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.Journal;
 import com.athena.model.JournalCopy;
 import com.athena.model.JournalPK;
@@ -33,10 +33,10 @@ public class JournalService implements PublicationService<Journal,JournalPK>{
 
 
     @Override
-    public Journal get(JournalPK journalPK) throws IdOfResourceNotFoundException {
+    public Journal get(JournalPK journalPK) throws ResourceNotFoundByIdException {
         Journal journal = this.journalRepository.findOne(journalPK);
         if (Objects.isNull(journal)) {
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         return journal;
     }
@@ -47,21 +47,21 @@ public class JournalService implements PublicationService<Journal,JournalPK>{
     }
 
     @Override
-    public Journal update(Journal journal) throws IdOfResourceNotFoundException {
+    public Journal update(Journal journal) throws ResourceNotFoundByIdException {
         if (this.journalRepository.exists(journal.getId())) {
             return this.journalRepository.save(journal);
         }
         else{
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
     }
 
     @Override
-    public void delete(Journal journal) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+    public void delete(Journal journal) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         Objects.requireNonNull(journal);
         if (!this.journalRepository.exists(journal.getId())) {
            //if the journal is not exits
-            throw new IdOfResourceNotFoundException();
+            throw new ResourceNotFoundByIdException();
         }
         List<JournalCopy> journalCopies = this.journalCopyRepository.isNotDeletable(journal.getId());
         if(journalCopies.size() > 0){
@@ -72,7 +72,7 @@ public class JournalService implements PublicationService<Journal,JournalPK>{
     }
 
     @Override
-    public void delete(Iterable<Journal> journals) throws IdOfResourceNotFoundException, ResourceNotDeletable {
+    public void delete(Iterable<Journal> journals) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         Objects.requireNonNull(journals);
         List<Journal> notDeletableJournals = StreamSupport.stream(journals.spliterator(), false).filter(journal -> !this.journalCopyRepository.isNotDeletable(journal.getId()).isEmpty()).collect(Collectors.toList());
         if(notDeletableJournals.size() > 0){

@@ -1,7 +1,7 @@
 package com.athena.service
 
-import com.athena.exception.http.IdOfResourceNotFoundException
 import com.athena.exception.http.MixedCopyTypeException
+import com.athena.exception.http.ResourceNotFoundByIdException
 import com.athena.model.CopyStatus
 import com.athena.model.JournalCopy
 import com.athena.model.JournalPK
@@ -103,7 +103,7 @@ open class JournalCopyServiceTest {
     /**
      * Trigger IdOfResourceNotFoundException
      * */
-    @Test(expected = IdOfResourceNotFoundException::class)
+    @Test(expected = ResourceNotFoundByIdException::class)
     fun testGetCopyWithException() {
         this.journalCopyService.get(1L)
         Assert.assertTrue(true)

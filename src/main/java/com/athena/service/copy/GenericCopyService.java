@@ -1,9 +1,9 @@
 package com.athena.service.copy;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.MixedCopyTypeException;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.AbstractCopy;
 import com.athena.service.ModelCRUDService;
 
@@ -28,7 +28,7 @@ public interface GenericCopyService<T extends AbstractCopy> extends ModelCRUDSer
      * Get
      */
     @Override
-    T get(Long aLong) throws IdOfResourceNotFoundException, InvalidCopyTypeException;
+    T get(Long aLong) throws ResourceNotFoundByIdException, InvalidCopyTypeException;
 
     List<T> get(Iterable<Long> idList);
 

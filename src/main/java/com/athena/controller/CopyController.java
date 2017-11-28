@@ -1,9 +1,9 @@
 package com.athena.controller;
 
-import com.athena.exception.http.IdOfResourceNotFoundException;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.MixedCopyTypeException;
+import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.AbstractCopy;
 import com.athena.model.SimpleCopy;
 import com.athena.service.copy.SimpleCopyService;
@@ -39,7 +39,7 @@ public class CopyController {
             @ApiResponse(code = 400, message = "Invalid copy type")
     })
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> getCopy(@PathVariable Long id) throws IdOfResourceNotFoundException, InvalidCopyTypeException {
+    public ResponseEntity<?> getCopy(@PathVariable Long id) throws ResourceNotFoundByIdException, InvalidCopyTypeException {
         SimpleCopy copy = this.simpleCopyService.get(id);
         return ResponseEntity.ok(copy);
     }
