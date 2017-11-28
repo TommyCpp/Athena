@@ -1,4 +1,4 @@
-package com.athena.aspect
+package com.athena.util
 
 import com.athena.model.BlockedUser
 import com.athena.model.User
@@ -14,10 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner
  */
 @RunWith(SpringRunner::class)
 @SpringBootTest
-class CopyPropertiesFromParentAspectTest {
+class EntityUtilTest {
 
     @Test
-    fun testAspect() {
+    fun testCopyFromParent() {
         val user = User()
         user.id = 1L
         user.email = "aspecttest@aspect.com"

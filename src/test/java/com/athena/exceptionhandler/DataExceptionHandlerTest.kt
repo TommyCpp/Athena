@@ -3,8 +3,6 @@ package com.athena.exceptionhandler
 import com.athena.model.Book
 import com.athena.model.Publisher
 import com.athena.repository.jpa.BookRepository
-import com.athena.util.BookGenerator
-import com.athena.util.IdentityGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -29,6 +27,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import util.BookGenerator
+import util.IdentityGenerator
 
 /**
  * Created by Tommy on 2017/8/27.

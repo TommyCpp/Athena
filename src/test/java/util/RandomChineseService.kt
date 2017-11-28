@@ -1,4 +1,4 @@
-package com.athena.util
+package util
 
 import java.util.*
 

@@ -1,4 +1,4 @@
-package com.athena.util
+package util
 
 import com.athena.model.Book
 import org.apache.commons.lang3.RandomStringUtils

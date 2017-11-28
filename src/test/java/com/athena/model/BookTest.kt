@@ -2,7 +2,6 @@ package com.athena.model
 
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.PublisherRepository
-import com.athena.util.BookGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -16,6 +15,7 @@ import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
+import util.BookGenerator
 import java.util.*
 import javax.transaction.Transactional
 

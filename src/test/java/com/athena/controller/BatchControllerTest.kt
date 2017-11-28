@@ -1,7 +1,6 @@
 package com.athena.controller
 
 import com.athena.repository.jpa.BookRepository
-import com.athena.util.IdentityGenerator
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet
 import com.lordofthejars.nosqlunit.core.LoadStrategyEnum
@@ -24,6 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import util.IdentityGenerator
 
 /**
  * Created by Tommy on 2017/8/19.

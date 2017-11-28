@@ -2,7 +2,6 @@ package com.athena.controller
 
 import com.athena.repository.jpa.copy.SimpleCopyRepository
 import com.athena.repository.mongo.BatchRepository
-import com.athena.util.IdentityGenerator
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -25,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import util.IdentityGenerator
 
 /**
  * Created by Tommy on 2017/8/25.

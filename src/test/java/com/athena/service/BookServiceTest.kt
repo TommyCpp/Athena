@@ -5,7 +5,6 @@ import com.athena.exception.http.ResourceNotDeletable
 import com.athena.model.Book
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.PublisherRepository
-import com.athena.util.BookGenerator
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -19,6 +18,7 @@ import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
+import util.BookGenerator
 
 /**
  * Created by tommy on 2017/4/26.

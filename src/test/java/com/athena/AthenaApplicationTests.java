@@ -1,8 +1,6 @@
 package com.athena;
 
 import com.athena.model.Book;
-import com.athena.util.BookGenerator;
-import com.athena.util.RandomChineseService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
@@ -10,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import util.BookGenerator;
+import util.RandomChineseService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

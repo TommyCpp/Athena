@@ -5,7 +5,6 @@ import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.copy.BookCopyRepository
 import com.athena.security.model.Account
 import com.athena.security.model.JwtAuthenticationToken
-import com.athena.util.BookGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -37,6 +36,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import util.BookGenerator
 
 @RunWith(SpringRunner::class)
 @SpringBootTest

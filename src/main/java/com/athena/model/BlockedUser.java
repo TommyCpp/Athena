@@ -1,6 +1,6 @@
 package com.athena.model;
 
-import com.athena.annotation.CopyPropertiesFromParent;
+import com.athena.util.EntityUtil;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -19,8 +19,8 @@ public class BlockedUser extends User {
         super();
     }
 
-    @CopyPropertiesFromParent
     public BlockedUser(User user) {
+        EntityUtil.copyFromParent(this, user);
     }
 
     @Basic

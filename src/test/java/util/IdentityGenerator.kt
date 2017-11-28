@@ -1,4 +1,4 @@
-package com.athena.util
+package util
 
 import com.athena.model.User
 import com.athena.security.model.Account
