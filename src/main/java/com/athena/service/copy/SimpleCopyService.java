@@ -7,7 +7,7 @@ import com.athena.model.CopyStatus;
 import com.athena.model.SimpleCopy;
 import com.athena.repository.jpa.copy.SimpleCopyRepository;
 import com.athena.security.model.Account;
-import com.athena.util.PublicationDamagedHandler;
+import com.athena.service.borrow.PublicationDamagedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
