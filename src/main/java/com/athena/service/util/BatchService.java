@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.util;
 
 import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.exception.http.ResourceNotFoundException;

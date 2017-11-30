@@ -2,6 +2,7 @@ package com.athena.service
 
 import com.athena.model.JournalPK
 import com.athena.repository.jpa.JournalRepository
+import com.athena.service.publication.JournalService
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert

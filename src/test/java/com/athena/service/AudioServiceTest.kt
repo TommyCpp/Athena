@@ -4,6 +4,7 @@ import com.athena.model.Audio
 import com.athena.repository.jpa.AudioRepository
 import com.athena.repository.jpa.PublisherRepository
 import com.athena.repository.jpa.copy.AudioCopyRepository
+import com.athena.service.publication.AudioService
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert

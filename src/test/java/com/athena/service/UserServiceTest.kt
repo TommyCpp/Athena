@@ -30,6 +30,6 @@ open class UserServiceTest {
         val user = User()
         user.username = "test"
         user.id = 11L
-        Assert.assertEquals(user.username, service.getUser(11L).username)
+        Assert.assertEquals(user.username, service.get(11L).username)
     }
 }

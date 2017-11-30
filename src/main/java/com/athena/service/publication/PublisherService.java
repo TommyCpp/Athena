@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.publication;
 
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
@@ -6,6 +6,7 @@ import com.athena.exception.internal.EntityAttributeNotFoundException;
 import com.athena.model.Publication;
 import com.athena.model.Publisher;
 import com.athena.repository.jpa.PublisherRepository;
+import com.athena.service.ModelCRUDService;
 import com.athena.util.VariableNameUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

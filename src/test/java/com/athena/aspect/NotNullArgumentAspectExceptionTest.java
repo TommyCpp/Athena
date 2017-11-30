@@ -2,7 +2,7 @@ package com.athena.aspect;
 
 import com.athena.exception.http.IllegalReturnRequest;
 import com.athena.exception.http.ResourceNotFoundByIdException;
-import com.athena.service.BorrowService;
+import com.athena.service.borrow.BorrowService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

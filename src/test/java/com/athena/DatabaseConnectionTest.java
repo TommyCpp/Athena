@@ -35,12 +35,12 @@ public class DatabaseConnectionTest {
         user.setIdentity("ROLE_READER");
         user.setWechatId("123312");
         user.setEmail("test@test.com");
-        service.save(user);
+        service.add(user);
     }
 
     @Test
     public void getUser(){
-        service.getUser(1);
+        service.get(1);
     }
 
     @Test

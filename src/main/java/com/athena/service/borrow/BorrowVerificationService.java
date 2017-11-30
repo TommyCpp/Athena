@@ -1,4 +1,4 @@
-package com.athena.service.util;
+package com.athena.service.borrow;
 
 import com.athena.model.Borrow;
 import com.athena.model.CopyStatus;

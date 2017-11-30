@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.publication;
 
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;

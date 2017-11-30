@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.borrow;
 
 import com.athena.annotation.ArgumentNotNull;
 import com.athena.exception.http.IllegalBorrowRequest;
@@ -11,7 +11,7 @@ import com.athena.model.SimpleCopy;
 import com.athena.repository.jpa.BorrowRepository;
 import com.athena.repository.jpa.copy.SimpleCopyRepository;
 import com.athena.security.model.Account;
-import com.athena.service.util.BorrowVerificationService;
+import com.athena.service.ModelCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

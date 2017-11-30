@@ -4,7 +4,8 @@ import com.athena.model.*
 import com.athena.repository.jpa.BorrowRepository
 import com.athena.repository.jpa.copy.SimpleCopyRepository
 import com.athena.security.model.Account
-import com.athena.service.util.BorrowVerificationService
+import com.athena.service.borrow.BorrowService
+import com.athena.service.borrow.BorrowVerificationService
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.publication;
 
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;

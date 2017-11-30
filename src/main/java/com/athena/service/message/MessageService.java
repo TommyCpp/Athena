@@ -1,4 +1,4 @@
-package com.athena.service;
+package com.athena.service.message;
 
 import com.athena.model.AbstractMessage;
 

@@ -4,6 +4,7 @@ import com.athena.model.BlockedUser
 import com.athena.model.User
 import com.athena.repository.jpa.BlockedUserRepository
 import com.athena.repository.jpa.UserRepository
+import com.athena.service.borrow.BlockService
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

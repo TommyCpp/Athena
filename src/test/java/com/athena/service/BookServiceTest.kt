@@ -5,6 +5,7 @@ import com.athena.exception.http.ResourceNotFoundByIdException
 import com.athena.model.Book
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.PublisherRepository
+import com.athena.service.publication.BookService
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
