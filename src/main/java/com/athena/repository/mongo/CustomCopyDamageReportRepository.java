@@ -1,7 +1,8 @@
 package com.athena.repository.mongo;
 
 import com.athena.model.CopyDamageReport;
-import com.mongodb.gridfs.GridFSFile;
+import com.mongodb.gridfs.GridFSDBFile;
+import org.springframework.util.MimeType;
 
 import java.io.InputStream;
 
@@ -10,7 +11,7 @@ import java.io.InputStream;
  */
 public interface CustomCopyDamageReportRepository {
 
-    GridFSFile getImage(CopyDamageReport copyDamageReport);
+    GridFSDBFile getImage(CopyDamageReport copyDamageReport);
 
-    void saveImage(CopyDamageReport copyDamageReport, InputStream inputStream);
+    void saveImage(CopyDamageReport copyDamageReport, InputStream inputStream, MimeType mimeType);
 }
