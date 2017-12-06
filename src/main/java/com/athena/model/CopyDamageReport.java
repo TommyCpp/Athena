@@ -1,6 +1,5 @@
 package com.athena.model;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -20,7 +19,7 @@ public class CopyDamageReport {
     private Long copyId;
 
     @Field
-    private User handler;
+    private Long handlerId;
 
     @Field
     private Borrow lastKnownBorrow;
@@ -29,7 +28,7 @@ public class CopyDamageReport {
     private String description;
 
     @Field
-    private ObjectId imageId;
+    private String imageId;
 
     @Field
     private Date createdAt;
@@ -55,12 +54,12 @@ public class CopyDamageReport {
         this.id = id.toString();
     }
 
-    public User getHandler() {
-        return handler;
+    public Long getHandlerId() {
+        return handlerId;
     }
 
-    public void setHandler(User handler) {
-        this.handler = handler;
+    public void setHandlerId(Long handlerId) {
+        this.handlerId = handlerId;
     }
 
     public Borrow getLastKnownBorrow() {
@@ -79,11 +78,11 @@ public class CopyDamageReport {
         this.description = description;
     }
 
-    public ObjectId getImageId() {
+    public String getImageId() {
         return imageId;
     }
 
-    public void setImageId(ObjectId imageId) {
+    public void setImageId(String imageId) {
         this.imageId = imageId;
     }
 
@@ -105,7 +104,7 @@ public class CopyDamageReport {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (copyId != null ? !copyId.equals(that.copyId) : that.copyId != null) return false;
-        if (handler != null ? !handler.equals(that.handler) : that.handler != null) return false;
+        if (handlerId != null ? !handlerId.equals(that.handlerId) : that.handlerId != null) return false;
         if (lastKnownBorrow != null ? !lastKnownBorrow.equals(that.lastKnownBorrow) : that.lastKnownBorrow != null)
             return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
@@ -117,7 +116,7 @@ public class CopyDamageReport {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (copyId != null ? copyId.hashCode() : 0);
-        result = 31 * result + (handler != null ? handler.hashCode() : 0);
+        result = 31 * result + (handlerId != null ? handlerId.hashCode() : 0);
         result = 31 * result + (lastKnownBorrow != null ? lastKnownBorrow.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (imageId != null ? imageId.hashCode() : 0);

@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.InvalidMimeTypeException;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
 
@@ -24,6 +25,11 @@ public class CopyDamageReportRepositoryImpl implements CustomCopyDamageReportRep
 
     private GridFsTemplate gridFsTemplate;
 
+    /**
+     * Instantiates a new Copy Damage Report repository.
+     *
+     * @param gridFsTemplate the grid fs template
+     */
     @Autowired
     public CopyDamageReportRepositoryImpl(GridFsTemplate gridFsTemplate) {
         this.gridFsTemplate = gridFsTemplate;
@@ -38,7 +44,7 @@ public class CopyDamageReportRepositoryImpl implements CustomCopyDamageReportRep
     }
 
     @Override
-    public void saveImage(CopyDamageReport copyDamageReport, InputStream inputStream, MimeType mimeType) {
+    public CopyDamageReport setImage(CopyDamageReport copyDamageReport, InputStream inputStream, MimeType mimeType) {
         if (mimeType.equals(MimeTypeUtils.IMAGE_GIF) || mimeType.equals(MimeTypeUtils.IMAGE_JPEG) || mimeType.equals(MimeTypeUtils.IMAGE_PNG)) {
             //if the mimeType is image
             String filename = copyDamageReport.getId();
@@ -46,6 +52,16 @@ public class CopyDamageReportRepositoryImpl implements CustomCopyDamageReportRep
             GridFSFile gridFsFile = this.gridFsTemplate.store(inputStream, filename, mimeType.toString());
             //save to copyDamageReport
             copyDamageReport.setImageId(gridFsFile.getId().toString());
+            return copyDamageReport;
         }
+        throw new InvalidMimeTypeException(mimeType.toString(), "Only Accept .gif,.jpeg,.png file");
+    }
+
+    @Override
+    public CopyDamageReport setImageAndSaveCopyDamageReport(CopyDamageReport copyDamageReport, InputStream inputStream, MimeType mimeType) {
+        copyDamageReport = this.setImage(copyDamageReport, inputStream, mimeType);
+        //todo: save copyDamageReport
+        return copyDamageReport;
+
     }
 }

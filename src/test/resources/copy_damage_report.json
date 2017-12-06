@@ -1,0 +1,14 @@
+{
+  "copyDamageReport": {
+    "data": [
+      {
+        "_id": "e6062fd6-e840-420d-8113-e7b37382a4a4",
+        "_class": "com.athena.model.CopyDamageReport",
+        "copyId": 12,
+        "handlerId": 11,
+        "description": "Damage is not so bad",
+        "createdAt": "Fri Aug 18 10:36:28 CST 2017"
+      }
+    ]
+  }
+}
