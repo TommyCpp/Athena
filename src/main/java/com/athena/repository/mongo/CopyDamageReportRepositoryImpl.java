@@ -40,7 +40,7 @@ public class CopyDamageReportRepositoryImpl implements CustomCopyDamageReportRep
     public GridFSDBFile getImage(CopyDamageReport copyDamageReport) {
         String id = copyDamageReport.getImageId();
         Objects.requireNonNull(id);
-        return this.gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id)));//todo:test
+        return this.gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id)));
     }
 
     @Override
