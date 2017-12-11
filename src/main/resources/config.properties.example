@@ -18,5 +18,6 @@ copy.status.isDeletable=0,1
 # how many publication can user borrow
 borrow.publication.limit=4
 
-# how many messenger to set
-message.messenger.count=4
+# use which way to notify admin for system info
+message.system.method=WebSocketMessenger
+message.system.receiver=SUPERADMIN
