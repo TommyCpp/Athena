@@ -10,10 +10,10 @@ import java.util.List;
 
 /**
  * Created by Tommy on 2017/11/22.
- *
+ * <p>
  * Use to send message via internal chat(WebSocket).
  */
-@Component
+@Component("WebSocket")
 public class WebSocketMessenger extends TextWebSocketHandler implements Messenger {
 
     @Override

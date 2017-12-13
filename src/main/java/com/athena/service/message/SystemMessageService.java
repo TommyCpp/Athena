@@ -6,6 +6,7 @@ import com.athena.util.messager.Messenger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by Tommy on 2017/11/22.
  */
 @Service
+@DependsOn({"WebSocket"}) //list all implement of Messenger
 public class SystemMessageService implements MessageService {
 
     private SimpleGrantedAuthority receiverAuthority;
@@ -29,7 +31,7 @@ public class SystemMessageService implements MessageService {
     }
 
     @PostConstruct
-    public void initialize(){
+    public void initialize() {
         this.receiver = this.findAllReceiver();
     }
 

@@ -4,6 +4,7 @@ import com.athena.model.CopyDamageReport;
 import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.util.MimeType;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -30,7 +31,7 @@ public interface CustomCopyDamageReportRepository {
      * @return the image
      * @see #setImageAndSaveCopyDamageReport(CopyDamageReport, InputStream, MimeType)
      */
-    CopyDamageReport setImage(CopyDamageReport copyDamageReport, InputStream inputStream, MimeType mimeType);
+    CopyDamageReport setImage(CopyDamageReport copyDamageReport, InputStream inputStream, MimeType mimeType) throws IOException;
 
 
     /**

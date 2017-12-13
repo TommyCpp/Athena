@@ -53,9 +53,10 @@ class CopyDamageReportRepositoryTest {
     fun setup() {
     }
 
-    private fun loadImage() {
+    private fun prepareImage() {
         //load image file
         this.uploadedImageResource = this.applicationContext!!.getResource("classpath:image/20141214_152457000_iOS.jpg")
+        this.cleanUpImage()
     }
 
     private fun cleanUpImage() {
@@ -73,7 +74,7 @@ class CopyDamageReportRepositoryTest {
     @Test
     @UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     fun testSetImage_ShouldCanSaveAndLoad() {
-        this.loadImage()
+        this.prepareImage()
         val mimeType = URLConnection.guessContentTypeFromName(this.uploadedImageResource.filename)
         var copyDamageReport = this.copyDamageReportRepository.findOne("e6062fd6-e840-420d-8113-e7b37382a4a4")
         copyDamageReport = this.copyDamageReportRepository.setImage(copyDamageReport, this.uploadedImageResource.inputStream, MimeType.valueOf(mimeType))
@@ -96,13 +97,42 @@ class CopyDamageReportRepositoryTest {
     @Test
     @UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     fun testGetImage_ShouldReturnImage() {
-        this.loadImage()
+        this.prepareImage()
         val mimeType = URLConnection.guessContentTypeFromName(this.uploadedImageResource.filename)
         var copyDamageReport = this.copyDamageReportRepository.findOne("e6062fd6-e840-420d-8113-e7b37382a4a4")
         copyDamageReport = this.copyDamageReportRepository.setImage(copyDamageReport, this.uploadedImageResource.inputStream, MimeType.valueOf(mimeType))
         //above code save image to CopyDamageReport
         try {
             val retrievedImage: GridFSDBFile = this.copyDamageReportRepository.getImage(copyDamageReport)
+            Assert.assertEquals(DigestUtils.md5DigestAsHex(this.uploadedImageResource.inputStream), retrievedImage.mD5)
+        } finally {
+            this.cleanUpImage()
+        }
+
+    }
+
+    @Test
+    @UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
+    fun testSetImageTwice_ShouldUseSameImage() {
+        this.prepareImage()
+        val mimeType = URLConnection.guessContentTypeFromName(this.uploadedImageResource.filename)
+        var copyDamageReport_1 = this.copyDamageReportRepository.findOne("e6062fd6-e840-420d-8113-e7b37382a4a4")
+        var copyDamageReport_2 = this.copyDamageReportRepository.findOne("49ec2dd5-eb86-42e4-8e9c-008df286c3ea")
+        copyDamageReport_1 = this.copyDamageReportRepository.setImage(copyDamageReport_1, this.uploadedImageResource.inputStream, MimeType.valueOf(mimeType))
+        copyDamageReport_2 = this.copyDamageReportRepository.setImage(copyDamageReport_2, this.uploadedImageResource.inputStream, MimeType.valueOf(mimeType))
+        Assert.assertEquals(copyDamageReport_1.imageId, copyDamageReport_2.imageId)
+        this.cleanUpImage()
+    }
+
+    @Test
+    @UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
+    fun testSetImageAndSaveCopyDamageReport() {
+        this.prepareImage()
+        val mimeType = URLConnection.guessContentTypeFromName(this.uploadedImageResource.filename)
+        var copyDamageReport_1 = this.copyDamageReportRepository.findOne("e6062fd6-e840-420d-8113-e7b37382a4a4")
+        copyDamageReport_1 = this.copyDamageReportRepository.setImageAndSaveCopyDamageReport(copyDamageReport_1, this.uploadedImageResource.inputStream, MimeType.valueOf(mimeType))
+        try {
+            val retrievedImage: GridFSDBFile = this.copyDamageReportRepository.getImage(copyDamageReport_1)
             Assert.assertEquals(DigestUtils.md5DigestAsHex(this.uploadedImageResource.inputStream), retrievedImage.mD5)
         } finally {
             this.cleanUpImage()

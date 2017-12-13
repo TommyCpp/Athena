@@ -8,6 +8,14 @@
         "handlerId": 11,
         "description": "Damage is not so bad",
         "createdAt": "Fri Aug 18 10:36:28 CST 2017"
+      },
+      {
+        "_id": "49ec2dd5-eb86-42e4-8e9c-008df286c3ea",
+        "_class": "com.athena.model.CopyDamageReport",
+        "copyId": 12,
+        "handlerId": 11,
+        "description": "Damage is not so bad",
+        "createdAt": "Fri Aug 22 10:36:28 CST 2017"
       }
     ]
   }
