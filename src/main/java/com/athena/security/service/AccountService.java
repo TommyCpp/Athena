@@ -20,9 +20,8 @@ import java.util.List;
 @Service
 public class AccountService {
 
-    private final
-    UserRepository userRepository;
-    private final List<String> privilegeSequence;
+    private UserRepository userRepository;
+    private List<String> privilegeSequence;
 
     @Autowired
     public AccountService(UserRepository userRepository, @Value("${privilege.sequence}") String privilegeSequence) {

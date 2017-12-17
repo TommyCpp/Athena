@@ -1,22 +1,24 @@
 package com.athena.model;
 
 import com.athena.model.listener.UserListener;
+import io.jsonwebtoken.lang.Strings;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by tommy on 2017/3/20.
- *
  */
 @Entity
 @EntityListeners({
         UserListener.class
 })
-@Table(name="user")
+@Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User implements Serializable{
+public class User implements Serializable {
     private Long id;
     private String username;
     private String password;
@@ -26,7 +28,7 @@ public class User implements Serializable{
     private String phoneNumber;
     private List<Borrow> borrows;
 
-    public User(){
+    public User() {
     }
 
     @Id
@@ -91,7 +93,7 @@ public class User implements Serializable{
     }
 
     @Basic
-    @Column(name="phone_number",nullable = true)
+    @Column(name = "phone_number", nullable = true)
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -100,6 +102,15 @@ public class User implements Serializable{
         this.phoneNumber = phoneNumber;
     }
 
+    @Transient
+    public List<SimpleGrantedAuthority> getAuthority() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        String[] identities = Strings.split(this.identity, ",");
+        for (String identity : identities) {
+            authorities.add(new SimpleGrantedAuthority(identity));
+        }
+        return authorities;
+    }
 
     @OneToMany
     public List<Borrow> getBorrows() {

@@ -35,6 +35,14 @@ public class SystemMessageService implements MessageService {
         this.receiver = this.findAllReceiver();
     }
 
+    public List<User> getReceiver(){
+        return this.receiver;
+    }
+
+    public synchronized void setReceiver(List<User> receiver){
+        this.receiver = receiver;
+    }
+
     @Override
     public void send(AbstractMessage message) {
         this.messenger.broadcast(receiver, message);

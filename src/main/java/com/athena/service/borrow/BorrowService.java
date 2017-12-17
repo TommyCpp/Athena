@@ -45,6 +45,7 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
     }
 
     @Override
+    @ArgumentNotNull
     public Borrow get(String id) throws ResourceNotFoundByIdException {
         Borrow borrow = this.borrowRepository.findOne(id);
         if (borrow == null) {
