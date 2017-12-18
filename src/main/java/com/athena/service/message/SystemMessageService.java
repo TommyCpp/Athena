@@ -1,7 +1,7 @@
 package com.athena.service.message;
 
-import com.athena.model.AbstractMessage;
-import com.athena.model.User;
+import com.athena.model.domain.message.AbstractMessage;
+import com.athena.model.domain.message.AuthorityUserGroup;
 import com.athena.util.messager.Messenger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,9 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.util.List;
 
 /**
  * Created by Tommy on 2017/11/22.
@@ -21,7 +18,6 @@ import java.util.List;
 public class SystemMessageService implements MessageService {
 
     private SimpleGrantedAuthority receiverAuthority;
-    private List<User> receiver;
     private Messenger messenger;
 
     @Autowired
@@ -30,26 +26,10 @@ public class SystemMessageService implements MessageService {
         this.receiverAuthority = new SimpleGrantedAuthority(receiverAuthority);
     }
 
-    @PostConstruct
-    public void initialize() {
-        this.receiver = this.findAllReceiver();
-    }
-
-    public List<User> getReceiver(){
-        return this.receiver;
-    }
-
-    public synchronized void setReceiver(List<User> receiver){
-        this.receiver = receiver;
-    }
 
     @Override
     public void send(AbstractMessage message) {
-        this.messenger.broadcast(receiver, message);
+        this.messenger.broadcast(new AuthorityUserGroup(this.receiverAuthority), message);
     }
 
-    private List<User> findAllReceiver() {
-        //todo: find and cache the Receiver, when user with receiverAuthority is change, refresh the cache via AOP.
-        return null;
-    }
 }

@@ -1,4 +1,6 @@
-package com.athena.model;
+package com.athena.model.domain.message;
+
+import com.athena.model.User;
 
 /**
  * Created by Tommy on 2017/11/18.
