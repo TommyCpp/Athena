@@ -41,7 +41,8 @@ open class BorrowServiceTest {
 
     @Test
     fun testAdd() {
-        val borrow = Borrow()
+        val borrow = mock(Borrow::class.java)
+        Mockito.`when`(borrow.copy).thenReturn(SimpleCopy())
         this.borrowService.add(borrow)
 
         verify(this.borrowRepository).save(borrow)

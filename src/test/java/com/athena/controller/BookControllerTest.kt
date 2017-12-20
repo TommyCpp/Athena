@@ -128,6 +128,7 @@ open class BookControllerTest {
             // Note that the search.limit.get.times in config.properties must be 3
             if (i < 4) {
                 mvc!!.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().isOk)
+                System.out.println(i)
             } else {
                 mvc!!.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().`is`(429))
             }
@@ -253,7 +254,7 @@ open class BookControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(content().json("{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"borrows\":[],\"book\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}}"))
+                .andExpect(content().json("{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"borrows\":[],\"book\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":\"BeiJing\"},\"author\":[\"测试作者\"],\"translator\":[]}}"))
 
 
         //getByPublications copies
@@ -262,7 +263,7 @@ open class BookControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(content().json("[{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"borrows\":[],\"book\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}},{\"status\":0,\"id\":2,\"createdDate\":null,\"updatedDate\":null,\"borrows\":[],\"book\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":null},\"author\":[\"测试作者\"],\"translator\":[]}}]"))
+                .andExpect(content().json(" [{\"status\":0,\"id\":1,\"createdDate\":null,\"updatedDate\":null,\"borrows\":[],\"book\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":\"BeiJing\"},\"author\":[\"测试作者\"],\"translator\":[]},\"publication\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":\"BeiJing\"},\"author\":[\"测试作者\"],\"translator\":[]}},{\"status\":0,\"id\":2,\"createdDate\":null,\"updatedDate\":null,\"borrows\":[],\"book\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":\"BeiJing\"},\"author\":[\"测试作者\"],\"translator\":[]},\"publication\":{\"isbn\":9787111125643,\"publishDate\":\"2017-01-06\",\"categoryId\":\"TP312C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"C++程序设计指南\",\"titlePinyin\":\"C++,chen,xv,she,ji,zhi,nan\",\"titleShortPinyin\":\"ccxsjzn\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":55.25,\"publisher\":{\"id\":\"999\",\"name\":\"测试出版社\",\"location\":\"BeiJing\"},\"author\":[\"测试作者\"],\"translator\":[]}}]"))
     }
 
 

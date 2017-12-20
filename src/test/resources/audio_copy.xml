@@ -1,4 +1,6 @@
 <dataset>
     <audio_copy isrc="CNM010100300" copy_id="8"/>
     <audio_copy isrc="CNM010100300" copy_id="12"/>
+    <!--Below entity is for borrow related test only, do no change-->
+    <audio_copy isrc="CNM010100301" copy_id="14"/>
 </dataset>

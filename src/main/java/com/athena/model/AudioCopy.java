@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class AudioCopy extends SimpleCopy implements PublicationCopy {
     private Audio audio;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "isrc", referencedColumnName = "isrc")
     public Audio getAudio() {
         return audio;

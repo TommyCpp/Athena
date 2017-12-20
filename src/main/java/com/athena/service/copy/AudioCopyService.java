@@ -10,6 +10,7 @@ import com.athena.repository.jpa.AudioRepository;
 import com.athena.repository.jpa.copy.AudioCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -76,6 +77,7 @@ public class AudioCopyService implements CopyService<AudioCopy, String> {
         this.audioCopyRepository.delete(copyList);
     }
 
+    @Transactional
     public void deleteCopies(String pk) throws ResourceNotFoundByIdException {
         this.audioCopyRepository.delete(this.getCopies(pk));
     }

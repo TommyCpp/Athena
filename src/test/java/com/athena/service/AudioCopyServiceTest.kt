@@ -47,8 +47,8 @@ open class AudioCopyServiceTest {
 
     @Test
     fun testDeleteCopyByIsrc() {
-        val audio = this.audioRepository.findOne("CNM010100300")
         this.audioCopyService.deleteCopies("CNM010100300")
+        val audio = this.audioRepository.findOne("CNM010100300")
 
         Assert.assertEquals(0, this.audioCopyRepository.findByAudio(audio).size)
     }

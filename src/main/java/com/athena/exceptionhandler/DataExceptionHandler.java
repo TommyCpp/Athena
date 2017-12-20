@@ -28,7 +28,7 @@ public class DataExceptionHandler {
         this.bookService = bookService;
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(BatchStoreException.class)
     public ResponseEntity handleBatchStoreException(BatchStoreException exception) throws ResourceNotDeletable {
         switch (exception.type) {
             case "Book": {
