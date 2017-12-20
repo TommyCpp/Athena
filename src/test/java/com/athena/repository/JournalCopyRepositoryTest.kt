@@ -40,7 +40,7 @@ open class JournalCopyRepositoryTest {
         journalPk.year = 2016
         journalPk.issn = "03718473"
         var journalCopies = this.journalCopyRepository.isNotDeletable(journalPk)
-        Assert.assertEquals(journalCopies.size, 1)
+        Assert.assertEquals(1,journalCopies.size)
 
     }
 }

@@ -262,7 +262,6 @@ public class Book implements Publication {
         result = 31 * result + (language != null ? language.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (publisher != null ? publisher.hashCode() : 0);
-        result = 31 * result + (copies != null ? copies.hashCode() : 0);
         return result;
     }
 

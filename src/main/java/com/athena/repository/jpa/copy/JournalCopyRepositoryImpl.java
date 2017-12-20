@@ -64,7 +64,7 @@ public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCo
                         builder.not(target.get("status").in(deletableStrings)),
                         builder.equal(target.get("journal").get("year"), journalPK.getYear()),
                         builder.equal(target.get("journal").get("issn"), journalPK.getIssn()),
-                        builder.equal(target.get("journal").get("issue"), journalPK.getIssn())
+                        builder.equal(target.get("journal").get("issue"), journalPK.getIssue())
                 )
         );
         Query query = em.createQuery(criteriaQuery);

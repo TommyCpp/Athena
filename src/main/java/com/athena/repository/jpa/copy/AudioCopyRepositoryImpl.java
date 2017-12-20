@@ -1,7 +1,6 @@
 package com.athena.repository.jpa.copy;
 
 import com.athena.model.AudioCopy;
-import com.athena.model.BookCopy;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.EntityManager;
@@ -45,8 +44,8 @@ public class AudioCopyRepositoryImpl implements CopyRepositoryCustom<AudioCopy, 
             deletableInt.add(Integer.valueOf(deletableStrings[i]));
         }
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery criteriaQuery = builder.createQuery(BookCopy.class);
-        Root target = criteriaQuery.from(BookCopy.class);
+        CriteriaQuery criteriaQuery = builder.createQuery(AudioCopy.class);
+        Root target = criteriaQuery.from(AudioCopy.class);
         criteriaQuery.where(
                 builder.and(
                         builder.not(target.get("status").in(deletableStrings)),

@@ -34,6 +34,7 @@ import java.net.URLConnection
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
+@UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
 class CopyDamageReportRepositoryTest {
 
     @Autowired
@@ -64,7 +65,7 @@ class CopyDamageReportRepositoryTest {
     }
 
     @Test
-    @UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
+
     fun testGetCopyDamageReport_ShouldGetOne() {
         val copyDamageReport = this.copyDamageReportRepository.findOne("e6062fd6-e840-420d-8113-e7b37382a4a4")
         Assert.assertNotNull(copyDamageReport)
@@ -72,7 +73,6 @@ class CopyDamageReportRepositoryTest {
     }
 
     @Test
-    @UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     fun testSetImage_ShouldCanSaveAndLoad() {
         this.prepareImage()
         val mimeType = URLConnection.guessContentTypeFromName(this.uploadedImageResource.filename)
@@ -95,7 +95,6 @@ class CopyDamageReportRepositoryTest {
     }
 
     @Test
-    @UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     fun testGetImage_ShouldReturnImage() {
         this.prepareImage()
         val mimeType = URLConnection.guessContentTypeFromName(this.uploadedImageResource.filename)
@@ -112,7 +111,6 @@ class CopyDamageReportRepositoryTest {
     }
 
     @Test
-    @UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     fun testSetImageTwice_ShouldUseSameImage() {
         this.prepareImage()
         val mimeType = URLConnection.guessContentTypeFromName(this.uploadedImageResource.filename)
@@ -125,7 +123,6 @@ class CopyDamageReportRepositoryTest {
     }
 
     @Test
-    @UsingDataSet(locations = arrayOf("/copy_damage_report.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     fun testSetImageAndSaveCopyDamageReport() {
         this.prepareImage()
         val mimeType = URLConnection.guessContentTypeFromName(this.uploadedImageResource.filename)

@@ -64,8 +64,8 @@ class AudioServiceTest {
 
     @Test
     fun testDelete() {
-        this.audioService.delete(this.audioRepository.findOne("CNM010100300"))
-        Assert.assertFalse(this.audioRepository.exists("CNM010100300"))
+        this.audioService.delete(this.audioRepository.findOne("CNM010100302"))
+        Assert.assertFalse(this.audioRepository.exists("CNM010100302"))
     }
 
     @Test
