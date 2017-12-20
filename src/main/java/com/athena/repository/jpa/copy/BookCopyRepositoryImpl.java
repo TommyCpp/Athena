@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +46,17 @@ public class BookCopyRepositoryImpl implements CopyRepositoryCustom<BookCopy, Lo
         for (int i = 0; i < deletableStrings.length; i++) {
             deletableInt.add(Integer.valueOf(deletableStrings[i]));
         }
-        return this.isNotDeletable(BookCopy.class, id, this.em, deletableInt);
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = builder.createQuery(BookCopy.class);
+        Root target = criteriaQuery.from(BookCopy.class);
+        criteriaQuery.where(
+                builder.and(
+                        builder.not(target.get("status").in(deletableStrings)),
+                        builder.equal(target.get("book").get("isbn"), id)
+                )
+        );
+        Query query = em.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
 

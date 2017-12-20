@@ -1,18 +1,22 @@
 package com.athena.repository.jpa.copy;
 
 import com.athena.model.AudioCopy;
+import com.athena.model.BookCopy;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Tommy on 2017/9/24.
  */
-public class AudioCopyRepositoryImpl implements CopyRepositoryCustom<AudioCopy,String> {
+public class AudioCopyRepositoryImpl implements CopyRepositoryCustom<AudioCopy, String> {
 
     @PersistenceContext
     private EntityManager em;
@@ -40,6 +44,16 @@ public class AudioCopyRepositoryImpl implements CopyRepositoryCustom<AudioCopy,S
         for (int i = 0; i < deletableStrings.length; i++) {
             deletableInt.add(Integer.valueOf(deletableStrings[i]));
         }
-        return this.isNotDeletable(AudioCopy.class, isrc, this.em, deletableInt);
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = builder.createQuery(BookCopy.class);
+        Root target = criteriaQuery.from(BookCopy.class);
+        criteriaQuery.where(
+                builder.and(
+                        builder.not(target.get("status").in(deletableStrings)),
+                        builder.equal(target.get("audio").get("isrc"), isrc)
+                )
+        );
+        Query query = em.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 }

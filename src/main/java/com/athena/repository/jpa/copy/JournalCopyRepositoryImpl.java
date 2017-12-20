@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +56,19 @@ public class JournalCopyRepositoryImpl implements CopyRepositoryCustom<JournalCo
         for (int i = 0; i < deletableStrings.length; i++) {
             deletableInt.add(Integer.valueOf(deletableStrings[i]));
         }
-        return this.isNotDeletable(JournalCopy.class, journalPK, this.em, deletableInt);
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = builder.createQuery(JournalCopy.class);
+        Root target = criteriaQuery.from(JournalCopy.class);
+        criteriaQuery.where(
+                builder.and(
+                        builder.not(target.get("status").in(deletableStrings)),
+                        builder.equal(target.get("journal").get("year"), journalPK.getYear()),
+                        builder.equal(target.get("journal").get("issn"), journalPK.getIssn()),
+                        builder.equal(target.get("journal").get("issue"), journalPK.getIssn())
+                )
+        );
+        Query query = em.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
 }
