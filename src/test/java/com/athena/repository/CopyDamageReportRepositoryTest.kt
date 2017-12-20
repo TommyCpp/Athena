@@ -61,7 +61,7 @@ class CopyDamageReportRepositoryTest {
     }
 
     private fun cleanUpImage() {
-        this.gridFsTemplate.delete(Query(Criteria.where("_id").exists(true)))
+//        this.gridFsTemplate.delete(Query(Criteria.where("_id").exists(true)))
     }
 
     @Test

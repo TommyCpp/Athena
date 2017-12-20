@@ -1,6 +1,7 @@
 package com.athena;
 
 import com.athena.service.interceptor.RateLimitInterceptor;
+import com.mongodb.MongoClientOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
@@ -79,6 +80,12 @@ public class AthenaApplication extends WebMvcConfigurerAdapter {
     @Bean
     static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public MongoClientOptions mongoClientOptions(){
+        MongoClientOptions options = new MongoClientOptions.Builder().socketKeepAlive(true).build();
+        return options;
     }
 
 
