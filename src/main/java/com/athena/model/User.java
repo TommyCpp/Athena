@@ -1,8 +1,6 @@
 package com.athena.model;
 
 import com.athena.model.listener.UserListener;
-import io.jsonwebtoken.lang.Strings;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,7 +22,7 @@ public class User implements Serializable {
     private String password;
     private String wechatId;
     private String email;
-    private String identity;
+    private List<String> identity;
     private String phoneNumber;
     private List<Borrow> borrows;
 
@@ -82,14 +80,22 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "identity", nullable = false)
-    public String getIdentity() {
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_identity", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", table = "user_identity"))
+    public List<String> getIdentity() {
         return identity;
     }
 
-    public void setIdentity(String identity) {
+    public void setIdentity(List<String> identity) {
         this.identity = identity;
+    }
+
+    @Transient
+    public void setIdentity(String identity) {
+        List<String> identities = new ArrayList<>(1);
+        identities.add(identity);
+        this.identity = identities;
     }
 
     @Basic
@@ -102,15 +108,6 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    @Transient
-    public List<SimpleGrantedAuthority> getAuthority() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        String[] identities = Strings.split(this.identity, ",");
-        for (String identity : identities) {
-            authorities.add(new SimpleGrantedAuthority(identity));
-        }
-        return authorities;
-    }
 
     @OneToMany
     public List<Borrow> getBorrows() {
@@ -134,8 +131,7 @@ public class User implements Serializable {
         if (wechatId != null ? !wechatId.equals(user.wechatId) : user.wechatId != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (identity != null ? !identity.equals(user.identity) : user.identity != null) return false;
-        if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) return false;
-        return borrows != null ? borrows.equals(user.borrows) : user.borrows == null;
+        return phoneNumber != null ? phoneNumber.equals(user.phoneNumber) : user.phoneNumber == null;
     }
 
     @Override
@@ -147,10 +143,7 @@ public class User implements Serializable {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (identity != null ? identity.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        result = 31 * result + (borrows != null ? borrows.hashCode() : 0);
         return result;
     }
-
-
 }
 

@@ -12,11 +12,11 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor
  * Created by 吴钟扬 on 2017/8/19.
  *
  */
-open class IdentityGenerator{
+open class IdentityGenerator {
     private fun createAuthentication(role: String): JwtAuthenticationToken {
         val encoder = BCryptPasswordEncoder()
         val user = User()
-        user.identity = role
+        user.setIdentity(role)
         user.username = "reader"
         user.password = encoder.encode("123456")
         user.id = 1L

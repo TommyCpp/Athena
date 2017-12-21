@@ -29,14 +29,15 @@ import org.springframework.web.context.WebApplicationContext
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(TransactionalTestExecutionListener::class, DbUnitTestExecutionListener::class, DependencyInjectionTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:user_identity.xml")
 @WebAppConfiguration
-open class LoginControllerTest{
+open class LoginControllerTest {
     @Autowired private val context: WebApplicationContext? = null
 
     private var mvc: MockMvc? = null
 
-    @Before fun setup() {
+    @Before
+    fun setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context!!).apply<DefaultMockMvcBuilder>(SecurityMockMvcConfigurers.springSecurity()).build()
 
     }
@@ -44,8 +45,9 @@ open class LoginControllerTest{
     /*
     * Using chars as id to try to login
     * */
-    @Test fun testLoginWithInvalidId(){
-        val requestParam = LinkedMultiValueMap<String,String>()
+    @Test
+    fun testLoginWithInvalidId() {
+        val requestParam = LinkedMultiValueMap<String, String>()
         requestParam["id"] = "whatever"
         requestParam["password"] = "whatever"
         var result = mvc!!.perform(post("/login").params(requestParam)).andExpect(status().is4xxClientError).andReturn()
@@ -53,8 +55,9 @@ open class LoginControllerTest{
         Assert.assertTrue(stringResult.contains("Bad Credential"))
     }
 
-    @Test fun testLoginWithAccountNotExist(){
-        val requestParam = LinkedMultiValueMap<String,String>()
+    @Test
+    fun testLoginWithAccountNotExist() {
+        val requestParam = LinkedMultiValueMap<String, String>()
         requestParam["id"] = "0"
         requestParam["password"] = "whatever"
         val result = mvc!!.perform(post("/login").params(requestParam)).andExpect(status().is4xxClientError).andReturn()

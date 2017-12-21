@@ -22,7 +22,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml", "classpath:book_copy.xml", "classpath:journal_copy.xml", "classpath:journals.xml", "classpath:audios.xml", "classpath:audio_copy.xml", "classpath:borrows.xml", "classpath:users.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:copies.xml", "classpath:book_copy.xml", "classpath:journal_copy.xml", "classpath:journals.xml", "classpath:audios.xml", "classpath:audio_copy.xml", "classpath:borrows.xml", "classpath:users.xml","classpath:user_identity.xml")
 open class BorrowRepositoryTest {
 
     @Autowired

@@ -34,7 +34,7 @@ import util.IdentityGenerator
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(TransactionalTestExecutionListener::class, DbUnitTestExecutionListener::class, DependencyInjectionTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml","classpath:user_identity.xml")
 @WebAppConfiguration
 class PublisherControllerTest {
     @Autowired private val context: WebApplicationContext? = null

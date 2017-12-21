@@ -27,14 +27,14 @@ import javax.transaction.Transactional
 open class UserTest {
     @Autowired private var repository: UserRepository? = null
 
-    @Autowired private var passwordEncoder:PasswordEncoder? = null
+    @Autowired private var passwordEncoder: PasswordEncoder? = null
 
     @Test
-    fun testListener(){
-        var user:User = User()
+    fun testListener() {
+        var user: User = User()
         user.password = "123456"
         user.email = "test"
-        user.identity = "ROLE_ADMIN"
+        user.setIdentity("ROLE_ADMIN")
         user.username = "testUser"
         user.wechatId = "sadf"
 

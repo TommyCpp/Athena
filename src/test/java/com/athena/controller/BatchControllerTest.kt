@@ -4,7 +4,9 @@ import com.athena.repository.jpa.BookRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet
 import com.lordofthejars.nosqlunit.core.LoadStrategyEnum
+import com.lordofthejars.nosqlunit.mongodb.MongoDbRule
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,6 +44,9 @@ open class BatchControllerTest {
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
     private val identity: IdentityGenerator = IdentityGenerator()
 
+    @get:Rule
+    var mongoRule: MongoDbRule = MongoDbRule.MongoDbRuleBuilder.newMongoDbRule().defaultSpringMongoDb("Athena")
+
 
     @Before
     fun setup() {
@@ -49,7 +54,7 @@ open class BatchControllerTest {
     }
 
     @Test
-    @UsingDataSet(locations= arrayOf("/batch.json"),loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
+    @UsingDataSet(locations = arrayOf("/batch.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     fun testGetBatch() {
         /**
          * Test the existing batch

@@ -35,7 +35,7 @@ import javax.transaction.Transactional
 @SpringBootTest
 @Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml", "classpath:journal_copy.xml", "classpath:book_copy.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml", "classpath:journal_copy.xml", "classpath:book_copy.xml","classpath:user_identity.xml")
 open class SimpleCopyServiceTest {
     @Autowired private var simpleCopyService: SimpleCopyService? = null
     @Autowired private var bookCopyService: BookCopyService? = null

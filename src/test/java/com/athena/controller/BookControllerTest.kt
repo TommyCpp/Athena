@@ -61,7 +61,7 @@ open class BookControllerTest {
     private fun createAuthentication(role: String): JwtAuthenticationToken {
         val encoder = BCryptPasswordEncoder()
         val user = User()
-        user.identity = role
+        user.identity = arrayListOf(role)
         user.username = "reader"
         user.password = encoder.encode("123456")
         user.id = 1L

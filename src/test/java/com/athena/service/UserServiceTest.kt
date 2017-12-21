@@ -22,7 +22,7 @@ import javax.transaction.Transactional
 @SpringBootTest
 @Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:users.xml")
+@DatabaseSetup("classpath:users.xml","classpath:user_identity.xml")
 open class UserServiceTest {
     @Autowired lateinit var service: UserService
 

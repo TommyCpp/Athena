@@ -1,0 +1,8 @@
+<dataset>
+    <user_identity user_id="10" identity="ROLE_SUPERADMIN"/>
+    <user_identity user_id="11" identity="ROLE_READER"/>
+    <user_identity user_id="12" identity="ROLE_READER"/>
+    <user_identity user_id="14" identity="ROLE_READER"/>
+    <user_identity user_id="15" identity="ROLE_READER"/>
+    <user_identity user_id="16" identity="ROLE_ADMIN"/>
+</dataset>

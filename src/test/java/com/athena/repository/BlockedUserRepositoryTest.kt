@@ -21,7 +21,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:blocks.xml", "classpath:users.xml")
+@DatabaseSetup("classpath:blocks.xml", "classpath:users.xml","classpath:user_identity.xml")
 class BlockedUserRepositoryTest {
     @Autowired
     lateinit var blockedUserRepository: BlockedUserRepository

@@ -52,7 +52,7 @@ class BlockServiceTest {
 
         handler.id = 4L
         handler.email = "test@admin.com"
-        handler.identity = "ADMIN"
+        handler.setIdentity("ROLE_ADMIN")
     }
 
     @Test

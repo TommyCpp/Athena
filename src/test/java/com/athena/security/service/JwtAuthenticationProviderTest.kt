@@ -36,7 +36,7 @@ open class JwtAuthenticationProviderTest {
         this.tester = User()
         tester!!.wechatId = "test"
         tester!!.username = "test"
-        tester!!.identity = "ROLE_ADMIN"
+        tester!!.setIdentity("ROLE_ADMIN")
         tester!!.password = "123456"
         tester!!.email = "test@test.com"
         userRepository!!.save<User>(tester)

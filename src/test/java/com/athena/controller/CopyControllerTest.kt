@@ -33,7 +33,7 @@ import util.IdentityGenerator
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(TransactionalTestExecutionListener::class, DbUnitTestExecutionListener::class, DependencyInjectionTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml","classpath:user_identity.xml")
 @WebAppConfiguration
 open class CopyControllerTest {
     @Autowired private val context: WebApplicationContext? = null
