@@ -8,6 +8,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.Example
+import org.springframework.data.domain.ExampleMatcher
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
@@ -25,9 +27,11 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:users.xml")
 open class UserTest {
-    @Autowired private var repository: UserRepository? = null
+    @Autowired
+    lateinit var repository: UserRepository
 
-    @Autowired private var passwordEncoder: PasswordEncoder? = null
+    @Autowired
+    lateinit var passwordEncoder: PasswordEncoder
 
     @Test
     fun testListener() {
@@ -38,12 +42,27 @@ open class UserTest {
         user.username = "testUser"
         user.wechatId = "sadf"
 
-        repository!!.save(user)
-        Assert.assertTrue(passwordEncoder!!.matches("123456", user.password))
+        repository.save(user)
+        Assert.assertTrue(passwordEncoder.matches("123456", user.password))
 
         user.email = "test@test.com"
-        repository!!.save(user)
-        Assert.assertTrue(passwordEncoder!!.matches("123456", user.password))
+        repository.save(user)
+        Assert.assertTrue(passwordEncoder.matches("123456", user.password))
 
+    }
+
+    @Test
+    fun testFindAllByExample_ShouldReturnAllUserWithAdminIdentity() {
+        val example = User()
+        example.setIdentity("ROLE_ADMIN")
+        val exampleMatcher = ExampleMatcher.matching()
+                .withIgnoreCase()
+        //fixme: how to use example to express Identity
+
+        val results = this.repository.findAll(Example.of(example, exampleMatcher))
+        Assert.assertNotEquals(0, results.size)
+        for (result in results) {
+            Assert.assertTrue(result.identity.indexOf("ROLE_ADMIN") != -1)
+        }
     }
 }
