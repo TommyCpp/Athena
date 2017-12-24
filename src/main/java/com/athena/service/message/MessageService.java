@@ -1,10 +1,10 @@
 package com.athena.service.message;
 
-import com.athena.model.domain.message.AbstractMessage;
+import com.athena.model.domain.message.Message;
 
 /**
  * Created by Tommy on 2017/11/18.
  */
 public interface MessageService {
-    void send(AbstractMessage message);
+    void send(Message message);
 }

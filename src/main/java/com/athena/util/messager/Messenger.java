@@ -1,8 +1,8 @@
 package com.athena.util.messager;
 
 import com.athena.model.User;
-import com.athena.model.domain.message.AbstractMessage;
 import com.athena.model.domain.message.AbstractUserGroup;
+import com.athena.model.domain.message.Message;
 
 import java.util.List;
 
@@ -12,11 +12,11 @@ import java.util.List;
  * define class to send and receive message
  */
 public interface Messenger {
-    default void broadcast(List<User> receiver, AbstractMessage message) {
+    default void broadcast(List<User> receiver, Message message) {
         receiver.forEach(user -> this.send(user, message));
     }
 
-    void broadcast(AbstractUserGroup userGroup, AbstractMessage message);
+    void broadcast(AbstractUserGroup userGroup, Message message);
 
-    void send(User receiver, AbstractMessage message);
+    void send(User receiver, Message message);
 }

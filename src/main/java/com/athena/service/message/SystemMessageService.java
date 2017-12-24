@@ -1,7 +1,7 @@
 package com.athena.service.message;
 
-import com.athena.model.domain.message.AbstractMessage;
 import com.athena.model.domain.message.AuthorityUserGroup;
+import com.athena.model.domain.message.Message;
 import com.athena.util.messager.Messenger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +28,7 @@ public class SystemMessageService implements MessageService {
 
 
     @Override
-    public void send(AbstractMessage message) {
+    public void send(Message message) {
         this.messenger.broadcast(new AuthorityUserGroup(this.receiverAuthority), message);
     }
 

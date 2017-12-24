@@ -5,8 +5,8 @@ import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.CopyStatus;
 import com.athena.model.SimpleCopy;
+import com.athena.model.User;
 import com.athena.repository.jpa.copy.SimpleCopyRepository;
-import com.athena.security.model.Account;
 import com.athena.service.borrow.PublicationDamagedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,10 +84,10 @@ public class SimpleCopyService implements GenericCopyService<SimpleCopy> {
 
     }
 
-    public SimpleCopy verifyReturnedCopy(Account account, SimpleCopy simpleCopy, boolean isDamaged) {
+    public SimpleCopy verifyReturnedCopy(User user, SimpleCopy simpleCopy, boolean isDamaged) {
         if (isDamaged) {
             simpleCopy.setStatus(CopyStatus.DAMAGED);
-            publicationDamagedHandler.handleDamage(account,simpleCopy);
+            publicationDamagedHandler.handleDamage(user, simpleCopy);
         } else {
             simpleCopy.setStatus(CopyStatus.AVAILABLE);
         }

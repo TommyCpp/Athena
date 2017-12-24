@@ -35,7 +35,7 @@ import javax.transaction.Transactional
 @SpringBootTest
 @Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml", "classpath:journal_copy.xml", "classpath:book_copy.xml","classpath:user_identity.xml")
+@DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml", "classpath:journal_copy.xml", "classpath:book_copy.xml", "classpath:user_identity.xml")
 open class SimpleCopyServiceTest {
     @Autowired private var simpleCopyService: SimpleCopyService? = null
     @Autowired private var bookCopyService: BookCopyService? = null
@@ -112,7 +112,7 @@ open class SimpleCopyServiceTest {
         val simpleCopy = mock(SimpleCopy::class.java)
         `when`(simpleCopyRepository.save(any(SimpleCopy::class.java))).then { invocationOnMock -> invocationOnMock.getArgumentAt(0, SimpleCopy::class.java) }
 
-        simpleCopyService.verifyReturnedCopy(account, simpleCopy, true)
+        simpleCopyService.verifyReturnedCopy(account.user, simpleCopy, true)
 
         verify(simpleCopy).status = CopyStatus.DAMAGED
 
