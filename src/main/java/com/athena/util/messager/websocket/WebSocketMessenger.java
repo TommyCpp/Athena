@@ -6,7 +6,6 @@ import com.athena.model.domain.message.AbstractUserGroup;
 import com.athena.repository.jpa.UserRepository;
 import com.athena.util.messager.Messenger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
@@ -34,7 +33,7 @@ public class WebSocketMessenger extends TextWebSocketHandler implements Messenge
 
     @Override
     public void broadcast(AbstractUserGroup userGroup, AbstractMessage message) {
-        List<User> receivers = this.userRepository.findAll(Example.of(userGroup.getExample(), userGroup.getExampleMatcher()));//todo: test
+        List<User> receivers = userGroup.fetchUsers(this.userRepository);
         this.broadcast(receivers, message);
     }
 

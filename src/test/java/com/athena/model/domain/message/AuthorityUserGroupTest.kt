@@ -1,4 +1,4 @@
-package com.athena.model
+package com.athena.model.domain.message
 
 import com.athena.repository.jpa.UserRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
@@ -8,43 +8,31 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
-import javax.transaction.Transactional
 
 /**
- * Created by tommy on 2017/3/27.
+ * Created by Tommy on 2017/12/24.
+ *
  */
 @RunWith(SpringRunner::class)
 @SpringBootTest
-@Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:users.xml", "classpath:user_identity.xml")
-open class UserTest {
+class AuthorityUserGroupTest {
     @Autowired
     lateinit var repository: UserRepository
 
-    @Autowired
-    lateinit var passwordEncoder: PasswordEncoder
-
     @Test
-    fun testListener() {
-        var user: User = User()
-        user.password = "123456"
-        user.email = "test"
-        user.setIdentity("ROLE_ADMIN")
-        user.username = "testUser"
-        user.wechatId = "sadf"
-
-        repository.save(user)
-        Assert.assertTrue(passwordEncoder.matches("123456", user.password))
-
-        user.email = "test@test.com"
-        repository.save(user)
-        Assert.assertTrue(passwordEncoder.matches("123456", user.password))
-
+    fun testFetchUsers_ShouldReturnAllUserHasADMINIdentity() {
+        val authorityUserGroup = AuthorityUserGroup(SimpleGrantedAuthority("ROLE_ADMIN"))
+        val results = authorityUserGroup.fetchUsers(repository)
+        Assert.assertNotEquals(0, results.size)
+        for (result in results) {
+            Assert.assertTrue(result.identity.indexOf("ROLE_ADMIN") != -1)
+        }
     }
 }
