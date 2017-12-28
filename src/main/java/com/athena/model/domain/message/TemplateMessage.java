@@ -2,7 +2,6 @@ package com.athena.model.domain.message;
 
 import com.athena.model.User;
 import com.athena.util.TemplateBuilder;
-import org.springframework.core.io.Resource;
 
 import java.util.Map;
 
@@ -12,14 +11,14 @@ import java.util.Map;
 public class TemplateMessage implements Message {
     private String title;
     private Map<String, String> templateParas;
-    private Resource templateFile;
+    private String template;
     private TemplateBuilder templateBuilder;
     private User sender;
 
-    public TemplateMessage(String title, Map<String, String> templateParas, Resource templateFile, TemplateBuilder templateBuilder, User sender) {
+    public TemplateMessage(String title, Map<String, String> templateParas, String template, TemplateBuilder templateBuilder, User sender) {
         this.title = title;
         this.templateParas = templateParas;
-        this.templateFile = templateFile;
+        this.template = template;
         this.templateBuilder = templateBuilder;
         this.sender = sender;
     }
@@ -37,17 +36,13 @@ public class TemplateMessage implements Message {
         this.templateParas = templateParas;
     }
 
-    public void setTemplateFile(Resource templateFile) {
-        this.templateFile = templateFile;
-    }
-
     public void setTemplateBuilder(TemplateBuilder templateBuilder) {
         this.templateBuilder = templateBuilder;
     }
 
     @Override
     public String getContent() {
-        return templateBuilder.build(this.templateFile, templateParas);
+        return templateBuilder.build(this.template, templateParas);
     }
 
     @Override

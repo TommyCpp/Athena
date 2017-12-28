@@ -8,15 +8,17 @@ import com.athena.model.domain.message.TemplateMessage;
 import com.athena.repository.jpa.BorrowRepository;
 import com.athena.service.message.SystemMessageService;
 import com.athena.util.TemplateBuilder;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,16 +31,16 @@ public class PublicationDamagedHandler {
     private static Logger logger = LoggerFactory.getLogger(PublicationDamagedHandler.class);
     private BorrowRepository borrowRepository;
     private TemplateBuilder templateBuilder;
-    private Resource templateFile;
+    private String templateFile;
     private String title;
     private Map<String, User> systemUsers;
     private SystemMessageService systemMessageService;
 
     @Autowired
-    public PublicationDamagedHandler(BorrowRepository borrowRepository, TemplateBuilder templateBuilder, @Value("${message.system.publicationDamageReport.template}") String templateFilePath, @Value("${message.system.publicationDamageReport.title}") String title, @Qualifier("systemUsers") Map<String, User> systemUsers, SystemMessageService systemMessageService) {
+    public PublicationDamagedHandler(BorrowRepository borrowRepository, TemplateBuilder templateBuilder, @Value("${message.system.publicationDamageReport.template}") String templateFilePath, @Value("${message.system.publicationDamageReport.title}") String title, @Qualifier("systemUsers") Map<String, User> systemUsers, SystemMessageService systemMessageService) throws IOException {
         this.borrowRepository = borrowRepository;
         this.templateBuilder = templateBuilder;
-        this.templateFile = new ClassPathResource(templateFilePath); //todo:test
+        this.templateFile = Files.asCharSource(new ClassPathResource(templateFilePath).getFile(), Charsets.UTF_8).toString();//todo:test
         this.title = title;
         this.systemUsers = systemUsers;
         this.systemMessageService = systemMessageService;

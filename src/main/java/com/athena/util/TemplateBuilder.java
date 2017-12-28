@@ -1,6 +1,6 @@
 package com.athena.util;
 
-import org.springframework.core.io.Resource;
+import org.apache.commons.lang3.text.StrSubstitutor;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -11,8 +11,7 @@ import java.util.Map;
 @Component
 public class TemplateBuilder {
 
-    public String build(Resource templateFile, Map<String, String> templateParas) {
-        return null;
-        //todo: implement
+    public String build(String template, Map<String, String> templateParas) {
+            return StrSubstitutor.replace(template, templateParas);
     }
 }
