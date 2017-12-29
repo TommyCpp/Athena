@@ -40,7 +40,7 @@ public class PublicationDamagedHandler {
     public PublicationDamagedHandler(BorrowRepository borrowRepository, TemplateBuilder templateBuilder, @Value("${message.system.publicationDamageReport.template}") String templateFilePath, @Value("${message.system.publicationDamageReport.title}") String title, @Qualifier("systemUsers") Map<String, User> systemUsers, SystemMessageService systemMessageService) throws IOException {
         this.borrowRepository = borrowRepository;
         this.templateBuilder = templateBuilder;
-        this.templateFile = Files.asCharSource(new ClassPathResource(templateFilePath).getFile(), Charsets.UTF_8).toString();//todo:test
+        this.templateFile = Files.asCharSource(new ClassPathResource(templateFilePath).getFile(), Charsets.UTF_8).read();
         this.title = title;
         this.systemUsers = systemUsers;
         this.systemMessageService = systemMessageService;
