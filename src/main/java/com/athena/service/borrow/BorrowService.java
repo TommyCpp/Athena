@@ -73,7 +73,7 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
         borrow.setUser(account.getUser());
         borrow.setCopy(copy);
 
-        if (borrowVerificationService.userCanBorrow(account) && borrowVerificationService.copyCanBorrow(copy)) {
+        if (borrowVerificationService.userCanBorrow(account.getUser()) && borrowVerificationService.copyCanBorrow(copy)) {
             return this.add(borrow);
         }
         throw new IllegalBorrowRequest();

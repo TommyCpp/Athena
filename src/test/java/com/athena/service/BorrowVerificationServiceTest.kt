@@ -44,7 +44,7 @@ class BorrowVerificationServiceTest {
         val account = mock(Account::class.java)
         `when`(account.user).thenReturn(User())
         `when`(this.borrowRepository.findAllByUserAndEnableIsTrue(any(User::class.java))).thenReturn(arrayListOf(Borrow(), Borrow(), Borrow(), Borrow()))
-        val result = this.borrowVerificationService.userCanBorrow(account)
+        val result = this.borrowVerificationService.userCanBorrow(account.user)
 
         verify(this.borrowRepository).findAllByUserAndEnableIsTrue(any())
         Assert.assertTrue(result)

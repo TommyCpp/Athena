@@ -3,9 +3,9 @@ package com.athena.service.borrow;
 import com.athena.model.Borrow;
 import com.athena.model.CopyStatus;
 import com.athena.model.SimpleCopy;
+import com.athena.model.User;
 import com.athena.repository.jpa.BorrowRepository;
 import com.athena.repository.jpa.copy.SimpleCopyRepository;
-import com.athena.security.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,12 +35,12 @@ public class BorrowVerificationService {
     }
 
     @Transactional(readOnly = true)
-    public boolean userCanBorrow(Account account) {
+    public boolean userCanBorrow(User user) {
         //todo: add more rule
         //example: distinguish how many book can an account borrow and how many audio?
         //or how many chinese can borrow and how many foreign can borrow.
         //maybe can use mongoDB to control the configuration of borrow book limit
-        List<Borrow> hasBorrowed = this.borrowRepository.findAllByUserAndEnableIsTrue(account.getUser());
+        List<Borrow> hasBorrowed = this.borrowRepository.findAllByUserAndEnableIsTrue(user);
         return hasBorrowed.size() <= this.publicationLimit;
     }
 
