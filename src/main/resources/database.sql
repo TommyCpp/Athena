@@ -27,12 +27,7 @@ create table audio_copy
 	primary key (copy_id, isrc),
 	constraint audio_copy_audio_isrc_fk
 	foreign key (isrc) references audio (isrc)
-		on update cascade on delete cascade
 )
-;
-
-create index audio_copy_copy_id_fk
-	on audio_copy (copy_id)
 ;
 
 create index audio_copy_audio_isrc_fk
@@ -75,6 +70,14 @@ create table book
 )
 ;
 
+create table book_author
+(
+	isbn bigint default '0' not null,
+	author_name varchar(16) default '' not null,
+	primary key (isbn, author_name)
+)
+;
+
 create table book_copy
 (
 	isbn bigint(11) not null,
@@ -87,6 +90,14 @@ create table book_copy
 
 create index book_copy_book_isbn_fk
 	on book_copy (isbn)
+;
+
+create table book_translator
+(
+	isbn bigint default '0' not null,
+	translator_name varchar(32) default '' not null,
+	primary key (isbn, translator_name)
+)
 ;
 
 create table borrow
@@ -119,12 +130,6 @@ create table copy
 	created_date datetime null,
 	updated_date datetime null
 )
-;
-
-alter table audio_copy
-	add constraint audio_copy_copy_id_fk
-foreign key (copy_id) references copy (id)
-	on update cascade on delete cascade
 ;
 
 alter table book_copy
@@ -219,7 +224,6 @@ create table user
 	username varchar(64) not null,
 	wechat_id varchar(64) not null,
 	email varchar(64) not null,
-	identity set('ROLE_SUPERADMIN', 'ROLE_ADMIN', 'ROLE_READER') default 'ROLE_READER' not null,
 	phone_number varchar(11) null,
 	password varchar(64) not null
 )
@@ -240,5 +244,16 @@ foreign key (handler_id) references user (id)
 alter table borrow
 	add constraint borrow_user_id_fk
 foreign key (user_id) references user (id)
+;
+
+create table user_identity
+(
+	user_id bigint default '0' not null,
+	identity varchar(32) default '' not null,
+	primary key (user_id, identity),
+	constraint user_identity_user_id_fk
+	foreign key (user_id) references user (id)
+		on update cascade on delete cascade
+)
 ;
 

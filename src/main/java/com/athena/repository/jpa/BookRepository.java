@@ -33,6 +33,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Page<Book> getBookByPublisher(Pageable pageable, Publisher publisher);
 
 
-
-
 }
