@@ -54,7 +54,7 @@ open class BorrowServiceTest {
         val user: User = mock(User::class.java)
         val bookCopy: BookCopy = spy(BookCopy::class.java)
         Mockito.`when`(borrowVerificationService.copyCanBorrow(any())).thenReturn(true)
-        Mockito.`when`(borrowVerificationService.userCanBorrow()).thenReturn(true)
+        Mockito.`when`(borrowVerificationService.userCanBorrow(any())).thenReturn(true)
         Mockito.`when`(simpleCopyRepository.save(any(SimpleCopy::class.java))).then { invocationOnMock ->
             invocationOnMock.arguments[0]
         }

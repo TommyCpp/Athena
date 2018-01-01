@@ -1,6 +1,7 @@
 package com.athena.util
 
 import com.athena.model.BlockedUser
+import com.athena.model.Book
 import com.athena.model.User
 import org.junit.Assert
 import org.junit.Test
@@ -26,5 +27,21 @@ class EntityUtilTest {
         Assert.assertEquals(user.id, blockedUser.id)
         Assert.assertEquals(user.email, blockedUser.email)
         Assert.assertEquals(user.username, blockedUser.username)
+    }
+
+    @Test
+    fun testPartialUpdateEntity_ShouldPartialUpdateTarget() {
+        val testEntity: Book = Book()
+        testEntity.isbn = 972010292392L
+        testEntity.title = "test Title"
+        testEntity.price = 1223.2
+
+        var params = HashMap<String, Any>()
+        params["title"] = "changed Title"
+        params["price"] = 1225.3
+        EntityUtil.partialUpdateEntity(testEntity, params.entries)
+
+        Assert.assertEquals("changed Title", testEntity.title)
+        Assert.assertTrue((testEntity.price - 1225.3) < 0.000000000001)
     }
 }

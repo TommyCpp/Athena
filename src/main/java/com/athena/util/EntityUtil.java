@@ -2,6 +2,7 @@ package com.athena.util;
 
 import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.exception.http.ResourceNotFoundException;
+import com.athena.exception.internal.CannotPartialUpdateIdFieldException;
 import com.athena.exception.internal.EntityAttributeNotFoundException;
 
 import javax.persistence.Id;
@@ -48,7 +49,7 @@ public class EntityUtil {
      * @throws ResourceNotFoundException        the resource not found exception
      * @throws EntityAttributeNotFoundException the entity attribute not found exception
      */
-    public static void partialUpdateEntity(Object entity, Iterable<Map.Entry<String, Object>> attributeKVs) throws ResourceNotFoundException, EntityAttributeNotFoundException {//todo:test
+    public static void partialUpdateEntity(Object entity, Iterable<Map.Entry<String, Object>> attributeKVs) throws ResourceNotFoundException, EntityAttributeNotFoundException, CannotPartialUpdateIdFieldException {
         List<Field> fields = Arrays.asList(entity.getClass().getDeclaredFields());
         List<Method> methods = Arrays.asList(entity.getClass().getDeclaredMethods());
         List<String> methodsNames = methods.stream().map(Method::getName).collect(Collectors.toList());
@@ -76,6 +77,9 @@ public class EntityUtil {
                             throw new EntityAttributeNotFoundException(entity.getClass(), attributeKV.getKey());
                         }
                     }
+                }
+                else{
+                    throw new CannotPartialUpdateIdFieldException(entity.getClass());
                 }
             }
         } else {
