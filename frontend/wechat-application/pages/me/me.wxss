@@ -1,0 +1,88 @@
+.people{
+    position: absolute;
+    top: 5%;
+    background-color: #fff;
+    width: 100%;
+    height: 15%;
+}
+.mytwo{
+    position: absolute;
+    top: 25%;
+    background-color: #fff;
+    width: 100%;
+    height: 15%;
+}
+.imageuser{
+    width: 60px;
+    height: 60px;
+    margin-top: 2.5%;
+    margin-left:3%; 
+    display: flex;
+    flex-wrap:wrap;
+}
+.too{
+     margin-top: 6%;
+    margin-left:5%;
+    margin-right: 5%;
+    width: 20px;
+    height: 20px;
+}
+.textuser{
+    top: 40%;
+    left: 30%;
+    position:absolute;
+}
+.strip{
+    width: 100%;
+    height:1rem;
+    background-color: #eee;
+    position: absolute;
+}
+.one{
+    top:0;
+}
+.two{
+    top:22%;
+}
+.san{
+    top:36%;
+}
+.for{
+    top:50%;
+}
+.five{
+    top:64%;
+}
+.tou{
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    right: 10%;
+}
+.first{
+    top:30%;
+}
+.second{
+    top:43%;
+}
+.third{
+    top:57%;
+}
+.text{
+    left:30%;
+    position: absolute;
+}
+.ing{
+    width:27px;
+    height:27px;
+    position: absolute;
+    left: 4%;
+    top:42%;
+}
+.history{
+    width: 27px;
+    height:27px;
+    position: absolute;
+    left:4%;
+    top:56%;
+}
