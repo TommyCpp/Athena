@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import util.BookGenerator
+import javax.transaction.Transactional
 
 /**
  * Created by tommy on 2017/4/26.
@@ -63,7 +64,8 @@ open class BookServiceTest {
     }
 
     @Test
-    fun testSearchByAuthors() {
+    @Transactional
+    open fun testSearchByAuthors() {
         var authors = arrayOf("Aneig dlsa", "Rdlf dls")
         val pageable = PageRequest(0, 20)
         var result = service.searchBookByAuthors(pageable, authors)

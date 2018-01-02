@@ -10,5 +10,5 @@ import java.util.List;
  * Created by Tommy on 2018/1/3.
  */
 public interface CustomBookRepository {
-    Page<Book> getBookByAuthor(Pageable pageable, List<String> authors);
+    Page<Book> getBookByMatchAuthorExactly(Pageable pageable, List<String> authors);
 }

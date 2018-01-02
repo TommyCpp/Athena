@@ -93,7 +93,7 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     public Page<Book> searchBookByAuthor(Pageable pageable, String author) {
-        return bookRepository.getBookByAuthorContains(pageable, author);
+        return bookRepository.getBookByAuthor(pageable, author);
     }
 
 
@@ -107,7 +107,7 @@ public class BookService implements PublicationService<Book, Long> {
     public Page<Book> searchBookByAuthors(Pageable pageable, String[] authors) {
         Set<Book> result = new HashSet<>();
         for (int i = 0; i < authors.length; i++) {
-            List<Book> books = bookRepository.getBookByAuthorContains(authors[i]);
+            List<Book> books = bookRepository.getBookByAuthor(authors[i]);
             for (Book book : books) {
                 boolean flag = true;
                 for (int j = 0; j < authors.length; j++) {
@@ -127,7 +127,7 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     public Page<Book> searchBookByFullAuthors(Pageable pageable, String[] authors) {
-        return bookRepository.getBookByAuthor(pageable, Arrays.asList(authors));
+        return bookRepository.getBookByMatchAuthorExactly(pageable, Arrays.asList(authors));
     }
 
     public Page<Book> searchBookByPublisher(Pageable pageable, String publisherName) {
@@ -160,11 +160,7 @@ public class BookService implements PublicationService<Book, Long> {
         if (_book == null) {
             throw new ResourceNotFoundByIdException();
         }
-        if (!_book.equals(book)) {
-            //if the two is not equal
-            return this.bookRepository.save(book);
-        }
-        return book;
+        return this.bookRepository.save(book);
     }
 
     @Override

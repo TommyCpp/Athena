@@ -24,9 +24,9 @@ public interface BookRepository extends JpaRepository<Book, Long>, CustomBookRep
     @Query(nativeQuery = true, value = "SELECT * FROM book WHERE REPLACE(title_pinyin,',','') = ?1")
     List<Book> getBooksByTitlePinyin(String pinyin);
 
-    Page<Book> getBookByAuthorContains(Pageable pageable, String author);
+    Page<Book> getBookByAuthor(Pageable pageable, String author);
 
-    List<Book> getBookByAuthorContains(String author);
+    List<Book> getBookByAuthor(String author);
 
     Page<Book> getBookByPublisher(Pageable pageable, Publisher publisher);
 

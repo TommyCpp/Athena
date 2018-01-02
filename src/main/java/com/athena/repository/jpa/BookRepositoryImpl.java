@@ -19,7 +19,7 @@ public class BookRepositoryImpl implements CustomBookRepository {
     private EntityManager entityManager;
 
     @Override
-    public Page<Book> getBookByAuthor(Pageable pageable, List<String> authors) {
+    public Page<Book> getBookByMatchAuthorExactly(Pageable pageable, List<String> authors) {
         StringBuilder authorQueryBuilder = new StringBuilder();
         for (int i = 0; i < authors.size(); i++) {
             String author = authors.get(i).replace("'", "\'");
@@ -72,6 +72,6 @@ public class BookRepositoryImpl implements CustomBookRepository {
         query.setParameter(3, pageSize);
 
         List queryResult = query.getResultList();
-        return new PageImpl<Book>(queryResult, pageable.next(), total);//todo:test
+        return new PageImpl<Book>(queryResult, pageable.next(), total);
     }
 }
