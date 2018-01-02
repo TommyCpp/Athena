@@ -77,7 +77,7 @@ open class BookTest {
         val pageable = PageRequest(0, 20)
 
 
-        var books = bookRepository.getBookBy_authorContains(pageable, "Nickola Dolling").content
+        var books = bookRepository.getBookByAuthorContains(pageable, "Nickola Dolling").content
         Assert.assertEquals(9783158101890L, books[0].isbn)
 
     }

@@ -2,12 +2,9 @@ package com.athena.model;
 
 import com.athena.model.listener.BookListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,8 +15,8 @@ import java.util.List;
 @Table(name = "book")
 public class Book implements Publication {
     private Long isbn;
-    private String _author;
-    private String _translator;
+    private List<String> author;
+    private List<String> translator;
     private Date publishDate;
     private String categoryId;
     private Integer version;
@@ -51,31 +48,15 @@ public class Book implements Publication {
         this.isbn = isbn;
     }
 
-    @Basic
-    @Column(name = "author", nullable = false, length = 128)
-    @JsonIgnore
-    public String get_author() {
-        return this._author;
-    }
-
-    public void set_author(String _author) {
-        this._author = _author;
-    }
-
-    @Transient
+    @ElementCollection
+    @Column(name = "author_name")
+    @CollectionTable(name = "book_author", joinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"))
     public List<String> getAuthor() {
-        return Arrays.asList(StringUtils.split(this._author, ","));
+        return this.author;
     }
 
-    @Transient
     public void setAuthor(List<String> author) {
-        if (author == null) {
-            return;
-        }
-        String[] authors = new String[author.size()];
-        author.toArray(authors);
-        Arrays.sort(authors);
-        this._author = StringUtils.join(authors, ",");
+        this.author = author;
     }
 
     @Basic
@@ -178,31 +159,15 @@ public class Book implements Publication {
         this.language = language;
     }
 
-    @Basic
-    @Column(name = "translator", length = 128)
-    @JsonIgnore
-    public String get_translator() {
-        return this._translator;
-    }
-
-    public void set_translator(String _translator) {
-        this._translator = _translator;
-    }
-
-    @Transient
+    @ElementCollection
+    @Column(name = "translator_name")
+    @CollectionTable(name = "book_translator", joinColumns = @JoinColumn(name = "isbn", referencedColumnName = "isbn"))
     public List<String> getTranslator() {
-        return this._translator == null ? new ArrayList<>() : Arrays.asList(StringUtils.split(this._translator, ","));
+        return this.translator;
     }
 
-    @Transient
     public void setTranslator(List<String> translator) {
-        if (translator == null) {
-            return;
-        }
-        String[] translators = new String[translator.size()];
-        translator.toArray(translators);
-        Arrays.sort(translators);
-        this._translator = StringUtils.join(translators, ",");
+        this.translator = translator;
     }
 
     @Basic
@@ -213,56 +178,6 @@ public class Book implements Publication {
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Book book = (Book) o;
-
-        if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
-        if (_author != null ? !_author.equals(book._author) : book._author != null) return false;
-        if (_translator != null ? !_translator.equals(book._translator) : book._translator != null) return false;
-        if (publishDate != null ? !publishDate.equals(book.publishDate) : book.publishDate != null) return false;
-        if (categoryId != null ? !categoryId.equals(book.categoryId) : book.categoryId != null) return false;
-        if (version != null ? !version.equals(book.version) : book.version != null) return false;
-        if (coverUrl != null ? !coverUrl.equals(book.coverUrl) : book.coverUrl != null) return false;
-        if (preface != null ? !preface.equals(book.preface) : book.preface != null) return false;
-        if (introduction != null ? !introduction.equals(book.introduction) : book.introduction != null) return false;
-        if (directory != null ? !directory.equals(book.directory) : book.directory != null) return false;
-        if (title != null ? !title.equals(book.title) : book.title != null) return false;
-        if (titlePinyin != null ? !titlePinyin.equals(book.titlePinyin) : book.titlePinyin != null) return false;
-        if (titleShortPinyin != null ? !titleShortPinyin.equals(book.titleShortPinyin) : book.titleShortPinyin != null)
-            return false;
-        if (subtitle != null ? !subtitle.equals(book.subtitle) : book.subtitle != null) return false;
-        if (language != null ? !language.equals(book.language) : book.language != null) return false;
-        if (price != null ? !price.equals(book.price) : book.price != null) return false;
-        if (publisher != null ? !publisher.equals(book.publisher) : book.publisher != null) return false;
-        return copies != null ? !copies.equals(book.copies) : book.copies != null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = isbn != null ? isbn.hashCode() : 0;
-        result = 31 * result + (_author != null ? _author.hashCode() : 0);
-        result = 31 * result + (_translator != null ? _translator.hashCode() : 0);
-        result = 31 * result + (publishDate != null ? publishDate.hashCode() : 0);
-        result = 31 * result + (categoryId != null ? categoryId.hashCode() : 0);
-        result = 31 * result + (version != null ? version.hashCode() : 0);
-        result = 31 * result + (coverUrl != null ? coverUrl.hashCode() : 0);
-        result = 31 * result + (preface != null ? preface.hashCode() : 0);
-        result = 31 * result + (introduction != null ? introduction.hashCode() : 0);
-        result = 31 * result + (directory != null ? directory.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (titlePinyin != null ? titlePinyin.hashCode() : 0);
-        result = 31 * result + (titleShortPinyin != null ? titleShortPinyin.hashCode() : 0);
-        result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
-        result = 31 * result + (language != null ? language.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (publisher != null ? publisher.hashCode() : 0);
-        return result;
     }
 
     @ManyToOne
@@ -303,5 +218,20 @@ public class Book implements Publication {
 
     public void setCopies(List<BookCopy> copies) {
         this.copies = copies;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+
+        return isbn.equals(book.isbn);
+    }
+
+    @Override
+    public int hashCode() {
+        return isbn.hashCode();
     }
 }

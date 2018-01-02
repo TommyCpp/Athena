@@ -7,7 +7,6 @@ import com.athena.model.BookCopy;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.PublisherRepository;
 import com.athena.repository.jpa.copy.BookCopyRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -94,7 +93,7 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     public Page<Book> searchBookByAuthor(Pageable pageable, String author) {
-        return bookRepository.getBookBy_authorContains(pageable, author);
+        return bookRepository.getBookByAuthorContains(pageable, author);
     }
 
 
@@ -108,7 +107,7 @@ public class BookService implements PublicationService<Book, Long> {
     public Page<Book> searchBookByAuthors(Pageable pageable, String[] authors) {
         Set<Book> result = new HashSet<>();
         for (int i = 0; i < authors.length; i++) {
-            List<Book> books = bookRepository.getBookBy_authorContains(authors[i]);
+            List<Book> books = bookRepository.getBookByAuthorContains(authors[i]);
             for (Book book : books) {
                 boolean flag = true;
                 for (int j = 0; j < authors.length; j++) {
@@ -128,8 +127,7 @@ public class BookService implements PublicationService<Book, Long> {
     }
 
     public Page<Book> searchBookByFullAuthors(Pageable pageable, String[] authors) {
-        Arrays.sort(authors);
-        return bookRepository.getBookBy_author(pageable, StringUtils.join(authors, ","));
+        return bookRepository.getBookByAuthor(pageable, Arrays.asList(authors));
     }
 
     public Page<Book> searchBookByPublisher(Pageable pageable, String publisherName) {

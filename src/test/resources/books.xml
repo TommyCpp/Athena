@@ -1,50 +1,62 @@
+<?xml version='1.0' encoding='utf8'?>
 <dataset>
-    <book isbn="9787111124444" title="C程序设计" language="Chinese" author="谭浩强" publisher_id="999"
-          publish_date="2017-01-04" version="1" price="65.25" category_id="TP312C" title_pinyin="C,chen,xv,she,ji" title_short_pinyin="ccxsj"/>
-    <book isbn="9787111125643" title="C++程序设计指南" language="Chinese" author="测试作者" publisher_id="999"
-          publish_date="2017-01-06" version="1" price="55.25" category_id="TP312C" title_pinyin="C++,chen,xv,she,ji,zhi,nan" title_short_pinyin="ccxsjzn"/>
-    <book isbn="9784099507505"
-          title="adipiscing elit"
-          language="English" author="Steffen Catcherside" publisher_id="922" publish_date="2016-09-18" version="4"
-          price="520.5" category_id="TC331A"/>
-    <book isbn="9785226422377" title="ut erat id"
-          language="English" author="Georgie Northway" publisher_id="806" publish_date="2017-04-16" version="1"
-          price="1204.65" category_id="TC331C"/>
-    <book isbn="9786395132407"
-          title="tristique in"
-          language="English" author="Shea Coughtrey" publisher_id="122" publish_date="2016-10-05" version="1"
-          price="594.31" category_id="TC332C"/>
-    <book isbn="9785867649253"
-          title="consequat in consequat"
-          language="English" author="Lian Hubback" publisher_id="817" publish_date="2016-07-17" version="5"
-          price="85.25" category_id="TC331C"/>
-    <book isbn="9783158101890"
-          title="odio cras mi pede malesuada"
-          language="English" author="Nickola Dolling" publisher_id="127" publish_date="2016-11-14" version="2"
-          price="1229.44" category_id="TC331C"/>
-    <book isbn="9783158101891"
-          title="埃里克森定界符"
-          language="Chinese" author="阿里斯顿" publisher_id="127" publish_date="2016-11-10" version="2"
-          price="12.44" category_id="TC331C" title_pinyin="ai,li,ke,sen,ding,jie,fu" title_short_pinyin="alksdjf"/>
-    <book isbn="9783158101895" title="测试书记" author="书记" publisher_id="127" publish_date="2016-11-13" version="1"
-          category_id="TC331C" price="56.22" title_pinyin="ce,shi,shu,ji" title_short_pinyin="cssj" language="Chinese"/>
-    <book isbn="9783158101896" title="测试作者书籍" author="Aneig dlsa,Bianfd sld,Rdlf dls" publisher_id="127"
-          publish_date="2016-11-13" version="1"
-          category_id="TC331C" price="57.22" title_pinyin="ce,shi,zuo,zhe,shu,ji" title_short_pinyin="cszzsj" language="Chinese"/>
-    <book isbn="9783158101897" title="测试多个作者书籍" author="Aneig dlsa,Rdlf dls,Zlicn Tlidb" publisher_id="127"
-          publish_date="2016-11-13" version="1"
-          category_id="TC331C" price="57.22" title_pinyin="ce,shi,duo,ge,zuo,zhe,shu,ji" title_short_pinyin="csdgzzsj" language="Chinese"/>
-    <book isbn="9783158101898" title="测试书" author="Atester,Btester,Ctester" title_pinyin="ce,shi,shu"
-          title_short_pinyin="css" language="Chinese" publisher_id="127" publish_date="2016-11-13" version="1"
-          category_id="TC331C" price="56.22"/>
-    <book isbn="9783158101899" title="第二部测试书" author="Atester,Btester" title_short_pinyin="debcss"
-          title_pinyin="di,er,be,ce,shi,shu" language="Chinese" publisher_id="127" publish_date="2016-11-13" version="1"
-          category_id="TC331C" price="56.22"/>
-    <book isbn="9783158101900" title="第二部测试书" author="Tdinv,Zdnif" title_pinyin="di,er,bu,ce,shi,shu"
-          title_short_pinyin="debcss" language="Chinese" publisher_id="127" publish_date="2016-11-13" version="2"
-          category_id="TC331B" price="66.67"/>
-    <book isbn="9783158101901" title="第三部测试书" author="Tdicko" title_pinyin="di,san,bu,ce,shi,shu"
-          title_short_pinyin="dsbcss" language="Chinese" publisher_id="127" publish_date="2017-11-13" version="1"
-          category_id="TC331B" price="152.67"/>
+    <book category_id="TP312C" isbn="9787111124444" language="Chinese" price="65.25" publish_date="2017-01-04"
+          publisher_id="999" title="C程序设计" title_pinyin="C,chen,xv,she,ji" title_short_pinyin="ccxsj" version="1"/>
+    <book category_id="TP312C" isbn="9787111125643" language="Chinese" price="55.25" publish_date="2017-01-06"
+          publisher_id="999" title="C++程序设计指南" title_pinyin="C++,chen,xv,she,ji,zhi,nan" title_short_pinyin="ccxsjzn"
+          version="1"/>
+    <book category_id="TC331A" isbn="9784099507505" language="English" price="520.5" publish_date="2016-09-18"
+          publisher_id="922" title="adipiscing elit" version="4"/>
+    <book category_id="TC331C" isbn="9785226422377" language="English" price="1204.65" publish_date="2017-04-16"
+          publisher_id="806" title="ut erat id" version="1"/>
+    <book category_id="TC332C" isbn="9786395132407" language="English" price="594.31" publish_date="2016-10-05"
+          publisher_id="122" title="tristique in" version="1"/>
+    <book category_id="TC331C" isbn="9785867649253" language="English" price="85.25" publish_date="2016-07-17"
+          publisher_id="817" title="consequat in consequat" version="5"/>
+    <book category_id="TC331C" isbn="9783158101890" language="English" price="1229.44" publish_date="2016-11-14"
+          publisher_id="127" title="odio cras mi pede malesuada" version="2"/>
+    <book category_id="TC331C" isbn="9783158101891" language="Chinese" price="12.44" publish_date="2016-11-10"
+          publisher_id="127" title="埃里克森定界符" title_pinyin="ai,li,ke,sen,ding,jie,fu" title_short_pinyin="alksdjf"
+          version="2"/>
+    <book category_id="TC331C" isbn="9783158101895" language="Chinese" price="56.22" publish_date="2016-11-13"
+          publisher_id="127" title="测试书记" title_pinyin="ce,shi,shu,ji" title_short_pinyin="cssj" version="1"/>
+    <book category_id="TC331C" isbn="9783158101896" language="Chinese" price="57.22" publish_date="2016-11-13"
+          publisher_id="127" title="测试作者书籍" title_pinyin="ce,shi,zuo,zhe,shu,ji" title_short_pinyin="cszzsj"
+          version="1"/>
+    <book category_id="TC331C" isbn="9783158101897" language="Chinese" price="57.22" publish_date="2016-11-13"
+          publisher_id="127" title="测试多个作者书籍" title_pinyin="ce,shi,duo,ge,zuo,zhe,shu,ji" title_short_pinyin="csdgzzsj"
+          version="1"/>
+    <book category_id="TC331C" isbn="9783158101898" language="Chinese" price="56.22" publish_date="2016-11-13"
+          publisher_id="127" title="测试书" title_pinyin="ce,shi,shu" title_short_pinyin="css" version="1"/>
+    <book category_id="TC331C" isbn="9783158101899" language="Chinese" price="56.22" publish_date="2016-11-13"
+          publisher_id="127" title="第二部测试书" title_pinyin="di,er,be,ce,shi,shu" title_short_pinyin="debcss" version="1"/>
+    <book category_id="TC331B" isbn="9783158101900" language="Chinese" price="66.67" publish_date="2016-11-13"
+          publisher_id="127" title="第二部测试书" title_pinyin="di,er,bu,ce,shi,shu" title_short_pinyin="debcss" version="2"/>
+    <book category_id="TC331B" isbn="9783158101901" language="Chinese" price="152.67" publish_date="2017-11-13"
+          publisher_id="127" title="第三部测试书" title_pinyin="di,san,bu,ce,shi,shu" title_short_pinyin="dsbcss"
+          version="1"/>
 
+    <book_author author_name="谭浩强" isbn="9787111124444"/>
+    <book_author author_name="测试作者" isbn="9787111125643"/>
+    <book_author author_name="Steffen Catcherside" isbn="9784099507505"/>
+    <book_author author_name="Georgie Northway" isbn="9785226422377"/>
+    <book_author author_name="Shea Coughtrey" isbn="9786395132407"/>
+    <book_author author_name="Lian Hubback" isbn="9785867649253"/>
+    <book_author author_name="Nickola Dolling" isbn="9783158101890"/>
+    <book_author author_name="阿里斯顿" isbn="9783158101891"/>
+    <book_author author_name="书记" isbn="9783158101895"/>
+    <book_author author_name="Aneig dlsa" isbn="9783158101896"/>
+    <book_author author_name="Bianfd sld" isbn="9783158101896"/>
+    <book_author author_name="Rdlf dls" isbn="9783158101896"/>
+    <book_author author_name="Aneig dlsa" isbn="9783158101897"/>
+    <book_author author_name="Rdlf dls" isbn="9783158101897"/>
+    <book_author author_name="Zlicn Tlidb" isbn="9783158101897"/>
+    <book_author author_name="Atester" isbn="9783158101898"/>
+    <book_author author_name="Btester" isbn="9783158101898"/>
+    <book_author author_name="Ctester" isbn="9783158101898"/>
+    <book_author author_name="Atester" isbn="9783158101899"/>
+    <book_author author_name="Btester" isbn="9783158101899"/>
+    <book_author author_name="Tdinv" isbn="9783158101900"/>
+    <book_author author_name="Zdnif" isbn="9783158101900"/>
+    <book_author author_name="Tdicko" isbn="9783158101901"/>
 </dataset>

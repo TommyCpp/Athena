@@ -54,8 +54,6 @@ create table book
 	title varchar(128) not null,
 	subtitle varchar(128) null comment 'Additional info about title/Original title for book in other language',
 	language varchar(32) default 'Chinese' not null comment 'English',
-	author varchar(128) not null comment 'Multiple author should divided with comma.And should ordered by dictionary order',
-	translator varchar(128) null comment 'Multiple translator should be divided with comma. And should ordered by dictionary order',
 	publisher_id varchar(16) not null,
 	publish_date date not null,
 	category_id varchar(32) not null,
@@ -73,7 +71,7 @@ create table book
 create table book_author
 (
 	isbn bigint default '0' not null,
-	author_name varchar(16) default '' not null,
+	author_name varchar(128) default '' not null,
 	primary key (isbn, author_name)
 )
 ;
@@ -95,7 +93,7 @@ create index book_copy_book_isbn_fk
 create table book_translator
 (
 	isbn bigint default '0' not null,
-	translator_name varchar(32) default '' not null,
+	translator_name varchar(128) default '' not null,
 	primary key (isbn, translator_name)
 )
 ;
