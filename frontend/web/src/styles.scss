@@ -1,5 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import './app/shared/navbar/navbar-theme';
+@import './app/pages/home-page/home-page-theme';
 @import '../node_modules/@angular/material/theming';
 
 @mixin material-docs-app-theme($theme) {
@@ -9,7 +10,9 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-  @include nav-bar-theme($theme)
+  @include nav-bar-theme($theme);
+
+  @include home-page-theme($theme);
 }
 
 // Include material core styles.
@@ -23,6 +26,7 @@ $accent:  mat-palette($mat-pink, A200, A100, A400);
 $theme: mat-light-theme($primary, $accent);
 
 @include material-docs-app-theme($theme);
+
 
 body {
   margin: 0;

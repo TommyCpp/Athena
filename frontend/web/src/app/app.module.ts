@@ -24,7 +24,6 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
     MatToolbarModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(ATHENA_ROUTES),
-    Router
   ],
   providers: [],
   bootstrap: [AppComponent]
