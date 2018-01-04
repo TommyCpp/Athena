@@ -3,28 +3,22 @@
     <img class="docs-angular-logo"
          src="../../../assets/img/homepage/angular-white-transparent.svg"
          alt="angular">
-    <span>Material</span>
+    <span>Athena</span>
   </a>
   <a mat-button class="docs-navbar-hide-small docs-button"
      *ngFor="let key of sectionKeys">{{sections[key]}}</a>
   <a mat-button class="docs-navbar-hide-small docs-button" routerLink="guides">User Guides</a>
   <div class="flex-spacer"></div>
-  <a mat-button class="docs-button docs-navbar-hide-small" href="https://github.com/angular/material2"
-     aria-label="GitHub Repository">
-    <img class="docs-angular-logo"
-         src="../../../assets/img/homepage/github-circle-white-transparent.svg"
-         alt="angular">
-    GitHub
+  <a mat-button class="docs-button docs-navbar-hide-small" aria-label="Login">
+    <i class="material-icons">account_circle</i>
+    Login
   </a>
-  <a mat-icon-button class="docs-button docs-navbar-show-small"
-     href="https://github.com/angular/material2" aria-label="GitHub Repository">
-    <img class="docs-angular-logo"
-         src="../../../assets/img/homepage/github-circle-white-transparent.svg"
-         alt="angular">
+  <a mat-icon-button class="docs-button docs-navbar-show-small" aria-label="Login">
+    <i class="material-icons">account_circle</i>
   </a>
 </nav>
 <nav class="docs-navbar docs-navbar-show-small">
   <a mat-button class="docs-navbar-link"
      *ngFor="let key of sectionKeys">{{sections[key]}}</a>
-  <a mat-button class="docs-navbar-link" routerLink="guides">Guides</a>
+  <a mat-button class="docs-navbar-link" routerLink="guides">User Guides</a>
 </nav>
