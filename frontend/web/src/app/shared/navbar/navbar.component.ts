@@ -11,10 +11,12 @@ export class NavbarComponent implements OnInit {
   private sections;
   private sectionKeys;
   private loginDialog: MatDialogRef<LoginDialogComponent>;
+  private username;
 
   constructor(private dialog: MatDialog) {
     this.sections = {};
     this.sectionKeys = [];
+    this.username = null;
   }
 
   ngOnInit() {
