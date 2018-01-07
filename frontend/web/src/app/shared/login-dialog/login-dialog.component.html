@@ -1,8 +1,20 @@
 <h2 mat-dialog-title>Login</h2>
-<mat-dialog-content>Go with the login form</mat-dialog-content>
+<mat-dialog-content>
+  <form class="mat-form" #f="ngForm">
+    <mat-form-field>
+      <input matInput ngModel name="username" placeholder="Username" required />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput ngModel name="password" placeholder="Password" [type]="ifHidePassword ? 'password' : 'text'" required />
+      <mat-icon matSuffix (click)="ifHidePassword = !ifHidePassword">{{ifHidePassword ? 'visibility_off' :
+        'visibility'}}
+      </mat-icon>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
 <mat-dialog-actions>
   <!--<button mat-button mat-dialog-close>Cancel</button>-->
   <!-- Can optionally provide a result for the closing dialog. -->
   <button mat-button mat-dialog-close>Close</button>
-  <button mat-button type="submit">submit</button>
+  <button mat-button type="submit" (click)="f.valid && onSubmit(f.value)">submit</button>
 </mat-dialog-actions>

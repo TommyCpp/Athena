@@ -1,6 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LoginDialogComponent } from './login-dialog.component';
+import {LoginDialogComponent} from './login-dialog.component';
+import {ATHENA_ROUTES} from '../../routes';
+import {RouterModule} from '@angular/router';
+import {MatDialogModule} from '@angular/material';
 
 describe('LoginDialogComponent', () => {
   let component: LoginDialogComponent;
@@ -8,9 +11,10 @@ describe('LoginDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginDialogComponent ]
+      declarations: [LoginDialogComponent],
+      imports: [MatDialogModule],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

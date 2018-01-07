@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {LoginService} from '../../service/login.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -7,15 +8,21 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
   styleUrls: ['./login-dialog.component.scss']
 })
 export class LoginDialogComponent implements OnInit {
+  ifHidePassword: Boolean = true;
 
   constructor(public dialogRef: MatDialogRef<LoginDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+              @Inject(MAT_DIALOG_DATA) public data: any, public loginService: LoginService) {
   }
 
   ngOnInit() {
   }
 
-  onNoClick(): void{
+  onSubmit(formValue: object): void {
+    this.loginService.login(formValue['username'], formValue['password'])
+      .subscribe(/*todo:errorHandler,*/);
+  }
+
+  onNoClick(): void {
     this.dialogRef.close();
   }
 }

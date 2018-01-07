@@ -28,6 +28,8 @@ export class NavbarComponent implements OnInit {
   }
 
   openLogin() {
-    this.loginDialog = this.dialog.open(LoginDialogComponent);
+    this.loginDialog = this.dialog.open(LoginDialogComponent, {
+      disableClose: true, // can only close by click close button
+    });
   }
 }
