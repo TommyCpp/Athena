@@ -12,7 +12,7 @@ import {
   MatInputModule
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {LoginService} from '../../service/login.service';
+import {LoginService} from '../../core/service/login.service';
 import {OverlayRef} from '@angular/cdk/overlay';
 import {Observable} from 'rxjs/Observable';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';

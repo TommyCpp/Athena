@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {LoginService} from '../../service/login.service';
+import {LoginService} from '../../core/service/login.service';
 
 @Component({
   selector: 'app-login-dialog',
