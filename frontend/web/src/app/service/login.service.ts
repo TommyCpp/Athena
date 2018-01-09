@@ -9,6 +9,7 @@ export class LoginService {
 
   public login(username: string, password: string): Observable<any> {
     // todo: login
+    return null;
   }
 
 }
