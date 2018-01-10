@@ -1,20 +1,51 @@
 import {Inject, Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {REST_URL} from '../../config';
+import {AuthService} from '../service/auth.service';
+import 'rxjs/add/operator/do';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  private urlNeedAuth: string[];
+  private urlWithoutAuth: string[];
+  private loginUrl: string;
 
-
-  constructor(@Inject(REST_URL) private urlMap) {
+  constructor(@Inject(REST_URL) urlMap, private authService: AuthService) {
+    for (const key in urlMap) {
+      if (urlMap.hasOwnProperty(key)) {
+        if (key === 'Login') {
+          // if is the Login url
+          this.loginUrl = urlMap[key].url;
+        }
+        if (urlMap[key].needAuth) {
+          this.urlNeedAuth.push(urlMap[key].url);
+        } else {
+          this.urlWithoutAuth.push(urlMap[key].url);
+        }
+      }
+    }
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url) {
-      //  todo:implement
+    // todo: test
+    if (req.url === this.loginUrl) {
+      // save the JWT
+      return next.handle(req).do((httpEvent: HttpEvent<any>) => {
+        if (httpEvent instanceof HttpResponse && httpEvent.headers.has('X-AUTHENTICATION')) {
+          this.authService.userToken = httpEvent.headers.get('X-AUTHENTICATION');
+        }
+      });
     }
-    return null;
+    if (req.url in this.urlNeedAuth) {
+      const token = this.authService.userToken;
+      if (token) {
+        req.headers.append('X-AUTHENTICATION', token);
+      } else {
+        return next.handle(req);
+      }
+    }
+    return next.handle(req);
   }
 
 }

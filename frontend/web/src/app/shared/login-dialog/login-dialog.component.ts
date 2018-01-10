@@ -19,7 +19,8 @@ export class LoginDialogComponent implements OnInit {
 
   onSubmit(formValue: object): void {
     this.loginService.login(formValue['username'], formValue['password'])
-      .subscribe(/*todo:errorHandler,*/);
+      .subscribe((value) => {
+      });
   }
 
   onNoClick(): void {
