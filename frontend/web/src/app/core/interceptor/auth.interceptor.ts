@@ -37,10 +37,11 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       });
     }
-    if (req.url in this.urlNeedAuth) {
+    if (this.urlNeedAuth.indexOf(req.url) !== -1) {
       const token = this.authService.userToken;
       if (token) {
-        req.headers.append('X-AUTHENTICATION', token);
+        const secureReq = req.clone({headers: req.headers.append('X-AUTHENTICATION', token)});
+        return next.handle(secureReq);
       } else {
         return next.handle(req);
       }
