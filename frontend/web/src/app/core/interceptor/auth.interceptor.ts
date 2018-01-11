@@ -7,10 +7,11 @@ import 'rxjs/add/operator/do';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private urlNeedAuth: string[];
-  private urlWithoutAuth: string[];
+  private urlNeedAuth: string[] = [];
+  private urlWithoutAuth: string[] = [];
   private loginUrl: string;
 
+  //todo: verify request type
   constructor(@Inject(REST_URL) urlMap, private authService: AuthService) {
     for (const key in urlMap) {
       if (urlMap.hasOwnProperty(key)) {
@@ -28,7 +29,6 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // todo: test
     if (req.url === this.loginUrl) {
       // save the JWT
       return next.handle(req).do((httpEvent: HttpEvent<any>) => {

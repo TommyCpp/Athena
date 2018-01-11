@@ -7,6 +7,7 @@ export const REST_URL = new InjectionToken('REST_URL');
 export const REST_URL_VALUE = {
   'Login': {
     url: '/login',
-    needAuth: false
+    needAuth: false,
+    type: ['POST']
   }
 };
