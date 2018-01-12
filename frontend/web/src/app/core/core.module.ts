@@ -4,6 +4,7 @@ import {LoginService} from './service/login.service';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from './interceptor/auth.interceptor';
 import {AuthService} from './service/auth.service';
+import {EndPointService} from './service/end-point.service';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import {AuthService} from './service/auth.service';
   providers: [
     LoginService,
     AuthService,
+    EndPointService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

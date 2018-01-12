@@ -1,12 +1,6 @@
 import {InjectionToken} from '@angular/core';
+import {EndPoint} from './core/service/end-point.service';
 
-export type HttpMethod = 'POST' | 'GET' | 'OPTION' | 'PUT' | 'PATCH'
-
-export type EndPoint = {
-  url: string;
-  needAuth: boolean;
-  type: HttpMethod[];
-}
 
 export const BASE_URL = new InjectionToken('BASE_URL');
 export const BASE_URL_VALUE = 'localhost:6006';

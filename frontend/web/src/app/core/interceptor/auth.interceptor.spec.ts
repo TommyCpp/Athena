@@ -5,6 +5,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {BASE_URL, BASE_URL_VALUE, REST_URL, REST_URL_VALUE} from '../../config';
 import {AuthService} from '../service/auth.service';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpResponse} from '@angular/common/http';
+import {EndPointService} from '../service/end-point.service';
 
 
 describe('AuthInterceptor', () => {
@@ -15,6 +16,7 @@ describe('AuthInterceptor', () => {
       providers: [
         HttpClient,
         AuthInterceptor,
+        EndPointService,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthInterceptor,
