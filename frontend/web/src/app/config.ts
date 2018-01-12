@@ -1,9 +1,11 @@
 import {InjectionToken} from '@angular/core';
 
+export type HttpMethod = 'POST' | 'GET' | 'OPTION' | 'PUT' | 'PATCH'
+
 export type EndPoint = {
   url: string;
   needAuth: boolean;
-  type: ('POST'|'GET'|'OPTION'|'PUT'|'PATCH')[];
+  type: HttpMethod[];
 }
 
 export const BASE_URL = new InjectionToken('BASE_URL');

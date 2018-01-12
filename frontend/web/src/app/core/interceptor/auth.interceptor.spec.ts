@@ -26,11 +26,13 @@ describe('AuthInterceptor', () => {
             return {
               'Login': {
                 url: base_url + '/login',
-                needAuth: false
+                needAuth: false,
+                type: ['POST', 'GET']
               },
               'AuthMove': {
                 url: base_url + '/authMove',
-                needAuth: true
+                needAuth: true,
+                type: ['POST']
               }
             };
           },
