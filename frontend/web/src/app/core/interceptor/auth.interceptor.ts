@@ -1,7 +1,7 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {REST_URL} from '../../config';
+import {EndPoint, REST_URL} from '../../config';
 import {AuthService} from '../service/auth.service';
 import 'rxjs/add/operator/do';
 
@@ -9,15 +9,15 @@ import 'rxjs/add/operator/do';
 export class AuthInterceptor implements HttpInterceptor {
   private urlNeedAuth: string[] = [];
   private urlWithoutAuth: string[] = [];
-  private loginUrl: string;
+  private loginEndPoint: EndPoint;
 
   //todo: verify request type
-  constructor(@Inject(REST_URL) urlMap, private authService: AuthService) {
+  constructor(@Inject(REST_URL) urlMap: { [key: string]: EndPoint }, private authService: AuthService) {
     for (const key in urlMap) {
       if (urlMap.hasOwnProperty(key)) {
         if (key === 'Login') {
           // if is the Login url
-          this.loginUrl = urlMap[key].url;
+          this.loginEndPoint = urlMap[key];
         }
         if (urlMap[key].needAuth) {
           this.urlNeedAuth.push(urlMap[key].url);
@@ -29,7 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url === this.loginUrl) {
+    if (req.url === this.loginEndPoint.url) {
       // save the JWT
       return next.handle(req).do((httpEvent: HttpEvent<any>) => {
         if (httpEvent instanceof HttpResponse && httpEvent.headers.has('X-AUTHENTICATION')) {
