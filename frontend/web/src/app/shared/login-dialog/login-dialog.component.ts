@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {LoginService} from '../../core/service/login.service';
+import {HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login-dialog',
@@ -19,7 +20,8 @@ export class LoginDialogComponent implements OnInit {
 
   onSubmit(formValue: object): void {
     this.loginService.login(formValue['username'], formValue['password'])
-      .subscribe((value) => {
+      .subscribe((response:HttpResponse<any>) => {
+
       });
   }
 
