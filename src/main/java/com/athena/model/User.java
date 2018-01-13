@@ -1,6 +1,9 @@
 package com.athena.model;
 
 import com.athena.model.listener.UserListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -52,6 +55,7 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "password", nullable = false, length = 32)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {
         return password;
     }
@@ -87,6 +91,7 @@ public class User implements Serializable {
         return identity;
     }
 
+    @JsonSetter
     public void setIdentity(List<String> identity) {
         this.identity = identity;
     }
@@ -110,6 +115,7 @@ public class User implements Serializable {
 
 
     @OneToMany
+    @JsonIgnore
     public List<Borrow> getBorrows() {
         return borrows;
     }
