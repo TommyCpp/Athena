@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {LoginDialogComponent} from '../login-dialog/login-dialog.component';
+import {AuthService} from '../../core/service/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit {
   private loginDialog: MatDialogRef<LoginDialogComponent>;
   private username;
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private authService: AuthService) {
     this.sections = {};
     this.sectionKeys = [];
     this.username = null;
@@ -31,5 +32,10 @@ export class NavbarComponent implements OnInit {
     this.loginDialog = this.dialog.open(LoginDialogComponent, {
       disableClose: true, // can only close by click close button
     });
+    this.loginDialog.afterClosed().subscribe(() => {
+      if (this.authService.user) {
+        this.username = this.authService.user.username;
+      }
+    })
   }
 }

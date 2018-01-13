@@ -3,7 +3,7 @@ import {EndPoint} from './core/service/end-point.service';
 
 
 export const BASE_URL = new InjectionToken('BASE_URL');
-export const BASE_URL_VALUE = 'localhost:6006';
+export const BASE_URL_VALUE = 'http://localhost:3000';
 
 export const REST_URL = new InjectionToken('REST_URL');
 export const REST_URL_VALUE: { [key: string]: EndPoint } = {
@@ -12,4 +12,5 @@ export const REST_URL_VALUE: { [key: string]: EndPoint } = {
     needAuth: false,
     type: ['POST']
   }
+
 };

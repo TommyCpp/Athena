@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {AuthService} from '../service/auth.service';
 import 'rxjs/add/operator/do';
 import {EndPointService} from '../service/end-point.service';
+import {User} from '../model/user';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -19,6 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req).do((httpEvent: HttpEvent<any>) => {
         if (httpEvent instanceof HttpResponse && httpEvent.headers.has('X-AUTHENTICATION')) {
           this.authService.userToken = httpEvent.headers.get('X-AUTHENTICATION');
+          this.authService.user = httpEvent.body as User;
         }
       });
     }

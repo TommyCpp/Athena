@@ -41,6 +41,7 @@ export class EndPointService {
     return this.endPointMap[key];
   }
 
+
   private static hasEndPoint(endPoints: EndPoint[], req: HttpRequest<any>): boolean {
     for (let endPoint of endPoints) {
       if (EndPointService.matchEndPoint(endPoint, req)) {

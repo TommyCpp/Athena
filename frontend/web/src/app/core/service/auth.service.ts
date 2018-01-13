@@ -8,6 +8,12 @@ export class AuthService {
   private _userToken: string;
 
   constructor() {
+    let token = localStorage.getItem('userToken');
+    if(token){
+      //if have token
+      this._userToken = token;
+      //todo: query user's info
+    }
   }
 
   get userToken() {
@@ -20,4 +26,11 @@ export class AuthService {
   }
 
 
+  set user(user: User) {
+    this._currentUser = user;
+  }
+
+  get user(){
+    return this._currentUser;
+  }
 }

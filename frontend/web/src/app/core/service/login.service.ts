@@ -9,10 +9,10 @@ export class LoginService {
   constructor(private http: HttpClient, private endPointService: EndPointService) {
   }
 
-  public login(username: string, password: string): Observable<HttpResponse<any>> {
+  public login(id: string, password: string): Observable<HttpResponse<any>> {
     let loginEndPoint: EndPoint = this.endPointService.getEndPoint('Login');
     return this.http.post(loginEndPoint.url, {
-      username: username,
+      id: id,
       password: password,
     }, {observe: 'response'});
   }
