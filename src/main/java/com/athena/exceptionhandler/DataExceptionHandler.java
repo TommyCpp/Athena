@@ -2,8 +2,8 @@ package com.athena.exceptionhandler;
 
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.internal.BatchStoreException;
-import com.athena.model.AbstractCopy;
 import com.athena.model.Book;
+import com.athena.model.domain.copy.AbstractCopy;
 import com.athena.service.copy.SimpleCopyService;
 import com.athena.service.publication.BookService;
 import org.springframework.beans.factory.annotation.Autowired;

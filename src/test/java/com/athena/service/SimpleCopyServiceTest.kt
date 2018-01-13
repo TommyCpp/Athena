@@ -1,9 +1,9 @@
 package com.athena.service
 
 import com.athena.exception.http.MixedCopyTypeException
-import com.athena.model.CopyStatus
 import com.athena.model.SimpleCopy
 import com.athena.model.User
+import com.athena.model.domain.copy.CopyStatus
 import com.athena.repository.jpa.copy.BookCopyRepository
 import com.athena.repository.jpa.copy.JournalCopyRepository
 import com.athena.repository.jpa.copy.SimpleCopyRepository

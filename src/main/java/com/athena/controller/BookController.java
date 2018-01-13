@@ -5,7 +5,7 @@ import com.athena.exception.internal.BatchStoreException;
 import com.athena.model.Batch;
 import com.athena.model.Book;
 import com.athena.model.BookCopy;
-import com.athena.model.CopyInfo;
+import com.athena.model.domain.copy.CopyVO;
 import com.athena.service.copy.BookCopyService;
 import com.athena.service.publication.BookService;
 import com.athena.service.util.BatchService;
@@ -180,7 +180,7 @@ public class BookController {
     @PostMapping(path = "/{isbn}/copy/")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> createCopy(@PathVariable Long isbn, @RequestBody List<CopyInfo> copyInfoList) throws BookNotFoundException, BatchStoreException, URISyntaxException {
+    public ResponseEntity<?> createCopy(@PathVariable Long isbn, @RequestBody List<CopyVO> copyVOList) throws BookNotFoundException, BatchStoreException, URISyntaxException {
         List<BookCopy> bookCopyList = new ArrayList<>();
         List<String> urls = new ArrayList<>();
 
@@ -189,8 +189,8 @@ public class BookController {
             throw new BookNotFoundException(isbn);
         }
 
-        for (CopyInfo copyInfo : copyInfoList) {
-            bookCopyList.add(new BookCopy(copyInfo, book));
+        for (CopyVO copyVO : copyVOList) {
+            bookCopyList.add(new BookCopy(copyVO, book));
         }
         try {
             this.bookCopyService.add(bookCopyList);

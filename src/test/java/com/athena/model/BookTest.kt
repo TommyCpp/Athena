@@ -34,7 +34,8 @@ open class BookTest {
     private var generator: BookGenerator = BookGenerator()
 
     @Test
-    fun testGetPublisher() {
+    @Transactional
+    open fun testGetPublisher() {
         val book = bookRepository.findOne(9787111124444L)
         Assert.assertEquals(book.publisher.name, "测试出版社")
         val authors = ArrayList<String>()
@@ -84,7 +85,8 @@ open class BookTest {
 
 
     @Test
-    fun testChineseTitle() {
+    @Transactional
+    open fun testChineseTitle() {
         val book = bookRepository.findOne(9783158101891L)
         System.out.println(ObjectMapper().writeValueAsString(book))
     }

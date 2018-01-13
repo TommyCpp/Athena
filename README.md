@@ -8,7 +8,7 @@
 * 一个微信小程序，位于 `/src/main/javascript`
 * 一个基于Augular的前端，位于`/src/main/typescript`
 
-预计未来会加入使用 Angular 系列框架的前端界面及 Android 客户端
+预计未来会加入 Android 客户端
 
 该项目灵感来自于[此问题](http://www.cnsoftbei.com/bencandy.php?fid=148&aid=1532)
 
@@ -20,7 +20,7 @@ Currently, the Athena Project contains following components:
 * A WeChat Application `/src/main/javascript`
 * A frontend based on Angular `/src/main/typescript`
 
-More components like *the front-end based on Angular or React* and *the Android application* will be included in future
+More components like *the Android application* will be included in future
 
 This is project is inspired by the question from [here](http://www.cnsoftbei.com/bencandy.php?fid=148&aid=1532)
 ## Install & Preparation

@@ -1,5 +1,8 @@
 package com.athena.model;
 
+import com.athena.model.domain.copy.AbstractCopy;
+import com.athena.model.domain.copy.CopyVO;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,8 +17,8 @@ public class SimpleCopy extends AbstractCopy {
     public SimpleCopy() {
     }
 
-    public SimpleCopy(CopyInfo copyInfo) {
-        super(copyInfo);
+    public SimpleCopy(CopyVO copyVO) {
+        super(copyVO);
     }
 
     private List<Borrow> borrows;

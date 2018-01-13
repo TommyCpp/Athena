@@ -1,7 +1,7 @@
 package com.athena.model.listener;
 
 import com.athena.model.Borrow;
-import com.athena.model.CopyStatus;
+import com.athena.model.domain.copy.CopyStatus;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;

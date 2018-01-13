@@ -1,5 +1,7 @@
 package com.athena.model;
 
+import com.athena.model.domain.copy.CopyVO;
+
 import javax.persistence.*;
 
 /**
@@ -21,8 +23,8 @@ public class BookCopy extends SimpleCopy implements PublicationCopy{
         this.id = id;
     }
 
-    public BookCopy(CopyInfo copyInfo, Book book) {
-        super(copyInfo);
+    public BookCopy(CopyVO copyVO, Book book) {
+        super(copyVO);
         this.book = book;
     }
 

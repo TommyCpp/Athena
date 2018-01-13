@@ -1,4 +1,4 @@
-package com.athena.model;
+package com.athena.model.domain.copy;
 
 /**
  * Created by Tommy on 2017/8/25.

@@ -1,4 +1,4 @@
-package com.athena.model;
+package com.athena.model.domain.copy;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,7 +10,7 @@ import java.util.Calendar;
  * Created by Tommy on 2017/6/9.
  */
 @MappedSuperclass
-abstract public class AbstractCopy extends CopyInfo {
+abstract public class AbstractCopy extends CopyVO {
     protected Long id;
     protected Timestamp createdDate;
     protected Timestamp updatedDate;
@@ -22,8 +22,8 @@ abstract public class AbstractCopy extends CopyInfo {
         this.updatedDate = timestamp;
     }
 
-    public AbstractCopy(CopyInfo copyInfo) {
-        super(copyInfo.status);
+    public AbstractCopy(CopyVO copyVO) {
+        super(copyVO.status);
         Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
         this.createdDate = timestamp;
         this.updatedDate = timestamp;

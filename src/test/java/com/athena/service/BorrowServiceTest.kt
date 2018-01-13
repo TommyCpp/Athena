@@ -1,6 +1,10 @@
 package com.athena.service
 
-import com.athena.model.*
+import com.athena.model.BookCopy
+import com.athena.model.Borrow
+import com.athena.model.SimpleCopy
+import com.athena.model.User
+import com.athena.model.domain.copy.CopyStatus
 import com.athena.repository.jpa.BorrowRepository
 import com.athena.repository.jpa.copy.SimpleCopyRepository
 import com.athena.security.model.Account

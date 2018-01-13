@@ -1,6 +1,10 @@
 package com.athena.controller
 
-import com.athena.model.*
+import com.athena.model.Book
+import com.athena.model.Publisher
+import com.athena.model.User
+import com.athena.model.domain.copy.CopyStatus
+import com.athena.model.domain.copy.CopyVO
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.copy.BookCopyRepository
 import com.athena.security.model.Account
@@ -232,14 +236,14 @@ open class BookControllerTest {
 
     @Test
     fun testCreateCopy() {
-        var copyInfo: CopyInfo = CopyInfo()
-        copyInfo.status = CopyStatus.BOOKED
-        var copyInfoList: List<CopyInfo> = arrayListOf(copyInfo)
+        var copyVO: CopyVO = CopyVO()
+        copyVO.status = CopyStatus.BOOKED
+        var copyVOList: List<CopyVO> = arrayListOf(copyVO)
 
 
         this.mvc!!.perform(post(this.url_prefix + "/books/9785226422377/copy")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(ObjectMapper().writeValueAsString(copyInfoList))
+                .content(ObjectMapper().writeValueAsString(copyVOList))
                 .with(this.authentication("ROLE_ADMIN"))
         )
                 .andDo(print())

@@ -1,4 +1,4 @@
-package com.athena.model;
+package com.athena.model.domain.copy;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
  * Contain the basic info of an generic copy, can be used as the Jackson target class of input http message that create an copy.</p>
  */
 @MappedSuperclass
-public class CopyInfo {
+public class CopyVO {
     /**
      * 0: new included;
      * 1: available;
@@ -21,11 +21,11 @@ public class CopyInfo {
      * */
     protected Integer status;
 
-    public CopyInfo() {
+    public CopyVO() {
         this.status = CopyStatus.CREATED;
     }
 
-    public CopyInfo(Integer status) {
+    public CopyVO(Integer status) {
         this.status = status;
     }
 

@@ -4,7 +4,7 @@ import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.MixedCopyTypeException;
 import com.athena.exception.http.ResourceNotFoundByIdException;
-import com.athena.model.AbstractCopy;
+import com.athena.model.domain.copy.AbstractCopy;
 import com.athena.service.ModelCRUDService;
 
 import java.util.List;
