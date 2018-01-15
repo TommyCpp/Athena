@@ -11,6 +11,16 @@ export const REST_URL_VALUE: { [key: string]: EndPoint } = {
     url: '/login',
     needAuth: false,
     type: ['POST']
+  },
+  'GetUserById': {
+    url: '/users/:id',
+    needAuth: true,
+    type: ['GET']
+  },
+  'GetUserByToken': {
+    url: '/user',
+    needAuth: true,
+    type: ['GET']
   }
 
 };

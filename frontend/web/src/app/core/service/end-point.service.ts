@@ -41,6 +41,17 @@ export class EndPointService {
     return this.endPointMap[key];
   }
 
+  public getUrl(key: string, pathParams: { [key: string]: string }): string {
+    return this.setPathParams(this.endPointMap[key], pathParams).url;//TODO:test & error handle
+  }
+
+  public setPathParams(endPoint: EndPoint, pathParams: { [key: string]: string }): EndPoint {
+    endPoint.url = endPoint.url.replace(/:[a-z]*/g, (match) => {
+      return pathParams[match.substr(1)];
+    });
+    return endPoint;
+  }
+
 
   private static hasEndPoint(endPoints: EndPoint[], req: HttpRequest<any>): boolean {
     for (let endPoint of endPoints) {

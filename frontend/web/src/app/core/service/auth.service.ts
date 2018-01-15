@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {User} from '../model/user';
+import {EndPointService} from './end-point.service';
+import {HttpClient} from '@angular/common/http';
 
 
 @Injectable()
@@ -7,12 +9,14 @@ export class AuthService {
   private _currentUser: User;
   private _userToken: string;
 
-  constructor() {
+  constructor(private endPointService: EndPointService, private http: HttpClient) {
     let token = localStorage.getItem('userToken');
-    if(token){
-      //if have token
+    if (token) {
+      //if have token, set current identity
       this._userToken = token;
-      //todo: query user's info
+      this.http.get<User>(this.endPointService.getEndPoint('GetUserByToken').url).subscribe((user) => {
+        this._currentUser = user;//todo: test
+      })
     }
   }
 
@@ -30,7 +34,7 @@ export class AuthService {
     this._currentUser = user;
   }
 
-  get user(){
+  get user() {
     return this._currentUser;
   }
 }
