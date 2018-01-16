@@ -5,6 +5,7 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/h
 import {AuthInterceptor} from './interceptor/auth.interceptor';
 import {AuthService} from './service/auth.service';
 import {EndPointService} from './service/end-point.service';
+import { UserRolePipe } from './pipe/user-role.pipe';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import {EndPointService} from './service/end-point.service';
       multi: true
     }
   ],
-  declarations: []
+  declarations: [UserRolePipe]
 })
 export class CoreModule {
 }

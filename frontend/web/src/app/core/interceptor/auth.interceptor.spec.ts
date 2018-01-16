@@ -43,12 +43,13 @@ describe('AuthInterceptor', () => {
         {provide: BASE_URL, useValue: 'http://localhost'},
         {
           provide: AuthService,
-          useFactory: () => {
-            let service = new AuthService();
+          useFactory: (endPointService, httpClient) => {
+            let service = new AuthService(endPointService, httpClient);
             getUserTokenStub = spyOnProperty(service, 'userToken', 'get');
             setUserTokenStub = spyOnProperty(service, 'userToken', 'set');
             return service;
-          }
+          },
+          deps: [EndPointService, HttpClient]
         },
       ],
       imports: [
@@ -59,7 +60,7 @@ describe('AuthInterceptor', () => {
   });
 
   it('Request URL need auth', inject([HttpClient, HttpTestingController, AuthService],
-    (http: HttpClient, httpTestingController: HttpTestingController, authService: AuthService) => {
+    (http: HttpClient, httpTestingController: HttpTestingController) => {
       const token = 'P09LI8YCQ9CHWH02C4C-314C12O3I74GC2O4323C4';
       getUserTokenStub.and.returnValue(token);
 
@@ -76,7 +77,7 @@ describe('AuthInterceptor', () => {
     }));
 
   it('login', inject([HttpClient, HttpTestingController, AuthService],
-    (http: HttpClient, httpTestingController: HttpTestingController, authService: AuthService) => {
+    (http: HttpClient, httpTestingController: HttpTestingController) => {
       const token = 'P09LI8YCQ9CHWH02C4C-314C12O3I74GC2O4323C4';
       getUserTokenStub.and.returnValue(token);
 

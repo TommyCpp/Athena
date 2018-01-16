@@ -24,6 +24,11 @@ server.use((req, res, next) => {
   );
   next()
 });
+server.get('/user', (req, res) => {
+  let token = req.header('X-AUTHENTICATION');
+  let id = token.substr(token.length - 2);
+  res.redirect(`/users/${id}`);
+});
 server.post('/login', (req, res) => {
   let id = req.body["id"];
   let token = "O8Hp9YH98h98YO89y90T0F87feG80F";
