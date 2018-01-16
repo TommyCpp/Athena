@@ -1,9 +1,6 @@
 package com.athena.controller;
 
-import com.athena.exception.http.IllegalEntityAttributeException;
-import com.athena.exception.http.InvalidCopyTypeException;
-import com.athena.exception.http.MixedCopyTypeException;
-import com.athena.exception.http.ResourceNotFoundByIdException;
+import com.athena.exception.http.*;
 import com.athena.model.SimpleCopy;
 import com.athena.model.domain.copy.AbstractCopy;
 import com.athena.service.copy.SimpleCopyService;
@@ -18,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Tommy on 2017/8/24.
@@ -64,16 +62,33 @@ public class CopyController {
             ),
     },
             notes = "update copy success",
-            produces = "application/text"
+            produces = "application/json"
     )
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid entity attribute"),
     })
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> updateCopies(@RequestBody List<SimpleCopy> copies) throws IllegalEntityAttributeException, MixedCopyTypeException {
-        this.simpleCopyService.update(copies);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(this.simpleCopyService.update(copies));
+    }
+
+    @ApiOperation(value = "partial update copy", authorizations = {
+            @Authorization(
+                    value = "admin/superadmin"
+            ),
+    },
+            notes = "update copy success",
+            produces = "application/json"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Copy does not contain certain field"),
+    })
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
+    public ResponseEntity<?> partialUpdateCopies(@PathVariable Long id, @RequestBody Map<String, Object> params) throws IllegalEntityAttributeException, InvalidCopyTypeException, ResourceNotFoundException {
+        return ResponseEntity.ok(this.simpleCopyService.partialUpdate(id, params));//todo:test
     }
 }

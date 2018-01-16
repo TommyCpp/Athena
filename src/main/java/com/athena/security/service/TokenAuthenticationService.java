@@ -5,7 +5,6 @@ import com.athena.model.User;
 import com.athena.repository.jpa.UserRepository;
 import com.athena.security.model.Account;
 import com.athena.security.model.JwtAuthenticationToken;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +62,6 @@ public class TokenAuthenticationService {
         try {
             String responseBody = objectMapper.writeValueAsString(account.getUser());
             response.getWriter().write(responseBody);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();//fixme:test and error handle
         } catch (IOException e) {
             e.printStackTrace();
         }

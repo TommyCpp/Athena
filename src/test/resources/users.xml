@@ -1,5 +1,6 @@
 <dataset>
     <user id="10" username="superadmin" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="awesomeadmin" email="admin@athena.com" phone_number="1526421813"/>
+    <!--password is 123456-->
     <user id="11" username="test" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="cha" email="sldjf@sldfj.com" phone_number="1526421812"/>
     <user id="12" username="testUser" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="chasdf" email="ssdfsdff@sldfj.com" phone_number="18554692356"/>
     <user id="14" username="testUser" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="chasdf1" email="ssafsdff@sldfj.com" phone_number="18554692357"/>
