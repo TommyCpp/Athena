@@ -42,12 +42,12 @@ export class EndPointService {
   }
 
   public getUrl(key: string, pathParams: { [key: string]: string }): string {
-    return this.setPathParams(this.endPointMap[key], pathParams).url;//TODO:test & error handle
+    return this.setPathParams(this.endPointMap[key], pathParams).url;
   }
 
-  public setPathParams(endPoint: EndPoint, pathParams: { [key: string]: string }): EndPoint {
-    endPoint.url = endPoint.url.replace(/:[a-z]*/g, (match) => {
-      return pathParams[match.substr(1)];
+  public setPathParams(endPoint: EndPoint, pathParams: { [key: string]: string | number }): EndPoint {
+    endPoint.url = endPoint.url.replace(/{[a-zA-Z]*}/g, (match) => {
+      return pathParams[match.substr(1, match.length - 2)] as string;
     });
     return endPoint;
   }

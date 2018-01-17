@@ -16,6 +16,11 @@ describe('EndPointService', () => {
       url: base_url + '/authMove',
       needAuth: true,
       type: ['POST']
+    },
+    'Param': {
+      url: base_url + '/user/{id}',
+      needAuth: false,
+      type: ['GET']
     }
   };
   beforeEach(() => {
@@ -29,5 +34,12 @@ describe('EndPointService', () => {
     expect(endPointService.isRequestIsLogin(req2)).toBeTruthy();
     const req3 = new HttpRequest('GET', base_url + '/authMove');
     expect(endPointService.isRequestNeedAuth(req3)).toBeFalsy();
+  });
+
+  it('should bind the param', () => {
+    const url = endPointService.getUrl('Param', {
+      'id': '1'
+    });
+    expect(url).toEqual(base_url + '/user/1')
   });
 });

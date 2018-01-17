@@ -13,7 +13,7 @@ export const REST_URL_VALUE: { [key: string]: EndPoint } = {
     type: ['POST']
   },
   'GetUserById': {
-    url: '/users/:id',
+    url: '/users/{id}',
     needAuth: true,
     type: ['GET']
   },
