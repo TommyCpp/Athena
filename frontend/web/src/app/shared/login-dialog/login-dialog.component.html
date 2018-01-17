@@ -2,19 +2,19 @@
 <mat-dialog-content>
   <form class="mat-form" #f="ngForm">
     <mat-form-field>
-      <input matInput ngModel name="id" placeholder="ID" required />
+      <input matInput ngModel name="id" placeholder="ID" required/>
     </mat-form-field>
     <mat-form-field>
-      <input matInput ngModel name="password" placeholder="Password" [type]="ifHidePassword ? 'password' : 'text'" required />
+      <input matInput ngModel name="password" placeholder="Password" [type]="ifHidePassword ? 'password' : 'text'"
+             required/>
       <mat-icon matSuffix (click)="ifHidePassword = !ifHidePassword">{{ifHidePassword ? 'visibility_off' :
         'visibility'}}
       </mat-icon>
     </mat-form-field>
+    <mat-error *ngIf="loginFailMsg.length !=0">{{loginFailMsg}}</mat-error>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <!--<button mat-button mat-dialog-close>Cancel</button>-->
-  <!-- Can optionally provide a result for the closing dialog. -->
   <button mat-button mat-dialog-close>Close</button>
-  <button mat-button type="submit" (click)="f.valid && onSubmit(f.value)">submit</button>
+  <button mat-button type="submit" (click)="f.valid && onSubmit(f)">submit</button>
 </mat-dialog-actions>
