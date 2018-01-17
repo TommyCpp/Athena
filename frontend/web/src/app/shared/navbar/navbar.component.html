@@ -9,18 +9,18 @@
      *ngFor="let key of sectionKeys">{{sections[key]}}</a>
   <a mat-button class="docs-navbar-hide-small docs-button" routerLink="guides">User Guides</a>
   <div class="flex-spacer"></div>
-  <a *ngIf="!username" mat-button class="docs-button docs-navbar-hide-small" aria-label="Login" (click)="openLogin()">
+  <a *ngIf="!authService.user" mat-button class="docs-button docs-navbar-hide-small" aria-label="Login" (click)="openLogin()">
     <i class="material-icons">account_circle</i>
     {{'Login'}}
   </a>
-  <a *ngIf="username" mat-button class="docs-button docs-navbar-hide-small" aria-label="User">
+  <a *ngIf="authService.user" mat-button class="docs-button docs-navbar-hide-small" aria-label="User">
     <i class="material-icons">account_circle</i>
-    {{username}}
+    {{authService.user.username}}
   </a>
-  <a *ngIf="!username" mat-icon-button class="docs-button docs-navbar-show-small" aria-label="Login" (click)="openLogin()">
+  <a *ngIf="!authService.user" mat-icon-button class="docs-button docs-navbar-show-small" aria-label="Login" (click)="openLogin()">
     <i class="material-icons">account_circle</i>
   </a>
-  <a *ngIf="username" mat-icon-button class="docs-button docs-navbar-show-small" aria-label="Login">
+  <a *ngIf="authService.user" mat-icon-button class="docs-button docs-navbar-show-small" aria-label="User">
     <i class="material-icons">account_circle</i>
   </a>
 </nav>

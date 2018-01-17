@@ -43,13 +43,12 @@ describe('AuthInterceptor', () => {
         {provide: BASE_URL, useValue: 'http://localhost'},
         {
           provide: AuthService,
-          useFactory: (endPointService, httpClient) => {
-            let service = new AuthService(endPointService, httpClient);
+          useFactory: () => {
+            let service = new AuthService();
             getUserTokenStub = spyOnProperty(service, 'userToken', 'get');
             setUserTokenStub = spyOnProperty(service, 'userToken', 'set');
             return service;
-          },
-          deps: [EndPointService, HttpClient]
+          }
         },
       ],
       imports: [
