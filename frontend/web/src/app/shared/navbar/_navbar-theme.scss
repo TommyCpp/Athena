@@ -12,4 +12,16 @@
       background: mat-color($primary);
     }
   }
+
+  .mat-menu-panel {
+    background-color: mat-color($primary);
+  }
+
+  .mat-menu-item {
+    color: mat-color($primary, default-contrast);
+  }
+
+  .mat-menu-item .mat-icon:not([color]), .mat-menu-item-submenu-trigger::after {
+    color: mat-color($primary, default-contrast);
+  }
 }

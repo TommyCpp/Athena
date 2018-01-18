@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef, MatMenuModule} from '@angular/material';
 import {LoginDialogComponent} from '../login-dialog/login-dialog.component';
 import {AuthService} from '../../core/service/auth.service';
 import {LoginService} from '../../core/service/login.service';
@@ -7,7 +7,8 @@ import {LoginService} from '../../core/service/login.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  providers: [MatMenuModule]
 })
 export class NavbarComponent implements OnInit {
   private sections;
@@ -32,5 +33,9 @@ export class NavbarComponent implements OnInit {
     this.loginDialog = this.dialog.open(LoginDialogComponent, {
       disableClose: true, // can only close by click close button
     });
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

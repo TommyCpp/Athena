@@ -10,6 +10,11 @@ export class AuthService {
   constructor() {
   }
 
+  public logout() {
+    this._currentUser = null;
+    localStorage.removeItem('userToken');
+    this._userToken = null;
+  }
 
   get userToken() {
     if (this._userToken) {
