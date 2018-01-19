@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-card.component.scss']
 })
 export class SearchCardComponent implements OnInit {
+  searchValue: string;
 
   constructor() { }
 
