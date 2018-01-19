@@ -23,8 +23,8 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.loginService.getUserByStoredToken();
     this.sections = {
-      'publication': 'Publication',
-      'admin': 'Admin'
+      'publication': {name: 'Publication', path: '/publication'},
+      'admin': {name: 'Admin', path: '/admin'}
     };
     this.sectionKeys = Object.keys(this.sections);
   }

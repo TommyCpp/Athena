@@ -1,6 +1,9 @@
 import {Routes} from '@angular/router';
 import {HomePageComponent} from './pages/home-page/home-page.component';
+import {PublicationPageModule} from "./pages/publication-page/publication-page.module";
+import {PublicationPageComponent} from "./pages/publication-page/publication-page.component";
 
 export const ATHENA_ROUTES: Routes = [
-  {path: '', component: HomePageComponent, pathMatch: 'full'}
+  {path: '', component: HomePageComponent, pathMatch: 'full'},
+  {path: 'publication', component: PublicationPageComponent}
 ];

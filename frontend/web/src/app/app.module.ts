@@ -9,6 +9,7 @@ import {HomePageModule} from './pages/home-page/home-page.module';
 import {SharedModule} from './shared/shared.module';
 import {BrowserModule} from '@angular/platform-browser';
 import {BASE_URL, BASE_URL_VALUE, REST_URL, REST_URL_VALUE} from './config';
+import {PublicationPageModule} from "./pages/publication-page/publication-page.module";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {BASE_URL, BASE_URL_VALUE, REST_URL, REST_URL_VALUE} from './config';
     BrowserModule,
     CoreModule,
     SharedModule,
-    HomePageModule
+    HomePageModule,
+    PublicationPageModule
   ],
   providers: [
     {
