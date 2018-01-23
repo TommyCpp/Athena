@@ -72,7 +72,10 @@ create table book_author
 (
 	isbn bigint default '0' not null,
 	author_name varchar(128) default '' not null,
-	primary key (isbn, author_name)
+	primary key (isbn, author_name),
+	constraint book_author_book_isbn_fk
+	foreign key (isbn) references book (isbn)
+		on update cascade on delete cascade
 )
 ;
 
@@ -94,7 +97,10 @@ create table book_translator
 (
 	isbn bigint default '0' not null,
 	translator_name varchar(128) default '' not null,
-	primary key (isbn, translator_name)
+	primary key (isbn, translator_name),
+	constraint book_translator_book_isbn_fk
+	foreign key (isbn) references book (isbn)
+		on update cascade on delete cascade
 )
 ;
 
