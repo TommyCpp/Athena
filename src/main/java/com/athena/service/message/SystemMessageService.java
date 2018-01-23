@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * Created by Tommy on 2017/11/22.
  */
 @Service
-@DependsOn({"WebSocket"}) //list all implement of Messenger
+@DependsOn({"WebSocket", "Email"}) //list all implement of Messenger
 public class SystemMessageService implements MessageService {
 
     private SimpleGrantedAuthority receiverAuthority;
