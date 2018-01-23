@@ -1,6 +1,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import './app/shared/navbar/navbar-theme';
 @import './app/pages/home-page/home-page-theme';
+@import './app/pages/publication-page/publication-page-theme';
 @import '../node_modules/@angular/material/theming';
 
 @mixin material-docs-app-theme($theme) {
@@ -12,6 +13,7 @@
 
   @include nav-bar-theme($theme);
   @include home-page-theme($theme);
+  @include publication-page-theme($theme);
 }
 
 // Include material core styles.

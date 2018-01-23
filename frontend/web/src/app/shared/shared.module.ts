@@ -13,6 +13,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NavbarComponent} from './navbar/navbar.component';
 import {LoginDialogComponent} from './login-dialog/login-dialog.component';
 import {CardComponent} from './card/card.component';
+import {RouterModule} from "@angular/router";
+import {ATHENA_ROUTES} from "../routes";
 
 @NgModule({
   imports: [
@@ -26,6 +28,7 @@ import {CardComponent} from './card/card.component';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    RouterModule.forRoot(ATHENA_ROUTES)
   ],
   entryComponents: [LoginDialogComponent],
   providers: [],

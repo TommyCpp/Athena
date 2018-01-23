@@ -6,7 +6,7 @@
     <span>Athena</span>
   </a>
   <a mat-button class="docs-navbar-hide-small docs-button"
-     *ngFor="let key of sectionKeys">{{sections[key]}}</a>
+     *ngFor="let key of sectionKeys" [routerLink]="[sections[key].path]">{{sections[key].name}}</a>
   <a mat-button class="docs-navbar-hide-small docs-button" routerLink="guides">User Guides</a>
   <div class="flex-spacer"></div>
   <a *ngIf="!authService.user" mat-button class="docs-button docs-navbar-hide-small" aria-label="Login"
@@ -40,6 +40,6 @@
 </nav>
 <nav class="docs-navbar docs-navbar-show-small">
   <a mat-button class="docs-navbar-link"
-     *ngFor="let key of sectionKeys">{{sections[key]}}</a>
+     *ngFor="let key of sectionKeys" [routerLink]="[sections[key].path]">{{sections[key].name}}</a>
   <a mat-button class="docs-navbar-link" routerLink="guides">User Guides</a>
 </nav>
