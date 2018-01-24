@@ -1,6 +1,7 @@
 package com.athena.repository
 
-import com.athena.repository.jpa.BlockedUserRepository
+import com.athena.model.BlockRecord
+import com.athena.repository.jpa.BlockRecordRepository
 import com.athena.repository.jpa.UserRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -15,24 +16,30 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 
 /**
- * Created by Tommy on 2017/11/23.
+ * Created by Tommy on 2018/1/25.
  *
  */
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:blocks.xml", "classpath:users.xml","classpath:user_identity.xml")
-class BlockedUserRepositoryTest {
+@DatabaseSetup("classpath:users.xml", "classpath:user_identity.xml", "classpath:blocks.xml")
+class BlockRecordRepositoryTest {
     @Autowired
-    lateinit var blockedUserRepository: BlockedUserRepository
+    lateinit var blockRecordRepository: BlockRecordRepository
+
+
     @Autowired
-    lateinit var userRepository: UserRepository
+    lateinit var userRepsitory: UserRepository
 
     @Test
-    fun testFindOne() {
-        val user = this.userRepository.findOne(11L)
-        val result = this.blockedUserRepository.findOne(user.id)
-        Assert.assertEquals(10, result.handler.id)
+    fun testSaveByBlockRecordRepository() {
+        var blockRecord = BlockRecord()
+        blockRecord.blockedUser = this.userRepsitory.findOne(11L)
+        blockRecord.blockHandler = this.userRepsitory.findOne(10L)
+
+        blockRecord = this.blockRecordRepository.save(blockRecord)
+        Assert.assertEquals(10, blockRecord.blockHandler.id)
+        Assert.assertEquals(11, blockRecord.blockedUser.id)
 
     }
 }

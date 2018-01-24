@@ -1,27 +1,28 @@
 package com.athena.service.borrow;
 
 import com.athena.exception.http.ResourceNotFoundByIdException;
-import com.athena.model.BlockedUser;
+import com.athena.model.BlockRecord;
 import com.athena.model.User;
-import com.athena.repository.jpa.BlockedUserRepository;
+import com.athena.repository.jpa.BlockRecordRepository;
 import com.athena.repository.jpa.UserRepository;
 import com.athena.util.EntityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by Tommy on 2017/11/27.
  */
 @Service
 public class BlockService {
-
-    private BlockedUserRepository blockedUserRepository;
     private UserRepository userRepository;
+    private BlockRecordRepository blockRecordRepository;
 
     @Autowired
-    public BlockService(BlockedUserRepository blockedUserRepository, UserRepository userRepository) {
-        this.blockedUserRepository = blockedUserRepository;
+    public BlockService(UserRepository userRepository, BlockRecordRepository blockRecordRepository) {
         this.userRepository = userRepository;
+        this.blockRecordRepository = blockRecordRepository;
     }
 
     public void blockUser(Long userId, User handler) throws ResourceNotFoundByIdException {
@@ -32,14 +33,18 @@ public class BlockService {
 
 
     private void blockUser(User user, User handler) {
-        BlockedUser blockedUser = new BlockedUser(user);
-        blockedUser.setHandler(handler);
-        this.blockedUserRepository.save(blockedUser);
+        BlockRecord blockRecord = new BlockRecord(user, handler);
+        this.blockRecordRepository.save(blockRecord);
     }
 
     public void unBlockUser(Long userId, User handler) throws ResourceNotFoundByIdException {
-        BlockedUser blockedUser = this.blockedUserRepository.findOne(userId);
-        EntityUtil.requireEntityNotNull(blockedUser);
-        this.blockedUserRepository.delete(blockedUser);
+        User user = this.userRepository.findOne(userId);
+        EntityUtil.requireEntityNotNull(user);
+        List<BlockRecord> blockRecords = user.getBlockRecords();
+        for (BlockRecord blockRecord : blockRecords) {
+            blockRecord.setEnabled(false);
+            blockRecord.setUnblockHandler(handler);
+        }
+        this.userRepository.save(user);
     }
 }

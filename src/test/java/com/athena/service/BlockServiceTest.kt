@@ -1,10 +1,11 @@
 package com.athena.service
 
-import com.athena.model.BlockedUser
+import com.athena.model.BlockRecord
 import com.athena.model.User
-import com.athena.repository.jpa.BlockedUserRepository
+import com.athena.repository.jpa.BlockRecordRepository
 import com.athena.repository.jpa.UserRepository
 import com.athena.service.borrow.BlockService
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,7 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner
 @SpringBootTest
 class BlockServiceTest {
     @Mock
-    lateinit var blockedUserRepository: BlockedUserRepository
+    lateinit var BlockRecordRepository: BlockRecordRepository
 
     @Mock
     lateinit var userRepository: UserRepository
@@ -30,10 +31,10 @@ class BlockServiceTest {
     @InjectMocks
     lateinit var blockService: BlockService
 
-    class HandlerNotNullMatcher : ArgumentMatcher<BlockedUser>() {
+    class HandlerNotNullMatcher : ArgumentMatcher<BlockRecord>() {
         override fun matches(p0: Any?): Boolean {
-            if(p0 is BlockedUser){
-                return p0.handler != null
+            if (p0 is BlockRecord) {
+                return p0.blockHandler != null
             }
             return false
         }
@@ -44,6 +45,8 @@ class BlockServiceTest {
 
     private var handler: User = User()
 
+    private var unblockHandler: User = User()
+
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
@@ -53,6 +56,11 @@ class BlockServiceTest {
         handler.id = 4L
         handler.email = "test@admin.com"
         handler.setIdentity("ROLE_ADMIN")
+
+        unblockHandler.id = 6L
+        unblockHandler.email = "unblock@admin.com"
+        unblockHandler.setIdentity("ROLE_SUPERADMIN")
+
     }
 
     @Test
@@ -62,18 +70,26 @@ class BlockServiceTest {
         this.blockService.blockUser(1L, handler)
 
         verify(this.userRepository).findOne(any())
-        verify(this.blockedUserRepository).save(Matchers.argThat(HandlerNotNullMatcher()))
+        verify(this.BlockRecordRepository).save(Matchers.argThat(HandlerNotNullMatcher()))
 
     }
 
     @Test
-    fun testUnblockUser_ShouldUnblock(){
-        val blockedUser = BlockedUser(user)
-        `when`(this.blockedUserRepository.findOne(any())).thenReturn(blockedUser)
+    fun testUnblockUser_ShouldUnblock() {
+        val blockRecord = BlockRecord()
+        val mockBlockUser = mock(User::class.java)
+        blockRecord.blockHandler = handler
+        blockRecord.blockedUser = mockBlockUser
+        blockRecord.enabled = true
+        `when`(mockBlockUser.blockRecords).thenReturn(arrayListOf(blockRecord))
+        `when`(mockBlockUser.id).thenReturn(12L)
+        `when`(this.BlockRecordRepository.findOne(any())).thenReturn(blockRecord)
+        `when`(this.userRepository.findOne(12L)).thenReturn(mockBlockUser)
 
-        this.blockService.unBlockUser(3L, handler)
+        this.blockService.unBlockUser(12L, unblockHandler)
 
-        verify(this.blockedUserRepository).delete(blockedUser)
-        verify(this.blockedUserRepository).findOne(3L)
+        Assert.assertEquals(false, blockRecord.enabled)
+        Assert.assertEquals(unblockHandler, blockRecord.unblockHandler)
+        verify(this.userRepository).save(mockBlockUser)
     }
 }

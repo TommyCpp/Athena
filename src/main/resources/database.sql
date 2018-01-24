@@ -34,17 +34,29 @@ create index audio_copy_audio_isrc_fk
 	on audio_copy (isrc)
 ;
 
-create table block
+create table block_record
 (
-	user_id bigint not null
+	id char(36) not null
 		primary key,
-	handler_id bigint not null,
-	created_at datetime null
+	user_id bigint not null,
+	block_handler_id bigint not null,
+	unblock_handler_id bigint null,
+	enabled tinyint(1) default '0' null,
+	created_at datetime null,
+	note text null
 )
 ;
 
-create index block_user_handler_id_id_fk
-	on block (handler_id)
+create index block_record_user_id_fk_1
+	on block_record (user_id)
+;
+
+create index block_record_user__fk_3
+	on block_record (unblock_handler_id)
+;
+
+create index block_record_user_id_fk_2
+	on block_record (block_handler_id)
 ;
 
 create table book
@@ -229,20 +241,35 @@ create table user
 	wechat_id varchar(64) not null,
 	email varchar(64) not null,
 	phone_number varchar(11) null,
-	password varchar(64) not null
+	password varchar(64) not null,
+	block_record_id char(32) null,
+	constraint user_block_record_id_fk
+	foreign key (block_record_id) references block_record (id)
+		on update set null on delete set null
 )
 ;
 
-alter table block
-	add constraint block_user_user_id_id_fk
-foreign key (user_id) references user (id)
-	on update cascade on delete cascade
+create index user_id_index
+	on user (id)
 ;
 
-alter table block
-	add constraint block_user_handler_id_id_fk
-foreign key (handler_id) references user (id)
-	on update cascade
+create index user_block_record_id_fk
+	on user (block_record_id)
+;
+
+alter table block_record
+	add constraint block_record_user_id_fk_1
+foreign key (user_id) references user (id)
+;
+
+alter table block_record
+	add constraint block_record_user_id_fk_2
+foreign key (block_handler_id) references user (id)
+;
+
+alter table block_record
+	add constraint block_record_user__fk_3
+foreign key (unblock_handler_id) references user (id)
 ;
 
 alter table borrow
