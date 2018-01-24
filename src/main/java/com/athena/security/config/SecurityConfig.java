@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private JwtLoginFilter jwtLoginFilter() throws Exception {
-        return new JwtLoginFilter("/login", authenticationManager(), tokenAuthenticationService);
+        return new JwtLoginFilter(this.URL_PREFIX + "/login", authenticationManager(), tokenAuthenticationService);
     }
 
     private JwtAuthenticationFilter jwtAuthenticationFilter() {

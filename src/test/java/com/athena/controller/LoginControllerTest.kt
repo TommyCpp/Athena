@@ -34,14 +34,15 @@ import org.springframework.web.context.WebApplicationContext
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:user_identity.xml")
 @WebAppConfiguration
 open class LoginControllerTest {
-    @Autowired private val context: WebApplicationContext? = null
+    @Autowired
+    lateinit var context: WebApplicationContext
 
-    private var mvc: MockMvc? = null
+    lateinit var mvc: MockMvc
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
 
     @Before
     fun setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context!!).apply<DefaultMockMvcBuilder>(SecurityMockMvcConfigurers.springSecurity()).build()
+        mvc = MockMvcBuilders.webAppContextSetup(context).apply<DefaultMockMvcBuilder>(SecurityMockMvcConfigurers.springSecurity()).build()
 
     }
 
@@ -53,7 +54,7 @@ open class LoginControllerTest {
         val requestParam = LinkedMultiValueMap<String, String>()
         requestParam["id"] = "whatever"
         requestParam["password"] = "whatever"
-        var result = mvc!!.perform(post(this.url_prefix + "/login").params(requestParam)).andExpect(status().is4xxClientError).andReturn()
+        var result = mvc.perform(post(this.url_prefix + "/login").params(requestParam)).andExpect(status().is4xxClientError).andReturn()
         var stringResult = result.response.errorMessage
         Assert.assertTrue(stringResult.contains("Bad Credential"))
     }
@@ -63,7 +64,7 @@ open class LoginControllerTest {
         val requestParam = LinkedMultiValueMap<String, String>()
         requestParam["id"] = "0"
         requestParam["password"] = "whatever"
-        val result = mvc!!.perform(post(this.url_prefix + "/login").params(requestParam)).andExpect(status().is4xxClientError).andReturn()
+        val result = mvc.perform(post(this.url_prefix + "/login").params(requestParam)).andExpect(status().is4xxClientError).andReturn()
         val stringResult = result.response.errorMessage
         Assert.assertTrue(stringResult.contains("Account Not Found"))
     }
@@ -73,7 +74,7 @@ open class LoginControllerTest {
         val requestParam = LinkedMultiValueMap<String, String>()
         requestParam["id"] = "12"
         requestParam["password"] = "123456"
-        val result = mvc!!.perform(post(this.url_prefix + "/login").params(requestParam)).andExpect(status().isOk).andExpect(content().json("{\"id\":12,\"username\":\"testUser\",\"wechatId\":\"chasdf\",\"email\":\"ssdfsdff@sldfj.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"18554692356\"}")).andReturn()
+        val result = mvc.perform(post(this.url_prefix + "/login").params(requestParam)).andExpect(status().isOk).andExpect(content().json("{\"id\":12,\"username\":\"testUser\",\"wechatId\":\"chasdf\",\"email\":\"ssdfsdff@sldfj.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"18554692356\"}")).andReturn()
         Assert.assertNotNull(result.response.getHeader("X-AUTHENTICATION"))
     }
 

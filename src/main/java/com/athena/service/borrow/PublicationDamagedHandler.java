@@ -53,6 +53,9 @@ public class PublicationDamagedHandler {
             publicationCopy.setStatus(CopyStatus.AVAILABLE);
             logger.error("{}----{}---- Copy has not been borrowed", Calendar.getInstance().toString(), handler.toString());
         } else {
+            //todo: add CopyDamageReport
+
+            // Send notification to admins
             Map<String, String> templateParas = new HashMap<>();
             templateParas.put("handlerName", handler.getUsername());
             templateParas.put("handlerId", handler.getId().toString());
