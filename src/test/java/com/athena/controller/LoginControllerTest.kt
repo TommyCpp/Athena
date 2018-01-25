@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.context.WebApplicationContext
+import javax.transaction.Transactional
 
 /**
  * Created by Tommy on 2017/6/30.
@@ -70,6 +71,7 @@ open class LoginControllerTest {
     }
 
     @Test
+    @Transactional
     fun testLogin() {
         val requestParam = LinkedMultiValueMap<String, String>()
         requestParam["id"] = "12"
