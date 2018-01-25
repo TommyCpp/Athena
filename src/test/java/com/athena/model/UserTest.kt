@@ -7,6 +7,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.skyscreamer.jsonassert.JSONAssert
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -23,7 +24,7 @@ import javax.transaction.Transactional
 @SpringBootTest
 @Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
-@DatabaseSetup("classpath:users.xml", "classpath:user_identity.xml")
+@DatabaseSetup("classpath:users.xml", "classpath:user_identity.xml", "classpath:blocks.xml")
 open class UserTest {
     @Autowired
     lateinit var repository: UserRepository
@@ -52,7 +53,7 @@ open class UserTest {
 
     @Test
     fun testJson() {
-        val user: User = User()
+        var user: User = User()
         user.password = "123456"
         user.email = "test"
         user.setIdentity("ROLE_ADMIN")
@@ -65,6 +66,10 @@ open class UserTest {
 
         json = "{\"id\":null,\"password\":\"1234444\",\"username\":\"testUser\",\"wechatId\":\"sadf\",\"email\":\"test\",\"identity\":[\"ROLE_ADMIN\"],\"phoneNumber\":null}"
         val target = ObjectMapper().readValue(json, User::class.java)
-        Assert.assertEquals("1234444",target.password)
+        Assert.assertEquals("1234444", target.password)
+
+        user = this.repository.findOne(11L)
+        val jsonResult = ObjectMapper().writeValueAsString(user)
+        JSONAssert.assertEquals("{\"id\":11,\"username\":\"test\",\"wechatId\":\"cha\",\"email\":\"sldjf@sldfj.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"1526421812\",\"isBlocked\":true}", jsonResult, false)
     }
 }

@@ -1,6 +1,7 @@
 package com.athena.model;
 
 import com.athena.model.listener.UserListener;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -142,12 +143,19 @@ public class User implements Serializable {
 
 
     @OneToMany(mappedBy = "blockedUser")
+    @JsonIgnore
     public List<BlockRecord> getBlockRecords() {
         return blockRecords;
     }
 
     public void setBlockRecords(List<BlockRecord> blockRecords) {
         this.blockRecords = blockRecords;
+    }
+
+    @Transient
+    @JsonGetter("isBlocked")
+    public Boolean isBlocked() {
+        return this.blockRecords != null && this.blockRecords.stream().anyMatch(BlockRecord::getEnabled);
     }
 }
 
