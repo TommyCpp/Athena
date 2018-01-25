@@ -89,6 +89,6 @@ public class CopyController {
     @PatchMapping(path = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> partialUpdateCopies(@PathVariable Long id, @RequestBody Map<String, Object> params) throws IllegalEntityAttributeException, InvalidCopyTypeException, ResourceNotFoundException {
-        return ResponseEntity.ok(this.simpleCopyService.partialUpdate(id, params));//todo:test
+        return ResponseEntity.ok(this.simpleCopyService.partialUpdate(id, params));
     }
 }

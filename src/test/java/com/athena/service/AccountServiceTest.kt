@@ -1,4 +1,4 @@
-package com.athena.security.service
+package com.athena.service
 
 import com.athena.model.security.Account
 import com.athena.model.security.User

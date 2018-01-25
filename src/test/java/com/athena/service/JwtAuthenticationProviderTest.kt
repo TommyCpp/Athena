@@ -1,4 +1,4 @@
-package com.athena.security.service
+package com.athena.service
 
 import com.athena.exception.internal.AccountNotFoundException
 import com.athena.model.security.Account
