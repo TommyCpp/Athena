@@ -1,8 +1,8 @@
 package com.athena.service.borrow;
 
 import com.athena.exception.http.ResourceNotFoundByIdException;
-import com.athena.model.BlockRecord;
-import com.athena.model.User;
+import com.athena.model.security.BlockRecord;
+import com.athena.model.security.User;
 import com.athena.repository.jpa.BlockRecordRepository;
 import com.athena.repository.jpa.UserRepository;
 import com.athena.util.EntityUtil;

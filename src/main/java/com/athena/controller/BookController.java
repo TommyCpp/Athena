@@ -2,10 +2,10 @@ package com.athena.controller;
 
 import com.athena.exception.http.*;
 import com.athena.exception.internal.BatchStoreException;
-import com.athena.model.Batch;
-import com.athena.model.Book;
-import com.athena.model.BookCopy;
-import com.athena.model.domain.copy.CopyVO;
+import com.athena.model.common.Batch;
+import com.athena.model.copy.BookCopy;
+import com.athena.model.copy.CopyVo;
+import com.athena.model.publication.Book;
 import com.athena.service.copy.BookCopyService;
 import com.athena.service.publication.BookService;
 import com.athena.service.util.BatchService;
@@ -180,7 +180,7 @@ public class BookController {
     @PostMapping(path = "/{isbn}/copy/")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> createCopy(@PathVariable Long isbn, @RequestBody List<CopyVO> copyVOList) throws BookNotFoundException, BatchStoreException, URISyntaxException {
+    public ResponseEntity<?> createCopy(@PathVariable Long isbn, @RequestBody List<CopyVo> copyVoList) throws BookNotFoundException, BatchStoreException, URISyntaxException {
         List<BookCopy> bookCopyList = new ArrayList<>();
         List<String> urls = new ArrayList<>();
 
@@ -189,8 +189,8 @@ public class BookController {
             throw new BookNotFoundException(isbn);
         }
 
-        for (CopyVO copyVO : copyVOList) {
-            bookCopyList.add(new BookCopy(copyVO, book));
+        for (CopyVo copyVo : copyVoList) {
+            bookCopyList.add(new BookCopy(copyVo, book));
         }
         try {
             this.bookCopyService.add(bookCopyList);

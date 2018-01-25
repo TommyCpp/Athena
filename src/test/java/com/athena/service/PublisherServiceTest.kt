@@ -1,10 +1,10 @@
 package com.athena.service
 
 import com.athena.exception.http.ResourceNotDeletable
-import com.athena.model.Book
-import com.athena.model.JournalPK
-import com.athena.model.Publication
-import com.athena.model.Publisher
+import com.athena.model.publication.Book
+import com.athena.model.publication.JournalPK
+import com.athena.model.publication.Publication
+import com.athena.model.publication.Publisher
 import com.athena.repository.jpa.AudioRepository
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.JournalRepository

@@ -1,14 +1,14 @@
 package com.athena.controller
 
-import com.athena.model.Book
-import com.athena.model.Publisher
-import com.athena.model.User
-import com.athena.model.domain.copy.CopyStatus
-import com.athena.model.domain.copy.CopyVO
+import com.athena.model.copy.CopyStatus
+import com.athena.model.copy.CopyVo
+import com.athena.model.publication.Book
+import com.athena.model.publication.Publisher
+import com.athena.model.security.Account
+import com.athena.model.security.JwtAuthenticationToken
+import com.athena.model.security.User
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.copy.BookCopyRepository
-import com.athena.security.model.Account
-import com.athena.security.model.JwtAuthenticationToken
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -236,14 +236,14 @@ open class BookControllerTest {
 
     @Test
     fun testCreateCopy() {
-        var copyVO: CopyVO = CopyVO()
-        copyVO.status = CopyStatus.BOOKED
-        var copyVOList: List<CopyVO> = arrayListOf(copyVO)
+        var copyVo: CopyVo = CopyVo()
+        copyVo.status = CopyStatus.BOOKED
+        var copyVoList: List<CopyVo> = arrayListOf(copyVo)
 
 
         this.mvc!!.perform(post(this.url_prefix + "/books/9785226422377/copy")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(ObjectMapper().writeValueAsString(copyVOList))
+                .content(ObjectMapper().writeValueAsString(copyVoList))
                 .with(this.authentication("ROLE_ADMIN"))
         )
                 .andDo(print())

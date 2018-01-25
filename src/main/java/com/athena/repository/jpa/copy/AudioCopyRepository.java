@@ -1,7 +1,7 @@
 package com.athena.repository.jpa.copy;
 
-import com.athena.model.Audio;
-import com.athena.model.AudioCopy;
+import com.athena.model.copy.AudioCopy;
+import com.athena.model.publication.Audio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

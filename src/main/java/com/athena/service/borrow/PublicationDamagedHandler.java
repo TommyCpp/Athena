@@ -1,10 +1,10 @@
 package com.athena.service.borrow;
 
-import com.athena.model.Borrow;
-import com.athena.model.SimpleCopy;
-import com.athena.model.User;
-import com.athena.model.domain.copy.CopyStatus;
-import com.athena.model.domain.message.TemplateMessage;
+import com.athena.model.borrow.Borrow;
+import com.athena.model.copy.CopyStatus;
+import com.athena.model.copy.SimpleCopy;
+import com.athena.model.message.TemplateMessage;
+import com.athena.model.security.User;
 import com.athena.repository.jpa.BorrowRepository;
 import com.athena.service.message.SystemMessageService;
 import com.athena.util.TemplateBuilder;

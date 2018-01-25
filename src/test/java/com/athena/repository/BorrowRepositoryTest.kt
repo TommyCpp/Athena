@@ -1,6 +1,6 @@
 package com.athena.repository
 
-import com.athena.model.AudioCopy
+import com.athena.model.copy.AudioCopy
 import com.athena.repository.jpa.BorrowRepository
 import com.athena.repository.jpa.PublisherRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener

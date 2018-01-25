@@ -1,7 +1,7 @@
 package com.athena.service
 
-import com.athena.model.AudioCopy
-import com.athena.model.domain.copy.CopyStatus
+import com.athena.model.copy.AudioCopy
+import com.athena.model.copy.CopyStatus
 import com.athena.repository.jpa.AudioRepository
 import com.athena.repository.jpa.copy.AudioCopyRepository
 import com.athena.repository.jpa.copy.BookCopyRepository

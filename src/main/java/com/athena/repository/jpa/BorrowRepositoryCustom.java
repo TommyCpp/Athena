@@ -1,8 +1,8 @@
 package com.athena.repository.jpa;
 
 import com.athena.exception.internal.NotCopyException;
-import com.athena.model.Borrow;
-import com.athena.model.Publication;
+import com.athena.model.borrow.Borrow;
+import com.athena.model.publication.Publication;
 
 /**
  * Created by Tommy on 2017/11/5.

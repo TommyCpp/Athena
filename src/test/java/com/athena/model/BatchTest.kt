@@ -1,5 +1,6 @@
 package com.athena.model
 
+import com.athena.model.common.Batch
 import com.athena.repository.mongo.BatchRepository
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet
 import com.lordofthejars.nosqlunit.core.LoadStrategyEnum

@@ -1,6 +1,6 @@
 package com.athena.repository
 
-import com.athena.model.BlockRecord
+import com.athena.model.security.BlockRecord
 import com.athena.repository.jpa.BlockRecordRepository
 import com.athena.repository.jpa.UserRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener

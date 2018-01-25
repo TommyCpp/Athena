@@ -1,6 +1,6 @@
 package com.athena.repository.mongo;
 
-import com.athena.model.Batch;
+import com.athena.model.common.Batch;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

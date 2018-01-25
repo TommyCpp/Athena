@@ -1,8 +1,9 @@
 package com.athena.security.service
 
-import com.athena.model.User
+import com.athena.model.security.Account
+import com.athena.model.security.User
 import com.athena.repository.jpa.UserRepository
-import com.athena.security.model.Account
+import com.athena.service.security.AccountService
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

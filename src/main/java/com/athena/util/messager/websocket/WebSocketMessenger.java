@@ -1,8 +1,8 @@
 package com.athena.util.messager.websocket;
 
-import com.athena.model.User;
-import com.athena.model.domain.message.AbstractUserGroup;
-import com.athena.model.domain.message.Message;
+import com.athena.model.message.AbstractUserGroup;
+import com.athena.model.message.Message;
+import com.athena.model.security.User;
 import com.athena.repository.jpa.UserRepository;
 import com.athena.util.messager.Messenger;
 import org.springframework.beans.factory.annotation.Autowired;

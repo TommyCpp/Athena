@@ -1,6 +1,6 @@
 package com.athena.service.message;
 
-import com.athena.model.domain.message.Message;
+import com.athena.model.message.Message;
 
 /**
  * Created by Tommy on 2017/11/18.

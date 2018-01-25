@@ -1,7 +1,7 @@
 package com.athena.repository.jpa.copy;
 
-import com.athena.model.Book;
-import com.athena.model.BookCopy;
+import com.athena.model.copy.BookCopy;
+import com.athena.model.publication.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

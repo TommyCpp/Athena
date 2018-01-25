@@ -1,5 +1,7 @@
 package com.athena.model
 
+import com.athena.model.copy.BookCopy
+import com.athena.model.copy.JournalCopy
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.copy.BookCopyRepository
 import com.athena.repository.jpa.copy.JournalCopyRepository

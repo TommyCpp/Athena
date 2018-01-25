@@ -1,6 +1,6 @@
 package com.athena.repository.jpa.copy;
 
-import com.athena.model.SimpleCopy;
+import com.athena.model.copy.SimpleCopy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.athena.service
 
-import com.athena.model.User
+import com.athena.model.security.User
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert

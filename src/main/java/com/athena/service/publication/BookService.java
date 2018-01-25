@@ -2,8 +2,8 @@ package com.athena.service.publication;
 
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
-import com.athena.model.Book;
-import com.athena.model.BookCopy;
+import com.athena.model.copy.BookCopy;
+import com.athena.model.publication.Book;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.PublisherRepository;
 import com.athena.repository.jpa.copy.BookCopyRepository;

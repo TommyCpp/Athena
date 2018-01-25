@@ -1,8 +1,8 @@
 package util
 
-import com.athena.model.User
-import com.athena.security.model.Account
-import com.athena.security.model.JwtAuthenticationToken
+import com.athena.model.security.Account
+import com.athena.model.security.JwtAuthenticationToken
+import com.athena.model.security.User
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors

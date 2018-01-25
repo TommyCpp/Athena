@@ -1,6 +1,6 @@
 package com.athena;
 
-import com.athena.model.Book;
+import com.athena.model.publication.Book;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;

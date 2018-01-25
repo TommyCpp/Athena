@@ -1,6 +1,6 @@
 package com.athena.repository.jpa;
 
-import com.athena.model.BlockRecord;
+import com.athena.model.security.BlockRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

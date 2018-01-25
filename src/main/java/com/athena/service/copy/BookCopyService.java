@@ -1,8 +1,8 @@
 package com.athena.service.copy;
 
 import com.athena.exception.http.*;
-import com.athena.model.Book;
-import com.athena.model.BookCopy;
+import com.athena.model.copy.BookCopy;
+import com.athena.model.publication.Book;
 import com.athena.repository.jpa.BookRepository;
 import com.athena.repository.jpa.copy.BookCopyRepository;
 import org.jetbrains.annotations.NotNull;

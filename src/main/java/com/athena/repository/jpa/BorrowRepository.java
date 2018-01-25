@@ -1,8 +1,8 @@
 package com.athena.repository.jpa;
 
-import com.athena.model.Borrow;
-import com.athena.model.SimpleCopy;
-import com.athena.model.User;
+import com.athena.model.borrow.Borrow;
+import com.athena.model.copy.SimpleCopy;
+import com.athena.model.security.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

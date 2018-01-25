@@ -1,7 +1,7 @@
 package com.athena.service
 
-import com.athena.model.BlockRecord
-import com.athena.model.User
+import com.athena.model.security.BlockRecord
+import com.athena.model.security.User
 import com.athena.repository.jpa.BlockRecordRepository
 import com.athena.repository.jpa.UserRepository
 import com.athena.service.borrow.BlockService

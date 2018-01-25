@@ -1,6 +1,6 @@
 package com.athena.repository.jpa.copy;
 
-import com.athena.model.AudioCopy;
+import com.athena.model.copy.AudioCopy;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.EntityManager;

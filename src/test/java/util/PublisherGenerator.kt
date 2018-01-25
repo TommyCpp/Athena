@@ -1,6 +1,6 @@
 package util
 
-import com.athena.model.Publisher
+import com.athena.model.publication.Publisher
 import org.apache.commons.lang3.RandomStringUtils
 import java.util.*
 

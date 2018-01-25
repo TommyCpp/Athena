@@ -2,9 +2,9 @@ package com.athena.service
 
 import com.athena.exception.http.MixedCopyTypeException
 import com.athena.exception.http.ResourceNotFoundByIdException
-import com.athena.model.JournalCopy
-import com.athena.model.JournalPK
-import com.athena.model.domain.copy.CopyStatus
+import com.athena.model.copy.CopyStatus
+import com.athena.model.copy.JournalCopy
+import com.athena.model.publication.JournalPK
 import com.athena.repository.jpa.JournalRepository
 import com.athena.repository.jpa.copy.BookCopyRepository
 import com.athena.repository.jpa.copy.JournalCopyRepository

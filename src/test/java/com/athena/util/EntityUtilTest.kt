@@ -1,6 +1,6 @@
 package com.athena.util
 
-import com.athena.model.Book
+import com.athena.model.publication.Book
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith

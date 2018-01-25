@@ -1,7 +1,7 @@
 package com.athena.service.message;
 
-import com.athena.model.domain.message.AuthorityUserGroup;
-import com.athena.model.domain.message.Message;
+import com.athena.model.message.AuthorityUserGroup;
+import com.athena.model.message.Message;
 import com.athena.util.messager.Messenger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

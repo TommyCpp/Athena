@@ -1,6 +1,6 @@
 package com.athena.service
 
-import com.athena.model.JournalPK
+import com.athena.model.publication.JournalPK
 import com.athena.repository.jpa.JournalRepository
 import com.athena.service.publication.JournalService
 import com.github.springtestdbunit.DbUnitTestExecutionListener

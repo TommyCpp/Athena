@@ -1,6 +1,6 @@
 package com.athena.repository.jpa;
 
-import com.athena.model.Audio;
+import com.athena.model.publication.Audio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,10 +1,12 @@
 package com.athena.security.service
 
-import com.athena.model.User
+import com.athena.exception.internal.AccountNotFoundException
+import com.athena.model.security.Account
+import com.athena.model.security.JwtAuthenticationToken
+import com.athena.model.security.User
 import com.athena.repository.jpa.UserRepository
-import com.athena.security.exception.AccountNotFoundException
-import com.athena.security.model.Account
-import com.athena.security.model.JwtAuthenticationToken
+import com.athena.service.security.AccountService
+import com.athena.service.security.JwtAuthenticationProvider
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

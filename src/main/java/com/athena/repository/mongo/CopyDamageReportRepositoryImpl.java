@@ -1,6 +1,6 @@
 package com.athena.repository.mongo;
 
-import com.athena.model.CopyDamageReport;
+import com.athena.model.copy.CopyDamageReport;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.MongoGridFSException;

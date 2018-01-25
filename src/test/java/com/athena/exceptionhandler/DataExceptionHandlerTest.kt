@@ -1,7 +1,7 @@
 package com.athena.exceptionhandler
 
-import com.athena.model.Book
-import com.athena.model.Publisher
+import com.athena.model.publication.Book
+import com.athena.model.publication.Publisher
 import com.athena.repository.jpa.BookRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener

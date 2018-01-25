@@ -3,7 +3,7 @@ package com.athena.controller;
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.exception.internal.EntityAttributeNotFoundException;
-import com.athena.model.Publisher;
+import com.athena.model.publication.Publisher;
 import com.athena.service.publication.PublisherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

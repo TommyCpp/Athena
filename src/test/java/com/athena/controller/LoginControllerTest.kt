@@ -72,7 +72,7 @@ open class LoginControllerTest {
 
     @Test
     @Transactional
-    fun testLogin() {
+    open fun testLogin() {
         val requestParam = LinkedMultiValueMap<String, String>()
         requestParam["id"] = "12"
         requestParam["password"] = "123456"

@@ -1,6 +1,6 @@
 package com.athena.repository.jpa.copy;
 
-import com.athena.model.BookCopy;
+import com.athena.model.copy.BookCopy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

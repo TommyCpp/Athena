@@ -1,6 +1,6 @@
 package com.athena.repository.jpa.copy;
 
-import com.athena.model.SimpleCopy;
+import com.athena.model.copy.SimpleCopy;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

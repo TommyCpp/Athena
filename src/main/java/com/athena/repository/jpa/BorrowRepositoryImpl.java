@@ -1,10 +1,10 @@
 package com.athena.repository.jpa;
 
 import com.athena.exception.internal.NotCopyException;
-import com.athena.model.Borrow;
-import com.athena.model.Publication;
-import com.athena.model.PublicationCopy;
-import com.athena.model.SimpleCopy;
+import com.athena.model.borrow.Borrow;
+import com.athena.model.copy.PublicationCopy;
+import com.athena.model.copy.SimpleCopy;
+import com.athena.model.publication.Publication;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

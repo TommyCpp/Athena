@@ -1,5 +1,6 @@
 package com.athena.model
 
+import com.athena.model.publication.Publisher
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.PublisherRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -45,7 +46,7 @@ open class PublisherTest {
 
 
         val objectMapString = "{\"id\":\"129\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"}"
-        val publisher_2 = ObjectMapper().readValue(objectMapString,Publisher::class.java)
+        val publisher_2 = ObjectMapper().readValue(objectMapString, Publisher::class.java)
         Assert.assertTrue(true)
     }
 }

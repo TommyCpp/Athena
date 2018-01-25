@@ -1,5 +1,6 @@
 package com.athena.model
 
+import com.athena.model.security.User
 import com.athena.repository.jpa.UserRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener

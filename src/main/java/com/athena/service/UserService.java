@@ -4,7 +4,7 @@ import com.athena.annotation.ArgumentNotNull;
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
-import com.athena.model.User;
+import com.athena.model.security.User;
 import com.athena.repository.jpa.UserRepository;
 import com.athena.util.EntityUtil;
 import org.springframework.beans.factory.annotation.Autowired;

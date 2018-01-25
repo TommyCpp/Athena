@@ -1,6 +1,6 @@
 package com.athena.model.listener;
 
-import com.athena.model.Publication;
+import com.athena.model.publication.Publication;
 import com.github.stuxuhai.jpinyin.PinyinException;
 import com.github.stuxuhai.jpinyin.PinyinFormat;
 import com.github.stuxuhai.jpinyin.PinyinHelper;

@@ -1,6 +1,6 @@
 package com.athena;
 
-import com.athena.service.interceptor.RateLimitInterceptor;
+import com.athena.util.interceptor.RateLimitInterceptor;
 import com.mongodb.MongoClientOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

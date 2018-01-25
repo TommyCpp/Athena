@@ -1,6 +1,6 @@
 package util
 
-import com.athena.model.Book
+import com.athena.model.publication.Book
 import org.apache.commons.lang3.RandomStringUtils
 import java.sql.Date
 import java.util.*

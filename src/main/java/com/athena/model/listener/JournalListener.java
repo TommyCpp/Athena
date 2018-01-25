@@ -1,6 +1,6 @@
 package com.athena.model.listener;
 
-import com.athena.model.Journal;
+import com.athena.model.publication.Journal;
 import com.github.stuxuhai.jpinyin.PinyinException;
 
 import javax.persistence.PrePersist;

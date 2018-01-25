@@ -1,6 +1,6 @@
 package com.athena.model.listener;
 
-import com.athena.model.User;
+import com.athena.model.security.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

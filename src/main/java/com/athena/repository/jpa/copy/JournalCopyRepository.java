@@ -1,8 +1,8 @@
 package com.athena.repository.jpa.copy;
 
-import com.athena.model.Journal;
-import com.athena.model.JournalCopy;
-import com.athena.model.JournalPK;
+import com.athena.model.copy.JournalCopy;
+import com.athena.model.publication.Journal;
+import com.athena.model.publication.JournalPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

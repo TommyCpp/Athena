@@ -1,8 +1,8 @@
 package util.annotation;
 
-import com.athena.model.User;
-import com.athena.security.model.Account;
-import com.athena.security.model.JwtAuthenticationToken;
+import com.athena.model.security.Account;
+import com.athena.model.security.JwtAuthenticationToken;
+import com.athena.model.security.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

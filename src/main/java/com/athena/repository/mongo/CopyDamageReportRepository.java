@@ -1,6 +1,6 @@
 package com.athena.repository.mongo;
 
-import com.athena.model.CopyDamageReport;
+import com.athena.model.copy.CopyDamageReport;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

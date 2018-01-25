@@ -1,8 +1,8 @@
 package com.athena.controller;
 
 import com.athena.exception.http.*;
-import com.athena.model.SimpleCopy;
-import com.athena.model.domain.copy.AbstractCopy;
+import com.athena.model.copy.AbstractCopy;
+import com.athena.model.copy.SimpleCopy;
 import com.athena.service.copy.SimpleCopyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

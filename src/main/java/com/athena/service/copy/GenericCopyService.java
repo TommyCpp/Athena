@@ -3,7 +3,7 @@ package com.athena.service.copy;
 import com.athena.exception.http.*;
 import com.athena.exception.internal.CannotPartialUpdateIdFieldException;
 import com.athena.exception.internal.EntityAttributeNotFoundException;
-import com.athena.model.domain.copy.AbstractCopy;
+import com.athena.model.copy.AbstractCopy;
 import com.athena.service.ModelCRUDService;
 
 import java.util.List;

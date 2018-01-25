@@ -1,8 +1,8 @@
 package com.athena.controller;
 
-import com.athena.model.User;
-import com.athena.model.domain.copy.AbstractCopy;
-import com.athena.security.model.Account;
+import com.athena.model.copy.AbstractCopy;
+import com.athena.model.security.Account;
+import com.athena.model.security.User;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

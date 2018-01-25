@@ -1,6 +1,6 @@
 package com.athena.service
 
-import com.athena.model.Audio
+import com.athena.model.publication.Audio
 import com.athena.repository.jpa.AudioRepository
 import com.athena.repository.jpa.PublisherRepository
 import com.athena.repository.jpa.copy.AudioCopyRepository

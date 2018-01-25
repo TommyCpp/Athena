@@ -1,13 +1,13 @@
 package com.athena.service
 
-import com.athena.model.BookCopy
-import com.athena.model.Borrow
-import com.athena.model.SimpleCopy
-import com.athena.model.User
-import com.athena.model.domain.copy.CopyStatus
+import com.athena.model.borrow.Borrow
+import com.athena.model.copy.BookCopy
+import com.athena.model.copy.CopyStatus
+import com.athena.model.copy.SimpleCopy
+import com.athena.model.security.Account
+import com.athena.model.security.User
 import com.athena.repository.jpa.BorrowRepository
 import com.athena.repository.jpa.copy.SimpleCopyRepository
-import com.athena.security.model.Account
 import com.athena.service.borrow.BorrowService
 import com.athena.service.borrow.BorrowVerificationService
 import org.junit.Assert

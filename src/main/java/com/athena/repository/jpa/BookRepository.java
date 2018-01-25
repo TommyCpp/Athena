@@ -1,7 +1,7 @@
 package com.athena.repository.jpa;
 
-import com.athena.model.Book;
-import com.athena.model.Publisher;
+import com.athena.model.publication.Book;
+import com.athena.model.publication.Publisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,7 +2,7 @@ package com.athena.service.publication;
 
 import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.ResourceNotFoundByIdException;
-import com.athena.model.Publication;
+import com.athena.model.publication.Publication;
 import com.athena.service.ModelCRUDService;
 import org.springframework.transaction.annotation.Transactional;
 
