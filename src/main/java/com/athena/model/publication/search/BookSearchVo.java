@@ -14,6 +14,9 @@ public class BookSearchVo implements PublicationSearchVo<Book> {
     private String[] titles;
     private String publisherName;
     private String language;
+    private Integer count;
+    private Integer page;
+    private Integer lastCursor;
 
     @Override
     public Integer getCount() {
@@ -44,11 +47,6 @@ public class BookSearchVo implements PublicationSearchVo<Book> {
     public void setLastCursor(Integer lastCursor) {
         this.lastCursor = lastCursor;
     }
-
-    private Integer count;
-    private Integer page;
-    private Integer lastCursor;
-
 
     @Override
     public String[] getTitles() {

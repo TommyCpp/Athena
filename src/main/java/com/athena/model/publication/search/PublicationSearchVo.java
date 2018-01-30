@@ -40,7 +40,7 @@ public interface PublicationSearchVo<T> extends SearchVo {
         Integer startPage = 1;
         if (getPage() != null) {
             startPage = getPage();
-        } else if (getLanguage() != null) {
+        } else if (getLastCursor() != null) {
             startPage = getLastCursor() / getCount();
         }
         return new PageRequest(startPage - 1, getCount());
