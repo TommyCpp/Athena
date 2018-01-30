@@ -5,6 +5,7 @@ import com.athena.model.publication.Publisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by tommy on 2017/3/28.
  */
 @Repository
-public interface BookRepository extends JpaRepository<Book, Long>, CustomBookRepository {
+public interface BookRepository extends JpaRepository<Book, Long>, CustomBookRepository, JpaSpecificationExecutor {
     List<Book> getBooksByPublisher(Publisher publisher);
 
     List<Book> getBooksByTitleContains(String title);
@@ -29,6 +30,5 @@ public interface BookRepository extends JpaRepository<Book, Long>, CustomBookRep
     List<Book> getBookByAuthor(String author);
 
     Page<Book> getBookByPublisher(Pageable pageable, Publisher publisher);
-
 
 }

@@ -1,6 +1,5 @@
-package com.athena.model.domain.message
+package com.athena.model.message
 
-import com.athena.model.message.AuthorityUserGroup
 import com.athena.repository.jpa.UserRepository
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
