@@ -1,6 +1,8 @@
 package com.athena.model.publication.search;
 
 import com.athena.model.publication.Book;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
@@ -12,7 +14,41 @@ public class BookSearchVo implements PublicationSearchVo<Book> {
     private String[] titles;
     private String publisherName;
     private String language;
-    private Pageable pageInfo;
+
+    @Override
+    public Integer getCount() {
+        return count;
+    }
+
+    @Override
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    @Override
+    public Integer getPage() {
+        return page;
+    }
+
+    @Override
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    @Override
+    public Integer getLastCursor() {
+        return lastCursor;
+    }
+
+    @Override
+    public void setLastCursor(Integer lastCursor) {
+        this.lastCursor = lastCursor;
+    }
+
+    private Integer count;
+    private Integer page;
+    private Integer lastCursor;
+
 
     @Override
     public String[] getTitles() {
@@ -45,8 +81,8 @@ public class BookSearchVo implements PublicationSearchVo<Book> {
     }
 
     @Override
+    @JsonIgnore
     public Specification<Book> getSpecification() {
-        //todo: test
         Specification<Book> titlesIn = this.getDefaultSpecifications();
         Specification<Book> publisherNameIs = this.getDefaultSpecifications();
         Specification<Book> languageIs = this.getDefaultSpecifications();
@@ -64,13 +100,15 @@ public class BookSearchVo implements PublicationSearchVo<Book> {
     }
 
     @Override
+    @JsonIgnore
     public Pageable getPageable() {
-        return pageInfo;
-    }
-
-    @Override
-    public void setPageable(Pageable pageInfo) {
-        this.pageInfo = pageInfo;
+        Integer startPage = 1;
+        if (page != null) {
+            startPage = page;
+        } else if (lastCursor != null) {
+            startPage = lastCursor / count;
+        }
+        return new PageRequest(startPage - 1, count);
     }
 
 

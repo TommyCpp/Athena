@@ -41,7 +41,6 @@ import java.util.UUID;
 @Api(value = "Book", description = "Manage books")
 public class BookController {
     private final BookService bookService;
-
     private final PageableHeaderService pageableHeaderService;
     private final String baseUrl;
     private final String bookUrl;

@@ -1,6 +1,7 @@
 package com.athena.model.publication.search
 
 import com.athena.repository.jpa.BookRepository
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -39,5 +40,23 @@ open class BookSearchVoTest {
 
         val result_2 = this.bookRepository.findAll(bookSearchVo.specification)
         Assert.assertEquals(5, result_2.count())
+    }
+
+    @Test
+    fun testJson() {
+        //test serializer
+        val bookSearchVo = BookSearchVo()
+        bookSearchVo.titles = arrayOf("test1", "test2")
+        bookSearchVo.count = 20
+        bookSearchVo.page = 4
+        bookSearchVo.lastCursor = 6
+
+        System.out.println(ObjectMapper().writeValueAsString(bookSearchVo))
+
+        //test deserializer
+        val json = "{\"titles\":[\"test1\",\"test2\"],\"publisherName\":null,\"language\":null,\"count\":20,\"page\":4,\"lastCursor\":6}"
+        val deserializerBookSearchVo = ObjectMapper().readValue(json, BookSearchVo::class.java)
+        Assert.assertTrue(deserializerBookSearchVo.titles.contains("test1"))
+        Assert.assertTrue(deserializerBookSearchVo.pageable.pageSize == 20)
     }
 }

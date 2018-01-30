@@ -1,6 +1,8 @@
 package com.athena.model.publication.search;
 
 import com.athena.model.search.SearchVo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -8,6 +10,18 @@ import org.springframework.data.jpa.domain.Specification;
  * Created by Tommy on 2018/1/27.
  */
 public interface PublicationSearchVo<T> extends SearchVo {
+
+    Integer getCount();
+
+    void setCount(Integer count);
+
+    Integer getPage();
+
+    void setPage(Integer page);
+
+    Integer getLastCursor();
+
+    void setLastCursor(Integer lastCursor);
 
     String[] getTitles();
 
@@ -21,8 +35,18 @@ public interface PublicationSearchVo<T> extends SearchVo {
 
     void setLanguage(String language);
 
-    void setPageable(Pageable pageInfo);
+    @Override
+    default Pageable getPageable() {
+        Integer startPage = 1;
+        if (getPage() != null) {
+            startPage = getPage();
+        } else if (getLanguage() != null) {
+            startPage = getLastCursor() / getCount();
+        }
+        return new PageRequest(startPage - 1, getCount());
+    }
 
+    @JsonIgnore
     default Specification<T> getDefaultSpecifications() {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.isTrue(criteriaBuilder.literal(Boolean.TRUE));
     }
