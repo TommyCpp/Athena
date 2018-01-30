@@ -6,17 +6,17 @@ import com.athena.model.common.Batch;
 import com.athena.model.copy.BookCopy;
 import com.athena.model.copy.CopyVo;
 import com.athena.model.publication.Book;
+import com.athena.model.publication.search.BookSearchVo;
 import com.athena.service.copy.BookCopyService;
 import com.athena.service.publication.BookService;
 import com.athena.service.util.BatchService;
 import com.athena.service.util.PageableHeaderService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Tommy on 2017/5/14.
@@ -44,17 +41,21 @@ public class BookController {
     private final PageableHeaderService pageableHeaderService;
     private final String baseUrl;
     private final String bookUrl;
+    private Integer searchCount;
+    private ObjectMapper objectMapper;
     private final BatchService batchService;
     private final BookCopyService bookCopyService;
 
     @Autowired
-    public BookController(BookService bookService, PageableHeaderService pageableHeaderService, BatchService batchService, BookCopyService bookCopyService, @Value("${web.url}") String baseUrl) {
+    public BookController(BookService bookService, PageableHeaderService pageableHeaderService, BatchService batchService, BookCopyService bookCopyService, @Value("${web.url}") String baseUrl, @Value("${search.default.count}") Integer searchCount, ObjectMapper mapper) {
         this.bookService = bookService;
         this.pageableHeaderService = pageableHeaderService;
         this.batchService = batchService;
         this.bookCopyService = bookCopyService;
         this.baseUrl = baseUrl;
         this.bookUrl = baseUrl + "/books";
+        this.searchCount = searchCount;
+        this.objectMapper = mapper;
     }
 
     @ApiOperation(value = "search book", response = Page.class)
@@ -62,75 +63,25 @@ public class BookController {
             @ApiResponse(code = 200, message = "search success"),
             @ApiResponse(code = 401, message = "search term is missing")
     })
+    //todo:add param doc
     @RequestMapping(path = "/**", method = RequestMethod.GET, produces = "application/json")
     public Page<Book> searchBooks(
-            @RequestParam(value = "title", required = false) String[] titles,
-            @RequestParam(value = "publisher", required = false) String publisher,
-            @RequestParam(value = "author", required = false) String[] authors,
-            @RequestParam(value = "count", defaultValue = "${search.default.count}") Integer count,
-            @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "last_cursor", required = false) Integer lastCursor,
-            @RequestParam(value = "match_all", required = false, defaultValue = "false") Boolean matchAll,
-            @RequestParam(value = "language", required = false) String language,
+            @RequestParam Map<String, String> params,
             HttpServletResponse response,
             HttpServletRequest request
     ) throws MissingServletRequestPartException {
-        Integer startPage = 1;
-        if (page != null) {
-            startPage = page;
-        } else if (lastCursor != null) {
-            startPage = lastCursor / count;
+        if (!params.containsKey("count")) {
+            //if count is not been specific
+            params.put("count", this.searchCount.toString());
         }
-
-        Pageable pageable = new PageRequest(startPage - 1, count); // startPage starts from 1, while the Pageable actually accept the page index start from 0, so need to -1
-
-        Page<Book> result = null;
-
-        if (language == null) {
-            //If not specify the language
-            if (titles != null) {
-                if (!matchAll) {
-                    //Search by titles, partial match
-                    result = bookService.searchBookByName(pageable, titles);
-                    if (result.getTotalElements() == 0) {
-                        //If the search gets no results
-                        //Consider the input as pinyin and try again
-                        result = bookService.searchBookByPinyin(pageable, titles);
-                    }
-                }
-                if (titles.length == 1 && matchAll) {
-                    //Search by title, all match
-                    result = bookService.searchBookByFullName(pageable, titles[0]);
-                }
-            }
-
-            if (authors != null) {
-                //search by author
-                if (matchAll) {
-
-                    result = bookService.searchBookByFullAuthors(pageable, authors);
-                } else {
-                    if (authors.length == 1) {
-                        result = bookService.searchBookByAuthor(pageable, authors[0]);
-                    } else {
-                        //search books which contains all the author
-                        result = bookService.searchBookByAuthors(pageable, authors);
-                    }
-                }
-            }
-
-            if (publisher != null) {
-                return bookService.searchBookByPublisher(pageable, publisher);
-            }
-        }
-
+        BookSearchVo searchVo = objectMapper.convertValue(params, BookSearchVo.class);
+        Page<Book> result = this.bookService.searchBook(searchVo.getSpecification(), searchVo.getPageable());
         if (result != null) {
-            pageableHeaderService.setHeader(result, request, response);
+            this.pageableHeaderService.setHeader(result, request, response);
             return result;
         }
-
         throw new MissingServletRequestPartException("search term");
-
+        //todo:test
     }
 
     @ApiOperation(value = "create book info", authorizations = {

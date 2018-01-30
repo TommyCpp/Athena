@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -132,6 +133,10 @@ public class BookService implements PublicationService<Book, Long> {
 
     public Page<Book> searchBookByPublisher(Pageable pageable, String publisherName) {
         return bookRepository.getBookByPublisher(pageable, publisherRepository.findPublisherByName(publisherName));
+    }
+
+    public Page<Book> searchBook(Specification<Book> specification, Pageable pageable) {
+        return this.bookRepository.findAll(specification, pageable);
     }
 
     @Override
