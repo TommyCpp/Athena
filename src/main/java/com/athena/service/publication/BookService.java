@@ -52,7 +52,6 @@ public class BookService implements PublicationService<Book, Long> {
         this.bookCopyRepository = bookCopyRepository;
     }
 
-
     /**
      * Search book by name.
      *
