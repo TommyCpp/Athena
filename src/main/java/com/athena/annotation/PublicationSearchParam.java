@@ -9,11 +9,4 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface PublicationSearchParam {
-    /**
-     * parameter keys.
-     *
-     * @return keys
-     * @see com.athena.util.publication.search.PublicationSearchParamResolver
-     */
-    String[] values() default {"title", "publisherName", "language", "page", "count", "lastCursor"};
 }

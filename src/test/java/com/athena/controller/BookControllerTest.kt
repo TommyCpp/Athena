@@ -286,6 +286,8 @@ open class BookControllerTest {
     fun testGetRequestParamThroughPublicationSearchParam() {
         this.mvc.perform(get(this.url_prefix + "/books?title=test&title=test2&language=English"))
                 .andDo(print())
+        this.mvc.perform(get(this.url_prefix + "/books?title=test&language=English"))
+                .andDo(print())
     }
 }
 

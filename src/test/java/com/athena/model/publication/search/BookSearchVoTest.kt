@@ -68,9 +68,9 @@ open class BookSearchVoTest {
         map.put("count", 6)
 
         val objectMapper = ObjectMapper()
-        val bookSearchVo = objectMapper.convertValue<BookSearchVo>(map, BookSearchVo::class.java)
+        var bookSearchVo = objectMapper.convertValue<BookSearchVo>(map, BookSearchVo::class.java)
         Assert.assertNotNull(bookSearchVo)
-        Assert.assertEquals("English",bookSearchVo.language)
+        Assert.assertEquals("English", bookSearchVo.language)
         Assert.assertTrue(bookSearchVo.titles.contains("C程序设计"))
 
     }
