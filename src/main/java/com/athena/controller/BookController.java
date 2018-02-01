@@ -1,5 +1,6 @@
 package com.athena.controller;
 
+import com.athena.annotation.PublicationSearchParam;
 import com.athena.exception.http.*;
 import com.athena.exception.internal.BatchStoreException;
 import com.athena.model.common.Batch;
@@ -11,7 +12,6 @@ import com.athena.service.copy.BookCopyService;
 import com.athena.service.publication.BookService;
 import com.athena.service.util.BatchService;
 import com.athena.service.util.PageableHeaderService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +28,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Tommy on 2017/5/14.
@@ -41,21 +44,17 @@ public class BookController {
     private final PageableHeaderService pageableHeaderService;
     private final String baseUrl;
     private final String bookUrl;
-    private Integer searchCount;
-    private ObjectMapper objectMapper;
     private final BatchService batchService;
     private final BookCopyService bookCopyService;
 
     @Autowired
-    public BookController(BookService bookService, PageableHeaderService pageableHeaderService, BatchService batchService, BookCopyService bookCopyService, @Value("${web.url}") String baseUrl, @Value("${search.default.count}") Integer searchCount, ObjectMapper mapper) {
+    public BookController(BookService bookService, PageableHeaderService pageableHeaderService, BatchService batchService, BookCopyService bookCopyService, @Value("${web.url}") String baseUrl) {
         this.bookService = bookService;
         this.pageableHeaderService = pageableHeaderService;
         this.batchService = batchService;
         this.bookCopyService = bookCopyService;
         this.baseUrl = baseUrl;
         this.bookUrl = baseUrl + "/books";
-        this.searchCount = searchCount;
-        this.objectMapper = mapper;
     }
 
     @ApiOperation(value = "search book", response = Page.class)
@@ -66,15 +65,10 @@ public class BookController {
     //todo:add param doc
     @RequestMapping(path = "/**", method = RequestMethod.GET, produces = "application/json")
     public Page<Book> searchBooks(
-            @RequestParam Map<String, String> params,
+            @PublicationSearchParam BookSearchVo searchVo,
             HttpServletResponse response,
             HttpServletRequest request
     ) throws MissingServletRequestPartException {
-        if (!params.containsKey("count")) {
-            //if count is not been specific
-            params.put("count", this.searchCount.toString());
-        }
-        BookSearchVo searchVo = objectMapper.convertValue(params, BookSearchVo.class);
         Page<Book> result = this.bookService.searchBook(searchVo.getSpecification(), searchVo.getPageable());
         if (result != null) {
             this.pageableHeaderService.setHeader(result, request, response);

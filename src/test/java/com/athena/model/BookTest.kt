@@ -113,12 +113,11 @@ open class BookTest {
     /**
      * Test Specification.
      *
-     *
      * Assert 1. Given 2 titles, find all books whose title within given title. Should be 3 books.
      * Assert 2. Based on Assert 1's specification. Add a specification that requires book's authors must has Tdicko. Should only left 1 book.
      * */
     @Test
-    fun testGetBookBySpecification() {
+    fun testGetBook_Given2titlesAnd1Author_ShouldFindSuitableBooks() {
         //Assert 1
         var specification = Specification<Book>() { root, criteriaQuery, criteriaBuilder ->
             root.get<String>("title").`in`(arrayListOf("第二部测试书", "第三部测试书"))

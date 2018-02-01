@@ -2,6 +2,7 @@ package com.athena.model.publication.search;
 
 import com.athena.model.publication.Book;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -49,6 +50,7 @@ public class BookSearchVo implements PublicationSearchVo<Book> {
     }
 
     @Override
+    @JsonProperty("title")
     public String[] getTitles() {
         return this.titles;
     }

@@ -48,18 +48,18 @@ import util.BookGenerator
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml")
 @WebAppConfiguration
 open class BookControllerTest {
-    @Autowired private val context: WebApplicationContext? = null
-    @Autowired private val applicationContext: ApplicationContext? = null
-    @Autowired private val bookRepository: BookRepository? = null
-    @Autowired private val bookCopyRepository: BookCopyRepository? = null
+    @Autowired lateinit var context: WebApplicationContext
+    @Autowired lateinit var applicationContext: ApplicationContext
+    @Autowired lateinit var bookRepository: BookRepository
+    @Autowired lateinit var bookCopyRepository: BookCopyRepository
 
-    private var mvc: MockMvc? = null
+    lateinit var mvc: MockMvc
     private val mockBookGenerator: BookGenerator = BookGenerator()
     @Value("\${web.url.prefix}") private var url_prefix: String = ""
 
     @Before
     fun setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context!!).apply<DefaultMockMvcBuilder>(springSecurity()).build()
+        mvc = MockMvcBuilders.webAppContextSetup(context).apply<DefaultMockMvcBuilder>(springSecurity()).build()
     }
 
     private fun createAuthentication(role: String): JwtAuthenticationToken {
@@ -87,7 +87,7 @@ open class BookControllerTest {
     @Test
     fun testBookSearchByPartialTitle() {
 
-        mvc!!.perform(get(this.url_prefix + "/books?title=elit").with(this.authentication()))
+        mvc.perform(get(this.url_prefix + "/books?title=elit").with(this.authentication()))
                 .andDo(print())
                 .andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"publishDate\":\"2016-09-18\",\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5,\"publisher\":{\"id\":\"922\",\"name\":\"Test Publisher\",\"location\":\"NewYork\"},\"author\":[\"Steffen Catcherside\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
 
@@ -95,18 +95,18 @@ open class BookControllerTest {
 
     @Test
     fun testBookSearchByFullTitle() {
-        mvc!!.perform(get(this.url_prefix + "/books?title=consequat in consequat").with(this.authentication()))
+        mvc.perform(get(this.url_prefix + "/books?title=consequat in consequat").with(this.authentication()))
                 .andDo(print())
                 .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"publisher\":{\"id\":\"817\",\"name\":\"TestDn Publisher\",\"location\":\"NewYork\"},\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
                 .andExpect(header().string("X-Total-Count", "1")).andExpect(header().string("Links", "<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"last\",<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"first\""))
-        mvc!!.perform(get(this.url_prefix + "/books?title=consequat&match_all=true").with(this.authentication()))
+        mvc.perform(get(this.url_prefix + "/books?title=consequat&match_all=true").with(this.authentication()))
                 .andExpect(header().string("X-Total-Count", "0"))
     }
 
 
     @Test
     fun testBookSearchByAuthor() {
-        mvc!!.perform(get(this.url_prefix + "/books?author=Lian Hubback")
+        mvc.perform(get(this.url_prefix + "/books?author=Lian Hubback")
                 .with(this.authentication()))
                 .andDo(print())
                 .andExpect(status().isOk)
@@ -115,7 +115,7 @@ open class BookControllerTest {
 
     @Test
     fun testBookSearchByAuthors() {
-        mvc!!.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls")
+        mvc.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls")
                 .with(this.authentication()))
                 .andDo(print())
                 .andExpect(status().isOk)
@@ -131,10 +131,10 @@ open class BookControllerTest {
         for (i in 1..5) {
             // Note that the search.limit.get.times in config.properties must be 3
             if (i < 4) {
-                mvc!!.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().isOk)
+                mvc.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().isOk)
                 System.out.println(i)
             } else {
-                mvc!!.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().`is`(429))
+                mvc.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls").with(processor)).andExpect(status().`is`(429))
             }
         }
     }
@@ -160,7 +160,7 @@ open class BookControllerTest {
          *
          * only admin should be allowed to create book
          */
-        mvc!!.perform(post(this.url_prefix + "/books")
+        mvc.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
                 .with(this.authentication("ROLE_ADMIN"))
@@ -168,7 +168,7 @@ open class BookControllerTest {
                 .andExpect(status().isCreated)
 
 
-        mvc!!.perform(post(this.url_prefix + "/books")
+        mvc.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
                 .with(this.authentication("ROLE_READER"))
@@ -181,7 +181,7 @@ open class BookControllerTest {
          *
          */
         for (book in books) {
-            Assert.assertNotNull(this.bookRepository!!.findOne(book.isbn))
+            Assert.assertNotNull(this.bookRepository.findOne(book.isbn))
         }
 
 
@@ -196,7 +196,7 @@ open class BookControllerTest {
         publisher.id = "test" //publisher that doesn't exist
         errorBook.publisher = publisher
         books.add(errorBook)
-        mvc!!.perform(post(this.url_prefix + "/books")
+        mvc.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
                 .with(this.authentication("ROLE_ADMIN"))
@@ -218,7 +218,7 @@ open class BookControllerTest {
         book.publisher = publisher
         books.add(book)
 
-        var result = mvc!!.perform(post(this.url_prefix + "/books")
+        var result = mvc.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
                 .with(this.authentication("ROLE_ADMIN"))
@@ -227,7 +227,7 @@ open class BookControllerTest {
 
         if (result.response.status != 201) {
             //Exception happens
-            Assert.assertNull(this.bookRepository!!.findOne(book.isbn))
+            Assert.assertNull(this.bookRepository.findOne(book.isbn))
         }
 
 
@@ -241,7 +241,7 @@ open class BookControllerTest {
         var copyVoList: List<CopyVo> = arrayListOf(copyVo)
 
 
-        this.mvc!!.perform(post(this.url_prefix + "/books/9785226422377/copy")
+        this.mvc.perform(post(this.url_prefix + "/books/9785226422377/copy")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(copyVoList))
                 .with(this.authentication("ROLE_ADMIN"))
@@ -253,7 +253,7 @@ open class BookControllerTest {
     @Test
     fun testGetCopy() {
         // get copy
-        this.mvc!!.perform(get(this.url_prefix + "/books/9787111125643/copy/1")
+        this.mvc.perform(get(this.url_prefix + "/books/9787111125643/copy/1")
                 .with(this.authentication("ROLE_READER"))
         )
                 .andDo(print())
@@ -262,7 +262,7 @@ open class BookControllerTest {
 
 
         //getByPublications copies
-        this.mvc!!.perform(get(this.url_prefix + "/books/9787111125643/copy")
+        this.mvc.perform(get(this.url_prefix + "/books/9787111125643/copy")
                 .with(this.authentication("ROLE_READER"))
         )
                 .andDo(print())
@@ -273,14 +273,19 @@ open class BookControllerTest {
 
     @Test
     fun testDeleteCopies() {
-        this.mvc!!.perform(delete(this.url_prefix + "/books/9787111125643/copy")
+        this.mvc.perform(delete(this.url_prefix + "/books/9787111125643/copy")
                 .with(this.authentication("ROLE_ADMIN"))
         )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful)
 
-        Assert.assertEquals(0, this.bookCopyRepository!!.findByBook(this.bookRepository!!.findOne(9787111125643L)).size)
+        Assert.assertEquals(0, this.bookCopyRepository.findByBook(this.bookRepository.findOne(9787111125643L)).size)
+    }
 
+    @Test
+    fun testGetRequestParamThroughPublicationSearchParam() {
+        this.mvc.perform(get(this.url_prefix + "/books?title=test&title=test2&language=English"))
+                .andDo(print())
     }
 }
 

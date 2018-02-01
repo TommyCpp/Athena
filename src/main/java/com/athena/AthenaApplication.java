@@ -1,6 +1,8 @@
 package com.athena;
 
 import com.athena.util.interceptor.RateLimitInterceptor;
+import com.athena.util.publication.search.PublicationSearchParamResolver;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoClientOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,10 +19,12 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 
 @Configuration
@@ -35,11 +39,13 @@ public class AthenaApplication extends WebMvcConfigurerAdapter {
     private final Environment env;
 
     private final RateLimitInterceptor rateLimitInterceptor;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public AthenaApplication(Environment env, RateLimitInterceptor rateLimitInterceptor) {
+    public AthenaApplication(Environment env, RateLimitInterceptor rateLimitInterceptor, ObjectMapper objectMapper) {
         this.env = env;
         this.rateLimitInterceptor = rateLimitInterceptor;
+        this.objectMapper = objectMapper;
     }
 
     public static void main(String[] args) {
@@ -83,7 +89,7 @@ public class AthenaApplication extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public MongoClientOptions mongoClientOptions(){
+    public MongoClientOptions mongoClientOptions() {
         MongoClientOptions options = new MongoClientOptions.Builder().socketKeepAlive(true).build();
         return options;
     }
@@ -95,4 +101,9 @@ public class AthenaApplication extends WebMvcConfigurerAdapter {
     }
 
 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        Integer searchCount = Integer.valueOf(this.env.getProperty("search.default.count"));
+        argumentResolvers.add(new PublicationSearchParamResolver(searchCount, this.objectMapper));
+    }
 }
