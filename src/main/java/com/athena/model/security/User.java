@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,6 +23,7 @@ import java.util.List;
 })
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
+@ApiModel(value = "User", description = "user info")
 public class User implements Serializable {
     private Long id;
     private String username;
@@ -119,6 +122,7 @@ public class User implements Serializable {
 
     @OneToMany
     @JsonIgnore
+    @ApiModelProperty(hidden = true)
     public List<Borrow> getBorrows() {
         return borrows;
     }

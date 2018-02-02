@@ -19,7 +19,7 @@ copy.status.isDeletable=0,1
 borrow.publication.limit=4
 
 # use which way to notify admin for system info
-message.system.method=WebSocketMessenger
+message.system.method=WebSocket
 message.system.receiver=SUPERADMIN
 message.system.publicationDamageReport.template = static/publication-damage-notification.html
 message.system.publicationDamageReport.title = Publication has been damaged

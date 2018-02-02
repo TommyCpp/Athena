@@ -62,9 +62,9 @@ public class BookController {
             @ApiResponse(code = 200, message = "search success"),
             @ApiResponse(code = 401, message = "search term is missing")
     })
-    //todo:add param doc
     @RequestMapping(path = "/**", method = RequestMethod.GET, produces = "application/json")
     public Page<Book> searchBooks(
+            @ApiParam(name="bookSearchVo",value="book search vo which contains the info regarding the search")
             @PublicationSearchParam BookSearchVo searchVo,
             HttpServletResponse response,
             HttpServletRequest request

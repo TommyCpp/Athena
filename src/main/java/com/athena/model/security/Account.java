@@ -1,5 +1,6 @@
 package com.athena.model.security;
 
+import io.swagger.annotations.ApiModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import java.util.Objects;
 /**
  * Created by tommy on 2017/3/22.
  */
+@ApiModel(value="Account",description = "Account that represents User info")
 public class Account implements UserDetails {
 
     private User user;
