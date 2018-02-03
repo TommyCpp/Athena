@@ -22,6 +22,12 @@ public class JournalCopyService implements CopyService<JournalCopy, JournalPK> {
     private final JournalCopyRepository journalCopyRepository;
     private final JournalRepository journalRepository;
 
+    /**
+     * Instantiates a new Journal copy service.
+     *
+     * @param journalCopyRepository the journal copy repository
+     * @param journalRepository     the journal repository
+     */
     @Autowired
     public JournalCopyService(JournalCopyRepository journalCopyRepository, JournalRepository journalRepository) {
         this.journalCopyRepository = journalCopyRepository;

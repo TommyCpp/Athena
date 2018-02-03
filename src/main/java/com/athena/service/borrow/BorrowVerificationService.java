@@ -27,6 +27,13 @@ public class BorrowVerificationService {
     private BorrowRepository borrowRepository;
     private Integer publicationLimit;
 
+    /**
+     * Instantiates a new Borrow verification service.
+     *
+     * @param borrowRepository     the borrow repository
+     * @param simpleCopyRepository the simple copy repository
+     * @param publicationLimit     the publication limit
+     */
     @Autowired
     public BorrowVerificationService(BorrowRepository borrowRepository, SimpleCopyRepository simpleCopyRepository, @Value("${borrow.publication.limit}") Integer publicationLimit) {
         this.simpleCopyRepository = simpleCopyRepository;
@@ -34,6 +41,14 @@ public class BorrowVerificationService {
         this.publicationLimit = publicationLimit;
     }
 
+    /**
+     * If user can borrow copy.
+     *
+     * If user is blocked.
+     *
+     * @param user the user
+     * @return the boolean
+     */
     @Transactional(readOnly = true)
     public boolean userCanBorrow(User user) {
         //todo: add more rule
@@ -44,6 +59,14 @@ public class BorrowVerificationService {
         return hasBorrowed.size() <= this.publicationLimit;
     }
 
+    /**
+     * If copy can borrow.
+     *
+     * Return true if copy's status is available.
+     *
+     * @param simpleCopy the simple copy
+     * @return the boolean
+     */
     @Transactional(readOnly = true)
     public boolean copyCanBorrow(SimpleCopy simpleCopy) {
         simpleCopy = this.simpleCopyRepository.findOne(simpleCopy.getId());
@@ -51,6 +74,14 @@ public class BorrowVerificationService {
     }
 
 
+    /**
+     * If copy can return.
+     *
+     * Return false if borrow is not enable(borrow is history)
+     *
+     * @param borrow the borrow
+     * @return the boolean
+     */
     @Transactional(readOnly = true)
     public boolean canReturn(Borrow borrow) {
         Objects.requireNonNull(borrow);

@@ -25,6 +25,12 @@ public class PublicationSearchParamResolver implements HandlerMethodArgumentReso
     private final Integer searchCount;
     private final ObjectMapper objectMapper;
 
+    /**
+     * Instantiates a new Publication search param resolver.
+     *
+     * @param searchCount  the search count
+     * @param objectMapper the object mapper
+     */
     public PublicationSearchParamResolver(Integer searchCount, ObjectMapper objectMapper) {
         this.searchCount = searchCount;
         this.objectMapper = objectMapper;

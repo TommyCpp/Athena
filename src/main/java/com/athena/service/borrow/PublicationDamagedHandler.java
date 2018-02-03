@@ -36,6 +36,17 @@ public class PublicationDamagedHandler {
     private Map<String, User> systemUsers;
     private SystemMessageService systemMessageService;
 
+    /**
+     * Instantiates a new Publication damaged handler.
+     *
+     * @param borrowRepository     the borrow repository
+     * @param templateBuilder      the template builder
+     * @param templateFilePath     the template file path
+     * @param title                the title
+     * @param systemUsers          the system users
+     * @param systemMessageService the system message service
+     * @throws IOException the io exception
+     */
     @Autowired
     public PublicationDamagedHandler(BorrowRepository borrowRepository, TemplateBuilder templateBuilder, @Value("${message.system.publicationDamageReport.template}") String templateFilePath, @Value("${message.system.publicationDamageReport.title}") String title, @Qualifier("systemUsers") Map<String, User> systemUsers, SystemMessageService systemMessageService) throws IOException {
         this.borrowRepository = borrowRepository;
@@ -46,6 +57,18 @@ public class PublicationDamagedHandler {
         this.systemMessageService = systemMessageService;
     }
 
+    /**
+     * handle damaged borrow.
+     *
+     * First confirming the copy has borrowed by someone (copy has lastBorrow).
+     *
+     * Second adding correspond CopyDamageReport.
+     *
+     * Last sending notification.
+     *
+     * @param handler         the handler
+     * @param publicationCopy the publication copy
+     */
     public void handleDamage(User handler, SimpleCopy publicationCopy) {
         Borrow lastBorrow = this.borrowRepository.findFirstByCopyAndEnableIsFalseOrderByUpdatedDateDesc(publicationCopy);
         if (lastBorrow == null) {

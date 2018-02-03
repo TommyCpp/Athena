@@ -27,6 +27,13 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
     private BorrowVerificationService borrowVerificationService;
 
 
+    /**
+     * Instantiates a new Borrow service.
+     *
+     * @param borrowRepository          the borrow repository
+     * @param borrowVerificationService the borrow verification service
+     * @param simpleCopyRepository      the simple copy repository
+     */
     @Autowired
     public BorrowService(BorrowRepository borrowRepository, BorrowVerificationService borrowVerificationService, SimpleCopyRepository simpleCopyRepository) {
         this.borrowRepository = borrowRepository;
@@ -68,6 +75,14 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
         this.borrowRepository.delete(borrow);
     }
 
+    /**
+     * Borrow one copy.
+     *
+     * @param account the account
+     * @param copy    the copy
+     * @return the borrow instance
+     * @throws IllegalBorrowRequest the illegal borrow request. Because user is unblocked and copy can be borrowed
+     */
     public Borrow borrowCopy(Account account, SimpleCopy copy) throws IllegalBorrowRequest {
         Borrow borrow = new Borrow();
         borrow.setUser(account.getUser());
@@ -79,10 +94,27 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
         throw new IllegalBorrowRequest();
     }
 
+    /**
+     * Return copy borrow.
+     *
+     * @param id      the id
+     * @param account the account
+     * @return the borrow
+     * @throws IllegalReturnRequest the illegal return request
+     */
     public Borrow returnCopy(String id, Account account) throws IllegalReturnRequest {
         return this.returnCopy(id, account, false);
     }
 
+    /**
+     * Return copy borrow.
+     *
+     * @param id            the id
+     * @param account       the account
+     * @param isSelfService the is self service
+     * @return the borrow
+     * @throws IllegalReturnRequest the illegal return request
+     */
     @Transactional
     @ArgumentNotNull
     public Borrow returnCopy(String id, Account account, Boolean isSelfService) throws IllegalReturnRequest {
