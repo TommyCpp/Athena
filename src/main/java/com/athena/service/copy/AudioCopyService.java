@@ -24,6 +24,12 @@ public class AudioCopyService implements CopyService<AudioCopy, String> {
     private final AudioRepository audioRepository;
 
 
+    /**
+     * Instantiates a new Audio copy service.
+     *
+     * @param audioCopyRepository the audio copy repository
+     * @param audioRepository     the audio repository
+     */
     @Autowired
     public AudioCopyService(AudioCopyRepository audioCopyRepository, AudioRepository audioRepository) {
         this.audioCopyRepository = audioCopyRepository;

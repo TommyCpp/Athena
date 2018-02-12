@@ -64,6 +64,7 @@ public class BookController {
     })
     @RequestMapping(path = "/**", method = RequestMethod.GET, produces = "application/json")
     public Page<Book> searchBooks(
+            @ApiParam(name="bookSearchVo",value="book search vo which contains the info regarding the search")
             @PublicationSearchParam BookSearchVo searchVo,
             HttpServletResponse response,
             HttpServletRequest request
