@@ -4,6 +4,7 @@ import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
+import com.athena.model.borrow.Borrow;
 import com.athena.model.copy.CopyDamageReport;
 import com.athena.repository.mongo.CopyDamageReportRepository;
 import com.athena.service.ModelCRUDService;
@@ -14,12 +15,12 @@ import org.springframework.util.MimeType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created by Tommy on 2018/2/12.
  */
 @Service
-//todo: test
 public class CopyDamageReportService implements ModelCRUDService<CopyDamageReport, String> {
 
     private final CopyDamageReportRepository copyDamageReportRepository;
@@ -29,14 +30,33 @@ public class CopyDamageReportService implements ModelCRUDService<CopyDamageRepor
         this.copyDamageReportRepository = copyDamageReportRepository;
     }
 
+
+    /**
+     * Create copy damage report with handler info and borrow info.
+     *
+     *
+     *
+     * @param handlerId       the handler id
+     * @param lastKnownBorrow the last known borrow
+     * @return the copy damage report
+     */
+    public CopyDamageReport create(Long handlerId, Borrow lastKnownBorrow) {
+        CopyDamageReport copyDamageReport = new CopyDamageReport();
+        copyDamageReport.setId(UUID.randomUUID());
+        copyDamageReport.setHandlerId(handlerId);
+        copyDamageReport.setLastKnownBorrow(lastKnownBorrow);
+
+        return copyDamageReport;
+    }
+
     @Override
     public CopyDamageReport add(CopyDamageReport copyDamageReport) {
         return this.copyDamageReportRepository.save(copyDamageReport);
     }
 
     public CopyDamageReport addImage(CopyDamageReport copyDamageReport, MultipartFile multipartFile) throws IOException {
-        if(multipartFile.getContentType() == null){
-            throw new InvalidMimeTypeException("null","cannot determine mime type");
+        if (multipartFile.getContentType() == null) {
+            throw new InvalidMimeTypeException("null", "cannot determine mime type");
         }
         return this.copyDamageReportRepository.setImageAndSaveCopyDamageReport(copyDamageReport, multipartFile.getInputStream(), MimeType.valueOf(multipartFile.getContentType()));
     }

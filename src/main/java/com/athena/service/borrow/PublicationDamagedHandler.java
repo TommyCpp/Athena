@@ -58,7 +58,7 @@ public class PublicationDamagedHandler {
     }
 
     /**
-     * handle damaged borrow.
+     * handle damaged copy.
      *
      * First confirming the copy has borrowed by someone (copy has lastBorrow).
      *
@@ -77,6 +77,7 @@ public class PublicationDamagedHandler {
             logger.error("{}----{}---- Copy has not been borrowed", Calendar.getInstance().toString(), handler.toString());
         } else {
             //todo: add CopyDamageReport
+            //todo: divide add CopyDamageReport and send message
 
             // Send notification to admins
             Map<String, String> templateParas = new HashMap<>();
