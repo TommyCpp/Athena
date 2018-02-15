@@ -84,13 +84,14 @@ public class SimpleCopyService implements GenericCopyService<SimpleCopy> {
 
     }
 
-    public SimpleCopy verifyReturnedCopy(User user, SimpleCopy simpleCopy, boolean isDamaged) {
-        if (isDamaged) {
-            simpleCopy.setStatus(CopyStatus.DAMAGED);
-            publicationDamagedHandler.handleDamage(user, simpleCopy);
-        } else {
-            simpleCopy.setStatus(CopyStatus.AVAILABLE);
-        }
+    public SimpleCopy handleDamagedReturnCopy(User user, SimpleCopy simpleCopy, String description) {
+        simpleCopy.setStatus(CopyStatus.DAMAGED);
+        publicationDamagedHandler.handleDamage(user, simpleCopy, description);
+        return this.simpleCopyRepository.save(simpleCopy);
+    }
+
+    public SimpleCopy handleNormalReturnCopy(User user, SimpleCopy simpleCopy) {
+        simpleCopy.setStatus(CopyStatus.AVAILABLE);
         return this.simpleCopyRepository.save(simpleCopy);
     }
 }

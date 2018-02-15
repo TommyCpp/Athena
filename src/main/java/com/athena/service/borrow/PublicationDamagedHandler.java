@@ -65,11 +65,11 @@ public class PublicationDamagedHandler {
      * Second adding correspond CopyDamageReport.
      *
      * Last sending notification.
-     *
-     * @param handler         the handler
+     *  @param handler         the handler
      * @param publicationCopy the publication copy
+     * @param description
      */
-    public void handleDamage(User handler, SimpleCopy publicationCopy) {
+    public void handleDamage(User handler, SimpleCopy publicationCopy, String description) {
         Borrow lastBorrow = this.borrowRepository.findFirstByCopyAndEnableIsFalseOrderByUpdatedDateDesc(publicationCopy);
         if (lastBorrow == null) {
             //if no borrow correspond to publicationCopy

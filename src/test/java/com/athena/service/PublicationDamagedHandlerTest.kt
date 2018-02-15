@@ -53,7 +53,7 @@ class PublicationDamagedHandlerTest {
         `when`(user.username).thenReturn("theBorrower")
         `when`(this.systemUsers["systemInfo"]).thenReturn(systemInfoUser)
 
-        this.publicationDamagedHandler.handleDamage(handler, publicationCopy)
+        this.publicationDamagedHandler.handleDamage(handler, publicationCopy, )
 
         verify(handler).username
         verify(handler).id

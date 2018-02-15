@@ -112,7 +112,7 @@ open class SimpleCopyServiceTest {
         val simpleCopy = mock(SimpleCopy::class.java)
         `when`(simpleCopyRepository.save(any(SimpleCopy::class.java))).then { invocationOnMock -> invocationOnMock.getArgumentAt(0, SimpleCopy::class.java) }
 
-        simpleCopyService.verifyReturnedCopy(account.user, simpleCopy, true)
+        simpleCopyService.handleDamagedReturnCopy(account.user, simpleCopy,"")
 
         verify(simpleCopy).status = CopyStatus.DAMAGED
 
