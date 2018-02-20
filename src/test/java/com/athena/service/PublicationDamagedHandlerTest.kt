@@ -5,6 +5,7 @@ import com.athena.model.copy.SimpleCopy
 import com.athena.model.message.TemplateMessage
 import com.athena.model.security.User
 import com.athena.repository.jpa.BorrowRepository
+import com.athena.repository.mongo.CopyDamageReportRepository
 import com.athena.service.borrow.PublicationDamagedHandler
 import com.athena.service.message.SystemMessageService
 import com.athena.util.TemplateBuilder
@@ -32,10 +33,11 @@ class PublicationDamagedHandlerTest {
     private var templateBuilder = spy(TemplateBuilder::class.java)
     private var systemUsers = mock(Map::class.java) as MutableMap<String, User>
     private var systemMessageService = mock(SystemMessageService::class.java)
+    private var copyDamageReportRepository = mock(CopyDamageReportRepository::class.java)
 
     @Before
     fun setup() {
-        this.publicationDamagedHandler = PublicationDamagedHandler(this.borrowRepository, this.templateBuilder, "static/publication-damage-notification.html", "title", this.systemUsers, this.systemMessageService)
+        this.publicationDamagedHandler = PublicationDamagedHandler(this.borrowRepository, this.templateBuilder, "static/publication-damage-notification.html", "title", this.systemUsers, this.systemMessageService, this.copyDamageReportRepository)
     }
 
     @Test
@@ -53,7 +55,7 @@ class PublicationDamagedHandlerTest {
         `when`(user.username).thenReturn("theBorrower")
         `when`(this.systemUsers["systemInfo"]).thenReturn(systemInfoUser)
 
-        this.publicationDamagedHandler.handleDamage(handler, publicationCopy, )
+        this.publicationDamagedHandler.handleDamage(handler, publicationCopy, "")
 
         verify(handler).username
         verify(handler).id
