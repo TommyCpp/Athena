@@ -1,7 +1,7 @@
 <mat-card class="search-card">
   <mat-card-content>
     <form class="mat-form" #f="ngForm">
-      <mat-form-field [floatLabel]="'never'">
+      <mat-form-field [floatLabel]="'never'" class="search-form">
         <input type="text" matInput [(ngModel)]="searchValue" name="searchValue"/>
         <button mat-button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="searchValue=''">
           <mat-icon>close</mat-icon>
@@ -11,6 +11,7 @@
           <i>Search</i>
         </mat-placeholder>
       </mat-form-field>
+      <button mat-button color="primary" (click)="search()">Search</button>
     </form>
   </mat-card-content>
 </mat-card>

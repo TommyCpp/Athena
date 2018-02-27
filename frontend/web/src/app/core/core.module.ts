@@ -5,7 +5,8 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/h
 import {AuthInterceptor} from './interceptor/auth.interceptor';
 import {AuthService} from './service/auth.service';
 import {EndPointService} from './service/end-point.service';
-import { UserRolePipe } from './pipe/user-role.pipe';
+import {UserRolePipe} from './pipe/user-role.pipe';
+import {BookSearchService} from './service/book-search.service';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { UserRolePipe } from './pipe/user-role.pipe';
     LoginService,
     AuthService,
     EndPointService,
+    BookSearchService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
