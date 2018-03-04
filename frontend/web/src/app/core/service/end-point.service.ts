@@ -41,8 +41,13 @@ export class EndPointService {
     return this.endPointMap[key];
   }
 
-  public getUrl(key: string, pathParams: { [key: string]: string }): string {
-    return this.setPathParams(this.endPointMap[key], pathParams).url;
+  public getUrl(key: string, pathParams?: { [key: string]: string }): string {
+    if (pathParams) {
+      return this.setPathParams(this.endPointMap[key], pathParams).url;
+    }
+    else {
+      return this.endPointMap[key].url;
+    }
   }
 
   public setPathParams(endPoint: EndPoint, pathParams: { [key: string]: string | number }): EndPoint {

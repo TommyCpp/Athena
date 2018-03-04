@@ -21,6 +21,11 @@ export const REST_URL_VALUE: { [key: string]: EndPoint } = {
     url: '/user',
     needAuth: true,
     type: ['GET']
+  },
+  'SearchPublication': {
+    url: '/publication',
+    needAuth: false,
+    type: ['GET', 'POST']
   }
 
 };
