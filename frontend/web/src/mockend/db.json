@@ -54,5 +54,10 @@
       "password": "$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG",
       "identity": "ROLE_ADMIN"
     }
+  ],
+  "books": [
+    {
+//todo: add mock data
+    }
   ]
 }

@@ -8,23 +8,23 @@ describe('EndPointService', () => {
   let base_url = 'http://localhost:6006';
   let endPointMap: { [key: string]: EndPoint } = {
     'Login': {
-      url: base_url + '/login',
+      url: '/login',
       needAuth: false,
       type: ['POST', 'GET']
     },
     'AuthMove': {
-      url: base_url + '/authMove',
+      url: '/authMove',
       needAuth: true,
       type: ['POST']
     },
     'Param': {
-      url: base_url + '/user/{id}',
+      url: '/user/{id}',
       needAuth: false,
       type: ['GET']
     }
   };
   beforeEach(() => {
-    endPointService = new EndPointService(endPointMap);
+    endPointService = new EndPointService(endPointMap, base_url);
   });
 
   it('should be created', () => {

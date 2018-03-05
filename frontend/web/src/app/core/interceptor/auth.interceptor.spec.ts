@@ -27,18 +27,18 @@ describe('AuthInterceptor', () => {
           useFactory: (base_url) => {
             return {
               'Login': {
-                url: base_url + '/login',
+                url: '/login',
                 needAuth: false,
                 type: ['POST', 'GET']
               },
               'AuthMove': {
-                url: base_url + '/authMove',
+                url: '/authMove',
                 needAuth: true,
                 type: ['POST']
               }
             };
           },
-          deps: [BASE_URL]
+
         },
         {provide: BASE_URL, useValue: 'http://localhost'},
         {

@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Book} from '../model/book';
 import {EndPointService} from './end-point.service';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class BookSearchService {
 
-  constructor(private endPointService: EndPointService) {
+  constructor(private endPointService: EndPointService, private http: HttpClient) {
   }
 
-  search(searchTerm: string): Book {
-    const url: string = this.endPointService.getUrl("searchPublication");
-    //todo: query
-    return new Book();
+  search(searchTerm: string): Observable<Book[]> {
+    const url: string = this.endPointService.getUrl("SearchPublication");
+    return this.http.get<Book[]>(url + `?title=${searchTerm}`);
   }
 
 }

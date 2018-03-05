@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {REST_URL} from '../../config';
+import {BASE_URL, REST_URL} from '../../config';
 import {HttpRequest} from '@angular/common/http';
 
 export type HttpMethod = 'POST' | 'GET' | 'OPTION' | 'PUT' | 'PATCH'
@@ -15,18 +15,24 @@ export class EndPointService {
   private endPoints: EndPoint[];
   private endPointNeedAuth: EndPoint[] = [];
   private endPointWithoutAuth: EndPoint[] = [];
+  private endPointMap: { [key: string]: EndPoint } = {};
 
-  constructor(@Inject(REST_URL) private endPointMap: { [key: string]: EndPoint }) {
-    for (const key in endPointMap) {
-      if (endPointMap.hasOwnProperty(key)) {
-        if (endPointMap[key].needAuth) {
-          this.endPointNeedAuth.push(endPointMap[key]);
+  constructor(@Inject(REST_URL) rawEndPointMap: { [key: string]: EndPoint }, @Inject(BASE_URL) baseUrl: string) {
+    for (const key in rawEndPointMap) {
+      let endPoint = rawEndPointMap[key];
+      endPoint.url = baseUrl + endPoint.url;
+      this.endPointMap[key] = endPoint
+    }
+    for (const key in this.endPointMap) {
+      if (this.endPointMap.hasOwnProperty(key)) {
+        if (this.endPointMap[key].needAuth) {
+          this.endPointNeedAuth.push(this.endPointMap[key]);
         } else {
-          this.endPointWithoutAuth.push(endPointMap[key]);
+          this.endPointWithoutAuth.push(this.endPointMap[key]);
         }
       }
     }
-    this.endPoints = Object.values(endPointMap);
+    this.endPoints = Object.values(this.endPointMap);
   }
 
   public isRequestIsLogin(req: HttpRequest<any>): boolean {
