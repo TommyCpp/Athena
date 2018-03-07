@@ -5,6 +5,8 @@ import {EndPointService} from './end-point.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {BASE_URL, REST_URL} from '../../config';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import 'rxjs/add/observable/of';
+import {Observable} from 'rxjs/Observable';
 
 describe('BookSearchService', () => {
   beforeEach(() => {
@@ -22,10 +24,10 @@ describe('BookSearchService', () => {
         },
         {
           provide: REST_URL,
-          useFactory: (base_url) => {
+          useFactory: () => {
             return {
-              'SearchPublication': {
-                url: '/publication',
+              'SearchBook': {
+                url: '/book',
                 needAuth: false,
                 type: ['GET', 'POST']
               }
@@ -48,9 +50,7 @@ describe('BookSearchService', () => {
 
 
   it('should send request to query publication', inject([BookSearchService, HttpTestingController], (service: BookSearchService, httpTestController: HttpTestingController) => {
-    service.search("Test").subscribe((data: any) => {
-
-    });
-    httpTestController.expectOne("http://localhost/publication?title=Test");
-  }))
+    service.search("Test");
+    httpTestController.expectOne("http://localhost/book?title=Test");
+  }));
 });

@@ -11,7 +11,7 @@ export class BookSearchService {
   }
 
   search(searchTerm: string): Observable<Book[]> {
-    const url: string = this.endPointService.getUrl("SearchPublication");
+    const url: string = this.endPointService.getUrl("SearchBook");
     return this.http.get<Book[]>(url + `?title=${searchTerm}`);
   }
 

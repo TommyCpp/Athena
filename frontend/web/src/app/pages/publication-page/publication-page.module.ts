@@ -4,6 +4,7 @@ import { PublicationPageComponent } from './publication-page.component';
 import { SearchCardComponent } from './search-card/search-card.component';
 import {MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule} from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { SearchResultCardComponent } from './search-result-card/search-result-card.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MatIconModule,
     MatButtonModule,
   ],
-  declarations: [PublicationPageComponent, SearchCardComponent]
+  declarations: [PublicationPageComponent, SearchCardComponent, SearchResultCardComponent]
 })
 export class PublicationPageModule { }

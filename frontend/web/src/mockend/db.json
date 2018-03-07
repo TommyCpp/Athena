@@ -55,7 +55,7 @@
       "identity": "ROLE_ADMIN"
     }
   ],
-  "books": [
+  "book": [
     {
       "isbn": 9783158101890,
       "title": "odio cras mi pede malesuada",

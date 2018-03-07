@@ -1,7 +1,13 @@
+/*
+* Be advised that this mockend is not for unit test or e2e test. It is for demo representation only.
+* */
 const jsonServer = require('json-server');
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
+server.use(jsonServer.rewriter({
+  "/books/:id": "/books?isbn=:id"
+}));
 
 const readers = {
   11: "12314",

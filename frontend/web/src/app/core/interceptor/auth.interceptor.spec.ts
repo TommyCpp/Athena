@@ -24,7 +24,7 @@ describe('AuthInterceptor', () => {
         },
         {
           provide: REST_URL,
-          useFactory: (base_url) => {
+          useFactory: () => {
             return {
               'Login': {
                 url: '/login',
