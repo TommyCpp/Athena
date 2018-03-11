@@ -1,3 +1,13 @@
-<p>
-  search-result-card works!
-</p>
+<mat-card class="search-result-card">
+  <mat-card-header>
+    <mat-card-title>{{publication.title}}</mat-card-title>
+
+  </mat-card-header>
+  <img mat-card-image src="{{publication.coverUrl?.href}}" alt="Cover of the publication">
+  <mat-card-content>
+    {{publication?.introduction}}
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button><a [routerLink]="this.getDetailUrl()">Details</a></button>
+  </mat-card-actions>
+</mat-card>
