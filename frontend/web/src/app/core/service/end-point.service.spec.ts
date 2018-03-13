@@ -8,17 +8,17 @@ describe('EndPointService', () => {
   let base_url = 'http://localhost:6006';
   let endPointMap: { [key: string]: EndPoint } = {
     'Login': {
-      url: '/login',
+      relativeUrl: '/login',
       needAuth: false,
       type: ['POST', 'GET']
     },
     'AuthMove': {
-      url: '/authMove',
+      relativeUrl: '/authMove',
       needAuth: true,
       type: ['POST']
     },
     'Param': {
-      url: '/user/{id}',
+      relativeUrl: '/user/{id}',
       needAuth: false,
       type: ['GET']
     }

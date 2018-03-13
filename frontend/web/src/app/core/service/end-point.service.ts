@@ -5,7 +5,8 @@ import {HttpRequest} from '@angular/common/http';
 export type HttpMethod = 'POST' | 'GET' | 'OPTION' | 'PUT' | 'PATCH'
 
 export type EndPoint = {
-  url: string;
+  url?: string;
+  relativeUrl: string;
   needAuth: boolean;
   type: HttpMethod[];
 }
@@ -20,7 +21,7 @@ export class EndPointService {
   constructor(@Inject(REST_URL) rawEndPointMap: { [key: string]: EndPoint }, @Inject(BASE_URL) baseUrl: string) {
     for (const key in rawEndPointMap) {
       let endPoint = rawEndPointMap[key];
-      endPoint.url = baseUrl + endPoint.url;
+      endPoint.url = baseUrl + endPoint.relativeUrl;
       this.endPointMap[key] = endPoint
     }
     for (const key in this.endPointMap) {
@@ -49,18 +50,36 @@ export class EndPointService {
 
   public getUrl(key: string, pathParams?: { [key: string]: string }): string {
     if (pathParams) {
-      return this.setPathParams(this.endPointMap[key], pathParams).url;
+      return this.setPathParams(this.endPointMap[key], pathParams);
     }
     else {
       return this.endPointMap[key].url;
     }
   }
 
-  public setPathParams(endPoint: EndPoint, pathParams: { [key: string]: string | number }): EndPoint {
-    endPoint.url = endPoint.url.replace(/{[a-zA-Z]*}/g, (match) => {
-      return pathParams[match.substr(1, match.length - 2)] as string;
-    });
-    return endPoint;
+  public getRelativeUrl(key: string, pathParams?: { [key: string]: string }): string {
+    if (pathParams) {
+      return this.setPathParams(this.endPointMap[key], pathParams, true);
+    }
+    else {
+      return this.endPointMap[key].relativeUrl;
+    }
+  }
+
+  public setPathParams(endPoint: EndPoint, pathParams: { [key: string]: string | number }, isRelative = false): string {
+    let result;
+    if (isRelative) {
+      result = endPoint.relativeUrl.replace(/{[a-zA-Z]*}/g, (match) => {
+        return pathParams[match.substr(1, match.length - 2)] as string;
+      });
+      return result;
+    }
+    else {
+      result = endPoint.url.replace(/{[a-zA-Z]*}/g, (match) => {
+        return pathParams[match.substr(1, match.length - 2)] as string;
+      });
+      return result;
+    }
   }
 
 

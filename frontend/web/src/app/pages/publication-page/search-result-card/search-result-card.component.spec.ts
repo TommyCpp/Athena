@@ -22,17 +22,17 @@ describe('SearchResultCardComponent', () => {
           useFactory: () => {
             return {
               'Book': {
-                url: '/book/{isbn}',
+                relativeUrl: '/book/{isbn}',
                 needAuth: false,
                 type: ['GET']
               },
               'Journal': {
-                url: '/journal/{issn}/{year}/{issue}',
+                relativeUrl: '/journal/{issn}/{year}/{issue}',
                 needAuth: false,
                 type: ['GET']
               },
               'Audio': {
-                url: '/audio/{isrc}',
+                relativeUrl: '/audio/{isrc}',
                 needAuth: false,
                 type: ['GET']
               }
@@ -65,4 +65,17 @@ describe('SearchResultCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should has title', () => {
+    const element: HTMLElement = fixture.nativeElement;
+    const title = element.querySelector('mat-card-title');
+    expect(title.textContent).toBe("testTitle")
+  });
+
+
+  it('should has right detail link',()=>{
+    const element: HTMLElement = fixture.nativeElement;
+    const  link = element.querySelector('button > a');
+    expect(link['href']).toBe("http://localhost/book/1290238")
+  })
 });

@@ -27,7 +27,7 @@ describe('BookSearchService', () => {
           useFactory: () => {
             return {
               'SearchBook': {
-                url: '/book',
+                relativeUrl: '/book',
                 needAuth: false,
                 type: ['GET', 'POST']
               }
