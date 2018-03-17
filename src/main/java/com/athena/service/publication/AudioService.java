@@ -9,6 +9,9 @@ import com.athena.model.publication.Audio;
 import com.athena.repository.jpa.AudioRepository;
 import com.athena.repository.jpa.copy.AudioCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,6 +87,12 @@ public class AudioService implements PublicationService<Audio, String> {
     @Transactional
     public List<Audio> add(Iterable<Audio> audios) {
         return this.audioRepository.save(audios);
+    }
+
+    @Override
+    public Page<Audio> search(Specification<Audio> specification, Pageable pageable) {
+        //todo: search publication  / Audio
+        return null;
     }
 
     @Override

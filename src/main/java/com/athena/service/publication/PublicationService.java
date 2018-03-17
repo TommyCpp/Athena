@@ -4,6 +4,9 @@ import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.publication.Publication;
 import com.athena.service.ModelCRUDService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -27,4 +30,6 @@ public interface PublicationService<T extends Publication, K extends Serializabl
     }
 
     List<T> add(Iterable<T> ts);
+
+    Page<T> search(Specification<T> specification, Pageable pageable);
 }

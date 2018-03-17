@@ -134,7 +134,7 @@ public class BookService implements PublicationService<Book, Long> {
         return bookRepository.getBookByPublisher(pageable, publisherRepository.findPublisherByName(publisherName));
     }
 
-    public Page<Book> searchBook(Specification<Book> specification, Pageable pageable) {
+    public Page<Book> search(Specification<Book> specification, Pageable pageable) {
         return this.bookRepository.findAll(specification, pageable);
     }
 

@@ -8,6 +8,9 @@ import com.athena.model.publication.JournalPK;
 import com.athena.repository.jpa.JournalRepository;
 import com.athena.repository.jpa.copy.JournalCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -91,5 +94,11 @@ public class JournalService implements PublicationService<Journal,JournalPK>{
     public List<Journal> add(Iterable<Journal> journals) {
         Objects.requireNonNull(journals);
         return this.journalRepository.save(journals);
+    }
+
+    @Override
+    public Page<Journal> search(Specification<Journal> specification, Pageable pageable) {
+        //todo: search publication / journal
+        return null;
     }
 }

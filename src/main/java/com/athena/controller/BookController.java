@@ -69,7 +69,7 @@ public class BookController {
             HttpServletResponse response,
             HttpServletRequest request
     ) throws MissingServletRequestPartException {
-        Page<Book> result = this.bookService.searchBook(searchVo.getSpecification(), searchVo.getPageable());
+        Page<Book> result = this.bookService.search(searchVo.getSpecification(), searchVo.getPageable());
         if (result != null) {
             this.pageableHeaderService.setHeader(result, request, response);
             return result;
