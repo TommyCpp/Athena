@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Publication} from '../../core/model/publication';
 
 @Component({
   selector: 'app-publication-page',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./publication-page.component.scss']
 })
 export class PublicationPageComponent implements OnInit {
+  private searchResult: Publication[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  handleSearchComplete($event) {
+    this.searchResult = $event;
+  }
 }

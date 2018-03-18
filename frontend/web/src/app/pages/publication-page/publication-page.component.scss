@@ -1,6 +1,13 @@
 
 .publication-page-content {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.publication-search-card {
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
 }

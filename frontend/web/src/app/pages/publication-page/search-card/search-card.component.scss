@@ -1,7 +1,22 @@
 .search-card {
   width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .search-card-content {
+    display: flex;
+    justify-content: center;
+    width: 70%;
+
+    form {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+  }
 }
 
 .search-form {
-  width: 200px;
+  width: 40%;
 }
+
