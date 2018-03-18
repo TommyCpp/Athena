@@ -5,5 +5,11 @@
              language="English"/>
     <journal issn="03718473" year="2016" issue="22" publisher_id="922" title="Javax Magazine" price="10.5"
              language="English"/>
+    <journal issn="03718474" year="2016" issue="23" publisher_id="922" title="Python Handbook" price="11.5"
+             language="English"/>
+    <journal issn="03718474" year="2016" issue="24" publisher_id="922" title="Python Handbook" price="11.5"
+             language="English"/>
+    <journal issn="03718474" year="2016" issue="25" publisher_id="922" title="Python Handbook" price="11.5"
+             language="English"/>
 
 </dataset>
