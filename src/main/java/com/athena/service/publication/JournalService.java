@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
  * Created by Tommy on 2017/10/23.
  */
 @Service
-public class JournalService implements PublicationService<Journal,JournalPK>{
+public class JournalService implements PublicationService<Journal, JournalPK> {
 
 
     private final JournalRepository journalRepository;
@@ -53,8 +53,7 @@ public class JournalService implements PublicationService<Journal,JournalPK>{
     public Journal update(Journal journal) throws ResourceNotFoundByIdException {
         if (this.journalRepository.exists(journal.getId())) {
             return this.journalRepository.save(journal);
-        }
-        else{
+        } else {
             throw new ResourceNotFoundByIdException();
         }
     }
@@ -63,11 +62,11 @@ public class JournalService implements PublicationService<Journal,JournalPK>{
     public void delete(Journal journal) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         Objects.requireNonNull(journal);
         if (!this.journalRepository.exists(journal.getId())) {
-           //if the journal is not exits
+            //if the journal is not exits
             throw new ResourceNotFoundByIdException();
         }
         List<JournalCopy> journalCopies = this.journalCopyRepository.isNotDeletable(journal.getId());
-        if(journalCopies.size() > 0){
+        if (journalCopies.size() > 0) {
             throw new ResourceNotDeletable(journalCopies);
         }
         //will delete the copy cascade.
@@ -78,7 +77,7 @@ public class JournalService implements PublicationService<Journal,JournalPK>{
     public void delete(Iterable<Journal> journals) throws ResourceNotFoundByIdException, ResourceNotDeletable {
         Objects.requireNonNull(journals);
         List<Journal> notDeletableJournals = StreamSupport.stream(journals.spliterator(), false).filter(journal -> !this.journalCopyRepository.isNotDeletable(journal.getId()).isEmpty()).collect(Collectors.toList());
-        if(notDeletableJournals.size() > 0){
+        if (notDeletableJournals.size() > 0) {
             throw new ResourceNotDeletable(notDeletableJournals);
         }
         this.journalRepository.delete(journals);
@@ -98,7 +97,6 @@ public class JournalService implements PublicationService<Journal,JournalPK>{
 
     @Override
     public Page<Journal> search(Specification<Journal> specification, Pageable pageable) {
-        //todo: search publication / journal
-        return null;
+        return this.journalRepository.findAll(specification, pageable); //todo:test
     }
 }
