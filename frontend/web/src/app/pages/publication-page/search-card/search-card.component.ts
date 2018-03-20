@@ -26,7 +26,6 @@ export class SearchCardComponent extends CardComponent implements OnInit {
   }
 
   search() {
-    //todo:test
     let publicationSearchResult: Observable<Publication[]> = this.bookSearchService.search(this.searchValue);
     publicationSearchResult.subscribe(response => {
       this.searchComplete.emit(response);
