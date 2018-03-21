@@ -1,11 +1,10 @@
-package com.athena.service
+package com.athena.service.copy
 
 import com.athena.model.copy.AudioCopy
 import com.athena.model.copy.CopyStatus
 import com.athena.repository.jpa.AudioRepository
 import com.athena.repository.jpa.copy.AudioCopyRepository
 import com.athena.repository.jpa.copy.BookCopyRepository
-import com.athena.service.copy.AudioCopyService
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert

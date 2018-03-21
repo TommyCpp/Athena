@@ -1,8 +1,8 @@
-package com.athena.service
+package com.athena.service.publication
 
 import com.athena.model.publication.JournalPK
+import com.athena.model.publication.search.JournalSearchVo
 import com.athena.repository.jpa.JournalRepository
-import com.athena.service.publication.JournalService
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
@@ -50,5 +50,19 @@ open class JournalServiceTest {
         journal.title = "Changed Title"
         journal = this.journalService.update(journal)
         Assert.assertEquals("Changed Title", this.journalRepository.findOne(pk).title)
+    }
+
+    @Test
+    fun testSearch() {
+        val journalSearchVo = JournalSearchVo()
+        journalSearchVo.year = 2016
+        journalSearchVo.issn = "03718474"
+        journalSearchVo.count = 2
+        journalSearchVo.page = 2
+
+        val result_1 = this.journalService.search(journalSearchVo.specification, journalSearchVo.pageable)
+        Assert.assertEquals(1, result_1.count())
+
+
     }
 }

@@ -1,4 +1,4 @@
-package com.athena.service
+package com.athena.service.borrow
 
 import com.athena.model.borrow.Borrow
 import com.athena.model.copy.BookCopy
@@ -8,8 +8,6 @@ import com.athena.model.security.Account
 import com.athena.model.security.User
 import com.athena.repository.jpa.BorrowRepository
 import com.athena.repository.jpa.copy.SimpleCopyRepository
-import com.athena.service.borrow.BorrowService
-import com.athena.service.borrow.BorrowVerificationService
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

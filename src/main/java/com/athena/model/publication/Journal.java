@@ -2,6 +2,7 @@ package com.athena.model.publication;
 
 import com.athena.model.copy.JournalCopy;
 import com.athena.model.listener.JournalListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -61,6 +62,7 @@ public class Journal implements Publication {
     }
 
     @Transient
+    @JsonIgnore
     public void setId(JournalPK journalPK) {
         this.issn = journalPK.getIssn();
         this.year = journalPK.getYear();
@@ -68,6 +70,7 @@ public class Journal implements Publication {
     }
 
     @Transient
+    @JsonIgnore
     public JournalPK getId() {
         JournalPK journalPK = new JournalPK();
         journalPK.setIssn(this.issn);

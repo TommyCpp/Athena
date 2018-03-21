@@ -1,8 +1,7 @@
-package com.athena.service
+package com.athena.service.copy
 
 import com.athena.model.copy.CopyDamageReport
 import com.athena.repository.mongo.CopyDamageReportRepository
-import com.athena.service.copy.CopyDamageReportService
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

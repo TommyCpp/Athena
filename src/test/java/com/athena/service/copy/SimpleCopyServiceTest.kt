@@ -1,4 +1,4 @@
-package com.athena.service
+package com.athena.service.copy
 
 import com.athena.exception.http.MixedCopyTypeException
 import com.athena.model.copy.CopyStatus
@@ -9,9 +9,6 @@ import com.athena.repository.jpa.copy.BookCopyRepository
 import com.athena.repository.jpa.copy.JournalCopyRepository
 import com.athena.repository.jpa.copy.SimpleCopyRepository
 import com.athena.service.borrow.PublicationDamagedHandler
-import com.athena.service.copy.BookCopyService
-import com.athena.service.copy.JournalCopyService
-import com.athena.service.copy.SimpleCopyService
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert

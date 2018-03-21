@@ -1,4 +1,4 @@
-package com.athena.service
+package com.athena.service.copy
 
 import com.athena.exception.http.MixedCopyTypeException
 import com.athena.exception.http.ResourceNotFoundByIdException
@@ -8,7 +8,6 @@ import com.athena.model.publication.JournalPK
 import com.athena.repository.jpa.JournalRepository
 import com.athena.repository.jpa.copy.BookCopyRepository
 import com.athena.repository.jpa.copy.JournalCopyRepository
-import com.athena.service.copy.JournalCopyService
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert

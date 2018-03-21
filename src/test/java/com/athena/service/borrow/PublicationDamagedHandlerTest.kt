@@ -1,4 +1,4 @@
-package com.athena.service
+package com.athena.service.borrow
 
 import com.athena.model.borrow.Borrow
 import com.athena.model.copy.SimpleCopy
@@ -6,7 +6,6 @@ import com.athena.model.message.TemplateMessage
 import com.athena.model.security.User
 import com.athena.repository.jpa.BorrowRepository
 import com.athena.repository.mongo.CopyDamageReportRepository
-import com.athena.service.borrow.PublicationDamagedHandler
 import com.athena.service.message.SystemMessageService
 import com.athena.util.TemplateBuilder
 import org.junit.Before

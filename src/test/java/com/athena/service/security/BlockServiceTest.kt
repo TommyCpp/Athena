@@ -1,4 +1,4 @@
-package com.athena.service
+package com.athena.service.security
 
 import com.athena.model.security.BlockRecord
 import com.athena.model.security.User

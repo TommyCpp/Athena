@@ -96,7 +96,7 @@ public class JournalService implements PublicationService<Journal, JournalPK> {
     }
 
     @Override
-    public Page<Journal> search(Specification<Journal> specification, Pageable pageable) {
+    public Page<Journal> search(Specification specification, Pageable pageable) {
         return this.journalRepository.findAll(specification, pageable); //todo:test
     }
 }

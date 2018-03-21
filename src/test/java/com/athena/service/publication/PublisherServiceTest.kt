@@ -1,4 +1,4 @@
-package com.athena.service
+package com.athena.service.publication
 
 import com.athena.exception.http.ResourceNotDeletable
 import com.athena.model.publication.Book
@@ -9,7 +9,6 @@ import com.athena.repository.jpa.AudioRepository
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.JournalRepository
 import com.athena.repository.jpa.PublisherRepository
-import com.athena.service.publication.PublisherService
 import com.github.springtestdbunit.DbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.junit.Assert
