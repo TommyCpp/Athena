@@ -91,8 +91,7 @@ public class AudioService implements PublicationService<Audio, String> {
 
     @Override
     public Page<Audio> search(Specification<Audio> specification, Pageable pageable) {
-        //todo: search publication  / Audio
-        return null;
+        return this.audioRepository.findAll(specification, pageable);
     }
 
     @Override

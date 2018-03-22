@@ -1,6 +1,7 @@
 package com.athena.service.publication
 
 import com.athena.model.publication.Audio
+import com.athena.model.publication.search.AudioSearchVo
 import com.athena.repository.jpa.AudioRepository
 import com.athena.repository.jpa.PublisherRepository
 import com.athena.repository.jpa.copy.AudioCopyRepository
@@ -11,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
@@ -73,5 +75,18 @@ class AudioServiceTest {
         audio.title = "dkljas"
         audio = this.audioService.update(audio)
         Assert.assertEquals("dkljas", this.audioRepository.findOne("CNM010100300").title)
+    }
+
+    @Test
+    fun search() {
+        val audioSearchVo = AudioSearchVo()
+        audioSearchVo.language = "Spanish"
+        audioSearchVo.count = 2
+        audioSearchVo.page = 1
+
+        val result_1 = this.audioService.search(audioSearchVo.specification as Specification<Audio>, audioSearchVo.pageable)
+        Assert.assertEquals(1, result_1.count())
+
+
     }
 }
