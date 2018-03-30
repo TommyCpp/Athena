@@ -1,4 +1,4 @@
-package com.athena.model.search;
+package com.athena.model.publication.search;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

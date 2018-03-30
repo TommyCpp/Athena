@@ -1,6 +1,5 @@
 package com.athena.model.publication.search;
 
-import com.athena.model.search.SearchVo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

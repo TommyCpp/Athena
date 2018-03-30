@@ -1,6 +1,7 @@
 package com.athena.model.publication.search;
 
 import com.athena.model.publication.Audio;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.domain.Specifications;
  */
 public class AudioSearchVo extends AbstractPublicationSearchVo<Audio> {
     @Override
+    @JsonIgnore
     public Specification getSpecification() {
         Specification<Audio> titlesIn = this.getDefaultSpecifications();
         Specification<Audio> languageIs = this.getDefaultSpecifications();
