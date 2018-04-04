@@ -31,7 +31,21 @@ export const REST_URL_VALUE: { [key: string]: EndPoint } = {
     relativeUrl: '/book',
     needAuth: false,
     type: ['GET', 'POST']
-
+  },
+  'Book': {
+    relativeUrl: '/book/{isbn}',
+    needAuth: false,
+    type: ['GET', 'POST', 'PUT', 'PATCH']
+  },
+  'Journal': {
+    relativeUrl: '/journal/{issn}/{year}/{issue}',
+    needAuth: false,
+    type: ['GET', 'POST', 'PUT', 'PATCH']
+  },
+  'Audio': {
+    relativeUrl: '/audio/{isrc}',
+    needAuth: false,
+    type: ['GET', 'POST', 'PUT', 'PATCH']
   }
 
 };

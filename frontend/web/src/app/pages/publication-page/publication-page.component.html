@@ -1,4 +1,4 @@
 <app-search-card class="publication-search-card" (searchComplete)="handleSearchComplete($event)"></app-search-card>
 <div class="publication-page-content">
-<!--todo: for loop to display search result-->
+  <app-search-result-card *ngFor="let result of searchResults" [publication]="result"></app-search-result-card>
 </div>

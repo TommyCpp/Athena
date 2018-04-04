@@ -2,9 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CardComponent} from '../../../shared/card/card.component';
 import {BookSearchService} from '../../../core/service/book-search.service';
 import {Publication} from '../../../core/model/publication';
-import {Book} from '../../../core/model/book';
 import {Observable} from 'rxjs/Observable';
-import {Observer, PartialObserver} from 'rxjs/Observer';
 
 @Component({
   selector: 'app-search-card',
@@ -28,6 +26,7 @@ export class SearchCardComponent extends CardComponent implements OnInit {
   search() {
     let publicationSearchResult: Observable<Publication[]> = this.bookSearchService.search(this.searchValue);
     publicationSearchResult.subscribe(response => {
+      //todo: fix problem that when transform json to model, some attribute names do not add up.
       this.searchComplete.emit(response);
     });
 

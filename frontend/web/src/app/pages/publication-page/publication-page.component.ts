@@ -7,7 +7,7 @@ import {Publication} from '../../core/model/publication';
   styleUrls: ['./publication-page.component.scss']
 })
 export class PublicationPageComponent implements OnInit {
-  private searchResult: Publication[] = [];
+  searchResults: Publication[] = [];
 
   constructor() {
   }
@@ -16,6 +16,6 @@ export class PublicationPageComponent implements OnInit {
   }
 
   handleSearchComplete($event) {
-    this.searchResult = $event;
+    this.searchResults = $event;
   }
 }
