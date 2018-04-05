@@ -53,6 +53,7 @@ public class JournalCopy extends SimpleCopy implements PublicationCopy{
 
     @Transient
     @Override
+    //todo: JsonIgnore?
     public Publication getPublication() {
         return this.getJournal();
     }

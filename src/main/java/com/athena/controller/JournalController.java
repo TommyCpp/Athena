@@ -36,7 +36,7 @@ public class JournalController {
     }
 
 
-    @ApiOperation(value = "search journal", response = Page.class)
+    @ApiOperation(value = "search journal")
     @ApiResponses({
             @ApiResponse(code = 200, message = "search success"),
             @ApiResponse(code = 401, message = "search term is missing")
@@ -55,4 +55,6 @@ public class JournalController {
         }
         throw new MissingServletRequestPartException("search term");
     }
+
+
 }
