@@ -25,8 +25,8 @@ export class SearchCardComponent extends CardComponent implements OnInit {
 
   search() {
     let publicationSearchResult: Observable<Publication[]> = this.bookSearchService.search(this.searchValue);
-    publicationSearchResult.subscribe(response => {
-      //todo: fix problem that when transform json to model, some attribute names do not add up.
+    publicationSearchResult.subscribe((response: Publication[]) => {
+      //todo: attribute name decorator with recursion.
       this.searchComplete.emit(response);
     });
 

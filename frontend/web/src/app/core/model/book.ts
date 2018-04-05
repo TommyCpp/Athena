@@ -1,25 +1,30 @@
 import {Publication} from './publication';
 import {Publisher} from './publisher';
 import {Copy} from './copy';
+import {JsonProperty} from '../decorator/jsonProperty';
+import {Model} from "app/core/model/model";
 
-export class Book implements Publication {
-  public isbn: number;
-  public title: string;
-  public subtitle: string;
-  public directory: string;
-  public introduction: string;
-  public preface: string;
-  public coverUrl: URL;
-  public titlePinyin: string;
-  public titleShortPinyin: string;
-  public publisher: Publisher;
-  public copies: Copy[];
-  public price: number;
-  public language: string;
-  public authors: string[];
-  public translators: string[];
-  public publishDate: Date;
-  public categoryId: number;
-  public version: number;
+export class Book extends Model implements Publication {
+
+  public isbn: number = null;
+  public title: string = null;
+
+  @JsonProperty("sub-title")
+  public subtitle: string = null;
+  public directory: string = null;
+  public introduction: string = null;
+  public preface: string = null;
+  public coverUrl: URL = null;
+  public titlePinyin: string = null;
+  public titleShortPinyin: string = null;
+  public publisher: Publisher = null;
+  public copies: Copy[] = null;
+  public price: number = null;
+  public language: string = null;
+  public authors: string[] = null;
+  public translators: string[] = null;
+  public publishDate: Date = null;
+  public categoryId: number = null;
+  public version: number = null;
 
 }
