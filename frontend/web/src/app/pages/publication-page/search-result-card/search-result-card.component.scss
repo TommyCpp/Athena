@@ -1,3 +1,18 @@
-.search-result-card{
-  width: 20%;
+.search-result-card {
+  width: 100%;
+  margin: 20px;
+
+}
+
+@media (max-width: 720px) {
+  mat-card-content#introduction {
+    display: none;
+  }
+
+  .search-result-card {
+    width: 100%;
+    margin: 2px;
+
+  }
+
 }

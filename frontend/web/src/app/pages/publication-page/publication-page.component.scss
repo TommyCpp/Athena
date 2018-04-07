@@ -1,14 +1,40 @@
 
 .publication-page-content {
   margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .publication-search-card {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+
+app-search-result-card#search-result {
+  display: flex;
+  width: 20%;
+}
+
+@media (max-width: 720px) {
+  .publication-page-content {
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  app-search-result-card#search-result {
+    display: flex;
+    width: 30%;
+    min-width: 120px;
+  }
+
 }

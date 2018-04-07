@@ -16,6 +16,8 @@ export class SearchCardComponent extends CardComponent implements OnInit {
   @Output()
   searchComplete: EventEmitter<Publication[]> = new EventEmitter();
 
+  searchButtonDisabled: boolean = false;
+
   constructor(private bookSearchService: BookSearchService) {
     super();
   }
@@ -24,10 +26,14 @@ export class SearchCardComponent extends CardComponent implements OnInit {
   }
 
   search() {
-    let publicationSearchResult: Observable<Publication[]> = this.bookSearchService.search(this.searchValue);
-    publicationSearchResult.subscribe((response: Publication[]) => {
-      this.searchComplete.emit(response);
-    });
+    if(this.searchValue) {
+      this.searchButtonDisabled = true;
+      let publicationSearchResult: Observable<Publication[]> = this.bookSearchService.search(this.searchValue);
+      publicationSearchResult.subscribe((response: Publication[]) => {
+        this.searchButtonDisabled = false;
+        this.searchComplete.emit(response);
+      });
+    }
 
   }
 
