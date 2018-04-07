@@ -11,7 +11,7 @@ export class Journal extends Model implements Publication {
   authors: string[] = null;
   translators: string[] = null;
   title: string = null;
-  coverUrl: URL = null;
+  coverUrl: string = null;
   introduction: string = null;
   titlePinyin: string = null;
   titleShortPinyin: string = null;

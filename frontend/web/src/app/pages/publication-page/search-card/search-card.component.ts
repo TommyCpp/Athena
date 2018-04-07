@@ -26,7 +26,6 @@ export class SearchCardComponent extends CardComponent implements OnInit {
   search() {
     let publicationSearchResult: Observable<Publication[]> = this.bookSearchService.search(this.searchValue);
     publicationSearchResult.subscribe((response: Publication[]) => {
-      //todo: attribute name decorator with recursion.
       this.searchComplete.emit(response);
     });
 

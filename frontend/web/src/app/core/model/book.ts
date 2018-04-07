@@ -6,15 +6,13 @@ import {Model} from "app/core/model/model";
 
 export class Book extends Model implements Publication {
 
-  public isbn: number = null;
+  public isbn: string = null;
   public title: string = null;
-
-  @JsonProperty("sub-title")
   public subtitle: string = null;
   public directory: string = null;
   public introduction: string = null;
   public preface: string = null;
-  public coverUrl: URL = null;
+  public coverUrl: string = null;
   public titlePinyin: string = null;
   public titleShortPinyin: string = null;
   public publisher: Publisher = null;

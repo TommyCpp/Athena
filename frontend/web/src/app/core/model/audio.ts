@@ -9,7 +9,7 @@ export class Audio extends Model implements Publication {
   translators: string[] = null;
   title: string = null;
   subtitle: string = null;
-  coverUrl: URL = null;
+  coverUrl: string = null;
   introduction: string = null;
   titlePinyin: string = null;
   titleShortPinyin: string = null;

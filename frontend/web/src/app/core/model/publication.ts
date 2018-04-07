@@ -7,7 +7,7 @@ export interface Publication {
   translators: string[]
   title: string
   subtitle?:string
-  coverUrl: URL;
+  coverUrl: string;
   introduction: string
   titlePinyin: string
   titleShortPinyin: string

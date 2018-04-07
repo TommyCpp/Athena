@@ -57,7 +57,7 @@ describe('SearchResultCardComponent', () => {
     component = fixture.componentInstance;
     let book = new Book();
     book.title = "testTitle";
-    book.isbn = 1290238;
+    book.isbn = "1290238";
     component.publication = book;
     fixture.detectChanges();
   });

@@ -23,7 +23,7 @@ export class SearchResultCardComponent implements OnInit {
 
   getDetailUrl() {
     if (isBook(this.publication)) {
-      return this.endPointService.getRelativeUrl('Book', {'isbn': (this.publication as Book).isbn.toString()})
+      return this.endPointService.getRelativeUrl('Book', {'isbn': (this.publication as Book).isbn})
     }
     else if (isJournal(this.publication)) {
       return this.endPointService.getRelativeUrl('Journal', {
