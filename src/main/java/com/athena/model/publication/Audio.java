@@ -2,6 +2,7 @@ package com.athena.model.publication;
 
 import com.athena.model.copy.AudioCopy;
 import com.athena.model.listener.AudioListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -188,6 +189,7 @@ public class Audio implements Publication {
 
 
     @OneToMany(mappedBy = "audio")
+    @JsonIgnore
     public List<AudioCopy> getCopies() {
         return copies;
     }

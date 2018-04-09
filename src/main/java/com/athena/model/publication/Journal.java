@@ -208,6 +208,7 @@ public class Journal implements Publication {
     }
 
     @OneToMany(mappedBy = "journal")
+    @JsonIgnore
     public List<JournalCopy> getCopies() {
         return copies;
     }

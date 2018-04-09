@@ -12,7 +12,7 @@ public class BookNotFoundException extends ResourceNotFoundByIdException {
 
     public BookNotFoundException(Long isbn) {
         super();
-        this.message = "AbstractCopy's correspond book do not exist. Check the isbn below";
+        this.message = "cannot find the requested book, please check the isbn";
         this.code = 40411;
         this.isbn = isbn;
     }

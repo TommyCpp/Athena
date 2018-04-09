@@ -64,7 +64,7 @@ public class BookController {
     })
     @RequestMapping(path = "/**", method = RequestMethod.GET, produces = "application/json")
     public Page<Book> searchBooks(
-            @ApiParam(name="bookSearchVo",value="book search vo which contains the info regarding the search")
+            @ApiParam(name = "bookSearchVo", value = "book search vo which contains the info regarding the search")
             @PublicationSearchParam BookSearchVo searchVo,
             HttpServletResponse response,
             HttpServletRequest request
@@ -75,6 +75,29 @@ public class BookController {
             return result;
         }
         throw new MissingServletRequestPartException("search term");
+    }
+
+    @ApiOperation(value = "get book info", response = Book.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "book info"),
+            @ApiResponse(code = 401, message = "missing isbn"),
+            @ApiResponse(code = 404, message = "not found")
+    })
+    @RequestMapping(path = "/{isbn}", method = RequestMethod.GET, produces = "application/json")
+    public Book getBooks(@PathVariable Long isbn) throws BookNotFoundException, MissingServletRequestPartException {
+        //todo:test
+        if (isbn == null) {
+            throw new MissingServletRequestPartException("isbn");
+        }
+        Book book = this.bookService.get(isbn);
+        if (book != null) {
+            //if find
+            return book;
+        } else {
+            //cannot find the book
+            throw new BookNotFoundException(isbn);
+        }
+
     }
 
     @ApiOperation(value = "create book info", authorizations = {

@@ -2,6 +2,7 @@ package com.athena.model.copy;
 
 import com.athena.model.publication.Journal;
 import com.athena.model.publication.Publication;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -53,7 +54,7 @@ public class JournalCopy extends SimpleCopy implements PublicationCopy{
 
     @Transient
     @Override
-    //todo: JsonIgnore?
+    @JsonIgnore
     public Publication getPublication() {
         return this.getJournal();
     }

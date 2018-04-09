@@ -2,6 +2,7 @@ package com.athena.model.copy;
 
 import com.athena.model.publication.Audio;
 import com.athena.model.publication.Publication;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -44,6 +45,7 @@ public class AudioCopy extends SimpleCopy implements PublicationCopy {
 
     @Transient
     @Override
+    @JsonIgnore
     public Publication getPublication() {
         return this.getAudio();
     }
