@@ -5,6 +5,7 @@ import {isType} from '@angular/core/src/type';
 import {Book} from '../../../core/model/book';
 import {Journal} from '../../../core/model/Journal';
 import {Audio} from '../../../core/model/Audio';
+import {CardComponent} from '../../../shared/card/card.component';
 
 @Component({
   selector: 'app-search-result-card',
@@ -12,10 +13,11 @@ import {Audio} from '../../../core/model/Audio';
   templateUrl: './search-result-card.component.html',
   styleUrls: ['./search-result-card.component.scss']
 })
-export class SearchResultCardComponent implements OnInit {
+export class SearchResultCardComponent extends CardComponent implements OnInit {
   publication: Publication;
 
   constructor(private endPointService: EndPointService) {
+    super();
   }
 
   ngOnInit() {

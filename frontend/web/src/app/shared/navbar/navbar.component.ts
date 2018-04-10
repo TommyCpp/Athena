@@ -11,9 +11,9 @@ import {LoginService} from '../../core/service/login.service';
   providers: [MatMenuModule]
 })
 export class NavbarComponent implements OnInit {
-  private sections;
-  private sectionKeys;
-  private loginDialog: MatDialogRef<LoginDialogComponent>;
+  sections;
+  sectionKeys;
+  loginDialog: MatDialogRef<LoginDialogComponent>;
 
   constructor(private dialog: MatDialog, public authService: AuthService, private loginService: LoginService) {
     this.sections = {};

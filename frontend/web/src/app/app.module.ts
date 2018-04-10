@@ -10,6 +10,8 @@ import {SharedModule} from './shared/shared.module';
 import {BrowserModule} from '@angular/platform-browser';
 import {BASE_URL, BASE_URL_VALUE, REST_URL, REST_URL_VALUE} from './config';
 import {PublicationPageModule} from "./pages/publication-page/publication-page.module";
+import {APP_BASE_HREF} from '@angular/common';
+import {BookDetailPageModule} from './pages/book-detail-page/book-detail-page.module';
 
 
 @NgModule({
@@ -22,7 +24,8 @@ import {PublicationPageModule} from "./pages/publication-page/publication-page.m
     CoreModule,
     SharedModule,
     HomePageModule,
-    PublicationPageModule
+    PublicationPageModule,
+    BookDetailPageModule,
   ],
   providers: [
     {
@@ -37,7 +40,9 @@ import {PublicationPageModule} from "./pages/publication-page/publication-page.m
       },
       deps: [BASE_URL]
     },
-    {provide: BASE_URL, useValue: BASE_URL_VALUE}
+    {provide: BASE_URL, useValue: BASE_URL_VALUE},
+    {provide: APP_BASE_HREF, useValue: BASE_URL_VALUE}
+
   ],
   bootstrap: [AppComponent]
 })
