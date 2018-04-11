@@ -1,7 +1,15 @@
 <mat-tab-group>
   <mat-tab label="Basic Info">
+    <mat-grid-list [cols]="2" rowHeight="100%">
+      <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <app-publication-preface [source]="book.preface"></app-publication-preface>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="1" [rowspan]="1">
 
+      </mat-grid-tile>
+    </mat-grid-list>
   </mat-tab>
-  <mat-tab label="Copy Info"></mat-tab>
+  <mat-tab label="Copy Info">
+  </mat-tab>
 
 </mat-tab-group>

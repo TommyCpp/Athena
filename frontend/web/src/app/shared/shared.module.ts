@@ -15,6 +15,7 @@ import {LoginDialogComponent} from './login-dialog/login-dialog.component';
 import {CardComponent} from './card/card.component';
 import {RouterModule} from "@angular/router";
 import {ATHENA_ROUTES} from "../routes";
+import {PublicationPrefaceComponent} from './publication-preface/publication-preface.component';
 
 @NgModule({
   imports: [
@@ -35,11 +36,13 @@ import {ATHENA_ROUTES} from "../routes";
   declarations: [
     NavbarComponent,
     LoginDialogComponent,
-    CardComponent
+    CardComponent,
+    PublicationPrefaceComponent
   ],
   exports: [
     NavbarComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    PublicationPrefaceComponent
   ]
 })
 export class SharedModule {

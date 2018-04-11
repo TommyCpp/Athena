@@ -7,6 +7,7 @@ import {AuthService} from './service/auth.service';
 import {EndPointService} from './service/end-point.service';
 import {UserRolePipe} from './pipe/user-role.pipe';
 import {BookSearchService} from './service/book-search.service';
+import {BookService} from './service/book.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {BookSearchService} from './service/book-search.service';
     AuthService,
     EndPointService,
     BookSearchService,
+    BookService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
