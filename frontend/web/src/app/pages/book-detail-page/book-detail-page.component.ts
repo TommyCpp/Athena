@@ -12,13 +12,18 @@ export class BookDetailPageComponent implements OnInit {
   book: Book;
 
   constructor(private bookService: BookService, private route: ActivatedRoute) {
+
   }
 
   ngOnInit() {
-    //todo: get book info
     this.route.params.subscribe(params => {
-      this.bookService.get(params["isbn"]).subscribe((book: Book) => {
-        this.book = book;
+      this.bookService.get(params["isbn"]).subscribe((books: Book[]) => {
+        if (books.length == 1) {
+          this.book = books[0];
+        }
+        else {
+          throw new Error("multi books found for one ISBN");
+        }
       })
     })
   }

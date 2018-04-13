@@ -6,7 +6,7 @@ const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
 server.use(jsonServer.rewriter({
-  "/books/:id": "/books?isbn=:id"
+  "/book/:id": "/book?isbn=:id"
 }));
 
 const readers = {

@@ -1,13 +1,21 @@
-<mat-tab-group>
+<mat-tab-group *ngIf="book">
   <mat-tab label="Basic Info">
-    <mat-grid-list [cols]="2" rowHeight="100%">
-      <mat-grid-tile [colspan]="1" [rowspan]="1">
-        <app-publication-preface [source]="book.preface"></app-publication-preface>
-      </mat-grid-tile>
-      <mat-grid-tile [colspan]="1" [rowspan]="1">
+    <div class="basic-info">
+      <mat-grid-list [cols]="3" rowHeight="2:1">
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+          <app-publication-preface [source]="book.preface"></app-publication-preface>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+          <!--todo: detail info-->
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
 
-      </mat-grid-tile>
-    </mat-grid-list>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="3" [rowspan]="1">
+          {{book.introduction}}
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
   </mat-tab>
   <mat-tab label="Copy Info">
   </mat-tab>

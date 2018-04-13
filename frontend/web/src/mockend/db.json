@@ -311,11 +311,6 @@
       "title_pinyin": "C++,chen,xv,she,ji,zhi,nan",
       "title_short_pinyin": "ccxsjzn"
     },
-    /*
-    *  Below is for book search
-    *
-    *
-    */
     {
       "isbn": 9785226561974,
       "title": "Test Book",
@@ -451,6 +446,23 @@
       "price": 1204.65,
       "title_pinyin": null,
       "title_short_pinyin": null
+    },
+    {
+      "isbn": 9783158101130,
+      "title": "测试书及",
+      "subtitle": null,
+      "language": "Chinese",
+      "publisher_id": "127",
+      "publish_date": "2016-11-13",
+      "category_id": "TC331C",
+      "version": 1,
+      "cover_url": null,
+      "preface": "https://images-cn.ssl-images-amazon.com/images/I/71MAvCcbT7L.jpg",
+      "directory": null,
+      "introduction": null,
+      "price": 56.22,
+      "title_pinyin": "ce,shi,shu",
+      "title_short_pinyin": "css"
     }
   ]
 }

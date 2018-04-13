@@ -26,12 +26,17 @@ export class SearchCardComponent extends CardComponent implements OnInit {
   }
 
   search() {
-    if(this.searchValue) {
+    if (this.searchValue) {
       this.searchButtonDisabled = true;
       let publicationSearchResult: Observable<Publication[]> = this.bookSearchService.search(this.searchValue);
-      publicationSearchResult.subscribe((response: Publication[]) => {
-        this.searchButtonDisabled = false;
-        this.searchComplete.emit(response);
+      publicationSearchResult.subscribe({
+        next: (response: Publication[]) => {
+          this.searchButtonDisabled = false;
+          this.searchComplete.emit(response);
+        },
+        error: (response: Publication[]) => {
+          this.searchButtonDisabled = false;
+        }
       });
     }
 

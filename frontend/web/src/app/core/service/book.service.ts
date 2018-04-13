@@ -10,9 +10,8 @@ export class BookService {
   constructor(private endPointService: EndPointService, private http: HttpClient) {
   }
 
-  get(isbn: string): Observable<Book> {
-    //todo:test
-    return this.http.get<Book>(this.endPointService.getUrl("Book", {isbn: isbn}));
+  get(isbn: string): Observable<Book[]> {
+    return this.http.get<Book[]>(this.endPointService.getUrl("Book", {isbn: isbn}));
   }
 
 }

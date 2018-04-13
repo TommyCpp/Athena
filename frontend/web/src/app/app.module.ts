@@ -8,7 +8,7 @@ import {CoreModule} from './core/core.module';
 import {HomePageModule} from './pages/home-page/home-page.module';
 import {SharedModule} from './shared/shared.module';
 import {BrowserModule} from '@angular/platform-browser';
-import {BASE_URL, BASE_URL_VALUE, REST_URL, REST_URL_VALUE} from './config';
+import {APP_BASE_HREF_VALUE, BASE_URL, BASE_URL_VALUE, REST_URL, REST_URL_VALUE} from './config';
 import {PublicationPageModule} from "./pages/publication-page/publication-page.module";
 import {APP_BASE_HREF} from '@angular/common';
 import {BookDetailPageModule} from './pages/book-detail-page/book-detail-page.module';
@@ -41,7 +41,7 @@ import {BookDetailPageModule} from './pages/book-detail-page/book-detail-page.mo
       deps: [BASE_URL]
     },
     {provide: BASE_URL, useValue: BASE_URL_VALUE},
-    {provide: APP_BASE_HREF, useValue: BASE_URL_VALUE}
+    {provide: APP_BASE_HREF, useValue: APP_BASE_HREF_VALUE}
 
   ],
   bootstrap: [AppComponent]
