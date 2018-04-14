@@ -1,23 +1,26 @@
-<mat-tab-group *ngIf="book">
-  <mat-tab label="Basic Info">
-    <div class="basic-info">
-      <mat-grid-list [cols]="3" rowHeight="2:1">
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <app-publication-preface [source]="book.preface"></app-publication-preface>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <!--todo: detail info-->
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
+<div *ngIf="book">
+  <div id="book-title"><h1>{{book.title}}</h1></div>
+  <mat-tab-group>
+    <mat-tab label="Basic Info">
+      <div class="basic-info">
+        <mat-grid-list [cols]="3" rowHeight="3:1">
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <app-publication-preface [source]="book.preface"></app-publication-preface>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <!--todo: detail info-->
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
 
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="3" [rowspan]="1">
-          {{book.introduction}}
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-  </mat-tab>
-  <mat-tab label="Copy Info">
-  </mat-tab>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="3" [rowspan]="1">
+            {{book.introduction}}
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </mat-tab>
+    <mat-tab label="Copy Info">
+    </mat-tab>
+  </mat-tab-group>
+</div>
 
-</mat-tab-group>
