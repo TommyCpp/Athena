@@ -1,17 +1,30 @@
 .search-result-card {
   width: 100%;
   margin: 20px;
+  display: flex;
+  flex-direction: column;
+
+  mat-card-content#introduction {
+    flex-grow: 1; //stretch the rest height
+  }
 
 }
 
 @media (max-width: 720px) {
-  mat-card-content#introduction {
-    display: none;
-  }
 
   .search-result-card {
     width: 100%;
     margin: 2px;
+    display: flex;
+    flex-direction: column;
+
+    mat-card-content#introduction {
+      display: none;
+    }
+
+    mat-card-actions {
+      flex-grow: 1;
+    }
 
   }
 

@@ -5,7 +5,7 @@
   margin-left: 20px;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
   flex-wrap: wrap;
 }
 
@@ -15,9 +15,10 @@
   align-items: center;
 }
 
-app-search-result-card#search-result {
+app-search-result-card {
   display: flex;
   width: 20%;
+
 }
 
 @media (max-width: 720px) {
@@ -26,15 +27,17 @@ app-search-result-card#search-result {
     margin-right: 2px;
     margin-left: 2px;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: space-around;
+    align-items: stretch;
     flex-wrap: wrap;
   }
 
-  app-search-result-card#search-result {
+  app-search-result-card {
     display: flex;
-    width: 30%;
+    width: 40%;
     min-width: 120px;
+    margin: 2px;
+
   }
 
 }
