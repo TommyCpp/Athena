@@ -1,3 +1,7 @@
 <mat-card>
-  <img src="{{source}}" alt="Preface">
+  <mat-grid-list [cols]="1" rowHeight="1:1">
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <img src="{{source}}" alt="Preface">
+    </mat-grid-tile>
+  </mat-grid-list>
 </mat-card>

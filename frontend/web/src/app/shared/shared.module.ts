@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {
   MatButtonModule, MatCardModule,
   MatDialogModule,
-  MatFormFieldModule,
+  MatFormFieldModule, MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatMenuModule,
@@ -35,7 +35,8 @@ import {MatChipsModule} from '@angular/material/chips';
     RouterModule.forRoot(ATHENA_ROUTES),
     MatListModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatGridListModule
   ],
   entryComponents: [],
   providers: [],
