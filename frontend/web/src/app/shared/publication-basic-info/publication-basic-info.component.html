@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-list>
+    <mat-list-item>
+      <p matLine><b>Title</b></p>
+      <p matLine class="list-value"><span class="list-value">{{publication.title}}</span></p>
+    </mat-list-item>
+    <mat-list-item *ngIf="publication.authors">
+      <p matLine><b>Author</b></p>
+      <div matLine>
+        <mat-chip-list>
+          <mat-chip *ngFor="let author of publication.authors">
+            {{author}}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

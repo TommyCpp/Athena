@@ -449,6 +449,10 @@
     },
     {
       "isbn": 9783158101130,
+      "authors": [
+        "Hilin",
+        "Kitty"
+      ],
       "title": "测试书及",
       "subtitle": null,
       "language": "Chinese",

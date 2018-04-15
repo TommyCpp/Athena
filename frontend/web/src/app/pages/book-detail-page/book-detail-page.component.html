@@ -3,17 +3,19 @@
   <mat-tab-group>
     <mat-tab label="Basic Info">
       <div class="basic-info">
-        <mat-grid-list [cols]="3" rowHeight="3:1">
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <mat-grid-list [cols]="4" rowHeight="1:1">
+          <mat-grid-tile [colspan]="2" [rowspan]="3">
             <app-publication-preface [source]="book.preface"></app-publication-preface>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <!--todo: detail info-->
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <app-publication-basic-info [publication]="book">
+              <!--todo: use template outlet to custom display-->
+            </app-publication-basic-info>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
 
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="3" [rowspan]="1">
+          <mat-grid-tile [colspan]="2" [rowspan]="1">
             {{book.introduction}}
           </mat-grid-tile>
         </mat-grid-list>

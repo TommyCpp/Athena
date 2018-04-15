@@ -6,6 +6,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {SharedModule} from '../../shared/shared.module';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -13,7 +15,8 @@ import {MatListModule} from '@angular/material/list';
     MatGridListModule,
     SharedModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatIconModule
   ],
   declarations: [BookDetailPageComponent]
 })
