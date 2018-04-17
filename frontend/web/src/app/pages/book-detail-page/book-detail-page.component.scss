@@ -2,6 +2,20 @@
   margin-top: 20px;
 }
 
+div#book-details {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+
+  > mat-card {
+    width: 60%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+  }
+
+}
+
 app-publication-preface {
   height: 100%;
   width: 100%;
@@ -14,7 +28,11 @@ app-publication-basic-info {
   width: 90%;
 }
 
-div#book-title {
-  margin-left: 30px;
-  margin-bottom: 10px;
+.book-title {
+  width: 100%;
+
+  h1 {
+    margin-left: auto;
+    margin-bottom: auto;
+  }
 }

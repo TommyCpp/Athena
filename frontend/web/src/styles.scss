@@ -3,7 +3,7 @@
 @import './app/pages/home-page/home-page-theme';
 @import './app/pages/publication-page/publication-page-theme';
 @import './app/pages/book-detail-page/book-detail-page-theme';
-@import '../node_modules/@angular/material/theming';
+@import '~@angular/material/_theming';
 
 @mixin material-docs-app-theme($theme) {
   $primary: map-get($theme, primary);
@@ -11,6 +11,11 @@
   $warn: map-get($theme, warn);
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
+
+  body {
+    background-color: mat-color($background, background);
+
+  }
 
   @include nav-bar-theme($theme);
   @include home-page-theme($theme);
@@ -21,18 +26,16 @@
 // Include material core styles.
 @include mat-core();
 
-
 // Define the light theme.
 $primary: mat-palette($mat-indigo);
-$accent:  mat-palette($mat-pink, A200, A100, A400);
+$accent: mat-palette($mat-pink, 200, 100, 400);
 
 $theme: mat-light-theme($primary, $accent);
 
 @include material-docs-app-theme($theme);
 
-
 body {
-  font-family: "Roboto","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  font-family: "Roboto", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   margin: 0;
 }
 
