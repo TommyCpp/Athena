@@ -1,12 +1,18 @@
-<mat-card>
+<div id="publication-basic-info">
   <mat-list>
     <mat-list-item>
-      <p matLine><b>Title</b></p>
-      <div matLine><span class="list-value">{{publication.title}}</span></div>
+      <div class="list-key"><b>Title</b></div>
+      <div class="list-value">{{publication.title}}</div>
     </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item *ngIf="publication.subtitle">
+      <div class="list-key"><b>Subtitle</b></div>
+      <div class="list-value">{{publication.subtitle}}</div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
     <mat-list-item *ngIf="publication.authors">
-      <p matLine><b>Author</b></p>
-      <div matLine>
+      <div class="list-key"><b>Author</b></div>
+      <div class="list-value">
         <mat-chip-list>
           <mat-chip *ngFor="let author of publication.authors" class="list-value">
             {{author}}
@@ -14,10 +20,35 @@
         </mat-chip-list>
       </div>
     </mat-list-item>
+    <mat-list-item *ngIf="publication.translators">
+      <div class="list-key"><b>Translator</b></div>
+      <div class="list-value">
+        <mat-chip-list>
+          <mat-chip *ngFor="let translator of publication.translators">
+            {{translator}}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
     <mat-list-item *ngIf="publication.language">
-      <p matLine><b>Language</b></p>
-      <div matLine><span class="list-value">{{publication.language}}</span></div>
+      <div class="list-key"><b>Language</b></div>
+      <div class="list-value">{{publication.language}}</div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <div class="list-key"><b>Price</b></div>
+      <div class="list-value">$ {{publication.price}}</div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item *ngIf="publication.copies">
+      <div class="list-key"><b>Copy count</b></div>
+      <div class="list-value">{{publication.copies.length}}</div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item *ngIf="publication.publishDate">
+      <div class="list-key"><b>Publish date</b></div>
+      <div class="list-value">{{publication.publishDate}}</div>
     </mat-list-item>
   </mat-list>
-</mat-card>
-<!--todo: 每个键值对单独使用一个mat-card进行表示-->
+</div>

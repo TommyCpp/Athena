@@ -5,19 +5,18 @@
       <mat-tab-group>
         <mat-tab label="Basic Info">
           <div class="basic-info">
-            <mat-grid-list [cols]="4" rowHeight="1:1">
-              <mat-grid-tile [colspan]="2" [rowspan]="2">
+            <mat-grid-list [cols]="2" rowHeight="2:1">
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
                 <app-publication-preface [source]="book.preface"></app-publication-preface>
               </mat-grid-tile>
               <mat-grid-tile [colspan]="1" [rowspan]="2">
                 <app-publication-basic-info [publication]="book">
                 </app-publication-basic-info>
               </mat-grid-tile>
-              <mat-grid-tile [colspan]="1" [rowspan]="2">
-
-              </mat-grid-tile>
               <mat-grid-tile [colspan]="2" [rowspan]="1">
-                {{book.introduction}}
+                <div class="introduction">
+                  {{book.introduction}}
+                </div>
               </mat-grid-tile>
             </mat-grid-list>
           </div>
@@ -29,3 +28,4 @@
   </div>
 </div>
 
+<!--todo:响应式布局-->

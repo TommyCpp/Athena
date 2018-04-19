@@ -5,7 +5,7 @@ import {
   MatFormFieldModule, MatGridListModule,
   MatIconModule,
   MatInputModule,
-  MatMenuModule,
+  MatMenuModule, MatTableModule,
   MatToolbarModule
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -36,7 +36,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatListModule,
     MatCardModule,
     MatChipsModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTableModule,
   ],
   entryComponents: [],
   providers: [],

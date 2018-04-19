@@ -1,3 +1,11 @@
 .list-value {
-  font-size: 1.5em
+  width: 70%;
+
+  mat-chip {
+    width: auto;
+  }
+}
+
+.list-key {
+  width: 30%;
 }
