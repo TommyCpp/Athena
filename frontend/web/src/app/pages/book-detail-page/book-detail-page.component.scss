@@ -11,32 +11,66 @@ div#book-details {
     width: 60%;
     margin-top: 20px;
     margin-bottom: 20px;
+    display: block;
+  }
 
+  > mat-accordion{
+    display: none;
   }
 
   .introduction {
     height: 100%;
   }
 
-}
 
-app-publication-preface {
-  height: 100%;
-  width: 100%;
-  margin-left: 20px;
-  margin-right: 20px;
-}
+  .basic-info {
 
-app-publication-basic-info {
-  height: 90%;
-  width: 90%;
+    app-publication-preface {
+      height: 100%;
+      width: 100%;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    app-publication-basic-info {
+      height: 90%;
+      width: 90%;
+    }
+  }
 }
 
 .book-title {
-  width: 100%;
 
   h1 {
     margin-left: auto;
     margin-bottom: auto;
+  }
+}
+
+@media(max-width: 720px){
+  .book-title{
+    display: none;
+  }
+
+  div#book-details {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+
+    > mat-card {
+      width: 100%;
+      display: none;
+    }
+
+    > mat-accordion{
+      width: 90%;
+      display: block;
+      margin-top: 20px;
+    }
+
+    .introduction {
+      height: 100%;
+    }
+
   }
 }

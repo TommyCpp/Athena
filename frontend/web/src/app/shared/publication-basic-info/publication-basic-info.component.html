@@ -4,12 +4,12 @@
       <div class="list-key"><b>Title</b></div>
       <div class="list-value">{{publication.title}}</div>
     </mat-list-item>
-    <mat-divider></mat-divider>
+    <mat-divider [inset]="true"></mat-divider>
     <mat-list-item *ngIf="publication.subtitle">
       <div class="list-key"><b>Subtitle</b></div>
       <div class="list-value">{{publication.subtitle}}</div>
     </mat-list-item>
-    <mat-divider></mat-divider>
+    <mat-divider [inset]="true"></mat-divider>
     <mat-list-item *ngIf="publication.authors">
       <div class="list-key"><b>Author</b></div>
       <div class="list-value">
@@ -20,6 +20,7 @@
         </mat-chip-list>
       </div>
     </mat-list-item>
+    <mat-divider [inset]="true"></mat-divider>
     <mat-list-item *ngIf="publication.translators">
       <div class="list-key"><b>Translator</b></div>
       <div class="list-value">
@@ -30,22 +31,22 @@
         </mat-chip-list>
       </div>
     </mat-list-item>
-    <mat-divider></mat-divider>
+    <mat-divider [inset]="true"></mat-divider>
     <mat-list-item *ngIf="publication.language">
       <div class="list-key"><b>Language</b></div>
       <div class="list-value">{{publication.language}}</div>
     </mat-list-item>
-    <mat-divider></mat-divider>
+    <mat-divider [inset]="true"></mat-divider>
     <mat-list-item>
       <div class="list-key"><b>Price</b></div>
       <div class="list-value">$ {{publication.price}}</div>
     </mat-list-item>
-    <mat-divider></mat-divider>
+    <mat-divider [inset]="true"></mat-divider>
     <mat-list-item *ngIf="publication.copies">
       <div class="list-key"><b>Copy count</b></div>
       <div class="list-value">{{publication.copies.length}}</div>
     </mat-list-item>
-    <mat-divider></mat-divider>
+    <mat-divider [inset]="true"></mat-divider>
     <mat-list-item *ngIf="publication.publishDate">
       <div class="list-key"><b>Publish date</b></div>
       <div class="list-value">{{publication.publishDate}}</div>

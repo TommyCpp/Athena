@@ -25,7 +25,41 @@
         </mat-tab>
       </mat-tab-group>
     </mat-card>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Preface
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-publication-preface [source]="book.preface"></app-publication-preface>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Information
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-publication-basic-info [publication]="book"></app-publication-basic-info>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Introduction
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="introduction">
+          {{book.introduction}}
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Copy Information
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <!--todo: Copy info-->
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 </div>
-
-<!--todo:响应式布局-->

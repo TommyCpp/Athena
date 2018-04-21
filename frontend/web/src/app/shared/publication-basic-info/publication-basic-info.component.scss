@@ -6,6 +6,43 @@
   }
 }
 
+mat-list {
+
+  mat-list-item {
+    width: 80%;
+  }
+
+  mat-divider {
+    width: 80%;
+  }
+}
+
 .list-key {
   width: 30%;
+}
+
+@media (max-width: 720px) {
+  .list-value {
+    width: 50%;
+
+    mat-chip {
+      width: auto;
+    }
+  }
+
+  .list-key {
+    width: 50%;
+  }
+
+  mat-list {
+
+    mat-list-item {
+      width: 100%;
+    }
+
+    mat-divider {
+      display: none;
+    }
+
+  }
 }
