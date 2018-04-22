@@ -19,6 +19,8 @@ import {PublicationPrefaceComponent} from './publication-preface/publication-pre
 import {PublicationBasicInfoComponent} from './publication-basic-info/publication-basic-info.component';
 import {MatListModule} from '@angular/material/list';
 import {MatChipsModule} from '@angular/material/chips';
+import {PublicationCopyTableComponent} from './publication-copy-table/publication-copy-table.component';
+import {CoreModule} from '../core/core.module';
 
 @NgModule({
   imports: [
@@ -38,6 +40,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MatChipsModule,
     MatGridListModule,
     MatTableModule,
+    CoreModule,
   ],
   entryComponents: [],
   providers: [],
@@ -46,13 +49,15 @@ import {MatChipsModule} from '@angular/material/chips';
     LoginDialogComponent,
     CardComponent,
     PublicationPrefaceComponent,
-    PublicationBasicInfoComponent
+    PublicationBasicInfoComponent,
+    PublicationCopyTableComponent
   ],
   exports: [
     NavbarComponent,
     LoginDialogComponent,
     PublicationPrefaceComponent,
-    PublicationBasicInfoComponent
+    PublicationBasicInfoComponent,
+    PublicationCopyTableComponent
   ]
 })
 export class SharedModule {

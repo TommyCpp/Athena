@@ -2,6 +2,7 @@
   <mat-card class="book-title"><h1>{{book.title}}</h1></mat-card>
   <div id="book-details">
     <mat-card>
+      <!--For Normal Display-->
       <mat-tab-group>
         <mat-tab label="Basic Info">
           <div class="basic-info">
@@ -22,10 +23,12 @@
           </div>
         </mat-tab>
         <mat-tab label="Copy Info">
+          <app-publication-copy-table *ngIf="book.copies" [copy]="book.copies"></app-publication-copy-table>
         </mat-tab>
       </mat-tab-group>
     </mat-card>
     <mat-accordion>
+      <!--For Small Display-->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>

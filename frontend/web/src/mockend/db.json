@@ -453,6 +453,32 @@
         "Hilin",
         "Kitty"
       ],
+      "copies": [
+        {
+          "id": 1,
+          "createDate": "2017-09-09",
+          "updateDate": "2018-01-01",
+          "status": 1
+        },
+        {
+          "id": 2,
+          "createDate": "2017-09-09",
+          "updateDate": "2018-01-04",
+          "status": 1
+        },
+        {
+          "id": 3,
+          "createDate": "2017-09-09",
+          "updateDate": "2018-01-30",
+          "status": 6
+        },
+        {
+          "id": 6,
+          "createDate": "2017-09-09",
+          "updateDate": "2018-01-16",
+          "status": 6
+        }
+      ],
       "title": "测试书及",
       "subtitle": "Sub Title",
       "language": "Chinese",

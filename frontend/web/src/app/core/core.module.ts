@@ -8,6 +8,7 @@ import {EndPointService} from './service/end-point.service';
 import {UserRolePipe} from './pipe/user-role.pipe';
 import {BookSearchService} from './service/book-search.service';
 import {BookService} from './service/book.service';
+import {CopyStatusPipe} from './pipe/copy-status.pipe';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import {BookService} from './service/book.service';
       multi: true
     }
   ],
-  declarations: [UserRolePipe]
+  declarations: [UserRolePipe, CopyStatusPipe],
+  exports: [UserRolePipe, CopyStatusPipe]
 })
 export class CoreModule {
 }
