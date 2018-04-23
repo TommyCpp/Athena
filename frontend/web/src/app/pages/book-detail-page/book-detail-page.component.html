@@ -55,13 +55,13 @@
           {{book.introduction}}
         </div>
       </mat-expansion-panel>
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngIf="book.copies">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Copy Information
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <!--todo: Copy info-->
+        <app-publication-copy-table [copy]="book.copies" [showDates]="false"></app-publication-copy-table>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

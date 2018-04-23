@@ -7,8 +7,7 @@ import {LoginService} from '../../core/service/login.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
-  providers: [MatMenuModule]
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
   sections;

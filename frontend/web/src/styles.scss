@@ -28,7 +28,7 @@
 
 // Define the light theme.
 $primary: mat-palette($mat-indigo);
-$accent: mat-palette($mat-pink, 200, 100, 400);
+$accent: mat-palette($mat-pink);
 
 $theme: mat-light-theme($primary, $accent);
 
@@ -42,3 +42,4 @@ body {
 h1, h2 {
   font-weight: 400;
 }
+

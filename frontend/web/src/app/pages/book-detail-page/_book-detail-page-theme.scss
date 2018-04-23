@@ -10,6 +10,17 @@
     > mat-card {
       background-color: white;
     }
+
+    mat-expansion-panel-header {
+      background: mat-color($primary);
+      mat-panel-title{
+        color: mat-color($primary, default-contrast);
+      }
+    }
+  }
+  .book-title {
+    background-color: mat-color($primary);
+    color: mat-color($primary, default-contrast);
   }
 
 }

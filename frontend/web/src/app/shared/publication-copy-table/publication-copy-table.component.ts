@@ -10,12 +10,21 @@ export class PublicationCopyTableComponent implements OnInit {
 
   @Input()
   copy: Copy[];
+  @Input()
+  showDates: boolean = true;
+
   displayedColumns = ['id', 'status', 'createAt', 'updateAt'];
 
   constructor() {
   }
 
   ngOnInit() {
+    if (this.showDates) {
+      this.displayedColumns = ['id', 'status', 'createAt', 'updateAt'];
+    }
+    else {
+      this.displayedColumns = ['id', 'status']
+    }
   }
 
 }

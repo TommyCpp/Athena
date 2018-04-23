@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 .basic-info {
   margin-top: 20px;
 }
@@ -14,14 +16,13 @@ div#book-details {
     display: block;
   }
 
-  > mat-accordion{
+  > mat-accordion {
     display: none;
   }
 
   .introduction {
     height: 100%;
   }
-
 
   .basic-info {
 
@@ -47,9 +48,14 @@ div#book-details {
   }
 }
 
-@media(max-width: 720px){
-  .book-title{
+@media(max-width: 720px) {
+  .book-title {
     display: none;
+  }
+
+  .mat-expansion-panel-body {
+    padding-top: 20px;
+
   }
 
   div#book-details {
@@ -62,10 +68,18 @@ div#book-details {
       display: none;
     }
 
-    > mat-accordion{
+    > mat-accordion {
       width: 90%;
       display: block;
       margin-top: 20px;
+
+      ::ng-deep .mat-expansion-panel-body {
+        padding-top: 10px;
+      }
+
+      mat-expansion-panel-header{
+        @include mat-elevation(2);
+      }
     }
 
     .introduction {

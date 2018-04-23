@@ -42,7 +42,7 @@ import {CoreModule} from '../core/core.module';
     MatTableModule,
     CoreModule,
   ],
-  entryComponents: [],
+  entryComponents: [LoginDialogComponent],
   providers: [],
   declarations: [
     NavbarComponent,
