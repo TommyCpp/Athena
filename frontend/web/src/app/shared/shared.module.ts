@@ -41,6 +41,7 @@ import {CoreModule} from '../core/core.module';
     MatGridListModule,
     MatTableModule,
     CoreModule,
+
   ],
   entryComponents: [LoginDialogComponent],
   providers: [],

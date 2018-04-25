@@ -4,7 +4,7 @@ import {Copy} from '../../core/model/copy';
 @Component({
   selector: 'app-publication-copy-table',
   templateUrl: './publication-copy-table.component.html',
-  styleUrls: ['./publication-copy-table.component.scss']
+  styleUrls: ['./publication-copy-table.component.scss'],
 })
 export class PublicationCopyTableComponent implements OnInit {
 
@@ -20,7 +20,7 @@ export class PublicationCopyTableComponent implements OnInit {
 
   ngOnInit() {
     if (this.showDates) {
-      this.displayedColumns = ['id', 'status', 'createAt', 'updateAt'];
+      this.displayedColumns = ['id', 'createAt', 'updateAt', 'status'];
     }
     else {
       this.displayedColumns = ['id', 'status']

@@ -6,7 +6,17 @@
   </ng-container>
   <ng-container matColumnDef="status">
     <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.status | copyStatus}}</mat-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-chip-list [ngSwitch]="element.status | copyStatus" [selectable]="false">
+        <mat-chip *ngSwitchCase="'AVAILABLE'" color="primary"  [selected]="true">Available</mat-chip>
+        <mat-chip *ngSwitchCase="'WAIT_FOR_VERIFY'" color="accent" [selected]="true">Wait for verify</mat-chip>
+        <mat-chip *ngSwitchCase="'CHECKED_OUT'" color="accent" [selected]="true">Checked out</mat-chip>
+        <mat-chip *ngSwitchCase="'RESERVED'" color="accent" [selected]="true">Reserved</mat-chip>
+        <mat-chip *ngSwitchCase="'BOOKED'" color="accent" [selected]="true">Booked</mat-chip>
+        <mat-chip *ngSwitchCase="'DAMAGED'" color="warn" [selected]="true">Damaged</mat-chip>
+        <mat-chip *ngSwitchCase="'CREATED'" disabled>Created</mat-chip>
+      </mat-chip-list>
+    </mat-cell>
   </ng-container>
   <ng-container matColumnDef="createAt">
     <mat-header-cell *matHeaderCellDef> Create At </mat-header-cell>
