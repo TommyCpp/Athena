@@ -20,10 +20,10 @@ export class PublicationCopyTableComponent implements OnInit {
 
   ngOnInit() {
     if (this.showDates) {
-      this.displayedColumns = ['id', 'createAt', 'updateAt', 'status'];
+      this.displayedColumns = ['id', 'createAt', 'updateAt', 'status', 'operation'];
     }
     else {
-      this.displayedColumns = ['id', 'status']
+      this.displayedColumns = ['id', 'status', 'operation']
     }
   }
 

@@ -1,0 +1,35 @@
+.operation-button {
+  display: block;
+}
+
+.operation-button-small {
+  display: none;
+}
+
+.id {
+  flex-grow: 0.2;
+}
+
+.createAt{
+  flex-grow: 0.5;
+}
+
+.updateAt{
+  flex-grow: 0.5;
+}
+
+@media (max-width: 720px) {
+  .operation-button {
+    display: none;
+  }
+  .operation-button-small {
+    display: block;
+  }
+  .id {
+    flex-grow: 0.5;
+
+  }
+  .operation{
+    flex-grow: 0.5;
+  }
+}

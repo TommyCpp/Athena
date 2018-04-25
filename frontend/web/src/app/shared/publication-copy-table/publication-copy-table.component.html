@@ -1,14 +1,14 @@
 <mat-table [dataSource]="copy">
   <!--Col Definition-->
   <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.id}}</mat-cell>
+    <mat-header-cell *matHeaderCellDef class="id"> ID</mat-header-cell>
+    <mat-cell *matCellDef="let element" class="id"> {{element.id}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="status">
     <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
     <mat-cell *matCellDef="let element">
       <mat-chip-list [ngSwitch]="element.status | copyStatus" [selectable]="false">
-        <mat-chip *ngSwitchCase="'AVAILABLE'" color="primary"  [selected]="true">Available</mat-chip>
+        <mat-chip *ngSwitchCase="'AVAILABLE'" color="primary" [selected]="true">Available</mat-chip>
         <mat-chip *ngSwitchCase="'WAIT_FOR_VERIFY'" color="accent" [selected]="true">Wait for verify</mat-chip>
         <mat-chip *ngSwitchCase="'CHECKED_OUT'" color="accent" [selected]="true">Checked out</mat-chip>
         <mat-chip *ngSwitchCase="'RESERVED'" color="accent" [selected]="true">Reserved</mat-chip>
@@ -18,13 +18,38 @@
       </mat-chip-list>
     </mat-cell>
   </ng-container>
+  <ng-container matColumnDef="operation">
+    <mat-header-cell *matHeaderCellDef class="operation">Operation</mat-header-cell>
+    <mat-cell *matCellDef="let element" class="operation">
+      <ng-container *ngIf="'AVAILABLE' == (element.status | copyStatus)">
+        <!--if the publication copy is available-->
+        <button mat-icon-button class="operation-button-small" color="primary">
+          <mat-icon>content_paste</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" class="operation-button">
+          <mat-icon>content_paste</mat-icon>
+          Borrow
+        </button>
+      </ng-container>
+      <ng-container *ngIf="'WAIT_FOR_VERIFY' == (element.status | copyStatus)">
+        <!--if the publication copy is available-->
+        <button mat-icon-button class="operation-button-small" color="accent">
+          <mat-icon>notifications</mat-icon>
+        </button>
+        <button mat-raised-button color="accent" class="operation-button">
+          <mat-icon>notifications</mat-icon>
+          Get Notifications
+        </button>
+      </ng-container>
+    </mat-cell>
+  </ng-container>
   <ng-container matColumnDef="createAt">
-    <mat-header-cell *matHeaderCellDef> Create At </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.createDate}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef class="createAt"> Create At</mat-header-cell>
+    <mat-cell *matCellDef="let element" class="createAt"> {{element.createDate}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="updateAt">
-    <mat-header-cell *matHeaderCellDef> Update At </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.updateDate}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef class="updateAt"> Update At</mat-header-cell>
+    <mat-cell *matCellDef="let element" class="updateAt"> {{element.updateDate}}</mat-cell>
   </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
