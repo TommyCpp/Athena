@@ -1,0 +1,6 @@
+<div *ngIf="authService.user">
+  <mat-card class="user-page-header">
+    <h1>{{authService.user.username}}</h1>
+  </mat-card>
+  <router-outlet></router-outlet>
+</div>

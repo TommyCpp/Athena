@@ -28,10 +28,10 @@
     <i class="material-icons">account_circle</i>
   </a>
   <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-    <button mat-menu-item>
+    <a mat-menu-item [routerLink]="['user/setting']">
       <mat-icon>settings</mat-icon>
       <span>Settings</span>
-    </button>
+    </a>
     <button mat-menu-item (click)="logout()">
       <mat-icon>power_settings_new</mat-icon>
       <span>Logout</span>

@@ -1,0 +1,16 @@
+@import "./user-setting-page/user-setting-page-theme";
+
+@mixin user-page-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .user-page-header {
+    background-color: mat-color($primary);
+    color: mat-color($primary, default-contrast);
+  }
+
+  @include user-setting-page-theme($theme);
+}

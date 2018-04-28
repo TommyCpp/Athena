@@ -12,6 +12,8 @@ import {APP_BASE_HREF_VALUE, BASE_URL, BASE_URL_VALUE, REST_URL, REST_URL_VALUE}
 import {PublicationPageModule} from "./pages/publication-page/publication-page.module";
 import {APP_BASE_HREF} from '@angular/common';
 import {BookDetailPageModule} from './pages/book-detail-page/book-detail-page.module';
+import {UserPageModule} from './pages/user-page/user-page.module';
+import {LoggedInGuard} from './core/guard/logged-in.guard';
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import {BookDetailPageModule} from './pages/book-detail-page/book-detail-page.mo
     HomePageModule,
     PublicationPageModule,
     BookDetailPageModule,
+    UserPageModule
   ],
   providers: [
     {
@@ -41,8 +44,8 @@ import {BookDetailPageModule} from './pages/book-detail-page/book-detail-page.mo
       deps: [BASE_URL]
     },
     {provide: BASE_URL, useValue: BASE_URL_VALUE},
-    {provide: APP_BASE_HREF, useValue: APP_BASE_HREF_VALUE}
-
+    {provide: APP_BASE_HREF, useValue: APP_BASE_HREF_VALUE},
+    LoggedInGuard
   ],
   bootstrap: [AppComponent]
 })
