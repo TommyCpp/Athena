@@ -3,6 +3,7 @@
 @import './app/pages/home-page/home-page-theme';
 @import './app/pages/publication-page/publication-page-theme';
 @import './app/pages/book-detail-page/book-detail-page-theme';
+@import './app/pages/login-page/login-page-theme';
 @import './app/pages/user-page/user-page-theme';
 @import '~@angular/material/_theming';
 
@@ -23,6 +24,7 @@
   @include publication-page-theme($theme);
   @include book-detail-page-theme($theme);
   @include user-page-theme($theme);
+  @include login-page-theme($theme);
 }
 
 // Include material core styles.
@@ -43,5 +45,9 @@ body {
 
 h1, h2 {
   font-weight: 400;
+}
+
+app-login-page {
+  overflow: hidden;
 }
 

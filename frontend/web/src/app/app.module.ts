@@ -14,6 +14,7 @@ import {APP_BASE_HREF} from '@angular/common';
 import {BookDetailPageModule} from './pages/book-detail-page/book-detail-page.module';
 import {UserPageModule} from './pages/user-page/user-page.module';
 import {LoggedInGuard} from './core/guard/logged-in.guard';
+import {LoginPageModule} from './pages/login-page/login-page.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {LoggedInGuard} from './core/guard/logged-in.guard';
     HomePageModule,
     PublicationPageModule,
     BookDetailPageModule,
-    UserPageModule
+    UserPageModule,
+    LoginPageModule,
   ],
   providers: [
     {

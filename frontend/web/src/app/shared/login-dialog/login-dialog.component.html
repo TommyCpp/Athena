@@ -15,6 +15,11 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-  <button mat-button type="submit" (click)="f.valid && onSubmit(f)">submit</button>
+  <ng-container *ngIf="!isLoginPage">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button type="submit" (click)="f.valid && onSubmit(f)">submit</button>
+  </ng-container>
+  <ng-container *ngIf="isLoginPage">
+    <button mat-raised-button color="primary" type="submit" (click)="f.valid && onSubmit(f)">submit</button>
+  </ng-container>
 </mat-dialog-actions>
