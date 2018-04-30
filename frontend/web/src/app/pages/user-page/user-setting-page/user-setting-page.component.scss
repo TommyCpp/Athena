@@ -1,5 +1,43 @@
 .user-setting {
   display: flex;
   justify-content: center;
-  height: 100%;
+  flex-direction: row;
+  margin-top: 30px;
+
+  .setting-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: stretch;
+
+    .setting-cards {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      flex-direction: column;
+      height: 100%;
+
+      mat-card {
+        margin: 20px;
+      }
+
+      mat-card#profile {
+      }
+      mat-card#borrow-info {
+        height: 340px;
+      }
+
+      mat-card#other {
+        height: 500px;
+
+      }
+    }
+
+  }
+
 }

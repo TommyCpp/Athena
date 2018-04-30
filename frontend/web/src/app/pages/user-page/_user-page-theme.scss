@@ -13,4 +13,8 @@
   }
 
   @include user-setting-page-theme($theme);
+
+  div#container {
+    background-color: mat-color($background, background);
+  }
 }

@@ -1,6 +1,12 @@
 <div class="user-setting">
-  <mat-card>
-    Test!
-    <!--todo: add css-->
-  </mat-card>
+  <div class="setting-container">
+    <div class="setting-cards" [style.width]="'20%'">
+      <mat-card id="profile">Test1</mat-card>
+      <mat-card id="borrow-info">Test1</mat-card>
+    </div>
+    <div class="setting-cards" [style.width]="'60%'">
+      <mat-card id="other">Test1</mat-card>
+    </div>
+  </div>
+
 </div>
