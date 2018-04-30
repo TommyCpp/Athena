@@ -36,7 +36,15 @@ export class AuthService {
     this._currentUser = user;
   }
 
+  /**
+   * Get user.
+   * <b>Please note that this cannot be used as means to determine whether is loggedin</b>
+   * * */
   get user() {
     return this._currentUser;
+  }
+
+  get isLoggedIn(){
+    return this.userToken != null;
   }
 }

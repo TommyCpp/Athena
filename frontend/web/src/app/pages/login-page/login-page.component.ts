@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {LoginDialogComponent} from '../../shared/login-dialog/login-dialog.component';
 import {ActivatedRoute, Params} from '@angular/router';
@@ -8,7 +8,7 @@ import {ActivatedRoute, Params} from '@angular/router';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnInit,OnDestroy {
   loginDialog: MatDialogRef<LoginDialogComponent>;
 
   constructor(private dialog: MatDialog, private activatedRoute: ActivatedRoute) {
@@ -39,5 +39,10 @@ export class LoginPageComponent implements OnInit {
   ngOnInit() {
 
   }
+
+  ngOnDestroy(): void {
+    this.loginDialog.close();
+  }
+
 
 }
