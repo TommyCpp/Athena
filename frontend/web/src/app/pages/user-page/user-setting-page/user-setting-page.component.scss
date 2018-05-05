@@ -1,43 +1,32 @@
-.user-setting {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  margin-top: 30px;
-
-  .setting-container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
+.container {
+  min-height: 1080px;
+  .side-nav-drawer {
+    width: 15%;
     height: 100%;
 
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-items: stretch;
-
-    .setting-cards {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: space-between;
-      flex-direction: column;
-      height: 100%;
-
-      mat-card {
-        margin: 20px;
+    .side-nav {
+      .mat-list-icon {
+        color: rgba(0, 0, 0, 0.54);
       }
 
-      mat-card#profile {
-      }
-      mat-card#borrow-info {
-        height: 340px;
-      }
+      margin: 30px;
+      padding: 5px;
 
-      mat-card#other {
-        height: 500px;
-
-      }
     }
-
   }
 
+  .setting {
+    margin: 20px auto 10px;
+    overflow-x: hidden;
+    width: 80%;
+
+    .setting-form-group {
+      // a group of setting input
+      margin-top: 10px;
+      mat-form-field {
+        display: block;
+        width: 60%;
+      }
+    }
+  }
 }

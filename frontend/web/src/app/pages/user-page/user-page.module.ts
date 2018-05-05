@@ -6,13 +6,14 @@ import {SharedModule} from '../../shared/shared.module';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material';
+import {MatCardModule, MatFormFieldModule, MatInputModule, MatSidenavModule} from '@angular/material';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {UserPageComponent} from './user-page.component';
 import {UserSettingPageComponent} from './user-setting-page/user-setting-page.component';
 import {AuthService} from '../../core/service/auth.service';
 import {RouterModule} from '@angular/router';
 import {ATHENA_ROUTES} from '../../routes';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
@@ -25,7 +26,11 @@ import {ATHENA_ROUTES} from '../../routes';
     MatIconModule,
     MatCardModule,
     MatExpansionModule,
-    RouterModule.forRoot(ATHENA_ROUTES)
+    RouterModule.forRoot(ATHENA_ROUTES),
+    MatSidenavModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     AuthService

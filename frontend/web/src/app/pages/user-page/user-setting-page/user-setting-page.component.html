@@ -1,12 +1,37 @@
-<div class="user-setting">
-  <div class="setting-container">
-    <div class="setting-cards" [style.width]="'20%'">
-      <mat-card id="profile">Test1</mat-card>
-      <mat-card id="borrow-info">Test1</mat-card>
-    </div>
-    <div class="setting-cards" [style.width]="'60%'">
-      <mat-card id="other">Test1</mat-card>
-    </div>
-  </div>
-
-</div>
+<mat-drawer-container class="container">
+  <mat-drawer mode="side" [opened]="true" class="side-nav-drawer">
+    <mat-card class="side-nav">
+      <mat-list>
+        <h3 mat-subheader>Public Profile</h3>
+        <mat-list-item>
+          <mat-icon mat-list-icon>face</mat-icon>
+          <p>Avatar</p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon>person</mat-icon>
+          <p>Basic Info</p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon>lock_outline</mat-icon>
+          <p>Password</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-card class="setting">
+      <form #f="ngForm">
+        <h2>Avatar</h2>
+        <mat-divider [inset]="true"></mat-divider>
+        <h2>Basic Info</h2>
+        <mat-divider [inset]="true"></mat-divider>
+        <div class="setting-form-group">
+          <mat-form-field>
+            <input matInput placeholder="Input"/>
+            <!--todo: finish form-->
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-card>
+  </mat-drawer-content>
+</mat-drawer-container>
