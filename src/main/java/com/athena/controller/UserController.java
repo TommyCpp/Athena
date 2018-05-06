@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("${web.url.prefix}/user/**")
-public class CurrentUserController {
+public class UserController {
 
     @ApiOperation(value = "get current user info", response = AbstractCopy.class)
     @ApiResponses(value = {

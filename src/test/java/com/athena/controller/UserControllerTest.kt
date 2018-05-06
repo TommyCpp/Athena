@@ -31,7 +31,7 @@ import util.IdentityGenerator
 @TestExecutionListeners(TransactionalTestExecutionListener::class, DbUnitTestExecutionListener::class, DependencyInjectionTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:user_identity.xml")
 @WebAppConfiguration
-open class CurrentUserControllerTest {
+open class UserControllerTest {
     @Autowired lateinit var context: WebApplicationContext
 
     lateinit var mvc: MockMvc

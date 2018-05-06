@@ -1,7 +1,13 @@
 <dataset>
-    <audio isrc="CNM010100300" title="Test" author="test Author" publisher_id="127" publish_date="2016-11-13" price="12.8"/>
-    <audio isrc="CNM010100303" title="ForSearch" author="searchdll" publisher_id="127" publish_date="2018-01-13" price="88.23" language="Spanish"/>
+    <audio isrc="CNM010100300" title="Test" publisher_id="127" publish_date="2016-11-13" price="12.8"/>
+    <audio isrc="CNM010100303" title="ForSearch" publisher_id="127" publish_date="2018-01-13" price="88.23"
+           language="Spanish"/>
     <!--Below entity is for borrow related test only, do no change-->
-    <audio isrc="CNM010100301" title="TestForBorrow" author="test Author" publisher_id="127" publish_date="2016-11-13" price="12.8"/>
-    <audio isrc="CNM010100302" title="TestForAudioDelete" author="test Author" publisher_id="127" publish_date="2017-11-13" price="128.2"/>
+    <audio isrc="CNM010100301" title="TestForBorrow" publisher_id="127" publish_date="2016-11-13" price="12.8"/>
+    <audio isrc="CNM010100302" title="TestForAudioDelete" publisher_id="127" publish_date="2017-11-13" price="128.2"/>
+
+    <audio_author isrc="CNM010100300" author_name="test Author"/>
+    <audio_author isrc="CNM010100303" author_name="searchdll"/>
+    <audio_author isrc="CNM010100301" author_name="test Author"/>
+    <audio_author isrc="CNM010100302" author_name="test Author"/>
 </dataset>

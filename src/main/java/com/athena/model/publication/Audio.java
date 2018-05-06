@@ -18,8 +18,8 @@ public class Audio implements Publication {
     private String isrc;
     private String title;
     private String subtitle;
-    private String author;
-    private String translator;
+    private List<String> author;
+    private List<String> translator;
     private Date publishDate;
     private String coverUrl;
     private Double price;
@@ -60,23 +60,25 @@ public class Audio implements Publication {
         this.subtitle = subtitle;
     }
 
-    @Basic
-    @Column(name = "author", nullable = false, length = 128)
-    public String getAuthor() {
+    @ElementCollection
+    @Column(name = "author_name")
+    @CollectionTable(name = "audio_author", joinColumns = @JoinColumn(name = "isrc", referencedColumnName = "isrc"))
+    public List<String> getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(List<String> author) {
         this.author = author;
     }
 
-    @Basic
-    @Column(name = "translator", nullable = false, length = 128)
-    public String getTranslator() {
+    @ElementCollection
+    @Column(name = "translator_name")
+    @CollectionTable(name = "audio_translator", joinColumns = @JoinColumn(name = "isrc", referencedColumnName = "isrc"))
+    public List<String> getTranslator() {
         return translator;
     }
 
-    public void setTranslator(String translator) {
+    public void setTranslator(List<String> translator) {
         this.translator = translator;
     }
 
@@ -147,34 +149,12 @@ public class Audio implements Publication {
 
         Audio audio = (Audio) o;
 
-        if (isrc != null ? !isrc.equals(audio.isrc) : audio.isrc != null) return false;
-        if (title != null ? !title.equals(audio.title) : audio.title != null) return false;
-        if (subtitle != null ? !subtitle.equals(audio.subtitle) : audio.subtitle != null) return false;
-        if (author != null ? !author.equals(audio.author) : audio.author != null) return false;
-        if (translator != null ? !translator.equals(audio.translator) : audio.translator != null) return false;
-        if (publishDate != null ? !publishDate.equals(audio.publishDate) : audio.publishDate != null) return false;
-        if (coverUrl != null ? !coverUrl.equals(audio.coverUrl) : audio.coverUrl != null) return false;
-        if (price != null ? !price.equals(audio.price) : audio.price != null) return false;
-        if (titlePinyin != null ? !titlePinyin.equals(audio.titlePinyin) : audio.titlePinyin != null) return false;
-        if (titleShortPinyin != null ? !titleShortPinyin.equals(audio.titleShortPinyin) : audio.titleShortPinyin != null)
-            return false;
-
-        return true;
+        return audio.isrc.equals(this.isrc);
     }
 
     @Override
     public int hashCode() {
-        int result = isrc != null ? isrc.hashCode() : 0;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (translator != null ? translator.hashCode() : 0);
-        result = 31 * result + (publishDate != null ? publishDate.hashCode() : 0);
-        result = 31 * result + (coverUrl != null ? coverUrl.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (titlePinyin != null ? titlePinyin.hashCode() : 0);
-        result = 31 * result + (titleShortPinyin != null ? titleShortPinyin.hashCode() : 0);
-        return result;
+        return isrc != null ? isrc.hashCode() : 0;
     }
 
     @ManyToOne

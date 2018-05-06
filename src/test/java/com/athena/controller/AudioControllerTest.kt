@@ -25,6 +25,7 @@ import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.RequestPostProcessor
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -40,10 +41,14 @@ import org.springframework.web.context.WebApplicationContext
 @DatabaseSetup("classpath:audios.xml", "classpath:publishers.xml", "classpath:users.xml")
 @WebAppConfiguration
 class AudioControllerTest {
-    @Autowired private val context: WebApplicationContext? = null
-    @Autowired private val applicationContext: ApplicationContext? = null
-    @Autowired private val audioRepository: AudioRepository? = null
-    @Value("\${web.url.prefix}") private val urlPrefix: String? = null
+    @Autowired
+    private val context: WebApplicationContext? = null
+    @Autowired
+    private val applicationContext: ApplicationContext? = null
+    @Autowired
+    private val audioRepository: AudioRepository? = null
+    @Value("\${web.url.prefix}")
+    private val urlPrefix: String? = null
 
     lateinit var mvc: MockMvc
 
@@ -77,7 +82,12 @@ class AudioControllerTest {
 
     @Test
     fun testSearch() {
-        this.mvc.perform(get(this.urlPrefix+"/audios?language=Spanish").with(authentication("ROLE_READER"))).andExpect(content().json("{\"content\":[{\"isrc\":\"CNM010100303\",\"title\":\"ForSearch\",\"subtitle\":null,\"author\":\"searchdll\",\"translator\":null,\"publishDate\":\"2018-01-13\",\"coverUrl\":null,\"price\":88.23,\"titlePinyin\":null,\"titleShortPinyin\":null,\"language\":\"Spanish\",\"publisher\":{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"},\"copies\":[]}],\"totalElements\":1,\"totalPages\":1,\"last\":true,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":1}",false))
+        this.mvc.perform(get(this.urlPrefix + "/audios?language=Spanish").with(authentication("ROLE_READER")))
+                .andDo(print())
+                .andExpect(content().json(
+                "{\"content\":[{\"isrc\":\"CNM010100303\",\"title\":\"ForSearch\",\"subtitle\":null,\"author\":[\"searchdll\"],\"translator\":[],\"publishDate\":\"2018-01-13\",\"coverUrl\":null,\"price\":88.23,\"titlePinyin\":null,\"titleShortPinyin\":null,\"language\":\"Spanish\",\"publisher\":{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"}}],\"totalElements\":1,\"totalPages\":1,\"last\":true,\"number\":0,\"size\":20,\"sort\":null,\"first\":true,\"numberOfElements\":1}",
+                false
+        ))
     }
 
 

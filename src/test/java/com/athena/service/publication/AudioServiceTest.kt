@@ -51,7 +51,7 @@ class AudioServiceTest {
     fun testAdd() {
         var audio = Audio()
         audio.isrc = "CNM010199999"
-        audio.author = "test,test"
+        audio.author = arrayListOf("test,test")
         audio.title = "test"
         audio.publisher = publisherRepository.findOne("128")
         audio.price = 11.1
