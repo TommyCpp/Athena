@@ -1,16 +1,34 @@
 .container {
   min-height: 1080px;
   .side-nav-drawer {
-    width: 15%;
+    width: 20%;
     height: 100%;
 
     .side-nav {
       .mat-list-icon {
         color: rgba(0, 0, 0, 0.54);
       }
-
       margin: 30px;
       padding: 5px;
+
+      a {
+        font-size: 16px;
+
+        line-height: 16px;
+        margin: 8px 0 0;
+        position: relative;
+        text-decoration: none;
+        display: block;
+        text-overflow: ellipsis;
+        width: 100%;
+        overflow: hidden;
+        color: black;
+      }
+
+      a:visited {
+        color: black;
+
+      }
 
     }
   }
@@ -18,7 +36,7 @@
   .setting {
     margin: 20px auto 10px;
     overflow-x: hidden;
-    width: 80%;
+    width: 60%;
 
     .setting-form-group {
       // a group of setting input
@@ -26,6 +44,8 @@
       mat-form-field {
         display: block;
         width: 60%;
+        margin-top: 20px;
+        margin-bottom: 20px;
       }
     }
   }

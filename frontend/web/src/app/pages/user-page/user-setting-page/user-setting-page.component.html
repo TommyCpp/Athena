@@ -5,11 +5,11 @@
         <h3 mat-subheader>Public Profile</h3>
         <mat-list-item>
           <mat-icon mat-list-icon>face</mat-icon>
-          <p>Avatar</p>
+          <a href="{{currentUrl}}#avatar">Avatar</a>
         </mat-list-item>
         <mat-list-item>
           <mat-icon mat-list-icon>person</mat-icon>
-          <p>Basic Info</p>
+          <a href="{{currentUrl}}#basic-info">Basic Info</a>
         </mat-list-item>
         <mat-list-item>
           <mat-icon mat-list-icon>lock_outline</mat-icon>
@@ -21,15 +21,36 @@
   <mat-drawer-content>
     <mat-card class="setting">
       <form #f="ngForm">
-        <h2>Avatar</h2>
+        <h2 id="avatar">Avatar</h2>
         <mat-divider [inset]="true"></mat-divider>
-        <h2>Basic Info</h2>
+        <h2 id="basic-info">Basic Info</h2>
         <mat-divider [inset]="true"></mat-divider>
         <div class="setting-form-group">
           <mat-form-field>
-            <input matInput placeholder="Input"/>
-            <!--todo: finish form-->
+            <mat-label>ID</mat-label>
+            <input matInput placeholder="Id" disabled value="{{user.id}}"/>
           </mat-form-field>
+          <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Username" [formControl]="username"/>
+            <mat-hint>Please use alphabet and number</mat-hint>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>WeChat ID</mat-label>
+            <input matInput placeholder="WeChat Id" [formControl]="wechatId"/>
+            <mat-hint>Please use valid we chat id</mat-hint>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Phone number</mat-label>
+            <input matInput placeholder="Phone number" [formControl]="phoneNumber"/>
+            <mat-hint>Please use valid phone number</mat-hint>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" [formControl]="email"/>
+            <mat-hint>Please use valid email</mat-hint>
+          </mat-form-field>
+          <!--todo: finish form-->
         </div>
       </form>
     </mat-card>

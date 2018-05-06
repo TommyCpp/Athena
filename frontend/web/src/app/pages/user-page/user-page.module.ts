@@ -13,7 +13,7 @@ import {UserSettingPageComponent} from './user-setting-page/user-setting-page.co
 import {AuthService} from '../../core/service/auth.service';
 import {RouterModule} from '@angular/router';
 import {ATHENA_ROUTES} from '../../routes';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
@@ -27,10 +27,12 @@ import {FormsModule} from "@angular/forms";
     MatCardModule,
     MatExpansionModule,
     RouterModule.forRoot(ATHENA_ROUTES),
+    RouterModule,
     MatSidenavModule,
     FormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [
     AuthService
