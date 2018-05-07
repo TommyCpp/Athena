@@ -50,7 +50,9 @@ describe('BookSearchService', () => {
 
 
   it('should send request to query publication', inject([BookSearchService, HttpTestingController], (service: BookSearchService, httpTestController: HttpTestingController) => {
-    service.search("Test");
+    service.search("Test").subscribe((data: any) => {
+
+    });
     httpTestController.expectOne("http://localhost/book?title=Test");
   }));
 });

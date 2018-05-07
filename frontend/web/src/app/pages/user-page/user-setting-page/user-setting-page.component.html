@@ -13,7 +13,7 @@
         </mat-list-item>
         <mat-list-item>
           <mat-icon mat-list-icon>lock_outline</mat-icon>
-          <p>Password</p>
+          <a href="{{currentUrl}}#password">Password</a>
         </mat-list-item>
       </mat-list>
     </mat-card>
@@ -51,6 +51,25 @@
             <mat-hint>Please use valid email</mat-hint>
           </mat-form-field>
           <!--todo: finish form-->
+        </div>
+        <h2 id="password">Password</h2>
+        <mat-divider [inset]="true"></mat-divider>
+        <div class="setting-form-group">
+          <mat-form-field>
+            <mat-label>Old password</mat-label>
+            <input type="password" matInput placeholder="Old password" [formControl]="oldPass">
+            <mat-hint>The length of password should remain with {{PASS_MAX_LENGTH}}</mat-hint>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>New password</mat-label>
+            <input type="password" matInput placeholder="New password" [formControl]="newPass">
+            <mat-hint>The length of password should remain with {{PASS_MAX_LENGTH}}</mat-hint>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Repeated new password</mat-label>
+            <input type="password" matInput placeholder="New password" [formControl]="newPassRepeat">
+            <mat-hint>Please type your new password again</mat-hint>
+          </mat-form-field>
         </div>
       </form>
     </mat-card>

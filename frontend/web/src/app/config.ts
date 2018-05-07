@@ -46,6 +46,16 @@ export const REST_URL_VALUE: { [key: string]: EndPoint } = {
     relativeUrl: '/audio/{isrc}',
     needAuth: false,
     type: ['GET', 'POST', 'PUT', 'PATCH']
+  },
+  'GetBorrowByUser': {
+    relativeUrl: '/user/borrow',
+    needAuth: true,
+    type: ['GET']
   }
 
+
+};
+
+export const USER_SETTING = {
+  PASS_MAX_LENGTH: 11
 };

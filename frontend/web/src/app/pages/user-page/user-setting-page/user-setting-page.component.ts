@@ -3,6 +3,7 @@ import {User} from '../../../core/model/user';
 import {AuthService} from '../../../core/service/auth.service';
 import {FormControl, Validator, Validators} from '@angular/forms';
 import {Router, RouterStateSnapshot} from '@angular/router';
+import {USER_SETTING} from '../../../config';
 
 @Component({
   selector: 'app-user-setting-page',
@@ -11,11 +12,17 @@ import {Router, RouterStateSnapshot} from '@angular/router';
 })
 export class UserSettingPageComponent implements OnInit {
   user: User;
+  currentUrl: string;
+
+  PASS_MAX_LENGTH = USER_SETTING.PASS_MAX_LENGTH;
+
   username: FormControl;
   wechatId: FormControl;
   phoneNumber: FormControl;
   email: FormControl;
-  currentUrl: string;
+  oldPass: FormControl;
+  newPass: FormControl;
+  newPassRepeat: FormControl;
 
   constructor(authService: AuthService, router: Router) {
     this.user = authService.user;
@@ -23,6 +30,9 @@ export class UserSettingPageComponent implements OnInit {
     this.wechatId = new FormControl(this.user.wechatId, [Validators.required]);
     this.phoneNumber = new FormControl(this.user.phoneNumber, [Validators.required]);
     this.email = new FormControl(this.user.email, [Validators.required, Validators.email]);
+    this.oldPass = new FormControl('', [Validators.required, Validators.maxLength(this.PASS_MAX_LENGTH)]);
+    this.newPass = new FormControl('', [Validators.required, Validators.maxLength(this.PASS_MAX_LENGTH)]);
+    this.newPassRepeat = new FormControl('', [Validators.required, Validators.maxLength(this.PASS_MAX_LENGTH)]);
     this.currentUrl = router.url;
   }
 
