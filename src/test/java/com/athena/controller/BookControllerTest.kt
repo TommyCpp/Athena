@@ -48,14 +48,19 @@ import util.BookGenerator
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml")
 @WebAppConfiguration
 open class BookControllerTest {
-    @Autowired lateinit var context: WebApplicationContext
-    @Autowired lateinit var applicationContext: ApplicationContext
-    @Autowired lateinit var bookRepository: BookRepository
-    @Autowired lateinit var bookCopyRepository: BookCopyRepository
+    @Autowired
+    lateinit var context: WebApplicationContext
+    @Autowired
+    lateinit var applicationContext: ApplicationContext
+    @Autowired
+    lateinit var bookRepository: BookRepository
+    @Autowired
+    lateinit var bookCopyRepository: BookCopyRepository
 
     lateinit var mvc: MockMvc
     private val mockBookGenerator: BookGenerator = BookGenerator()
-    @Value("\${web.url.prefix}") private var url_prefix: String = ""
+    @Value("\${web.url.prefix}")
+    private var url_prefix: String = ""
 
     @Before
     fun setup() {
@@ -288,6 +293,13 @@ open class BookControllerTest {
                 .andDo(print())
         this.mvc.perform(get(this.url_prefix + "/books?title=test&language=English"))
                 .andDo(print())
+    }
+
+    @Test
+    fun testGetBooks() {
+        this.mvc.perform(get(this.url_prefix + "/books/9783158101901"))
+                .andExpect(status().isOk)
+                .andExpect(content().json("{\"isbn\":9783158101901,\"author\":[\"Tdicko\"],\"translator\":[],\"publishDate\":\"2017-11-13\",\"categoryId\":\"TC331B\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"第三部测试书\",\"titlePinyin\":\"di,san,bu,ce,shi,shu\",\"titleShortPinyin\":\"dsbcss\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":152.67,\"publisher\":{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"}}", false))
     }
 }
 

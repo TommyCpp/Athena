@@ -1,7 +1,6 @@
 package com.athena.service;
 
 import com.athena.annotation.ArgumentNotNull;
-import com.athena.exception.http.IllegalEntityAttributeException;
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.security.User;
@@ -18,7 +17,7 @@ import java.util.List;
 @Service
 public class UserService implements ModelCRUDService<User, Long> {
 
-    private final UserRepository repository;
+    private UserRepository repository;
 
     /**
      * Instantiates a new User service.
@@ -45,7 +44,7 @@ public class UserService implements ModelCRUDService<User, Long> {
     }
 
     @Override
-    public User update(User user) throws ResourceNotFoundByIdException, IllegalEntityAttributeException {
+    public User update(User user) throws ResourceNotFoundByIdException {
         EntityUtil.requireEntityNotNull(user);
         if (!this.repository.exists(user.getId())) {
             throw new ResourceNotFoundByIdException();

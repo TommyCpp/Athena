@@ -85,7 +85,6 @@ public class BookController {
     })
     @RequestMapping(path = "/{isbn}", method = RequestMethod.GET, produces = "application/json")
     public Book getBooks(@PathVariable Long isbn) throws BookNotFoundException, MissingServletRequestPartException {
-        //todo:test
         if (isbn == null) {
             throw new MissingServletRequestPartException("isbn");
         }

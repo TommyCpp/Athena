@@ -27,4 +27,5 @@ public class UserController {
     public User getCurrentUser(Authentication authentication) {
         return ((Account) authentication.getPrincipal()).getUser();
     }
+
 }

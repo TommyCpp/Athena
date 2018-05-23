@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers(this.URL_PREFIX + "/login").permitAll()
-                .antMatchers(this.URL_PREFIX + "/books").permitAll()
+                .antMatchers(this.URL_PREFIX + "/books/**").permitAll()
                 .antMatchers(this.URL_PREFIX + "/**").authenticated()  //only authentication the APIs
                 .anyRequest().permitAll()
 
