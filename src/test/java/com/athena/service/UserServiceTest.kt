@@ -7,6 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
+import org.mockito.Matchers.any
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
@@ -37,6 +38,11 @@ open class UserServiceTest {
         user11.wechatId = "whatever"
 
         `when`(this.userRepository.findOne(11L)).thenReturn(user11)
+        `when`(this.userRepository.exists(11L)).thenReturn(true)
+        `when`(this.userRepository.save(any(User::class.java))).thenAnswer { invocationOnMock ->
+            invocationOnMock.arguments[0]
+
+        }
     }
 
     @Test
@@ -46,8 +52,19 @@ open class UserServiceTest {
         verify(this.userRepository).findOne(11L)
 
         Assert.assertNotNull(user)
-        Assert.assertEquals("test11",user.username)
+        Assert.assertEquals("test11", user.username)
     }
 
-    //todo: keep test
+    @Test
+    fun testUpdateUser() {
+        val updateUser = User()
+        updateUser.id = 11
+        updateUser.username = "updatetest11"
+        val user = this.userService.update(updateUser)
+
+        verify(this.userRepository).exists(updateUser.id)
+
+        Assert.assertEquals("updatetest11", user.username)
+
+    }
 }
