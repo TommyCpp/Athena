@@ -41,7 +41,6 @@ open class UserServiceTest {
         `when`(this.userRepository.exists(11L)).thenReturn(true)
         `when`(this.userRepository.save(any(User::class.java))).thenAnswer { invocationOnMock ->
             invocationOnMock.arguments[0]
-
         }
     }
 
@@ -66,5 +65,25 @@ open class UserServiceTest {
 
         Assert.assertEquals("updatetest11", user.username)
 
+    }
+
+    @Test
+    fun testDeleteUser() {
+        val user = User()
+        user.id = 11L
+        this.userService.delete(user)
+
+        verify(this.userRepository).delete(user)
+    }
+
+    @Test
+    fun testAddUser() {
+        val user = User()
+        user.id = 12L
+        val savedUser = this.userService.add(user)
+
+        verify(this.userRepository).save(user)
+
+        Assert.assertEquals(12L, savedUser.id)
     }
 }
