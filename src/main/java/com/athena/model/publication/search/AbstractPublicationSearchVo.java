@@ -9,8 +9,9 @@ import org.springframework.data.domain.Pageable;
  * Created by Tommy on 2018/3/18.
  */
 abstract class AbstractPublicationSearchVo<T> implements PublicationSearchVo<T> {
-    protected String[] titles;
+    protected String[] title;
     protected String publisherName;
+    protected String[] author;
     protected String language;
     protected Integer count;
     protected Integer page;
@@ -48,13 +49,13 @@ abstract class AbstractPublicationSearchVo<T> implements PublicationSearchVo<T> 
 
     @Override
     @JsonProperty("title")
-    public String[] getTitles() {
-        return this.titles;
+    public String[] getTitle() {
+        return this.title;
     }
 
     @Override
-    public void setTitles(String[] titles) {
-        this.titles = titles;
+    public void setTitle(String[] title) {
+        this.title = title;
     }
 
     @Override

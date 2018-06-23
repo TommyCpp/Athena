@@ -16,8 +16,8 @@ public class AudioSearchVo extends AbstractPublicationSearchVo<Audio> {
         Specification<Audio> languageIs = this.getDefaultSpecifications();
         Specification<Audio> publisherNameIs = this.getDefaultSpecifications();
 
-        if (this.titles != null) {
-            titlesIn = (root, criteriaQuery, criteriaBuilder) -> root.get("title").in((Object[]) titles);
+        if (this.title != null) {
+            titlesIn = (root, criteriaQuery, criteriaBuilder) -> root.get("title").in((Object[]) title);
         }
         if (this.publisherName != null) {
             publisherNameIs = (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("publisher").get("name"), publisherName);

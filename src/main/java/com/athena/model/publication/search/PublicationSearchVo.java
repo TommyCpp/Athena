@@ -22,9 +22,9 @@ public interface PublicationSearchVo<T> extends SearchVo {
 
     void setLastCursor(Integer lastCursor);
 
-    String[] getTitles();
+    String[] getTitle();
 
-    void setTitles(String[] title);
+    void setTitle(String[] title);
 
     String getPublisherName();
 

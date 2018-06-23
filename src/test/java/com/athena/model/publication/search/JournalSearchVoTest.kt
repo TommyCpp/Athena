@@ -41,7 +41,7 @@ class JournalSearchVoTest {
     fun testJsonSerializerAndDeSerializer() {
         //test serializer
         val journalSearchVo = JournalSearchVo()
-        journalSearchVo.titles = arrayOf("test1", "test2")
+        journalSearchVo.title = arrayOf("test1", "test2")
         journalSearchVo.count = 20
         journalSearchVo.page = 4
         journalSearchVo.lastCursor = 6
@@ -53,7 +53,7 @@ class JournalSearchVoTest {
 //        //test deserializer
         val json = "{\"publisherName\":null,\"language\":null,\"count\":20,\"page\":4,\"lastCursor\":6,\"issn\":\"109123102\",\"year\":null,\"issue\":12,\"title\":[\"test4\",\"test2\"]}"
         val deserializerJournalSearchVo = ObjectMapper().readValue(json, JournalSearchVo::class.java)
-        Assert.assertTrue(deserializerJournalSearchVo.titles.contains("test4"))
+        Assert.assertTrue(deserializerJournalSearchVo.title.contains("test4"))
         Assert.assertTrue(deserializerJournalSearchVo.pageable.pageSize == 20)
         Assert.assertTrue(deserializerJournalSearchVo.issn == "109123102")
     }

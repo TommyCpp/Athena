@@ -30,13 +30,13 @@ class AudioSearchVoTest {
     @Test
     fun getSpecification() {
         val audioSearchVo = AudioSearchVo()
-        audioSearchVo.titles = arrayOf("ForSearch")
+        audioSearchVo.title = arrayOf("ForSearch")
 
         val result_1 = this.audioRepository.findAll(audioSearchVo.specification as Specification<Audio>)
         Assert.assertEquals(1, result_1.count())
 
         audioSearchVo.language = "Spanish"
-        audioSearchVo.titles = null
+        audioSearchVo.title = null
 
         val result_2 = this.audioRepository.findAll(audioSearchVo.specification as Specification<Audio>)
         Assert.assertEquals(1, result_2.count())

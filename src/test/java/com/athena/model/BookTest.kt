@@ -113,8 +113,8 @@ open class BookTest {
     /**
      * Test Specification.
      *
-     * Assert 1. Given 2 titles, find all books whose title within given title. Should be 3 books.
-     * Assert 2. Based on Assert 1's specification. Add a specification that requires book's authors must has Tdicko. Should only left 1 book.
+     * Assert 1. Given 2 title, find all books whose title within given title. Should be 3 books.
+     * Assert 2. Based on Assert 1's specification. Add a specification that requires book's author must has Tdicko. Should only left 1 book.
      * */
     @Test
     fun testGetBook_Given2titlesAnd1Author_ShouldFindSuitableBooks() {

@@ -16,8 +16,9 @@ public class BookSearchVo extends AbstractPublicationSearchVo<Book> implements P
         Specification<Book> titlesIn = this.getDefaultSpecifications();
         Specification<Book> publisherNameIs = this.getDefaultSpecifications();
         Specification<Book> languageIs = this.getDefaultSpecifications();
-        if (this.titles != null) {
-            titlesIn = (root, criteriaQuery, criteriaBuilder) -> root.get("title").in((Object[]) titles);
+        Specification<Book> hasAuthor = this.getDefaultSpecifications();
+        if (this.title != null) {
+            titlesIn = (root, criteriaQuery, criteriaBuilder) -> root.get("title").in((Object[]) title);
         }
         if (this.publisherName != null) {
             publisherNameIs = (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("publisher").get("name"), publisherName);
@@ -25,8 +26,11 @@ public class BookSearchVo extends AbstractPublicationSearchVo<Book> implements P
         if (this.language != null) {
             languageIs = (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("language"), language);
         }
+        if(this.author != null){
+            hasAuthor = (root, criteriaQuery, criteriaBuilder) -> root.get("author").in((Object[]) author);
+        }
 
-        return Specifications.where(titlesIn).and(publisherNameIs).and(languageIs);
+        return Specifications.where(titlesIn).and(publisherNameIs).and(languageIs).and(hasAuthor);
     }
 
 }

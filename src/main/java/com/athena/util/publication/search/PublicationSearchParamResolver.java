@@ -49,19 +49,19 @@ public class PublicationSearchParamResolver implements HandlerMethodArgumentReso
         BeanDescription introspection =
                 objectMapper.getSerializationConfig().introspect(userType);
         List<BeanPropertyDefinition> beanPropertyDefinitionList = introspection.findProperties();
-        Map<String, Boolean> properties = new HashMap<>(); // key is the field name in json and value is whether this property is array.
+        Map<String, Boolean> fieldIsArray = new HashMap<>(); // key is the field name in json and value is whether this property is array.
         for (BeanPropertyDefinition propertyDefinition : beanPropertyDefinitionList) {
-            properties.put(propertyDefinition.getName(), propertyDefinition.getField().getRawType().isArray());
+            fieldIsArray.put(propertyDefinition.getName(), propertyDefinition.getField().getRawType().isArray());
         }
 
 
-        Set<String> keys = properties.keySet();
+        Set<String> keys = fieldIsArray.keySet();
         Map<String, String[]> requestParameterMap = nativeWebRequest.getParameterMap();
         Map<String, Object> parameters = new HashMap<>();
         for (Map.Entry<String, String[]> entry : requestParameterMap.entrySet()) {
             if (keys.contains(entry.getKey())) {
                 // if entry key is in PublicationSearchParam keys
-                if (entry.getValue().length == 1 && !properties.get(entry.getKey())) {
+                if (entry.getValue().length == 1 && !fieldIsArray.get(entry.getKey())) {
                     // if the value only have 1 instance and its type is not array, then unwrap.
                     parameters.put(entry.getKey(), entry.getValue()[0]);
                 } else {

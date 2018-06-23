@@ -120,6 +120,7 @@ open class BookControllerTest {
 
     @Test
     fun testBookSearchByAuthors() {
+        //fixme: search book by author and vague title/author
         mvc.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls")
                 .with(this.authentication()))
                 .andDo(print())
@@ -289,10 +290,12 @@ open class BookControllerTest {
 
     @Test
     fun testGetRequestParamThroughPublicationSearchParam() {
-        this.mvc.perform(get(this.url_prefix + "/books?title=test&title=test2&language=English"))
+        this.mvc.perform(get(this.url_prefix + "/books?title=adipiscing elit&title=ut erat id&language=English"))
                 .andDo(print())
-        this.mvc.perform(get(this.url_prefix + "/books?title=test&language=English"))
+                .andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"author\":[\"Steffen Catcherside\"],\"translator\":[],\"publishDate\":\"2016-09-18\",\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5,\"publisher\":{\"id\":\"922\",\"name\":\"Test Publisher\",\"location\":\"NewYork\"}},{\"isbn\":9785226422377,\"author\":[\"Georgie Northway\"],\"translator\":[],\"publishDate\":\"2017-04-16\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"ut erat id\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":1204.65,\"publisher\":{\"id\":\"806\",\"name\":\"TestR Publisher\",\"location\":\"NewYork\"}}],\"last\":true,\"totalPages\":1,\"totalElements\":2,\"first\":true,\"numberOfElements\":2,\"size\":20,\"number\":0,\"sort\":null}", false))
+        this.mvc.perform(get(this.url_prefix + "/books?title=ut erat id&language=English"))
                 .andDo(print())
+                .andExpect(content().json("{\"content\":[{\"isbn\":9785226422377,\"author\":[\"Georgie Northway\"],\"translator\":[],\"publishDate\":\"2017-04-16\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"ut erat id\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":1204.65,\"publisher\":{\"id\":\"806\",\"name\":\"TestR Publisher\",\"location\":\"NewYork\"}}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"first\":true,\"numberOfElements\":1,\"size\":20,\"number\":0,\"sort\":null}", false))
     }
 
     @Test

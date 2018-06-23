@@ -46,8 +46,8 @@ public class JournalSearchVo extends AbstractPublicationSearchVo<Journal> implem
         Specification<Journal> yearIs = this.getDefaultSpecifications();
         Specification<Journal> issnIs = this.getDefaultSpecifications();
         Specification<Journal> issueIs = this.getDefaultSpecifications();
-        if (this.titles != null) {
-            titlesIn = (root, criteriaQuery, criteriaBuilder) -> root.get("title").in((Object[]) titles);
+        if (this.title != null) {
+            titlesIn = (root, criteriaQuery, criteriaBuilder) -> root.get("title").in((Object[]) title);
         }
         if (this.publisherName != null) {
             publisherNameIs = (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("publisher").get("name"), this.publisherName);

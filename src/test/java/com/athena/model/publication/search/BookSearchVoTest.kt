@@ -30,13 +30,13 @@ open class BookSearchVoTest {
     fun testGetSpecification() {
         val bookSearchVo = BookSearchVo()
         bookSearchVo.language = "Chinese"
-        bookSearchVo.titles = arrayOf("C程序设计")
+        bookSearchVo.title = arrayOf("C程序设计")
 
         val result_1 = this.bookRepository.findAll(bookSearchVo.specification)
         Assert.assertEquals(1, result_1.count())
 
         bookSearchVo.language = "English"
-        bookSearchVo.titles = null
+        bookSearchVo.title = null
 
         val result_2 = this.bookRepository.findAll(bookSearchVo.specification)
         Assert.assertEquals(5, result_2.count())
@@ -46,7 +46,7 @@ open class BookSearchVoTest {
     fun testJsonSerializerAndDeSerializer() {
         //test serializer
         val bookSearchVo = BookSearchVo()
-        bookSearchVo.titles = arrayOf("test1", "test2")
+        bookSearchVo.title = arrayOf("test1", "test2")
         bookSearchVo.count = 20
         bookSearchVo.page = 4
         bookSearchVo.lastCursor = 6
@@ -56,7 +56,7 @@ open class BookSearchVoTest {
         //test deserializer
         val json = "{\"title\":[\"test1\",\"test2\"],\"publisherName\":null,\"language\":null,\"count\":20,\"page\":4,\"lastCursor\":6}"
         val deserializerBookSearchVo = ObjectMapper().readValue(json, BookSearchVo::class.java)
-        Assert.assertTrue(deserializerBookSearchVo.titles.contains("test1"))
+        Assert.assertTrue(deserializerBookSearchVo.title.contains("test1"))
         Assert.assertTrue(deserializerBookSearchVo.pageable.pageSize == 20)
     }
 
@@ -71,7 +71,7 @@ open class BookSearchVoTest {
         var bookSearchVo = objectMapper.convertValue<BookSearchVo>(map, BookSearchVo::class.java)
         Assert.assertNotNull(bookSearchVo)
         Assert.assertEquals("English", bookSearchVo.language)
-        Assert.assertTrue(bookSearchVo.titles.contains("C程序设计"))
+        Assert.assertTrue(bookSearchVo.title.contains("C程序设计"))
 
     }
 }
