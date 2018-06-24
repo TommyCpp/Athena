@@ -79,6 +79,16 @@ abstract class AbstractPublicationSearchVo<T> implements PublicationSearchVo<T> 
     }
 
     @Override
+    public String[] getAuthor() {
+        return author;
+    }
+
+    @Override
+    public void setAuthor(String[] author) {
+        this.author = author;
+    }
+
+    @Override
     @JsonIgnore
     public Pageable getPageable() {
         Integer startPage = 1;

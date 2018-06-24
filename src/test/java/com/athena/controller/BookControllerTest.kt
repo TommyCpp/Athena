@@ -104,8 +104,6 @@ open class BookControllerTest {
                 .andDo(print())
                 .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"publisher\":{\"id\":\"817\",\"name\":\"TestDn Publisher\",\"location\":\"NewYork\"},\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
                 .andExpect(header().string("X-Total-Count", "1")).andExpect(header().string("Links", "<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"last\",<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"first\""))
-        mvc.perform(get(this.url_prefix + "/books?title=consequat&match_all=true").with(this.authentication()))
-                .andExpect(header().string("X-Total-Count", "0"))
     }
 
 
@@ -120,8 +118,7 @@ open class BookControllerTest {
 
     @Test
     fun testBookSearchByAuthors() {
-        //fixme: search book by author and vague title/author
-        mvc.perform(get(this.url_prefix + "/books?author=Aneig dlsa,Rdlf dls")
+        mvc.perform(get(this.url_prefix + "/books?author=Aneig dlsa&author=Rdlf dls")
                 .with(this.authentication()))
                 .andDo(print())
                 .andExpect(status().isOk)
@@ -258,6 +255,7 @@ open class BookControllerTest {
 
     @Test
     fun testGetCopy() {
+        //fixme
         // get copy
         this.mvc.perform(get(this.url_prefix + "/books/9787111125643/copy/1")
                 .with(this.authentication("ROLE_READER"))

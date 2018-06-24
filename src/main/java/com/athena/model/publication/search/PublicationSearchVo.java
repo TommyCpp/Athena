@@ -34,6 +34,10 @@ public interface PublicationSearchVo<T> extends SearchVo {
 
     void setLanguage(String language);
 
+    String[] getAuthor();
+
+    void setAuthor(String[] author);
+
     @Override
     default Pageable getPageable() {
         Integer startPage = 1;
