@@ -77,28 +77,6 @@ public class BookController {
         throw new MissingServletRequestPartException("search term");
     }
 
-    @ApiOperation(value = "get book info", response = Book.class)
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "book info"),
-            @ApiResponse(code = 401, message = "missing isbn"),
-            @ApiResponse(code = 404, message = "not found")
-    })
-    @RequestMapping(path = "/{isbn}", method = RequestMethod.GET, produces = "application/json")
-    public Book getBooks(@PathVariable Long isbn) throws BookNotFoundException, MissingServletRequestPartException {
-        if (isbn == null) {
-            throw new MissingServletRequestPartException("isbn");
-        }
-        Book book = this.bookService.get(isbn);
-        if (book != null) {
-            //if find
-            return book;
-        } else {
-            //cannot find the book
-            throw new BookNotFoundException(isbn);
-        }
-
-    }
-
     @ApiOperation(value = "create book info", authorizations = {
             @Authorization(
                     value = "admin/superadmin"
@@ -178,7 +156,7 @@ public class BookController {
         return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
     }
 
-    @GetMapping(path = "/{isbn}/copy/")
+    @GetMapping(path = "/{isbn}/copy")
     public ResponseEntity<?> getCopies(@PathVariable Long isbn) throws ResourceNotFoundByIdException {
         return ResponseEntity.ok(this.bookCopyService.getCopies(isbn));
     }
@@ -201,6 +179,32 @@ public class BookController {
     public ResponseEntity<?> deleteCopy(@PathVariable Long isbn, @PathVariable Long id, @RequestBody BookCopy copy) throws BookNotFoundException, IsbnAndCopyIdMismatchException {
         this.bookCopyService.deleteCopy(isbn, id);
         return ResponseEntity.noContent().build();
+    }
+
+    @ApiOperation(value = "get book info", response = Book.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "book info"),
+            @ApiResponse(code = 401, message = "missing isbn"),
+            @ApiResponse(code = 404, message = "not found")
+    })
+    @RequestMapping(path = "/{isbn:[\\d]+[^\\D]}/", method = RequestMethod.GET, produces = "application/json")
+    /*
+    Note that we add ^\D to avoid the suffix matching, which is default open in Spring MVC.
+    @See https://stackoverflow.com/questions/9020444/spring-uri-template-patterns-with-regular-expressions
+    */
+    public Book getBooks(@PathVariable Long isbn) throws BookNotFoundException, MissingServletRequestPartException {
+        if (isbn == null) {
+            throw new MissingServletRequestPartException("isbn");
+        }
+        Book book = this.bookService.get(isbn);
+        if (book != null) {
+            //if find
+            return book;
+        } else {
+            //cannot find the book
+            throw new BookNotFoundException(isbn);
+        }
+
     }
 
     @PutMapping(path = "/copy")
