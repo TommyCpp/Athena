@@ -255,7 +255,6 @@ open class BookControllerTest {
 
     @Test
     fun testGetCopy() {
-        //fixme
         // get copy
         this.mvc.perform(get(this.url_prefix + "/books/9787111125643/copy/1")
                 .with(this.authentication("ROLE_READER"))

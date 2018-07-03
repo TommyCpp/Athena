@@ -51,6 +51,5 @@ public class AudioController {
             return searchResult;
         }
         throw new MissingServletRequestPartException("missing term");
-
     }
 }

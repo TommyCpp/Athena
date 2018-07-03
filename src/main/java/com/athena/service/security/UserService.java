@@ -1,10 +1,11 @@
-package com.athena.service;
+package com.athena.service.security;
 
 import com.athena.annotation.ArgumentNotNull;
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.security.User;
 import com.athena.repository.jpa.UserRepository;
+import com.athena.service.ModelCRUDService;
 import com.athena.util.EntityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,4 +84,15 @@ public class UserService implements ModelCRUDService<User, Long> {
         return repository.save(user);
     }
 
+
+    /**
+     * Block User by creating a block record
+     * @param blockedUser
+     * @param handler
+     * @return
+     */
+    public User blockUser(User blockedUser, User handler) {
+        //todo:block user
+        return null;
+    }
 }

@@ -1,6 +1,5 @@
 package com.athena.controller;
 
-import com.athena.model.copy.AbstractCopy;
 import com.athena.model.security.Account;
 import com.athena.model.security.User;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("${web.url.prefix}/user/**")
 public class UserController {
 
-    @ApiOperation(value = "get current user info", response = AbstractCopy.class)
+    @ApiOperation(value = "get current user info", response = User.class)
     @ApiResponses(value = {
             @ApiResponse(response = User.class, code = 200, message = "current User"),
             @ApiResponse(code = 404, message = "Not found")

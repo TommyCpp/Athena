@@ -2,6 +2,7 @@ package com.athena.service
 
 import com.athena.model.security.User
 import com.athena.repository.jpa.UserRepository
+import com.athena.service.security.UserService
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

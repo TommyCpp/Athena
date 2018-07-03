@@ -1,7 +1,7 @@
 package com.athena;
 
 import com.athena.model.security.User;
-import com.athena.service.UserService;
+import com.athena.service.security.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
