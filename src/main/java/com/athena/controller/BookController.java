@@ -181,6 +181,10 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Note that we add ^\D to avoid the suffix matching, which is default open in Spring MVC.
+     * @see "http://stackoverflow.com/questions/9020444/spring-uri-template-patterns-with-regular-expressions"
+     */
     @ApiOperation(value = "get book info", response = Book.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "book info"),
@@ -188,10 +192,6 @@ public class BookController {
             @ApiResponse(code = 404, message = "not found")
     })
     @RequestMapping(path = "/{isbn:[\\d]+[^\\D]}/", method = RequestMethod.GET, produces = "application/json")
-    /*
-    Note that we add ^\D to avoid the suffix matching, which is default open in Spring MVC.
-    @See https://stackoverflow.com/questions/9020444/spring-uri-template-patterns-with-regular-expressions
-    */
     public Book getBooks(@PathVariable Long isbn) throws BookNotFoundException, MissingServletRequestPartException {
         if (isbn == null) {
             throw new MissingServletRequestPartException("isbn");

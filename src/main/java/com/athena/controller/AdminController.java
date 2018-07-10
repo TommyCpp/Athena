@@ -4,6 +4,7 @@ import com.athena.exception.http.UserNotFoundException;
 import com.athena.model.security.User;
 import com.athena.service.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +24,8 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public User get(@PathVariable("id") Integer id) throws UserNotFoundException {
-        //todo:test
         User user = this.userService.get(id);
         if (user != null) {
             return user;
