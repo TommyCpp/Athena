@@ -55,7 +55,7 @@ open class BatchControllerTest {
 
     @Test
     @UsingDataSet(locations = arrayOf("/batch.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
-    fun testGetBatch() {
+    fun testGetBatch_ShouldReturnBatchById_ShouldReturn404WhenAccessNonExistingBatch() {
         /**
          * Test the existing batch
          * */

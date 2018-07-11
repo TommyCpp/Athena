@@ -21,7 +21,7 @@ public class NotNullArgumentAspectExceptionTest {
     public BorrowService borrowService;
 
     @Test
-    public void testAspect() throws IllegalReturnRequest, ResourceNotFoundByIdException {
+    public void testAspect_ShouldThrowNullPointerException() throws IllegalReturnRequest, ResourceNotFoundByIdException {
         int counter = 0;
         try {
             borrowService.returnCopy(null, null, null);

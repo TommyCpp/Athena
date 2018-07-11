@@ -4,9 +4,6 @@ import com.athena.model.copy.CopyStatus
 import com.athena.model.copy.CopyVo
 import com.athena.model.publication.Book
 import com.athena.model.publication.Publisher
-import com.athena.model.security.Account
-import com.athena.model.security.JwtAuthenticationToken
-import com.athena.model.security.User
 import com.athena.repository.jpa.BookRepository
 import com.athena.repository.jpa.copy.BookCopyRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -23,9 +20,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContext
 import org.springframework.http.MediaType
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.securityContext
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
@@ -41,6 +35,7 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 import util.BookGenerator
+import util.IdentityGenerator
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -61,38 +56,17 @@ open class BookControllerTest {
     private val mockBookGenerator: BookGenerator = BookGenerator()
     @Value("\${web.url.prefix}")
     private var url_prefix: String = ""
+    private val identity = IdentityGenerator()
 
     @Before
     fun setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context).apply<DefaultMockMvcBuilder>(springSecurity()).build()
     }
 
-    private fun createAuthentication(role: String): JwtAuthenticationToken {
-        val encoder = BCryptPasswordEncoder()
-        val user = User()
-        user.identity = arrayListOf(role)
-        user.username = "reader"
-        user.password = encoder.encode("123456")
-        user.id = 1L
-        user.email = "test@test.com"
-        user.wechatId = "testWechat"
-        user.phoneNumber = "11111111111"
-        val principal = Account(user)
-
-        return JwtAuthenticationToken(principal, true)
-    }
-
-    private fun authentication(role: String = "ROLE_READER"): RequestPostProcessor {
-        val securityContext = SecurityContextHolder.createEmptyContext()
-        securityContext.authentication = this.createAuthentication(role)
-
-        return securityContext(securityContext)
-    }
-
     @Test
     fun testBookSearchByPartialTitle() {
 
-        mvc.perform(get(this.url_prefix + "/books?title=elit").with(this.authentication()))
+        mvc.perform(get(this.url_prefix + "/books?title=elit").with(identity.authentication()))
                 .andDo(print())
                 .andExpect(content().json("{\"content\":[{\"isbn\":9784099507505,\"publishDate\":\"2016-09-18\",\"categoryId\":\"TC331A\",\"version\":4,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"adipiscing elit\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":520.5,\"publisher\":{\"id\":\"922\",\"name\":\"Test Publisher\",\"location\":\"NewYork\"},\"author\":[\"Steffen Catcherside\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
 
@@ -100,7 +74,7 @@ open class BookControllerTest {
 
     @Test
     fun testBookSearchByFullTitle() {
-        mvc.perform(get(this.url_prefix + "/books?title=consequat in consequat").with(this.authentication()))
+        mvc.perform(get(this.url_prefix + "/books?title=consequat in consequat").with(identity.authentication()))
                 .andDo(print())
                 .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"publisher\":{\"id\":\"817\",\"name\":\"TestDn Publisher\",\"location\":\"NewYork\"},\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
                 .andExpect(header().string("X-Total-Count", "1")).andExpect(header().string("Links", "<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"last\",<http://localhost/api/v1/books?page=0&title=consequat in consequat>; rel=\"first\""))
@@ -110,7 +84,7 @@ open class BookControllerTest {
     @Test
     fun testBookSearchByAuthor() {
         mvc.perform(get(this.url_prefix + "/books?author=Lian Hubback")
-                .with(this.authentication()))
+                .with(identity.authentication()))
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(content().json("{\"content\":[{\"isbn\":9785867649253,\"publishDate\":\"2016-07-17\",\"categoryId\":\"TC331C\",\"version\":5,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"consequat in consequat\",\"titlePinyin\":null,\"titleShortPinyin\":null,\"subtitle\":null,\"language\":\"English\",\"price\":85.25,\"publisher\":{\"id\":\"817\",\"name\":\"TestDn Publisher\",\"location\":\"NewYork\"},\"author\":[\"Lian Hubback\"],\"translator\":[]}],\"totalElements\":1,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":1}"))
@@ -119,7 +93,7 @@ open class BookControllerTest {
     @Test
     fun testBookSearchByAuthors() {
         mvc.perform(get(this.url_prefix + "/books?author=Aneig dlsa&author=Rdlf dls")
-                .with(this.authentication()))
+                .with(identity.authentication()))
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(content().json("{\"content\":[{\"isbn\":9783158101896,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试作者书籍\",\"titlePinyin\":\"ce,shi,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"cszzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"publisher\":{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"},\"author\":[\"Aneig dlsa\",\"Bianfd sld\",\"Rdlf dls\"],\"translator\":[]},{\"isbn\":9783158101897,\"publishDate\":\"2016-11-13\",\"categoryId\":\"TC331C\",\"version\":1,\"coverUrl\":null,\"preface\":null,\"introduction\":null,\"directory\":null,\"title\":\"测试多个作者书籍\",\"titlePinyin\":\"ce,shi,duo,ge,zuo,zhe,shu,ji\",\"titleShortPinyin\":\"csdgzzsj\",\"subtitle\":null,\"language\":\"Chinese\",\"price\":57.22,\"publisher\":{\"id\":\"127\",\"name\":\"TestDll Publisher\",\"location\":\"NewYork\"},\"author\":[\"Aneig dlsa\",\"Rdlf dls\",\"Zlicn Tlidb\"],\"translator\":[]}],\"totalElements\":2,\"last\":true,\"totalPages\":1,\"size\":20,\"number\":0,\"sort\":null,\"first\":true,\"numberOfElements\":2}"))
@@ -166,7 +140,7 @@ open class BookControllerTest {
         mvc.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
-                .with(this.authentication("ROLE_ADMIN"))
+                .with(identity.authentication("ROLE_ADMIN"))
         )
                 .andExpect(status().isCreated)
 
@@ -174,7 +148,7 @@ open class BookControllerTest {
         mvc.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
-                .with(this.authentication("ROLE_READER"))
+                .with(identity.authentication("ROLE_READER"))
         )
                 .andExpect(status().isForbidden)
 
@@ -202,7 +176,7 @@ open class BookControllerTest {
         mvc.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
-                .with(this.authentication("ROLE_ADMIN"))
+                .with(identity.authentication("ROLE_ADMIN"))
         )
                 .andExpect(status().isBadRequest)
 
@@ -224,7 +198,7 @@ open class BookControllerTest {
         var result = mvc.perform(post(this.url_prefix + "/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(books))
-                .with(this.authentication("ROLE_ADMIN"))
+                .with(identity.authentication("ROLE_ADMIN"))
         )
                 .andReturn()
 
@@ -247,7 +221,7 @@ open class BookControllerTest {
         this.mvc.perform(post(this.url_prefix + "/books/9785226422377/copy")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(ObjectMapper().writeValueAsString(copyVoList))
-                .with(this.authentication("ROLE_ADMIN"))
+                .with(identity.authentication("ROLE_ADMIN"))
         )
                 .andDo(print())
                 .andExpect(status().isCreated)
@@ -257,7 +231,7 @@ open class BookControllerTest {
     fun testGetCopy() {
         // get copy
         this.mvc.perform(get(this.url_prefix + "/books/9787111125643/copy/1")
-                .with(this.authentication("ROLE_READER"))
+                .with(identity.authentication("ROLE_READER"))
         )
                 .andDo(print())
                 .andExpect(status().isOk)
@@ -266,7 +240,7 @@ open class BookControllerTest {
 
         //getByPublications copies
         this.mvc.perform(get(this.url_prefix + "/books/9787111125643/copy")
-                .with(this.authentication("ROLE_READER"))
+                .with(identity.authentication("ROLE_READER"))
         )
                 .andDo(print())
                 .andExpect(status().isOk)
@@ -277,7 +251,7 @@ open class BookControllerTest {
     @Test
     fun testDeleteCopies() {
         this.mvc.perform(delete(this.url_prefix + "/books/9787111125643/copy")
-                .with(this.authentication("ROLE_ADMIN"))
+                .with(identity.authentication("ROLE_ADMIN"))
         )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful)

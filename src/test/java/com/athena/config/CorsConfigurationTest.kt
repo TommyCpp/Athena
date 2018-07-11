@@ -46,7 +46,7 @@ class CorsConfigurationTest {
     }
 
     @Test
-    fun testCors() {
+    fun testCors_ShouldCanBeAccessFromDifferentDomain() {
         this.mvc.perform(get(this.url_prefix + "/books/9785226422377")
                 .header("Access-Control-Request-Method", "GET")
                 .header("Origin", "http://www.nonsense.com")).andDo(MockMvcResultHandlers.print())
