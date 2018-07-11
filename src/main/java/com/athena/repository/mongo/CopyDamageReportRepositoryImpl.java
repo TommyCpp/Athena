@@ -71,7 +71,7 @@ public class CopyDamageReportRepositoryImpl implements CustomCopyDamageReportRep
                 //use previous image
                 gridFsFile = previousImage;
             }
-            //save to copyDamageReport
+            //add to copyDamageReport
             copyDamageReport.setImageId(gridFsFile.getId().toString());
             return copyDamageReport;
         }
@@ -86,8 +86,8 @@ public class CopyDamageReportRepositoryImpl implements CustomCopyDamageReportRep
             throw new MongoGridFSException("inputStream hits IOException");
         }
         if (Objects.isNull(copyDamageReport)) {
-            //image save fail
-            throw new MongoGridFSException("CopyDamageReport's image fail to save");
+            //image add fail
+            throw new MongoGridFSException("CopyDamageReport's image fail to add");
         }
         this.mongoTemplate.save(copyDamageReport, "copyDamageReport");
         return copyDamageReport;

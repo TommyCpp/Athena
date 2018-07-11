@@ -1,20 +1,26 @@
 package com.athena.service.util;
 
+import com.athena.exception.http.IllegalEntityAttributeException;
+import com.athena.exception.http.InvalidCopyTypeException;
+import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
-import com.athena.exception.http.ResourceNotFoundException;
 import com.athena.model.common.Batch;
 import com.athena.repository.mongo.BatchRepository;
+import com.athena.service.ModelCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Tommy on 2017/8/17.
  */
 @Service
-public class BatchService {
+public class BatchService implements ModelCRUDService<Batch, String> {
+    //todo: test
     private final BatchRepository repository;
 
     @Autowired
@@ -22,18 +28,30 @@ public class BatchService {
         this.repository = repository;
     }
 
-    public void save(Batch batch) {
-        repository.save(batch);
+    public Batch add(Batch batch) {
+        return repository.save(batch);
     }
 
-    public Batch findOne(String uuid) throws ResourceNotFoundException {
+    @Override
+    public Batch get(String uuid) throws ResourceNotFoundByIdException, InvalidCopyTypeException {
         Batch batch = this.repository.findOne(uuid);
-        if (batch == null)
-            throw new ResourceNotFoundException();
+        if (batch == null) {
+            throw new ResourceNotFoundByIdException();
+        }
         return batch;
     }
 
-    public Batch findOne(String uuid, String identity) throws ResourceNotFoundByIdException {
+    @Override
+    public Batch update(Batch batch) throws ResourceNotFoundByIdException, IllegalEntityAttributeException {
+        return this.repository.save(batch);
+    }
+
+    @Override
+    public void delete(Batch batch) throws ResourceNotFoundByIdException, ResourceNotDeletable {
+        this.repository.delete(batch);
+    }
+
+    public Batch get(String uuid, String identity) throws ResourceNotFoundByIdException {
         List<String> types = new ArrayList<>();
         if (identity.equals("ROLE_ADMIN")) {
             types.add("Book");
@@ -46,4 +64,11 @@ public class BatchService {
         }
         return batch;
     }
+
+    public Batch add(List<String> urls, String type) {
+        Batch batch = new Batch(UUID.randomUUID().toString(), type, Calendar.getInstance().getTime(), urls);
+        batch = this.add(batch);
+        return batch;
+    }
+
 }

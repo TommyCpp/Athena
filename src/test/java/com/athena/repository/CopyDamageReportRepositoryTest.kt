@@ -100,7 +100,7 @@ class CopyDamageReportRepositoryTest {
         val mimeType = URLConnection.guessContentTypeFromName(this.uploadedImageResource.filename)
         var copyDamageReport = this.copyDamageReportRepository.findOne("e6062fd6-e840-420d-8113-e7b37382a4a4")
         copyDamageReport = this.copyDamageReportRepository.setImage(copyDamageReport, this.uploadedImageResource.inputStream, MimeType.valueOf(mimeType))
-        //above code save image to CopyDamageReport
+        //above code add image to CopyDamageReport
         try {
             val retrievedImage: GridFSDBFile = this.copyDamageReportRepository.getImage(copyDamageReport)
             Assert.assertEquals(DigestUtils.md5DigestAsHex(this.uploadedImageResource.inputStream), retrievedImage.mD5)

@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authService = this.injector.get(AuthService);
     if (this.endPointService.isRequestIsLogin(req)) {
-      // save the JWT
+      // add the JWT
       return next.handle(req).do((httpEvent: HttpEvent<any>) => {
         if (httpEvent instanceof HttpResponse && httpEvent.headers.has('X-AUTHENTICATION')) {
           authService.userToken = httpEvent.headers.get('X-AUTHENTICATION');

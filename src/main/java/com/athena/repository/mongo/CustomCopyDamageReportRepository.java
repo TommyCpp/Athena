@@ -35,12 +35,12 @@ public interface CustomCopyDamageReportRepository {
 
 
     /**
-     * Sets image and save copyDamageReport.
+     * Sets image and add copyDamageReport.
      *
      * @param copyDamageReport the copy damage report
      * @param inputStream      the input stream
      * @param mimeType         the mime type
-     * @return the image and save copy damage report
+     * @return the image and add copy damage report
      */
     CopyDamageReport setImageAndSaveCopyDamageReport(CopyDamageReport copyDamageReport, InputStream inputStream, MimeType mimeType);
 }

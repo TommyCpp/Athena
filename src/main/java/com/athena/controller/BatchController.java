@@ -1,5 +1,6 @@
 package com.athena.controller;
 
+import com.athena.exception.http.InvalidCopyTypeException;
 import com.athena.exception.http.ResourceNotFoundException;
 import com.athena.model.common.Batch;
 import com.athena.model.security.Account;
@@ -32,13 +33,13 @@ public class BatchController {
 
     @ApiOperation(value = "getByPublications batch", response = Batch.class)
     @RequestMapping(path = "/{uuid}", method = RequestMethod.GET)
-    public ResponseEntity<Batch> batch(@PathVariable String uuid, @AuthenticationPrincipal Account user) throws ResourceNotFoundException {
+    public ResponseEntity<Batch> batch(@PathVariable String uuid, @AuthenticationPrincipal Account user) throws ResourceNotFoundException, InvalidCopyTypeException {
         if (this.accountService.privilegeBigger(user, "ROLE_READER")) {
-            // if it is admin or above
-            return ResponseEntity.ok(this.batchService.findOne(uuid));
+            // if it is admin or anyone whose privilege is above
+            return ResponseEntity.ok(this.batchService.get(uuid));
         } else {
             // if it is a reader or low
-            return ResponseEntity.ok(this.batchService.findOne(uuid, "ROLE_READER"));
+            return ResponseEntity.ok(this.batchService.get(uuid, "ROLE_READER"));
         }
     }
 }

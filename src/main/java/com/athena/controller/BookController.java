@@ -93,14 +93,15 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException, BatchStoreException {
         try {
-            bookService.add(books);
+            books = bookService.add(books);
             List<String> urls = new ArrayList<>();
             for (Book book : books) {
                 urls.add(this.bookUrl + "/" + book.getIsbn());
             }
+            //todo: use batchService
             Batch batch = new Batch(UUID.randomUUID().toString(), "Book", Calendar.getInstance().getTime(), urls);
             try {
-                this.batchService.save(batch);
+                this.batchService.add(batch);
             } catch (DataAccessException mongoDataAccessException) {
                 throw new BatchStoreException(books, "Book");
             }
@@ -148,7 +149,7 @@ public class BookController {
 
         Batch batch = new Batch(UUID.randomUUID().toString(), "AbstractCopy", Calendar.getInstance().getTime(), urls);
         try {
-            this.batchService.save(batch);
+            this.batchService.add(batch);
         } catch (DataAccessException mongoDataAccessException) {
             throw new BatchStoreException(bookCopyList, "AbstractCopy");
         }
