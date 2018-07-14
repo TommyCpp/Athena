@@ -13,4 +13,9 @@ public class BatchStoreException extends DataException {
         this.elements = elements;
         this.type = type;
     }
+
+    public BatchStoreException(List<?> elements, Class type){
+        this.elements = elements;
+        this.type = type.getSimpleName();
+    }
 }

@@ -71,4 +71,8 @@ public class BatchService implements ModelCRUDService<Batch, String> {
         return batch;
     }
 
+    public Batch add(List<String> urls, Class type){
+        return this.add(urls, type.getSimpleName());
+    }
+
 }

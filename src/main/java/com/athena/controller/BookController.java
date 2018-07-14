@@ -94,18 +94,18 @@ public class BookController {
     public ResponseEntity<?> createBooks(@RequestBody List<Book> books) throws URISyntaxException, BatchStoreException {
         try {
             books = bookService.add(books);
+            Batch batch;
             List<String> urls = new ArrayList<>();
             for (Book book : books) {
                 urls.add(this.bookUrl + "/" + book.getIsbn());
             }
-            //todo: use batchService
-            Batch batch = new Batch(UUID.randomUUID().toString(), "Book", Calendar.getInstance().getTime(), urls);
             try {
-                this.batchService.add(batch);
+                batch = this.batchService.add(urls, Book.class);
             } catch (DataAccessException mongoDataAccessException) {
-                throw new BatchStoreException(books, "Book");
+                throw new BatchStoreException(books, Book.class);
             }
             return ResponseEntity.created(new URI(this.baseUrl + "/batch/" + batch.getId())).build();
+
         } catch (DataAccessException jpaDataAccessException) {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(jpaDataAccessException.getMessage());
         }
@@ -184,6 +184,7 @@ public class BookController {
 
     /**
      * Note that we add ^\D to avoid the suffix matching, which is default open in Spring MVC.
+     *
      * @see "http://stackoverflow.com/questions/9020444/spring-uri-template-patterns-with-regular-expressions"
      */
     @ApiOperation(value = "get book info", response = Book.class)
