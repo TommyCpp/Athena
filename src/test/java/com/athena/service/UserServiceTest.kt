@@ -1,6 +1,8 @@
 package com.athena.service
 
+import com.athena.model.security.BlockRecord
 import com.athena.model.security.User
+import com.athena.repository.jpa.BlockRecordRepository
 import com.athena.repository.jpa.UserRepository
 import com.athena.service.security.UserService
 import org.junit.Assert
@@ -25,6 +27,9 @@ import org.springframework.test.context.junit4.SpringRunner
 open class UserServiceTest {
     @Mock
     lateinit var userRepository: UserRepository
+
+    @Mock
+    lateinit var blockRecordRepository: BlockRecordRepository
 
     @InjectMocks
     lateinit var userService: UserService
@@ -86,5 +91,21 @@ open class UserServiceTest {
         verify(this.userRepository).save(user)
 
         Assert.assertEquals(12L, savedUser.id)
+    }
+
+    @Test
+    fun testBlockUser_ShouldBlockTargetUser() {
+        val blockedUser = User()
+        blockedUser.id = 12L
+        val handler = User()
+        handler.id = 11L
+
+        `when`(this.blockRecordRepository.save(any(BlockRecord::class.java))).thenAnswer { invocationOnMock -> invocationOnMock.arguments[0] }
+        val blockedRecord: BlockRecord = this.userService.blockUser(blockedUser, handler)
+
+        Assert.assertEquals(blockedRecord.blockHandler, handler)
+        Assert.assertEquals(blockedRecord.blockedUser, blockedUser)
+        Assert.assertNotNull(blockedRecord.id)
+        Assert.assertNotNull(blockedRecord.createdAt)
     }
 }

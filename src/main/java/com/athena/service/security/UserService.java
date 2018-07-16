@@ -3,7 +3,9 @@ package com.athena.service.security;
 import com.athena.annotation.ArgumentNotNull;
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
+import com.athena.model.security.BlockRecord;
 import com.athena.model.security.User;
+import com.athena.repository.jpa.BlockRecordRepository;
 import com.athena.repository.jpa.UserRepository;
 import com.athena.service.ModelCRUDService;
 import com.athena.util.EntityUtil;
@@ -18,16 +20,17 @@ import java.util.List;
 @Service
 public class UserService implements ModelCRUDService<User, Long> {
 
-    private UserRepository repository;
+    private UserRepository userRepository;
+    private BlockRecordRepository blockRecordRepository;
 
     /**
      * Instantiates a new User service.
      *
-     * @param repository the repository
+     * @param repository the userRepository
      */
     @Autowired
     public UserService(UserRepository repository) {
-        this.repository = repository;
+        this.userRepository = repository;
     }
 
     /**
@@ -37,32 +40,32 @@ public class UserService implements ModelCRUDService<User, Long> {
      * @return the user
      */
     public User get(Long id) {
-        return repository.findOne(id);
+        return userRepository.findOne(id);
     }
 
     public List<User> get(Iterable<Long> ids) {
-        return repository.findAll(ids);
+        return userRepository.findAll(ids);
     }
 
     @Override
     public User update(User user) throws ResourceNotFoundByIdException {
         EntityUtil.requireEntityNotNull(user);
-        if (!this.repository.exists(user.getId())) {
+        if (!this.userRepository.exists(user.getId())) {
             throw new ResourceNotFoundByIdException();
         }
-        return repository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
     @ArgumentNotNull
     public void delete(User user) throws ResourceNotFoundByIdException, ResourceNotDeletable {
-        repository.delete(user);
+        userRepository.delete(user);
     }
 
     @Override
     @ArgumentNotNull
     public void delete(Iterable<User> users) throws ResourceNotFoundByIdException, ResourceNotDeletable {
-        repository.delete(users);
+        userRepository.delete(users);
     }
 
     /**
@@ -72,7 +75,7 @@ public class UserService implements ModelCRUDService<User, Long> {
      * @return the user
      */
     public User get(int id) {
-        return repository.findOne(new Long(id));
+        return userRepository.findOne(Long.valueOf(id));
     }
 
     /**
@@ -81,18 +84,28 @@ public class UserService implements ModelCRUDService<User, Long> {
      * @param user the user
      */
     public User add(User user) {
-        return repository.save(user);
+        return userRepository.save(user);
     }
 
 
     /**
      * Block User by creating a block record
+     *
      * @param blockedUser
      * @param handler
      * @return
      */
-    public User blockUser(User blockedUser, User handler) {
-        //todo:block user
-        return null;
+    public BlockRecord blockUser(User blockedUser, User handler) {
+        return this.blockUser(blockedUser, handler, null);
     }
+
+    public BlockRecord blockUser(User blockedUser, User handler, String note) {
+        BlockRecord blockRecord = new BlockRecord();
+        blockRecord.setBlockedUser(blockedUser);
+        blockRecord.setBlockHandler(handler);
+        blockRecord.setNote(note);
+        this.blockRecordRepository.save(blockRecord);
+        return blockRecord;
+    }
+
 }

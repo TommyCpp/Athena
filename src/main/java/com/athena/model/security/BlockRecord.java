@@ -2,6 +2,7 @@ package com.athena.model.security;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -21,6 +22,7 @@ public class BlockRecord {
     public BlockRecord() {
         this.id = UUID.randomUUID().toString();
         this.enabled = true;
+        this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public BlockRecord(User blockHandler, User blockedUser) {
