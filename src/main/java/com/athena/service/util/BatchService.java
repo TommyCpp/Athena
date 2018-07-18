@@ -20,8 +20,7 @@ import java.util.UUID;
  */
 @Service
 public class BatchService implements ModelCRUDService<Batch, String> {
-    //todo: test
-    private final BatchRepository repository;
+    private BatchRepository repository;
 
     @Autowired
     public BatchService(BatchRepository repository) {
