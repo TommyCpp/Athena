@@ -173,6 +173,7 @@ code | meaning
 4002 | Illegal entity attribute
 4003 | Illegal borrow request
 4004 | Illegal return request
+4005 | Unsupported Params
 ***401*** | **Unauthorized**
 4010 | Unauthorized
 4011 | JWT token is expired

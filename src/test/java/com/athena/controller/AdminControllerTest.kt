@@ -60,4 +60,27 @@ open class AdminControllerTest {
                 .andExpect(status().isOk)
                 .andExpect(content().json("{\"id\":11,\"username\":\"test\",\"wechatId\":\"cha\",\"email\":\"sldjf@sldfj.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"1526421812\",\"isBlocked\":true}", false))
     }
+
+    @Test
+    fun testGetUsers_ShouldReturnUsersByIds() {
+        this.mvc.perform(
+                get(this.urlPrefix + "/users")
+                        .param("id", "11")
+                        .param("id", "12")
+                        .with(identity.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(status().isOk)
+                .andExpect(content().json("[{\"id\":11,\"username\":\"test\",\"wechatId\":\"cha\",\"email\":\"sldjf@sldfj.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"1526421812\",\"isBlocked\":true},{\"id\":12,\"username\":\"testUser\",\"wechatId\":\"chasdf\",\"email\":\"ssdfsdff@sldfj.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"18554692356\",\"isBlocked\":false}]", false))
+    }
+
+    @Test
+    fun testGetUsers_ShouldThrowUnsupportedParamException() {
+        this.mvc.perform(
+                get(this.urlPrefix + "/users")
+                        .param("id", "11")
+                        .param("whatever", "test")
+                        .with(identity.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(status().is4xxClientError)
+    }
 }
