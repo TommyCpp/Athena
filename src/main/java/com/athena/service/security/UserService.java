@@ -4,6 +4,7 @@ import com.athena.annotation.ArgumentNotNull;
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
 import com.athena.model.security.BlockRecord;
+import com.athena.model.security.NewUserVo;
 import com.athena.model.security.User;
 import com.athena.repository.jpa.BlockRecordRepository;
 import com.athena.repository.jpa.UserRepository;
@@ -85,6 +86,10 @@ public class UserService implements ModelCRUDService<User, Long> {
      */
     public User add(User user) {
         return userRepository.save(user);
+    }
+
+    public User add(NewUserVo newUser){
+        return this.add(new User(newUser));//todo: validate privilege
     }
 
 

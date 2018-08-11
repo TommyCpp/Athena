@@ -38,6 +38,15 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(NewUserVo newUser) {
+        this.username = newUser.getUsername();
+        this.password = newUser.getPassword();
+        this.email = newUser.getEmail();
+        this.wechatId = newUser.getWechatId();
+        this.identity = newUser.getIdentity();
+        this.phoneNumber = newUser.getPhoneNumber();
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContext
+import org.springframework.http.MediaType
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.junit4.SpringRunner
@@ -17,6 +18,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
@@ -82,5 +84,17 @@ open class AdminControllerTest {
                         .with(identity.authentication("ROLE_ADMIN"))
         )
                 .andExpect(status().is4xxClientError)
+    }
+
+    @Test
+    fun testAddUsers_ShouldReturnCreatedUser(){
+        this.mvc.perform(
+                post(this.urlPrefix + "/users")
+                        .content("{\"username\": \"newUser\",\"password\": \"123456\",\"wechatId\": \"test\",\"email\":\"test@test.com\",\"phoneNumber\":\"18554125221\",\"identity\":[\"ROLE_READER\"]}")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .with(identity.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(status().`is`(201))
+
     }
 }
