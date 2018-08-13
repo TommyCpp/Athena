@@ -1,9 +1,11 @@
 package com.athena.service
 
 import com.athena.model.security.BlockRecord
+import com.athena.model.security.NewUserVo
 import com.athena.model.security.User
 import com.athena.repository.jpa.BlockRecordRepository
 import com.athena.repository.jpa.UserRepository
+import com.athena.service.security.PrivilegeService
 import com.athena.service.security.UserService
 import org.junit.Assert
 import org.junit.Before
@@ -30,6 +32,9 @@ open class UserServiceTest {
 
     @Mock
     lateinit var blockRecordRepository: BlockRecordRepository
+
+    @Mock
+    lateinit var privilegeService: PrivilegeService
 
     @InjectMocks
     lateinit var userService: UserService
@@ -107,5 +112,18 @@ open class UserServiceTest {
         Assert.assertEquals(blockedRecord.blockedUser, blockedUser)
         Assert.assertNotNull(blockedRecord.id)
         Assert.assertNotNull(blockedRecord.createdAt)
+    }
+
+    @Test
+    fun testAddUser_ShouldReturnCreatedUser() {
+        val newUser = NewUserVo()
+        newUser.email = "test@test.com"
+        newUser.identity = arrayListOf("ROLE_ADMIN")
+
+        `when`(this.privilegeService.isLegalPrivilege(any(List::class.java as Class<List<String>>))).thenReturn(true)
+
+        this.userService.add(newUser)
+
+        verify(this.privilegeService).isLegalPrivilege(any(List::class.java as Class<List<String>>))
     }
 }

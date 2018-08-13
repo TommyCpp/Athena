@@ -4,14 +4,11 @@ import com.athena.exception.internal.AccountNotFoundException;
 import com.athena.model.security.Account;
 import com.athena.model.security.User;
 import com.athena.repository.jpa.UserRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,13 +21,9 @@ public class AccountService {
     private List<String> privilegePriority; // Array, denotes the privilege priority among roles.
 
     @Autowired
-    public AccountService(UserRepository userRepository, @Value("${privilege.sequence}") String privilegeSequence) {
+    public AccountService(UserRepository userRepository, PrivilegeService privilegeService) {
         this.userRepository = userRepository;
-        String[] privileges = StringUtils.split(privilegeSequence, ',');
-        this.privilegePriority = new ArrayList<>();
-        for (int i = 0; i < privileges.length; i++) {
-            this.privilegePriority.add("ROLE_" + privileges[i]);
-        }
+        this.privilegePriority = privilegeService.getPrivilegePriority();
     }
 
     public Account loadAccountById(Long id) throws AuthenticationException {

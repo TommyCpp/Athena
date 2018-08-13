@@ -23,15 +23,20 @@ public class UserService implements ModelCRUDService<User, Long> {
 
     private UserRepository userRepository;
     private BlockRecordRepository blockRecordRepository;
+    private PrivilegeService privilegeService;
+
 
     /**
      * Instantiates a new User service.
-     *
-     * @param repository the userRepository
+     *  @param repository the userRepository
+     * @param blockRecordRepository
+     * @param privilegeService
      */
     @Autowired
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, BlockRecordRepository blockRecordRepository, PrivilegeService privilegeService) {
         this.userRepository = repository;
+        this.blockRecordRepository = blockRecordRepository;
+        this.privilegeService = privilegeService;
     }
 
     /**
@@ -89,7 +94,12 @@ public class UserService implements ModelCRUDService<User, Long> {
     }
 
     public User add(NewUserVo newUser){
-        return this.add(new User(newUser));//todo: validate privilege
+        if(!this.privilegeService.isLegalPrivilege(newUser.getIdentity())){
+            throw new IllegalArgumentException("privilege passed in does not exist in privilege sequence");
+        }
+        else{
+            return this.add(new User(newUser));
+        }
     }
 
 
@@ -112,5 +122,7 @@ public class UserService implements ModelCRUDService<User, Long> {
         this.blockRecordRepository.save(blockRecord);
         return blockRecord;
     }
+
+
 
 }
