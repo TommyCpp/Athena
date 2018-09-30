@@ -1,7 +1,6 @@
 package com.athena.controller;
 
-import com.athena.exception.http.UnsupportedHttpRequestParam;
-import com.athena.exception.http.UserNotFoundException;
+import com.athena.exception.http.*;
 import com.athena.model.security.NewUserVo;
 import com.athena.model.security.User;
 import com.athena.service.security.UserService;
@@ -70,6 +69,13 @@ public class AdminController {
         } else {
             return ResponseEntity.status(500).build();
         }
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
+    public ResponseEntity<?> delete(@PathVariable Integer id) throws ResourceNotFoundByIdException, InvalidCopyTypeException, ResourceNotDeletable {
+        this.userService.delete(Long.valueOf(id));//todo:test
+        return ResponseEntity.noContent().build();
     }
 
 }

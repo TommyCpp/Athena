@@ -3,16 +3,19 @@ package com.athena.service.security;
 import com.athena.annotation.ArgumentNotNull;
 import com.athena.exception.http.ResourceNotDeletable;
 import com.athena.exception.http.ResourceNotFoundByIdException;
+import com.athena.model.borrow.Borrow;
 import com.athena.model.security.BlockRecord;
 import com.athena.model.security.NewUserVo;
 import com.athena.model.security.User;
 import com.athena.repository.jpa.BlockRecordRepository;
+import com.athena.repository.jpa.BorrowRepository;
 import com.athena.repository.jpa.UserRepository;
 import com.athena.service.ModelCRUDService;
 import com.athena.util.EntityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,19 +25,22 @@ import java.util.List;
 public class UserService implements ModelCRUDService<User, Long> {
 
     private UserRepository userRepository;
+    private BorrowRepository borrowRepository;
     private BlockRecordRepository blockRecordRepository;
     private PrivilegeService privilegeService;
 
 
     /**
      * Instantiates a new User service.
-     *  @param repository the userRepository
+     * @param repository the userRepository
+     * @param borrowRepository
      * @param blockRecordRepository
      * @param privilegeService
      */
     @Autowired
-    public UserService(UserRepository repository, BlockRecordRepository blockRecordRepository, PrivilegeService privilegeService) {
+    public UserService(UserRepository repository, BorrowRepository borrowRepository, BlockRecordRepository blockRecordRepository, PrivilegeService privilegeService) {
         this.userRepository = repository;
+        this.borrowRepository = borrowRepository;
         this.blockRecordRepository = blockRecordRepository;
         this.privilegeService = privilegeService;
     }
@@ -65,13 +71,39 @@ public class UserService implements ModelCRUDService<User, Long> {
     @Override
     @ArgumentNotNull
     public void delete(User user) throws ResourceNotFoundByIdException, ResourceNotDeletable {
-        userRepository.delete(user);
+        if (!this.userRepository.exists(user.getId())) {
+            throw new ResourceNotFoundByIdException();
+        }
+        List<Borrow> enabledBorrows = this.borrowRepository.findAllByUserAndEnableIsTrue(user);
+        if(enabledBorrows.size() != 0){
+            //if user still have enabled borrow, then cannot delete
+            throw new ResourceNotDeletable(user);
+        }
+        else{
+            userRepository.delete(user);
+        }
     }
 
     @Override
     @ArgumentNotNull
     public void delete(Iterable<User> users) throws ResourceNotFoundByIdException, ResourceNotDeletable {
-        userRepository.delete(users);
+        List<User> notDeletableUsers = new ArrayList<>();
+        for(User user: users){
+            if (!this.userRepository.exists(user.getId())) {
+                throw new ResourceNotFoundByIdException();
+            }
+            List<Borrow> enabledBorrows = this.borrowRepository.findAllByUserAndEnableIsTrue(user);
+            if(enabledBorrows.size() != 0){
+                //if user still have enabled borrow, then cannot delete
+                notDeletableUsers.add(user);
+            }
+        }
+        if(notDeletableUsers.size() != 0){
+            throw new ResourceNotDeletable(notDeletableUsers);
+        }
+        else{
+            userRepository.delete(users);
+        }
     }
 
     /**

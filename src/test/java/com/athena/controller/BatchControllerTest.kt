@@ -45,7 +45,7 @@ open class BatchControllerTest {
     private val identity: IdentityGenerator = IdentityGenerator()
 
     @get:Rule
-    var mongoRule: MongoDbRule = MongoDbRule.MongoDbRuleBuilder.newMongoDbRule().defaultSpringMongoDb("Athena")
+    var mongoRule: MongoDbRule = MongoDbRule.MongoDbRuleBuilder.newMongoDbRule().defaultSpringMongoDb("athena")
 
 
     @Before

@@ -28,9 +28,7 @@ import java.util.List;
 
 
 @Configuration
-@ComponentScan
 @EnableJpaRepositories(basePackages = "com.athena.repository.jpa")
-@EnableAutoConfiguration
 @SpringBootApplication
 @PropertySource("classpath:/config.properties")
 @EnableMongoRepositories(basePackages = "com.athena.repository.mongo")

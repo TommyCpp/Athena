@@ -4,6 +4,7 @@ import com.athena.exception.BaseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,12 @@ import java.util.List;
 @ResponseStatus(HttpStatus.FORBIDDEN)
 public class ResourceNotDeletable extends BaseException {
     public List notDeletable;
+
+    public ResourceNotDeletable(Object notDeletable){
+        this(new ArrayList());
+        this.notDeletable = new ArrayList();
+        this.notDeletable.add(notDeletable);
+    }
 
     public ResourceNotDeletable(List notDeletable) {
         this.notDeletable = notDeletable;
