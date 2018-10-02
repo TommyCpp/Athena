@@ -1,18 +1,24 @@
 package com.athena.service
 
+import com.athena.exception.http.ResourceNotDeletable
+import com.athena.model.borrow.Borrow
 import com.athena.model.security.BlockRecord
 import com.athena.model.security.NewUserVo
 import com.athena.model.security.User
 import com.athena.repository.jpa.BlockRecordRepository
+import com.athena.repository.jpa.BorrowRepository
 import com.athena.repository.jpa.UserRepository
 import com.athena.service.security.PrivilegeService
 import com.athena.service.security.UserService
+import org.hamcrest.Description
+import org.hamcrest.Matcher
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Matchers.any
+import org.mockito.Matchers.argThat
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
@@ -34,10 +40,35 @@ open class UserServiceTest {
     lateinit var blockRecordRepository: BlockRecordRepository
 
     @Mock
+    lateinit var borrowRepository: BorrowRepository
+
+    @Mock
     lateinit var privilegeService: PrivilegeService
 
     @InjectMocks
     lateinit var userService: UserService
+
+    /**
+     * Match the user's email is fail@fail.com
+     */
+    class MatchUserEmail : Matcher<User> {
+        override fun _dont_implement_Matcher___instead_extend_BaseMatcher_() {
+
+        }
+
+        override fun describeMismatch(p0: Any?, p1: Description?) {
+
+        }
+
+        override fun matches(p0: Any?): Boolean {
+            return p0 is User && p0.email == "fail@fail.com"
+        }
+
+        override fun describeTo(p0: Description?) {
+
+        }
+
+    }
 
     @Before
     fun setup() {
@@ -125,5 +156,38 @@ open class UserServiceTest {
         this.userService.add(newUser)
 
         verify(this.privilegeService).isLegalPrivilege(any(List::class.java as Class<List<String>>))
+    }
+
+    @Test(expected = ResourceNotDeletable::class)
+    fun testDeleteUser_ShouldNotDelete() {
+        val borrowedBooks = arrayListOf(Borrow(), Borrow())
+        `when`(this.borrowRepository.findAllByUserAndEnableIsTrue(argThat(MatchUserEmail()))).thenReturn(borrowedBooks)
+        `when`(this.userRepository.exists(any())).thenReturn(true)
+
+        val user_1 = User()
+        user_1.email = "fail@fail.com"
+        user_1.id = 1
+        val user_2 = User()
+        user_2.email = "non@non.com"
+        user_2.id = 2
+        val users = arrayListOf<User>(user_1, user_2)
+        this.userService.delete(users)
+    }
+
+    @Test
+    fun testDeleteUser_ShouldDelete() {
+        val borrows = arrayListOf<Borrow>()
+        `when`(this.borrowRepository.findAllByUserAndEnableIsTrue(any())).thenReturn(borrows)
+        `when`(this.userRepository.exists(any())).thenReturn(true)
+        val user_1 = User()
+        user_1.email = "fail@fail.com"
+        user_1.id = 1
+        val user_2 = User()
+        user_2.email = "non@non.com"
+        user_2.id = 2
+        val users = arrayListOf<User>(user_1, user_2)
+        this.userService.delete(users)
+
+        verify(this.userRepository).delete(any(List::class.java as Class<List<User>>))
     }
 }

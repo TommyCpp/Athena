@@ -132,6 +132,7 @@ public class User implements Serializable {
     @OneToMany
     @JsonIgnore
     @ApiModelProperty(hidden = true)
+    @JoinColumn(name = "id", referencedColumnName = "id")
     public List<Borrow> getBorrows() {
         return borrows;
     }

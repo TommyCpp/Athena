@@ -17,8 +17,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
@@ -96,5 +95,14 @@ open class AdminControllerTest {
         )
                 .andExpect(status().`is`(201))
 
+    }
+
+    @Test
+    fun testDeleteUsers_ShouldDelete(){
+        this.mvc.perform(
+                delete(this.urlPrefix + "/users/16")
+                        .with(identity.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(status().`is`(204))
     }
 }

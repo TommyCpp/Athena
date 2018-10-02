@@ -38,6 +38,7 @@ public class DatabaseConnectionTest {
         service.add(user);
     }
 
+
     @Test
     public void getUser(){
         service.get(1);
