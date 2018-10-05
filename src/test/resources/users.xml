@@ -6,6 +6,7 @@
     <user id="14" username="testUser" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="chasdf1" email="ssafsdff@sldfj.com" phone_number="18554692357"/>
     <user id="15" username="testUser" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="chasdf2" email="ss1fsdff@sldfj.com" phone_number="18554692358"/>
     <user id="16" username="testUser" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="chasdf3" email="ssd2sdff@sldfj.com" phone_number="18554692359"/>
+    <user id="17" username="testAdmin1" password="$2a$10$E8En9IcX0Rau2BhhXub7suHwTyDylb3KvqQlsSqdJ8k2LLyDu1UbG" wechat_id="chasdf4" email="sadmin@sddd.com" phone_number="1233452223"/>
 
 
 </dataset>

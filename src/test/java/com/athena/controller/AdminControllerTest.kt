@@ -32,7 +32,7 @@ import util.IdentityGenerator
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @TestExecutionListeners(TransactionalTestExecutionListener::class, DbUnitTestExecutionListener::class, DependencyInjectionTestExecutionListener::class)
-@DatabaseSetup("classpath:users.xml", "classpath:blocks.xml")
+@DatabaseSetup("classpath:users.xml", "classpath:blocks.xml","classpath:user_identity.xml")
 @WebAppConfiguration
 open class AdminControllerTest {
     @Autowired
@@ -100,9 +100,18 @@ open class AdminControllerTest {
     @Test
     fun testDeleteUsers_ShouldDelete(){
         this.mvc.perform(
-                delete(this.urlPrefix + "/users/16")
+                delete(this.urlPrefix + "/users/11")
                         .with(identity.authentication("ROLE_ADMIN"))
         )
                 .andExpect(status().`is`(204))
+    }
+
+    @Test
+    fun testDeleteAdmin_ShouldNotProcessed(){
+        this.mvc.perform(
+                delete(this.urlPrefix + "/users/17")
+                        .with(identity.authentication("ROLE_ADMIN"))
+        )
+                .andExpect(status().`is`(403))
     }
 }

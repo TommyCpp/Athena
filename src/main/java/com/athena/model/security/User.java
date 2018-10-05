@@ -129,10 +129,9 @@ public class User implements Serializable {
     }
 
 
-    @OneToMany
+    @OneToMany(targetEntity = com.athena.model.borrow.Borrow.class, mappedBy = "user")
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    @JoinColumn(name = "id", referencedColumnName = "id")
     public List<Borrow> getBorrows() {
         return borrows;
     }

@@ -1,6 +1,7 @@
 package com.athena.controller;
 
 import com.athena.exception.http.*;
+import com.athena.model.security.Account;
 import com.athena.model.security.NewUserVo;
 import com.athena.model.security.User;
 import com.athena.service.security.UserService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,9 +75,22 @@ public class AdminController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> delete(@PathVariable Integer id) throws ResourceNotFoundByIdException, InvalidCopyTypeException, ResourceNotDeletable {
-        this.userService.delete(Long.valueOf(id));//todo:test
+    public ResponseEntity<?> delete(@PathVariable Integer id, @AuthenticationPrincipal Account account) throws ResourceNotFoundByIdException, InvalidCopyTypeException, ResourceNotDeletable, PermissionRequiredException {
+        User user = this.userService.get(id);
+        if (user == null) {
+            throw new ResourceNotFoundByIdException();
+        } else {
+            if (user.getIdentity().indexOf("ROLE_ADMIN") != -1 && account.getUser().getIdentity().indexOf("ROLE_SUPERADMIN") == -1) {
+                //if user is a admin, then only the super admin can delete it
+                throw new PermissionRequiredException("do not have access");
+            }
+        }
+        this.userService.delete(Long.valueOf(id));
         return ResponseEntity.noContent().build();
     }
+
+//    @PatchMapping("/{id}")
+//    public ResponseEntity<?> update(@PathVariable Integer id) {
+//    }
 
 }

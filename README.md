@@ -181,7 +181,8 @@ code | meaning
 4013 | Malformed JWT token
 4014 | JWT token's signature is not supported
 ***403***|**Forbidden**
-4031 | cannot delete certain resource because some other resource is not deletable now.
+4031 | Cannot delete certain resource because some other resource is not deletable now.
+4032 | Current logged in user does not have enough permission to perform operation.
 ***404*** | **Not Found**
 4040 | Resource not found
 4041 | Resource not found because the provided id is not exist
