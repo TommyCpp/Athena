@@ -46,7 +46,7 @@ open class UserControllerTest {
 
     @Test
     fun getCurrentUser() {
-        this.mvc.perform(MockMvcRequestBuilders.get(url_prefix + "/user").with(this.identity.authentication("ROLE_READER"))).andExpect(content().json("{\"id\":1,\"username\":\"reader\",\"wechatId\":\"testWechat\",\"email\":\"test@test.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"11111111111\"}"))
+        this.mvc.perform(MockMvcRequestBuilders.get(url_prefix + "/modifiedUser").with(this.identity.authentication("ROLE_READER"))).andExpect(content().json("{\"id\":1,\"username\":\"reader\",\"wechatId\":\"testWechat\",\"email\":\"test@test.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"11111111111\"}"))
 
     }
 }

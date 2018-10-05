@@ -37,6 +37,7 @@ public class AccountService {
         }
     }
 
+    //todo: replace method below with the identical one in PrivilegeService
     /**
      * @param account1 account
      * @param account2 the other account

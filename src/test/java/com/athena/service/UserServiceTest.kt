@@ -49,7 +49,7 @@ open class UserServiceTest {
     lateinit var userService: UserService
 
     /**
-     * Match the user's email is fail@fail.com
+     * Match the modifiedUser's email is fail@fail.com
      */
     class MatchUserEmail : Matcher<User> {
         override fun _dont_implement_Matcher___instead_extend_BaseMatcher_() {

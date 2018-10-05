@@ -4,12 +4,15 @@ import com.athena.exception.http.*;
 import com.athena.model.security.Account;
 import com.athena.model.security.NewUserVo;
 import com.athena.model.security.User;
+import com.athena.service.security.PrivilegeService;
 import com.athena.service.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +29,14 @@ import java.util.stream.Collectors;
 public class AdminController {
     private UserService userService;
     private String adminUrl;
+    private PrivilegeService privilegeService;
+
 
     @Autowired
-    public AdminController(UserService userService, @Value("${web.url}") String baseUrl) {
+    public AdminController(UserService userService, @Value("${web.url}") String baseUrl, PrivilegeService privilegeService) {
         this.adminUrl = baseUrl + "/users";
         this.userService = userService;
+        this.privilegeService = privilegeService;
     }
 
     @GetMapping("/{id}")
@@ -80,9 +86,8 @@ public class AdminController {
         if (user == null) {
             throw new ResourceNotFoundByIdException();
         } else {
-            if (user.getIdentity().indexOf("ROLE_ADMIN") != -1 && account.getUser().getIdentity().indexOf("ROLE_SUPERADMIN") == -1) {
-                //if user is a admin, then only the super admin can delete it
-                throw new PermissionRequiredException("do not have access");
+            if(!this.privilegeService.isCurrentUserCanOperateOn(user)){
+                throw new PermissionRequiredException("cannot perform operation");
             }
         }
         this.userService.delete(Long.valueOf(id));
@@ -90,7 +95,10 @@ public class AdminController {
     }
 
 //    @PatchMapping("/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')|| hasRole('ROLE_SUPERADMIN')")
 //    public ResponseEntity<?> update(@PathVariable Integer id) {
 //    }
+
+
 
 }

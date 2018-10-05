@@ -17,10 +17,10 @@ class EntityUtilTest {
 
     @Test
     fun testCopyFromParent() {
-//        val user = User()
-//        user.id = 1L
-//        user.email = "aspecttest@aspect.com"
-//        user.username = "injectUser"
+//        val modifiedUser = User()
+//        modifiedUser.id = 1L
+//        modifiedUser.email = "aspecttest@aspect.com"
+//        modifiedUser.username = "injectUser"
     }
 
     @Test
