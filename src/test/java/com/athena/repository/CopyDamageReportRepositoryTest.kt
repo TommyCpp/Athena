@@ -46,7 +46,7 @@ class CopyDamageReportRepositoryTest {
     @Autowired
     lateinit var gridFsTemplate: GridFsTemplate
 
-    @get:Rule public var embeddedMongoRule: MongoDbRule = newMongoDbRule().defaultSpringMongoDb("Athena")
+    @get:Rule public var embeddedMongoRule: MongoDbRule = newMongoDbRule().defaultSpringMongoDb("athena")
 
     lateinit var uploadedImageResource: Resource
 

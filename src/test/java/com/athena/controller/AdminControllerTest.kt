@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
@@ -59,7 +60,7 @@ open class AdminControllerTest {
                         .with(identity.authentication("ROLE_ADMIN"))
         )
                 .andExpect(status().isOk)
-                .andExpect(content().json("{\"id\":11,\"username\":\"test\",\"wechatId\":\"cha\",\"email\":\"sldjf@sldfj.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"1526421812\",\"isBlocked\":true}", false))
+                .andExpect(content().json(" {\"id\":11,\"username\":\"test\",\"wechatId\":\"cha\",\"email\":\"sldjf@sldfj.com\",\"identity\":[\"ROLE_READER\"],\"phoneNumber\":\"1526421812\",\"isBlocked\":true}", false))
     }
 
     @Test
@@ -100,8 +101,8 @@ open class AdminControllerTest {
     @Test
     fun testDeleteUsers_ShouldDelete(){
         this.mvc.perform(
-                delete(this.urlPrefix + "/users/11")
-                        .with(identity.authentication("ROLE_ADMIN"))
+                delete(this.urlPrefix + "/users/18")
+                        .with(identity.authentication("ROLE_SUPERADMIN"))
         )
                 .andExpect(status().`is`(204))
     }

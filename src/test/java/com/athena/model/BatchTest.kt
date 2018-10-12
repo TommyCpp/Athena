@@ -31,7 +31,7 @@ open class BatchTest {
     lateinit var repository: BatchRepository
 
     @get:Rule
-    var mongoRule: MongoDbRule = newMongoDbRule().defaultSpringMongoDb("Athena")
+    var mongoRule: MongoDbRule = newMongoDbRule().defaultSpringMongoDb("athena")
 
     @Test
     @UsingDataSet(locations = arrayOf("/batch.json"), loadStrategy = LoadStrategyEnum.CLEAN_INSERT)

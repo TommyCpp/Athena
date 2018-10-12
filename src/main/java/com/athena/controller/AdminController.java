@@ -39,7 +39,7 @@ public class AdminController {
         this.privilegeService = privilegeService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:[0-9]+}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public User get(@PathVariable("id") Integer id) throws UserNotFoundException {
         User user = this.userService.get(id);
@@ -50,7 +50,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("/**")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> get(@RequestParam MultiValueMap<String, String> params) throws UnsupportedHttpRequestParam {
         if (params.size() > 1 || params.get("id") == null) {
