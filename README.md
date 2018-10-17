@@ -15,6 +15,16 @@ Currently, the Athena Project contains following components:
 More components like *the Android application* will be included in future
 
 This is project is inspired by the question from [here](http://www.cnsoftbei.com/bencandy.php?fid=148&aid=1532)
+
+## Feature
+* Manage different kinds of publication from book, journal to audio and more
+* Configurable from config file
+* Test Driven Development
+* RESTful API
+* Angular as front-end framework
+* JWT 
+
+
 ## Install & Preparation
 ### Setup database
 Use .sql file `/src/resource/database.sql` to setup the database.
@@ -126,7 +136,7 @@ The dependencies below are required for test
 
 ## Start
 To run the application, use
-```java
+```shell
 mvn spring-boot:run
 ```
 
