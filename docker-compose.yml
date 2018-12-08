@@ -8,6 +8,7 @@ services:
     volumes:
     - dbdata:/var/lib/mysql
     - ./src/main/resources/database.sql:/docker-entrypoint-initdb.d/database.sql
+    - ./src/main/resources/database.cnf:/etc/mysql/conf.d/database.cnf
     environment:
       MYSQL_DATABASE: athena
       MYSQL_PASSWORD: dbpass
@@ -16,17 +17,19 @@ services:
   mongo:
     image: mongo:latest
     volumes:
-       - dbdata:/var/lib/mongo
+    - dbdata:/var/lib/mongo
+    - ./src/main/resources/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     ports:
     - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: admin
     container_name: athena-mongo
   redis:
     image: redis
     volumes:
-      - dbdata:/var/lib/redis
+    - dbdata:/var/lib/redis
     command: redis-server --requirepass RedisPass
     ports:
     - 6379:6379
@@ -35,7 +38,7 @@ services:
 volumes:
   dbdata:
 
-# mongo must be connect via ipV4 address of athena_default network.
-# mongo must auth via admin database;
+  # mongo must be connect via ipV4 address of athena_default network.
+  # mongo must auth via admin database;
 
     
