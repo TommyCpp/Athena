@@ -97,25 +97,25 @@ public class CopyController {
     }
 
 
-    @ApiOperation(value = "ify returned copy is not damaged", authorizations = {
+    @ApiOperation(value = "verify returned copy is not damaged", authorizations = {
             @Authorization(
                     value = "admin/superadmin"
             )
     })
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "copy have been verified")
+            @ApiResponse(code = 200, message = "copy have been verified", response = SimpleCopy.class)
     })
     @PatchMapping(path = "/{id}/verify")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> verifyCopy(@PathVariable Long id, @RequestBody CopyVerficationVo copyVerficationVo, @AuthenticationPrincipal User user) throws ResourceNotFoundByIdException {
         if (copyVerficationVo.getCopyStatus() == CopyStatus.DAMAGED) {
             //if damaged
-            this.simpleCopyService.handleDamagedReturnCopy(user, id, copyVerficationVo.getDescription());
+            return ResponseEntity.ok(this.simpleCopyService.handleDamagedReturnCopy(user, id, copyVerficationVo.getDescription()));
         } else {
             if (copyVerficationVo.getCopyStatus() == CopyStatus.AVAILABLE) {
-                this.simpleCopyService.handleSoundReturnCopy(user, id);
+                return ResponseEntity.ok(this.simpleCopyService.handleSoundReturnCopy(user, id));
             }
         }
-        return ResponseEntity.ok(null);//todo: test
+        return ResponseEntity.badRequest().build();//todo: e2e test
     }
 }

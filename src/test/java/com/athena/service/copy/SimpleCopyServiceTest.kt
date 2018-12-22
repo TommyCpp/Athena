@@ -34,12 +34,18 @@ import javax.transaction.Transactional
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class, DbUnitTestExecutionListener::class, TransactionalTestExecutionListener::class)
 @DatabaseSetup("classpath:books.xml", "classpath:publishers.xml", "classpath:users.xml", "classpath:copies.xml", "classpath:journal_copy.xml", "classpath:book_copy.xml", "classpath:user_identity.xml")
 open class SimpleCopyServiceTest {
-    @Autowired private var simpleCopyService: SimpleCopyService? = null
-    @Autowired private var bookCopyService: BookCopyService? = null
-    @Autowired private var journalCopyService: JournalCopyService? = null
-    @Autowired private var bookCopyRepository: BookCopyRepository? = null
-    @Autowired private var journalCopyRepository: JournalCopyRepository? = null
-    @Autowired private var simpleCopyRepository: SimpleCopyRepository? = null
+    @Autowired
+    private var simpleCopyService: SimpleCopyService? = null
+    @Autowired
+    private var bookCopyService: BookCopyService? = null
+    @Autowired
+    private var journalCopyService: JournalCopyService? = null
+    @Autowired
+    private var bookCopyRepository: BookCopyRepository? = null
+    @Autowired
+    private var journalCopyRepository: JournalCopyRepository? = null
+    @Autowired
+    private var simpleCopyRepository: SimpleCopyRepository? = null
 
 
     @Test
@@ -109,10 +115,22 @@ open class SimpleCopyServiceTest {
         val simpleCopy = mock(SimpleCopy::class.java)
         `when`(simpleCopyRepository.save(any(SimpleCopy::class.java))).then { invocationOnMock -> invocationOnMock.getArgumentAt(0, SimpleCopy::class.java) }
 
-        simpleCopyService.handleDamagedReturnCopy(account.user, simpleCopy,"")
+        simpleCopyService.handleDamagedReturnCopy(account.user, simpleCopy, "")
 
         verify(simpleCopy).status = CopyStatus.DAMAGED
+    }
 
+    @Test
+    fun testVerifyReturnedCopy_ShouldSetCopyStatusToAVALIABLE() {
+        val simpleCopyRepository = mock(SimpleCopyRepository::class.java)
+        val simpleCopyService = SimpleCopyService(simpleCopyRepository, mock(PublicationDamagedHandler::class.java))
+        val account = mock(Account::class.java)
+        `when`(account.user).thenReturn(User())
+        val simpleCopy = mock(SimpleCopy::class.java)
+        `when`(simpleCopyRepository.getOne(0L)).thenReturn(simpleCopy)
+        `when`(simpleCopyRepository.save(any(SimpleCopy::class.java))).then { invocationOnMock -> invocationOnMock.getArgumentAt(0, SimpleCopy::class.java) }
+        simpleCopyService.handleSoundReturnCopy(account.user, 0L)
+        verify(simpleCopy).status = CopyStatus.AVAILABLE
     }
 
 
