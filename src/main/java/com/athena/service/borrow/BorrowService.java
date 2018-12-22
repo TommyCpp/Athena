@@ -81,7 +81,7 @@ public class BorrowService implements ModelCRUDService<Borrow, String> {
      * @param account the account
      * @param copy    the copy
      * @return the borrow instance
-     * @throws IllegalBorrowRequest the illegal borrow request. Because user is unblocked and copy can be borrowed
+     * @throws IllegalBorrowRequest the illegal borrow request. Because user is blocked and copy can not be borrowed
      */
     public Borrow borrowCopy(Account account, SimpleCopy copy) throws IllegalBorrowRequest {
         Borrow borrow = new Borrow();

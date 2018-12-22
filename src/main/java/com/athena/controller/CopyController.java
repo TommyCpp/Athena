@@ -2,7 +2,10 @@ package com.athena.controller;
 
 import com.athena.exception.http.*;
 import com.athena.model.copy.AbstractCopy;
+import com.athena.model.copy.CopyStatus;
+import com.athena.model.copy.CopyVerficationVo;
 import com.athena.model.copy.SimpleCopy;
+import com.athena.model.security.User;
 import com.athena.service.copy.SimpleCopyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +35,7 @@ public class CopyController {
         this.simpleCopyService = simpleCopyService;
     }
 
-    @ApiOperation(value = "getByPublications simple copy", response = AbstractCopy.class)
+    @ApiOperation(value = "get by publications simple copy", response = AbstractCopy.class)
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 400, message = "Invalid copy type")
@@ -93,9 +97,25 @@ public class CopyController {
     }
 
 
-    @PostMapping(path = "/{id}/verify")
+    @ApiOperation(value = "ify returned copy is not damaged", authorizations = {
+            @Authorization(
+                    value = "admin/superadmin"
+            )
+    })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "copy have been verified")
+    })
+    @PatchMapping(path = "/{id}/verify")
     @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_SUPERADMIN')")
-    public ResponseEntity<?> verifyCopy(@PathVariable Long id, @RequestBody Map<String, String> params) {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<?> verifyCopy(@PathVariable Long id, @RequestBody CopyVerficationVo copyVerficationVo, @AuthenticationPrincipal User user) throws ResourceNotFoundByIdException {
+        if (copyVerficationVo.getCopyStatus() == CopyStatus.DAMAGED) {
+            //if damaged
+            this.simpleCopyService.handleDamagedReturnCopy(user, id, copyVerficationVo.getDescription());
+        } else {
+            if (copyVerficationVo.getCopyStatus() == CopyStatus.AVAILABLE) {
+                this.simpleCopyService.handleSoundReturnCopy(user, id);
+            }
+        }
+        return ResponseEntity.ok(null);//todo: test
     }
 }

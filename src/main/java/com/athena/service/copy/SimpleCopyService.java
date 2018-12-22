@@ -11,6 +11,8 @@ import com.athena.service.borrow.PublicationDamagedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -84,13 +86,31 @@ public class SimpleCopyService implements GenericCopyService<SimpleCopy> {
 
     }
 
+    public SimpleCopy handleDamagedReturnCopy(User user, Long copyId, String description) throws ResourceNotFoundByIdException {
+        SimpleCopy simpleCopy = this.simpleCopyRepository.getOne(copyId);
+        if (simpleCopy == null) {
+            throw new ResourceNotFoundByIdException();
+        }
+        return this.handleDamagedReturnCopy(user, simpleCopy, description);
+    }
+
     public SimpleCopy handleDamagedReturnCopy(User user, SimpleCopy simpleCopy, String description) {
         simpleCopy.setStatus(CopyStatus.DAMAGED);
         publicationDamagedHandler.handleDamage(user, simpleCopy, description);
         return this.simpleCopyRepository.save(simpleCopy);
     }
 
-    public SimpleCopy handleNormalReturnCopy(User user, SimpleCopy simpleCopy) {
+    @Transactional
+    public SimpleCopy handleSoundReturnCopy(User user, Long copyId) {
+        SimpleCopy simpleCopy = this.simpleCopyRepository.getOne(copyId);
+        if (simpleCopy == null) {
+            throw new EntityNotFoundException("cannot find copy");
+        }
+        return this.handleSoundReturnCopy(user, simpleCopy);
+
+    }
+
+    private SimpleCopy handleSoundReturnCopy(User user, SimpleCopy simpleCopy) {
         simpleCopy.setStatus(CopyStatus.AVAILABLE);
         return this.simpleCopyRepository.save(simpleCopy);
     }
