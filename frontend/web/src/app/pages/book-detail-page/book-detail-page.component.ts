@@ -17,15 +17,14 @@ export class BookDetailPageComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.bookService.get(params["isbn"]).subscribe((books: Book[]) => {
-        if (books.length == 1) {
+      this.bookService.get(params['isbn']).subscribe((books: Book[]) => {
+        if (books.length === 1) {
           this.book = books[0];
+        } else {
+          throw new Error('multi books found for one ISBN');
         }
-        else {
-          throw new Error("multi books found for one ISBN");
-        }
-      })
-    })
+      });
+    });
   }
 
 }
