@@ -3,5 +3,6 @@ matrix:
     - language: java
       before_install:
         - docker-compose up -d
+        - chmod +x mvnw
       after_script:
         - docker-compose down -v
