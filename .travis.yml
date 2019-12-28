@@ -4,5 +4,8 @@ matrix:
       before_install:
         - docker-compose up -d
         - chmod +x mvnw
+      script:
+        - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+        - mvn test -B
       after_script:
         - docker-compose down -v
