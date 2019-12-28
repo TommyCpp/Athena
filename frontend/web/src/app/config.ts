@@ -3,7 +3,7 @@ import {EndPoint} from './core/service/end-point.service';
 
 export const APP_BASE_HREF_VALUE = "http://localhost:4200";
 export const BASE_URL = new InjectionToken('BASE_URL');
-export const BASE_URL_VALUE = 'http://localhost:3000';
+export const BASE_URL_VALUE = 'http://localhost:8080';
 
 export const REST_URL = new InjectionToken('REST_URL');
 export const REST_URL_VALUE: { [key: string]: EndPoint } = {

@@ -1,0 +1,5 @@
+matrix:
+  include:
+    - language: java
+      before_install:
+        - docker-compose up
