@@ -6,5 +6,7 @@ before_install:
   - chmod +x mvnw
   - mvn compile # compile java source file first, because the test file used those
   - mvn kotlin:test-compile # compile kotlin file
+script:
+  - mvn test -B -l=testlog.txt
 after_script:
   - docker-compose down -v
