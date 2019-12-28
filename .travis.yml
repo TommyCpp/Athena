@@ -4,6 +4,7 @@ before_install:
   - cp src/main/resources/config.properties.example src/main/resources/config.properties
   - cp src/main/resources/application.properties.example src/main/resources/application.properties
   - chmod +x mvnw
-  - mvn kotlin:test-compile # compile kotlin file first
+  - mvn compile # compile java source file first, because the test file used those
+  - mvn kotlin:test-compile # compile kotlin file
 after_script:
   - docker-compose down -v
