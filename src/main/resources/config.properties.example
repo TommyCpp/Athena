@@ -1,4 +1,4 @@
-security.token.key=
+security.token.key=lksf8i43lonpvvo349nup9NP09PO97NA
 security.token.header=X-AUTHENTICATION
 security.token.prefix=Athena
 
