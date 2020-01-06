@@ -135,6 +135,10 @@ The dependencies below are required for test
 
 
 ## Start
+First, start the test databases by docker:
+```shell
+docker-compose up -d
+```
 To run the application, use
 ```shell
 mvn spring-boot:run
