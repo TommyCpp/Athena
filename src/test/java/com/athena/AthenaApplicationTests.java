@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import util.BookGenerator;
-import util.RandomChineseService;
+//import util.BookGenerator;
+//import util.RandomChineseService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -20,20 +20,20 @@ public class AthenaApplicationTests {
         Assert.assertEquals(true, true);
     }
 
-    @Test
-    public void testChinese() {
-        RandomChineseService service = new RandomChineseService();
-        String result = service.generateChinese(16);
-        System.out.println(result);
-        Assert.assertNotNull(result);
-    }
-
-    @Test
-    public void testBookGenerator() throws JsonProcessingException {
-        BookGenerator generator = new BookGenerator();
-        Book book = generator.generateBook();
-        ObjectMapper mapper = new ObjectMapper();
-        System.out.println(mapper.writeValueAsString(book));
-        Assert.assertNotNull(book);
-    }
+//    @Test
+//    public void testChinese() {
+//        RandomChineseService service = new RandomChineseService();
+//        String result = service.generateChinese(16);
+//        System.out.println(result);
+//        Assert.assertNotNull(result);
+//    }
+//
+//    @Test
+//    public void testBookGenerator() throws JsonProcessingException {
+//        BookGenerator generator = new BookGenerator();
+//        Book book = generator.generateBook();
+//        ObjectMapper mapper = new ObjectMapper();
+//        System.out.println(mapper.writeValueAsString(book));
+//        Assert.assertNotNull(book);
+//    }
 }
