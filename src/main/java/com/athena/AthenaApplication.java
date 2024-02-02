@@ -31,6 +31,7 @@ import java.util.List;
 @EnableJpaRepositories(basePackages = "com.athena.repository.jpa")
 @SpringBootApplication
 @PropertySource("classpath:/config.properties")
+//@PropertySource("classpath:/application.properties")
 @EnableMongoRepositories(basePackages = "com.athena.repository.mongo")
 public class AthenaApplication extends WebMvcConfigurerAdapter {
 
